@@ -1,0 +1,374 @@
+swagger: '2.0'
+info:
+  version: 1.0.0
+  title: RBK Money Common API
+  description: "An API that implements System's entry point"
+  termsOfService: 'http://rbkmoney.com/'
+  contact:
+    name: Anton Kuranda
+    email: a.kuranda@rbkmoney.com
+    url: 'https://api.rbkmoney.com'
+host: api.rbkmoney.com
+basePath: /v1
+schemes:
+  - https
+consumes:
+  - application/json
+produces:
+  - application/json
+securityDefinitions:
+  bearer:
+    type: apiKey
+    name: Authorization
+    in: header
+    description: JWT token
+security:
+  - bearer: []
+responses:
+  NotFound:
+    description: Entity not found
+    schema:
+      $ref: '#/definitions/GeneralError'
+  BadRequest:
+    description: Illegal input for operation.
+    schema:
+      $ref: '#/definitions/LogicError'
+parameters:
+  requestID:
+    name: X-Request-ID
+    in: header
+    description: Unique request identifier
+    required: true
+    type: string
+paths:
+  /invoices:
+    post:
+      description: Create new invoice
+      tags:
+        - Invoices
+      operationId: createInvoice
+      parameters:
+        - $ref : '#/parameters/requestID'
+        - name: createInvoiceArgs
+          description: Create new invoice
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/CreateInvoiceArgs'
+      responses:
+        '201':
+          description: Invoice created
+          schema:
+            type: object
+            required:
+              - id
+            properties:
+              id:
+                type: string
+        '400':
+          $ref: '#/responses/BadRequest'
+  '/invoices/{invoice_id}':
+    get:
+      description: Returns invoice information by ID
+      tags:
+        - Invoices
+      operationId: getInvoiceByID
+      parameters:
+        - $ref : '#/parameters/requestID'
+        - name: invoice_id
+          in: path
+          description: ID of invoice to fetch
+          required: true
+          type: string
+      responses:
+        '200':
+          description: Invoice object
+          schema:
+            $ref: '#/definitions/Invoice'
+        '404':
+          $ref: '#/responses/NotFound'
+        '400':
+          $ref: '#/responses/BadRequest'
+  '/invoices/{invoice_id}/events':
+    get:
+      description: Returns invoice events
+      tags:
+        - Invoices
+      operationId: getInvoiceEvents
+      parameters:
+        - $ref : '#/parameters/requestID'
+        - name: invoice_id
+          in: path
+          description: Invoice ID
+          required: true
+          type: string
+        - name: limit
+          in: query
+          description: Events limit
+          required: true
+          type: integer
+        - name: event_id
+          in: query
+          description: Last seen event id
+          required: false
+          type: string
+      responses:
+        '200':
+          description: List of invoice events
+          schema:
+            type: array
+            items:
+                $ref: '#/definitions/Event'
+        '404':
+          $ref: '#/responses/NotFound'
+        '400':
+          $ref: '#/responses/BadRequest'
+  /invoices/{invoice_id}/payments:
+    post:
+      description: Start new payment
+      tags:
+        - Payments
+      operationId: createPayment
+      parameters:
+        - $ref : '#/parameters/requestID'
+        - name: invoice_id
+          in: path
+          description: Invoice ID
+          required: true
+          type: string
+        - name: createPaymentArgs
+          description: Invoice initiation request
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/CreatePaymentArgs'
+      responses:
+        '201':
+          description: Payment created
+          schema:
+            type: object
+            required:
+              - id
+            properties:
+              id:
+                type: string
+        '404':
+          $ref: '#/responses/NotFound'
+        '400':
+          $ref: '#/responses/BadRequest'
+  /invoices/{invoice_id}/payments/{payment_id}:
+    get:
+      description: Get payment info
+      tags:
+        - Payments
+      operationId: getPaymentByID
+      parameters:
+        - $ref : '#/parameters/requestID'
+        - name: invoice_id
+          in: path
+          description: Invoice ID
+          required: true
+          type: string
+        - name: payment_id
+          in: path
+          description: Payment ID
+          required: true
+          type: string
+      responses:
+        '200':
+          description: Payment object
+          schema:
+            $ref: '#/definitions/Payment'
+        '404':
+          $ref: '#/responses/NotFound'
+        '400':
+          $ref: '#/responses/BadRequest'
+  /payment_tools:
+    post:
+      description: Create new card data token
+      tags:
+        - Tokens
+      operationId: createPaymentToolToken
+      parameters:
+        - $ref : '#/parameters/requestID'
+        - name: paymentTool
+          description: Payment tool to tokenize
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/PaymentTool'
+      responses:
+        '201':
+          description: Token created
+          schema:
+            type: object
+            required:
+              - token
+              - session
+            properties:
+              token:
+                type: string
+              session:
+                type: string
+        '400':
+          $ref: '#/responses/BadRequest'
+definitions:
+  PaymentTool:
+    type: object
+    discriminator: paymentToolType
+    properties:
+      paymentToolType:
+        type: string
+        enum:
+          - cardData
+    required:
+      - paymentToolType
+  CardData:
+    type: object
+    allOf:
+      - $ref: '#/definitions/PaymentTool'
+      - type: object
+        required:
+          - cardNumber
+          - expDate
+          - cvv
+        properties:
+          cardHolder:
+            type: string
+          cardNumber:
+            type: string
+            pattern: ^\d{10,19}$
+          expDate:
+            type: string
+            pattern: ^\d{2}\/\d{2}$
+          cvv:
+            type: string
+            pattern: ^\d{3,4}$
+  Invoice:
+    type: object
+    required:
+      - shopID
+      - amount
+      - currency
+      - context
+      - product
+      - description
+    properties:
+      id:
+        type: string
+      shopID:
+        type: string
+      amount:
+        type: integer
+        format: int64
+      currency:
+        type: string
+      context:
+        $ref: '#/definitions/InvoiceContext'
+      dueDate:
+        type: string
+        format: dateTime
+      status:
+        type: string
+        enum:
+          - unpaid
+          - cancelled
+          - paid
+          - partial
+          - refunded
+          - fulfilled
+      product:
+        type: string
+      description:
+        type: string
+  CreateInvoiceArgs:
+    type: object
+    required:
+      - shopID
+      - amount
+      - currency
+      - product
+      - description
+    properties:
+      shopID:
+        type: string
+      amount:
+        type: integer
+        format: int64
+      currency:
+        type: string
+      context:
+        $ref: '#/definitions/InvoiceContext'
+      dueDate:
+        type:
+          string
+        format:
+          dateTime
+      product:
+        type: string
+      description:
+        type: string
+  CreatePaymentArgs:
+    type: object
+    required:
+      - paymentToolToken
+      - paymentSession
+    properties:
+      paymentToolToken:
+        type: string
+      paymentSession:
+        type: string
+  Payment:
+    type: object
+    required:
+      - id
+      - invoiceID
+      - createdAt
+      - status
+      - paymentToolToken
+    properties:
+      id:
+        type: string
+      invoiceID:
+        type: string
+      createdAt:
+        type: string
+        format: dateTime
+      status:
+        type: string
+        enum:
+          - pending
+          - succeeded
+          - failed
+      paymentToolToken:
+        type: string
+  Event:
+    type: object
+    required:
+      - id
+      - eventType
+    properties:
+      id:
+        type: string
+      eventType:
+        type: object
+  GeneralError:
+    type: object
+    required:
+      - message
+    properties:
+      message:
+        type: string
+  LogicError:
+    type: object
+    required:
+      - code
+      - message
+    properties:
+      code:
+        type: string
+      message:
+        type: string
+  InvoiceContext:
+    type: object
+    maxLength: 512
