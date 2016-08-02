@@ -41,14 +41,14 @@ parameters:
     required: true
     type: string
 paths:
-  '/processing/accounts/{account_id}/balance':
+  '/processing/accounts/{accountID}/balance':
     get:
-      description: Get account balance
+      description: Get actual account balance
       tags:
       - Accounts
       parameters:
       - $ref: '#/parameters/requestID'
-      - name: account_id
+      - name: accountID
         in: path
         description: Account ID
         required: true
@@ -88,7 +88,7 @@ paths:
           $ref: '#/responses/NotFound'
         '400':
           $ref: '#/responses/BadRequest'
-  '/processing/invoices/{invoice_id}':
+  '/processing/invoices/{invoiceID}':
     get:
       description: Returns invoice information by ID
       tags:
@@ -96,7 +96,7 @@ paths:
       operationId: getInvoiceByID
       parameters:
       - $ref: '#/parameters/requestID'
-      - name: invoice_id
+      - name: invoiceID
         in: path
         description: Invoice ID
         required: true
@@ -110,7 +110,7 @@ paths:
           $ref: '#/responses/NotFound'
         '400':
           $ref: '#/responses/BadRequest'
-  '/processing/invoices/{invoice_id}/events':
+  '/processing/invoices/{invoiceID}/events':
     get:
       description: Returns invoice events
       tags:
@@ -118,7 +118,7 @@ paths:
       operationId: getInvoiceEvents
       parameters:
       - $ref: '#/parameters/requestID'
-      - name: invoice_id
+      - name: invoiceID
         in: path
         description: Invoice ID
         required: true
@@ -145,7 +145,7 @@ paths:
           $ref: '#/responses/NotFound'
         '400':
           $ref: '#/responses/BadRequest'
-  '/processing/invoices/{invoice_id}/payments':
+  '/processing/invoices/{invoiceID}/payments':
     post:
       description: Start new payment
       tags:
@@ -153,7 +153,7 @@ paths:
       operationId: createPayment
       parameters:
       - $ref: '#/parameters/requestID'
-      - name: invoice_id
+      - name: invoiceID
         in: path
         description: Invoice ID
         required: true
@@ -178,7 +178,7 @@ paths:
           $ref: '#/responses/NotFound'
         '400':
           $ref: '#/responses/BadRequest'
-  '/processing/invoices/{invoice_id}/payments/{payment_id}':
+  '/processing/invoices/{invoiceID}/payments/{paymentID}':
     get:
       description: Get payment info
       tags:
@@ -186,12 +186,12 @@ paths:
       operationId: getPaymentByID
       parameters:
       - $ref: '#/parameters/requestID'
-      - name: invoice_id
+      - name: invoiceID
         in: path
         description: Invoice ID
         required: true
         type: string
-      - name: payment_id
+      - name: paymentID
         in: path
         description: Payment ID
         required: true
@@ -234,15 +234,15 @@ paths:
                 type: string
         '400':
           $ref: '#/responses/BadRequest'
-  '/analytics/shops/{shop_id}/invoices':
+  '/analytics/shops/{shopID}/invoices':
     get:
       description: Search invoices
       tags:
-      - Invoices
+      - Analytics
       operationId: getInvoices
       parameters:
       - $ref: '#/parameters/requestID'
-      - name: shop_id
+      - name: shopID
         in: path
         description: Shop ID
         required: true
@@ -254,16 +254,16 @@ paths:
         type: integer
       - name: offset
         in: query
-        description: Invoices selection offest
+        description: Invoices selection offset (inclusive)
         required: false
         type: integer
-      - name: from_time
+      - name: fromTime
         in: query
         description: Invoices created time from
         required: false
         type: string
         format: date-time
-      - name: to_time
+      - name: toTime
         in: query
         description: Invoices created time to
         required: false
@@ -271,17 +271,18 @@ paths:
         format: date-time
       - name: status
         in: query
-        description: Invoices statuses
+        description: Invoices statuses (disjunction)
         required: false
-        type: string
-        enum:
-        - unpaid
-        - cancelled
-        - paid
-        - partial
-        - refunded
-        - fulfilled
-      - name: invoice_id
+        type: array
+        items:
+          type: string
+          enum:
+          - unpaid
+          - cancelled
+          - paid
+          - refunded
+          - fulfilled
+      - name: invoiceID
         in: query
         description: Invoice ID
         required: false
@@ -297,49 +298,51 @@ paths:
           $ref: '#/responses/NotFound'
         '400':
           $ref: '#/responses/BadRequest'
-  '/analytics/shops/{shop_id}/invoices/{invoice_id}/payments/stats/conversion':
+  '/analytics/shops/{shopID}/payments/stats/conversion':
     get:
       description: Get payments conversion info
       tags:
-      - Payments
+      - Analytics
       operationId: getPaymentConversionStats
       parameters:
       - $ref: '#/parameters/requestID'
-      - name: shop_id
+      - name: shopID
         in: path
         description: Shop ID
         required: true
         type: string
-      - name: invoice_id
-        in: path
+      - name: invoiceID
+        in: query
         description: Invoice ID
         required: true
         type: string
-      - name: limit
-        in: query
-        description: Selection limit
-        required: false
-        type: integer
-      - name: offset
-        in: query
-        description: Selection offest
-        required: false
-        type: integer
-      - name: from_time
+      - name: fromTime
         in: query
         description: Selection starting time
         required: true
         type: string
         format: date-time
-      - name: to_time
+      - name: toTime
         in: query
         description: Selecting ending time
         required: true
         type: string
         format: date-time
-      - name: split_interval
+      - name: splitUnit
         in: query
-        description: Sampling interval partitioning (in seconds)
+        description: Split unit
+        required: true
+        type: string
+        enum:
+          - minute
+          - hour
+          - day
+          - week
+          - month
+          - year
+      - name: splitSize
+        in: query
+        description: Split interval size (must be positive)
         required: true
         type: integer
         format: int32
@@ -354,49 +357,51 @@ paths:
           $ref: '#/responses/NotFound'
         '400':
           $ref: '#/responses/BadRequest'
-  '/analytics/shops/{shop_id}/invoices/{invoice_id}/payments/stats/turnover':
+  '/analytics/shops/{shopID}/payments/stats/turnover':
     get:
       description: Get payments turnover info
       tags:
-      - Payments
+      - Analytics
       operationId: getPaymentTurnoverStats
       parameters:
       - $ref: '#/parameters/requestID'
-      - name: shop_id
+      - name: shopID
         in: path
         description: Shop ID
         required: true
         type: string
-      - name: invoice_id
-        in: path
+      - name: invoiceID
+        in: query
         description: Invoice ID
         required: true
         type: string
-      - name: limit
-        in: query
-        description: Selection limit
-        required: false
-        type: integer
-      - name: offset
-        in: query
-        description: Selection offest
-        required: false
-        type: integer
-      - name: from_time
+      - name: fromTime
         in: query
         description: Selection starting time
         required: true
         type: string
         format: date-time
-      - name: to_time
+      - name: toTime
         in: query
         description: Selecting ending time
         required: true
         type: string
         format: date-time
-      - name: split_interval
+      - name: splitUnit
         in: query
-        description: Sampling interval partitioning (in seconds)
+        description: Split unit
+        required: true
+        type: string
+        enum:
+          - minute
+          - hour
+          - day
+          - week
+          - month
+          - year
+      - name: splitSize
+        in: query
+        description: Split interval size (must be positive)
         required: true
         type: integer
         format: int32
@@ -411,49 +416,51 @@ paths:
           $ref: '#/responses/NotFound'
         '400':
           $ref: '#/responses/BadRequest'
-  '/analytics/shops/{shop_id}/invoices/{invoice_id}/payments/stats/geo':
+  '/analytics/shops/{shopID}/payments/stats/geo':
     get:
       description: Get payments geo info
       tags:
-      - Payments
+      - Analytics
       operationId: getPaymentGeoStats
       parameters:
       - $ref: '#/parameters/requestID'
-      - name: shop_id
+      - name: shopID
         in: path
         description: Shop ID
         required: true
         type: string
-      - name: invoice_id
-        in: path
+      - name: invoiceID
+        in: query
         description: Invoice ID
         required: true
         type: string
-      - name: limit
-        in: query
-        description: Selection limit
-        required: false
-        type: integer
-      - name: offset
-        in: query
-        description: Selection offest
-        required: false
-        type: integer
-      - name: from_time
+      - name: fromTime
         in: query
         description: Selection starting time
         required: true
         type: string
         format: date-time
-      - name: to_time
+      - name: toTime
         in: query
         description: Selecting ending time
         required: true
         type: string
         format: date-time
-      - name: split_interval
+      - name: splitUnit
         in: query
-        description: Sampling interval partitioning (in seconds)
+        description: Split unit
+        required: true
+        type: string
+        enum:
+          - minute
+          - hour
+          - day
+          - week
+          - month
+          - year
+      - name: splitSize
+        in: query
+        description: Split interval size (must be positive)
         required: true
         type: integer
         format: int32
@@ -468,59 +475,36 @@ paths:
           $ref: '#/responses/NotFound'
         '400':
           $ref: '#/responses/BadRequest'
-  '/analytics/shops/{shop_id}/invoices/{invoice_id}/payments/stats/rate':
+  '/analytics/shops/{shopID}/customers/stats/rate':
     get:
       description: Get payments rate info
       tags:
-      - Payments
+      - Analytics
       operationId: getPaymentRateStats
       parameters:
       - $ref: '#/parameters/requestID'
-      - name: shop_id
+      - name: shopID
         in: path
         description: Shop ID
         required: true
         type: string
-      - name: invoice_id
-        in: path
-        description: Invoice ID
-        required: true
-        type: string
-      - name: limit
-        in: query
-        description: Selection limit
-        required: false
-        type: integer
-      - name: offset
-        in: query
-        description: Selection offest
-        required: false
-        type: integer
-      - name: from_time
+      - name: fromTime
         in: query
         description: Selection starting time
         required: true
         type: string
         format: date-time
-      - name: to_time
+      - name: toTime
         in: query
         description: Selecting ending time
         required: true
         type: string
         format: date-time
-      - name: split_interval
-        in: query
-        description: Sampling interval partitioning (in seconds)
-        required: true
-        type: integer
-        format: int32
       responses:
         '201':
-          description: List of payment rate stats
+          description: Payment rate stats
           schema:
-            type: array
-            items:
-                $ref:  '#/definitions/PaymentRateStat'
+            $ref:  '#/definitions/PaymentRateStat'
         '404':
           $ref: '#/responses/NotFound'
         '400':
@@ -529,15 +513,14 @@ definitions:
   PaymentConversionStat:
     type: object
     required:
-    - datetime
-    - successfull_count
+    - offset
+    - successful_count
     - total_count
     - conversion
     properties:
-      datetime:
-        type: string
-        format: date-time
-      successfull_count:
+      offset:
+        type: integer
+      successful_count:
         type: integer
       total_count:
         type: integer
@@ -546,50 +529,44 @@ definitions:
   PaymentRateStat:
     type: object
     required:
-    - datetime
     - unique_count
     properties:
-      datetime:
-        type: string
-        format: date-time
       unique_count:
         type: integer
   PaymentGeoStat:
     type: object
     required:
-    - datetime
+    - offset
     - city_name
     - currency
-    - amount_with_commission
-    - amount_without_commission
+    - revenue
+    - turnover
     properties:
-      datetime:
-        type: string
-        format: date-time
+      offset:
+        type: integer
       city_name:
         type: string
       currency:
         type: string
-      amount_with_commission:
+      revenue:
         type: integer
-      amount_without_commission:
+      turnover:
         type: integer
   PaymentTurnoverStat:
     type: object
     required:
-    - datetime
+    - offset
     - currency
-    - amount_with_commission
-    - amount_without_commission
+    - revenue
+    - turnover
     properties:
-      datetime:
-        type: string
-        format: date-time
+      offset:
+        type: integer
       currency:
         type: string
-      amount_with_commission:
+      revenue:
         type: integer
-      amount_without_commission:
+      turnover:
         type: integer
   Balance:
     type: object
@@ -659,7 +636,6 @@ definitions:
         - unpaid
         - cancelled
         - paid
-        - partial
         - refunded
         - fulfilled
       product:
