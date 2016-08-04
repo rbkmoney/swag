@@ -41,45 +41,66 @@ parameters:
     required: true
     type: string
 paths:
-  /invoices:
+  '/processing/accounts/{accountID}/balance':
+    get:
+      description: Get actual account balance
+      tags:
+      - Accounts
+      parameters:
+      - $ref: '#/parameters/requestID'
+      - name: accountID
+        in: path
+        description: Account ID
+        required: true
+        type: string
+      responses:
+        '200':
+          description: Account balance
+          schema:
+            $ref: '#/definitions/Balance'
+        '404':
+          $ref: '#/responses/NotFound'
+  '/processing/invoices':
     post:
       description: Create new invoice
       tags:
-        - Invoices
+      - Invoices
       operationId: createInvoice
       parameters:
-        - $ref : '#/parameters/requestID'
-        - name: createInvoiceArgs
-          description: Create new invoice
-          in: body
-          required: true
-          schema:
-            $ref: '#/definitions/CreateInvoiceArgs'
+      - $ref: '#/parameters/requestID'
+      - name: createInvoiceArgs
+        description: New invoice params
+        in: body
+        required: true
+        schema:
+          $ref: '#/definitions/CreateInvoiceArgs'
       responses:
         '201':
           description: Invoice created
           schema:
             type: object
             required:
-              - id
+            - id
             properties:
               id:
                 type: string
+        '404':
+          $ref: '#/responses/NotFound'
         '400':
           $ref: '#/responses/BadRequest'
-  '/invoices/{invoice_id}':
+  '/processing/invoices/{invoiceID}':
     get:
       description: Returns invoice information by ID
       tags:
-        - Invoices
+      - Invoices
       operationId: getInvoiceByID
       parameters:
-        - $ref : '#/parameters/requestID'
-        - name: invoice_id
-          in: path
-          description: ID of invoice to fetch
-          required: true
-          type: string
+      - $ref: '#/parameters/requestID'
+      - name: invoiceID
+        in: path
+        description: Invoice ID
+        required: true
+        type: string
       responses:
         '200':
           description: Invoice object
@@ -89,29 +110,30 @@ paths:
           $ref: '#/responses/NotFound'
         '400':
           $ref: '#/responses/BadRequest'
-  '/invoices/{invoice_id}/events':
+  '/processing/invoices/{invoiceID}/events':
     get:
       description: Returns invoice events
       tags:
-        - Invoices
+      - Invoices
       operationId: getInvoiceEvents
       parameters:
-        - $ref : '#/parameters/requestID'
-        - name: invoice_id
-          in: path
-          description: Invoice ID
-          required: true
-          type: string
-        - name: limit
-          in: query
-          description: Events limit
-          required: true
-          type: integer
-        - name: event_id
-          in: query
-          description: Last seen event id
-          required: false
-          type: string
+      - $ref: '#/parameters/requestID'
+      - name: invoiceID
+        in: path
+        description: Invoice ID
+        required: true
+        type: string
+      - name: limit
+        in: query
+        description: Events limit
+        required: true
+        type: integer
+        format: int32
+      - name: event_id
+        in: query
+        description: Last seen event id
+        required: false
+        type: string
       responses:
         '200':
           description: List of invoice events
@@ -123,32 +145,32 @@ paths:
           $ref: '#/responses/NotFound'
         '400':
           $ref: '#/responses/BadRequest'
-  /invoices/{invoice_id}/payments:
+  '/processing/invoices/{invoiceID}/payments':
     post:
       description: Start new payment
       tags:
-        - Payments
+      - Payments
       operationId: createPayment
       parameters:
-        - $ref : '#/parameters/requestID'
-        - name: invoice_id
-          in: path
-          description: Invoice ID
-          required: true
-          type: string
-        - name: createPaymentArgs
-          description: Invoice initiation request
-          in: body
-          required: true
-          schema:
-            $ref: '#/definitions/CreatePaymentArgs'
+      - $ref: '#/parameters/requestID'
+      - name: invoiceID
+        in: path
+        description: Invoice ID
+        required: true
+        type: string
+      - name: createPaymentArgs
+        description: Invoice initiation request
+        in: body
+        required: true
+        schema:
+          $ref: '#/definitions/CreatePaymentArgs'
       responses:
         '201':
           description: Payment created
           schema:
             type: object
             required:
-              - id
+            - id
             properties:
               id:
                 type: string
@@ -156,24 +178,24 @@ paths:
           $ref: '#/responses/NotFound'
         '400':
           $ref: '#/responses/BadRequest'
-  /invoices/{invoice_id}/payments/{payment_id}:
+  '/processing/invoices/{invoiceID}/payments/{paymentID}':
     get:
       description: Get payment info
       tags:
-        - Payments
+      - Payments
       operationId: getPaymentByID
       parameters:
-        - $ref : '#/parameters/requestID'
-        - name: invoice_id
-          in: path
-          description: Invoice ID
-          required: true
-          type: string
-        - name: payment_id
-          in: path
-          description: Payment ID
-          required: true
-          type: string
+      - $ref: '#/parameters/requestID'
+      - name: invoiceID
+        in: path
+        description: Invoice ID
+        required: true
+        type: string
+      - name: paymentID
+        in: path
+        description: Payment ID
+        required: true
+        type: string
       responses:
         '200':
           description: Payment object
@@ -183,28 +205,28 @@ paths:
           $ref: '#/responses/NotFound'
         '400':
           $ref: '#/responses/BadRequest'
-  /payment_tools:
+  '/processing/payment_tools':
     post:
       description: Create new card data token
       tags:
-        - Tokens
+      - Tokens
       operationId: createPaymentToolToken
       parameters:
-        - $ref : '#/parameters/requestID'
-        - name: paymentTool
-          description: Payment tool to tokenize
-          in: body
-          required: true
-          schema:
-            $ref: '#/definitions/PaymentTool'
+      - $ref: '#/parameters/requestID'
+      - name: paymentTool
+        description: Payment tool to tokenize
+        in: body
+        required: true
+        schema:
+          $ref: '#/definitions/PaymentTool'
       responses:
         '201':
           description: Token created
           schema:
             type: object
             required:
-              - token
-              - session
+            - token
+            - session
             properties:
               token:
                 type: string
@@ -212,7 +234,347 @@ paths:
                 type: string
         '400':
           $ref: '#/responses/BadRequest'
+  '/analytics/shops/{shopID}/invoices':
+    get:
+      description: Search invoices
+      tags:
+      - Analytics
+      operationId: getInvoices
+      parameters:
+      - $ref: '#/parameters/requestID'
+      - name: shopID
+        in: path
+        description: Shop ID
+        required: true
+        type: string
+      - name: limit
+        in: query
+        description: Invoices selection limit
+        required: false
+        type: integer
+      - name: offset
+        in: query
+        description: Invoices selection offset (inclusive)
+        required: false
+        type: integer
+      - name: fromTime
+        in: query
+        description: Invoices created time from
+        required: false
+        type: string
+        format: date-time
+      - name: toTime
+        in: query
+        description: Invoices created time to
+        required: false
+        type: string
+        format: date-time
+      - name: status
+        in: query
+        description: Invoices statuses (disjunction)
+        required: false
+        type: array
+        items:
+          type: string
+          enum:
+          - unpaid
+          - cancelled
+          - paid
+          - refunded
+          - fulfilled
+      - name: invoiceID
+        in: query
+        description: Invoice ID
+        required: false
+        type: string
+      responses:
+        '200':
+          description: List of invoices
+          schema:
+            type: array
+            items:
+                $ref: '#/definitions/Invoice'
+        '404':
+          $ref: '#/responses/NotFound'
+        '400':
+          $ref: '#/responses/BadRequest'
+  '/analytics/shops/{shopID}/payments/stats/conversion':
+    get:
+      description: Get payments conversion info
+      tags:
+      - Analytics
+      operationId: getPaymentConversionStats
+      parameters:
+      - $ref: '#/parameters/requestID'
+      - name: shopID
+        in: path
+        description: Shop ID
+        required: true
+        type: string
+      - name: invoiceID
+        in: query
+        description: Invoice ID
+        required: true
+        type: string
+      - name: fromTime
+        in: query
+        description: Selection starting time
+        required: true
+        type: string
+        format: date-time
+      - name: toTime
+        in: query
+        description: Selecting ending time
+        required: true
+        type: string
+        format: date-time
+      - name: splitUnit
+        in: query
+        description: Split unit
+        required: true
+        type: string
+        enum:
+          - minute
+          - hour
+          - day
+          - week
+          - month
+          - year
+      - name: splitSize
+        in: query
+        description: Split interval size (must be positive)
+        required: true
+        type: integer
+        format: int32
+      responses:
+        '201':
+          description: List of payment conversion stats
+          schema:
+            type: array
+            items:
+                $ref:  '#/definitions/PaymentConversionStat'
+        '404':
+          $ref: '#/responses/NotFound'
+        '400':
+          $ref: '#/responses/BadRequest'
+  '/analytics/shops/{shopID}/payments/stats/revenue':
+    get:
+      description: Get payments revenue info
+      tags:
+      - Analytics
+      operationId: getPaymentRevenueStats
+      parameters:
+      - $ref: '#/parameters/requestID'
+      - name: shopID
+        in: path
+        description: Shop ID
+        required: true
+        type: string
+      - name: invoiceID
+        in: query
+        description: Invoice ID
+        required: true
+        type: string
+      - name: fromTime
+        in: query
+        description: Selection starting time
+        required: true
+        type: string
+        format: date-time
+      - name: toTime
+        in: query
+        description: Selecting ending time
+        required: true
+        type: string
+        format: date-time
+      - name: splitUnit
+        in: query
+        description: Split unit
+        required: true
+        type: string
+        enum:
+          - minute
+          - hour
+          - day
+          - week
+          - month
+          - year
+      - name: splitSize
+        in: query
+        description: Split interval size (must be positive)
+        required: true
+        type: integer
+        format: int32
+      responses:
+        '201':
+          description: List of payment revenue stats
+          schema:
+            type: array
+            items:
+                $ref:  '#/definitions/PaymentRevenueStat'
+        '404':
+          $ref: '#/responses/NotFound'
+        '400':
+          $ref: '#/responses/BadRequest'
+  '/analytics/shops/{shopID}/payments/stats/geo':
+    get:
+      description: Get payments geo info
+      tags:
+      - Analytics
+      operationId: getPaymentGeoStats
+      parameters:
+      - $ref: '#/parameters/requestID'
+      - name: shopID
+        in: path
+        description: Shop ID
+        required: true
+        type: string
+      - name: invoiceID
+        in: query
+        description: Invoice ID
+        required: true
+        type: string
+      - name: fromTime
+        in: query
+        description: Selection starting time
+        required: true
+        type: string
+        format: date-time
+      - name: toTime
+        in: query
+        description: Selecting ending time
+        required: true
+        type: string
+        format: date-time
+      - name: splitUnit
+        in: query
+        description: Split unit
+        required: true
+        type: string
+        enum:
+          - minute
+          - hour
+          - day
+          - week
+          - month
+          - year
+      - name: splitSize
+        in: query
+        description: Split interval size (must be positive)
+        required: true
+        type: integer
+        format: int32
+      responses:
+        '201':
+          description: List of payment geo stats
+          schema:
+            type: array
+            items:
+                $ref:  '#/definitions/PaymentGeoStat'
+        '404':
+          $ref: '#/responses/NotFound'
+        '400':
+          $ref: '#/responses/BadRequest'
+  '/analytics/shops/{shopID}/customers/stats/rate':
+    get:
+      description: Get payments rate info
+      tags:
+      - Analytics
+      operationId: getPaymentRateStats
+      parameters:
+      - $ref: '#/parameters/requestID'
+      - name: shopID
+        in: path
+        description: Shop ID
+        required: true
+        type: string
+      - name: fromTime
+        in: query
+        description: Selection starting time
+        required: true
+        type: string
+        format: date-time
+      - name: toTime
+        in: query
+        description: Selecting ending time
+        required: true
+        type: string
+        format: date-time
+      responses:
+        '201':
+          description: Payment rate stats
+          schema:
+            $ref:  '#/definitions/PaymentRateStat'
+        '404':
+          $ref: '#/responses/NotFound'
+        '400':
+          $ref: '#/responses/BadRequest'
 definitions:
+  PaymentConversionStat:
+    type: object
+    required:
+    - offset
+    - successful_count
+    - total_count
+    - conversion
+    properties:
+      offset:
+        type: integer
+      successful_count:
+        type: integer
+      total_count:
+        type: integer
+      conversion:
+        type: number
+  PaymentRateStat:
+    type: object
+    required:
+    - unique_count
+    properties:
+      unique_count:
+        type: integer
+  PaymentGeoStat:
+    type: object
+    required:
+    - offset
+    - city_name
+    - currency
+    - profit
+    - revenue
+    properties:
+      offset:
+        type: integer
+      city_name:
+        type: string
+      currency:
+        type: string
+      profit:
+        type: integer
+      revenue:
+        type: integer
+  PaymentRevenueStat:
+    type: object
+    required:
+    - offset
+    - currency
+    - profit
+    - revenue
+    properties:
+      offset:
+        type: integer
+      currency:
+        type: string
+      profit:
+        type: integer
+      revenue:
+        type: integer
+  Balance:
+    type: object
+    required:
+    - balance
+    properties:
+      balance:
+        type: integer
   PaymentTool:
     type: object
     discriminator: paymentToolType
@@ -220,39 +582,39 @@ definitions:
       paymentToolType:
         type: string
         enum:
-          - cardData
+        - cardData
     required:
-      - paymentToolType
+    - paymentToolType
   CardData:
     type: object
     allOf:
-      - $ref: '#/definitions/PaymentTool'
-      - type: object
-        required:
-          - cardNumber
-          - expDate
-          - cvv
-        properties:
-          cardHolder:
-            type: string
-          cardNumber:
-            type: string
-            pattern: ^\d{10,19}$
-          expDate:
-            type: string
-            pattern: ^\d{2}\/\d{2}$
-          cvv:
-            type: string
-            pattern: ^\d{3,4}$
+    - $ref: '#/definitions/PaymentTool'
+    - type: object
+      required:
+      - cardNumber
+      - expDate
+      - cvv
+      properties:
+        cardHolder:
+          type: string
+        cardNumber:
+          type: string
+          pattern: ^\d{10,19}$
+        expDate:
+          type: string
+          pattern: ^\d{2}\/\d{2}$
+        cvv:
+          type: string
+          pattern: ^\d{3,4}$
   Invoice:
     type: object
     required:
-      - shopID
-      - amount
-      - currency
-      - context
-      - product
-      - description
+    - shopID
+    - amount
+    - currency
+    - context
+    - product
+    - description
     properties:
       id:
         type: string
@@ -267,16 +629,15 @@ definitions:
         $ref: '#/definitions/InvoiceContext'
       dueDate:
         type: string
-        format: dateTime
+        format: date-time
       status:
         type: string
         enum:
-          - unpaid
-          - cancelled
-          - paid
-          - partial
-          - refunded
-          - fulfilled
+        - unpaid
+        - cancelled
+        - paid
+        - refunded
+        - fulfilled
       product:
         type: string
       description:
@@ -284,11 +645,11 @@ definitions:
   CreateInvoiceArgs:
     type: object
     required:
-      - shopID
-      - amount
-      - currency
-      - product
-      - description
+    - shopID
+    - amount
+    - currency
+    - product
+    - description
     properties:
       shopID:
         type: string
@@ -303,7 +664,7 @@ definitions:
         type:
           string
         format:
-          dateTime
+          date-time
       product:
         type: string
       description:
@@ -311,8 +672,8 @@ definitions:
   CreatePaymentArgs:
     type: object
     required:
-      - paymentToolToken
-      - paymentSession
+    - paymentToolToken
+    - paymentSession
     properties:
       paymentToolToken:
         type: string
@@ -321,11 +682,11 @@ definitions:
   Payment:
     type: object
     required:
-      - id
-      - invoiceID
-      - createdAt
-      - status
-      - paymentToolToken
+    - id
+    - invoiceID
+    - createdAt
+    - status
+    - paymentToolToken
     properties:
       id:
         type: string
@@ -333,20 +694,20 @@ definitions:
         type: string
       createdAt:
         type: string
-        format: dateTime
+        format: date-time
       status:
         type: string
         enum:
-          - pending
-          - succeeded
-          - failed
+        - pending
+        - succeeded
+        - failed
       paymentToolToken:
         type: string
   Event:
     type: object
     required:
-      - id
-      - eventType
+    - id
+    - eventType
     properties:
       id:
         type: string
@@ -355,15 +716,15 @@ definitions:
   GeneralError:
     type: object
     required:
-      - message
+    - message
     properties:
       message:
         type: string
   LogicError:
     type: object
     required:
-      - code
-      - message
+    - code
+    - message
     properties:
       code:
         type: string
