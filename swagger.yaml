@@ -357,12 +357,12 @@ paths:
           $ref: '#/responses/NotFound'
         '400':
           $ref: '#/responses/BadRequest'
-  '/analytics/shops/{shopID}/payments/stats/turnover':
+  '/analytics/shops/{shopID}/payments/stats/revenue':
     get:
-      description: Get payments turnover info
+      description: Get payments revenue info
       tags:
       - Analytics
-      operationId: getPaymentTurnoverStats
+      operationId: getPaymentRevenueStats
       parameters:
       - $ref: '#/parameters/requestID'
       - name: shopID
@@ -407,11 +407,11 @@ paths:
         format: int32
       responses:
         '201':
-          description: List of payment turnover stats
+          description: List of payment revenue stats
           schema:
             type: array
             items:
-                $ref:  '#/definitions/PaymentTurnoverStat'
+                $ref:  '#/definitions/PaymentRevenueStat'
         '404':
           $ref: '#/responses/NotFound'
         '400':
@@ -539,8 +539,8 @@ definitions:
     - offset
     - city_name
     - currency
+    - profit
     - revenue
-    - turnover
     properties:
       offset:
         type: integer
@@ -548,25 +548,25 @@ definitions:
         type: string
       currency:
         type: string
+      profit:
+        type: integer
       revenue:
         type: integer
-      turnover:
-        type: integer
-  PaymentTurnoverStat:
+  PaymentRevenueStat:
     type: object
     required:
     - offset
     - currency
+    - profit
     - revenue
-    - turnover
     properties:
       offset:
         type: integer
       currency:
         type: string
-      revenue:
+      profit:
         type: integer
-      turnover:
+      revenue:
         type: integer
   Balance:
     type: object
