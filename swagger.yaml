@@ -129,7 +129,7 @@ paths:
         required: true
         type: integer
         format: int32
-      - name: event_id
+      - name: eventID
         in: query
         description: Last seen event id
         required: false
@@ -514,37 +514,37 @@ definitions:
     type: object
     required:
     - offset
-    - successful_count
-    - total_count
+    - successfulCount
+    - totalCount
     - conversion
     properties:
       offset:
         type: integer
-      successful_count:
+      successfulCount:
         type: integer
-      total_count:
+      totalCount:
         type: integer
       conversion:
         type: number
   PaymentRateStat:
     type: object
     required:
-    - unique_count
+    - uniqueCount
     properties:
-      unique_count:
+      uniqueCount:
         type: integer
   PaymentGeoStat:
     type: object
     required:
     - offset
-    - city_name
+    - cityName
     - currency
     - profit
     - revenue
     properties:
       offset:
         type: integer
-      city_name:
+      cityName:
         type: string
       currency:
         type: string
