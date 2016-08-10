@@ -708,11 +708,47 @@ definitions:
     required:
     - id
     - eventType
+    - eventBody
     properties:
       id:
         type: string
       eventType:
+        type: string
+        enum:
+        - invoiceStatusChanged
+        - paymentStatusChanged
+      eventBody:
         type: object
+        enum:
+        - $ref: '#/definitions/EventInvoiceStatusChanged'
+        - $ref: '#/definitions/EventPaymentStatusChanged'
+  EventInvoiceStatusChanged:
+    type: object
+    required:
+    - status
+    properties:
+      status:
+        type: string
+        enum:
+        - unpaid
+        - cancelled
+        - paid
+        - refunded
+        - fulfilled
+  EventPaymentStatusChanged:
+    type: object
+    required:
+    - status
+    - paymentID
+    properties:
+      paymentID:
+        type: string
+      status:
+        type: string
+        enum:
+        - pending
+        - succeeded
+        - failed
   GeneralError:
     type: object
     required:
