@@ -183,64 +183,6 @@ paths:
           description: Shop activated
         '404':
           $ref: '#/responses/NotFound'
-  '/processing/parties/{partyID}/shops/{shopID}/block':
-    put:
-      description: Block a shop
-      operationId: blockShop
-      tags:
-      - Shops
-      parameters:
-      - $ref: '#/parameters/requestID'
-      - name: partyID
-        in: path
-        description: Party ID
-        required: true
-        type: string
-      - name: shopID
-        in: path
-        description: Shop ID
-        required: true
-        type: string
-      - name: reason
-        in: body
-        description: Blocking reason
-        required: true
-        schema:
-          $ref: '#/definitions/Reason'
-      responses:
-        '200':
-          description: Shop blocked
-        '404':
-          $ref: '#/responses/NotFound'
-  '/processing/parties/{partyID}/shops/{shopID}/unblock':
-    put:
-      description: Unblock a shop
-      operationId: unblockShop
-      tags:
-      - Shops
-      parameters:
-      - $ref: '#/parameters/requestID'
-      - name: partyID
-        in: path
-        description: Party ID
-        required: true
-        type: string
-      - name: shopID
-        in: path
-        description: Shop ID
-        required: true
-        type: string
-      - name: reason
-        in: body
-        description: Unblocking reason
-        required: true
-        schema:
-          $ref: '#/definitions/Reason'
-      responses:
-        '200':
-          description: Shop unblocked
-        '404':
-          $ref: '#/responses/NotFound'
   '/processing/accounts/{accountID}/balance':
     get:
       description: Get actual account balance
@@ -433,8 +375,6 @@ paths:
                 type: string
               session:
                 type: string
-              customerInfo:
-                $ref: "#/definitions/CustomerInfo"
         '400':
           $ref: '#/responses/BadRequest'
   '/analytics/shops/{shopID}/invoices':
@@ -716,38 +656,30 @@ definitions:
   CreateShopArgs:
     type: object
     required:
-    - categoryRef
-    - shopID
+    - category
     - shopDetails
     properties:
-      categoryRef:
-        type: integer
-        format: int32
-      shopID:
-        type: string
+      category:
+        $ref: '#/definitions/Category'
       shopDetails:
         $ref: '#/definitions/ShopDetails'
+      contractor:
+        $ref: '#/definitions/Contractor'
   ShopDetails:
     type: object
+    required:
+    - name
     properties:
+      name:
+        type: string
       description:
         type: string
       location:
         type: string
   UpdateShopArgs:
-    type: array
-    items:
-      $ref: '#/definitions/UpdateShopUnit'
-  UpdateShopUnit:
-    type: object
-    required:
-    - categoryRef
-    - contractor
-    - shopDetails
     properties:
-      categoryRef:
-        type: integer
-        format: int32
+      category:
+        $ref: '#/definitions/Category'
       contractor:
         $ref: '#/definitions/Contractor'
       shopDetails:
@@ -762,26 +694,28 @@ definitions:
         type: string
       legalEntity:
         type: string
-  Reason:
+  Category:
     type: object
     required:
-    - reason
+    - name
     properties:
-      reason:
+      name:
+        type: string
+      description:
         type: string
   Party:
     type: object
     required:
     - partyID
-    - is_blocked
-    - is_suspended
+    - isBlocked
+    - isSuspended
     - shops
     properties:
       partyID:
         type: string
-      is_blocked:
+      isBlocked:
         type: boolean
-      is_suspended:
+      isSuspended:
         type: boolean
       shops:
         type: array
@@ -791,17 +725,17 @@ definitions:
     type: object
     required:
     - shopID
-    - is_blocked
-    - is_suspended
+    - isBlocked
+    - isSuspended
     - categoryRef
     - shopDetails
     - contractor
     properties:
       shopID:
         type: string
-      is_blocked:
+      isBlocked:
         type: boolean
-      is_suspended:
+      isSuspended:
         type: boolean
       categoryRef:
         type: integer
@@ -1011,14 +945,11 @@ definitions:
     required:
     - paymentToolToken
     - paymentSession
-    - customerInfo
     properties:
       paymentToolToken:
         type: string
       paymentSession:
         type: string
-      customerInfo:
-        $ref: '#/definitions/CustomerInfo'
   Payment:
     type: object
     required:
@@ -1053,13 +984,6 @@ definitions:
         type: string
       eventType:
         type: object
-  CustomerInfo:
-    type: object
-    properties:
-      fingerprint:
-        type: string
-      ip:
-        type: string
   GeneralError:
     type: object
     required:
