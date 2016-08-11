@@ -707,21 +707,31 @@ definitions:
     type: object
     required:
     - id
+    - createdAt
     - eventType
     - eventBody
     properties:
       id:
         type: string
+      createdAt:
+        type: string
+        format: date-time
       eventType:
         type: string
         enum:
         - invoiceStatusChanged
         - paymentStatusChanged
+        - invoiceCreated
+        - paymentStarted
+        - paymentBound
       eventBody:
         type: object
         enum:
         - $ref: '#/definitions/EventInvoiceStatusChanged'
         - $ref: '#/definitions/EventPaymentStatusChanged'
+        - $ref: '#/definitions/EventInvoiceCreated'
+        - $ref: '#/definitions/EventPaymentStarted'
+        - $ref: '#/definitions/EventPaymentBound'
   EventInvoiceStatusChanged:
     type: object
     required:
@@ -749,6 +759,27 @@ definitions:
         - pending
         - succeeded
         - failed
+  EventInvoiceCreated:
+    type: object
+    required:
+    - invoice
+    properties:
+      invoice:
+        $ref: '#/definitions/Invoice'
+  EventPaymentStarted:
+    type: object
+    required:
+    - payment
+    properties:
+      payment:
+        $ref: '#/definitions/Payment'
+  EventPaymentBound:
+    type: object
+    required:
+    - paymentID
+    properties:
+      paymentID:
+        type: string
   GeneralError:
     type: object
     required:
