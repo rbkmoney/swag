@@ -41,9 +41,152 @@ parameters:
     required: true
     type: string
 paths:
+  '/processing/parties':
+    post:
+      description: Create a party
+      operationId: createParty
+      tags:
+      - Parties
+      parameters:
+      - $ref: '#/parameters/requestID'
+      responses:
+        '200':
+          description: Created a new party
+          schema:
+            type: object
+            required:
+            - id
+            properties:
+              id:
+                type: string
+    get:
+      description: Get current party
+      operationId: getParty
+      tags:
+      - Parties
+      parameters:
+      - $ref: '#/parameters/requestID'
+      responses:
+        '200':
+          description: A party
+          schema:
+            $ref: '#/definitions/Party'
+        '404':
+          $ref: '#/responses/NotFound'
+  '/processing/parties/{partyID}/shops':
+    post:
+      description: Create shop
+      operationId: createShop
+      tags:
+      - Shops
+      parameters:
+      - $ref: '#/parameters/requestID'
+      - name: partyID
+        in: path
+        description: Party ID
+        required: true
+        type: string
+      - name: createShopArgs
+        in: body
+        description: New shop params
+        required: true
+        schema:
+          $ref: '#/definitions/CreateShopArgs'
+      responses:
+        '201':
+          description: Shop created
+          schema:
+            type: object
+            required:
+            - id
+            properties:
+              id:
+                type: string
+        '404':
+          $ref: '#/responses/NotFound'
+  '/processing/parties/{partyID}/shops/{shopID}':
+    post:
+      description: Update shop
+      operationId: updateShop
+      tags:
+      - Shops
+      parameters:
+      - $ref: '#/parameters/requestID'
+      - name: partyID
+        in: path
+        description: Party ID
+        required: true
+        type: string
+      - name: shopID
+        in: path
+        description: Shop ID
+        required: true
+        type: string
+      - name: updateShopArgs
+        in: body
+        description: Shop params for an update
+        required: true
+        schema:
+          $ref: '#/definitions/UpdateShopArgs'
+      responses:
+        '200':
+          description: Shop updated
+          schema:
+            $ref: '#/definitions/Shop'
+        '404':
+          $ref: '#/responses/NotFound'
+        '400':
+          $ref: '#/responses/BadRequest'
+  '/processing/parties/{partyID}/shops/{shopID}/suspend':
+    put:
+      description: Suspend shop
+      operationId: suspendShop
+      tags:
+      - Shops
+      parameters:
+      - $ref: '#/parameters/requestID'
+      - name: partyID
+        in: path
+        description: Party ID
+        required: true
+        type: string
+      - name: shopID
+        in: path
+        description: Shop ID
+        required: true
+        type: string
+      responses:
+        '200':
+          description: Shop suspended
+        '404':
+          $ref: '#/responses/NotFound'
+  '/processing/parties/{partyID}/shops/{shopID}/activate':
+    put:
+      description: Activate shop
+      operationId: activateShop
+      tags:
+      - Shops
+      parameters:
+      - $ref: '#/parameters/requestID'
+      - name: partyID
+        in: path
+        description: Party ID
+        required: true
+        type: string
+      - name: shopID
+        in: path
+        description: Shop ID
+        required: true
+        type: string
+      responses:
+        '200':
+          description: Shop activated
+        '404':
+          $ref: '#/responses/NotFound'
   '/processing/accounts/{accountID}/balance':
     get:
       description: Get actual account balance
+      operationId: getAccountBalance
       tags:
       - Accounts
       parameters:
@@ -214,11 +357,11 @@ paths:
       parameters:
       - $ref: '#/parameters/requestID'
       - name: paymentTool
-        description: Payment tool to tokenize
+        description: Payment tool args
         in: body
         required: true
         schema:
-          $ref: '#/definitions/PaymentTool'
+          $ref: '#/definitions/CreatePaymentToolTokenArgs'
       responses:
         '201':
           description: Token created
@@ -470,7 +613,7 @@ paths:
           schema:
             type: array
             items:
-                $ref:  '#/definitions/PaymentGeoStat'
+              $ref:  '#/definitions/PaymentGeoStat'
         '404':
           $ref: '#/responses/NotFound'
         '400':
@@ -510,6 +653,124 @@ paths:
         '400':
           $ref: '#/responses/BadRequest'
 definitions:
+  CreateShopArgs:
+    type: object
+    required:
+    - category
+    - shopDetails
+    properties:
+      category:
+        $ref: '#/definitions/Category'
+      shopDetails:
+        $ref: '#/definitions/ShopDetails'
+      contractor:
+        $ref: '#/definitions/Contractor'
+  ShopDetails:
+    type: object
+    required:
+    - name
+    properties:
+      name:
+        type: string
+      description:
+        type: string
+      location:
+        type: string
+  UpdateShopArgs:
+    properties:
+      category:
+        $ref: '#/definitions/Category'
+      contractor:
+        $ref: '#/definitions/Contractor'
+      shopDetails:
+        $ref: '#/definitions/ShopDetails'
+  Contractor:
+    type: object
+    required:
+    - registeredName
+    - legalEntity
+    properties:
+      registeredName:
+        type: string
+      legalEntity:
+        type: string
+  Category:
+    type: object
+    required:
+    - name
+    properties:
+      name:
+        type: string
+      description:
+        type: string
+  Party:
+    type: object
+    required:
+    - partyID
+    - isBlocked
+    - isSuspended
+    - shops
+    properties:
+      partyID:
+        type: string
+      isBlocked:
+        type: boolean
+      isSuspended:
+        type: boolean
+      shops:
+        type: array
+        items:
+          $ref: '#/definitions/Shop'
+  Shop:
+    type: object
+    required:
+    - shopID
+    - isBlocked
+    - isSuspended
+    - categoryRef
+    - shopDetails
+    - contractor
+    properties:
+      shopID:
+        type: string
+      isBlocked:
+        type: boolean
+      isSuspended:
+        type: boolean
+      categoryRef:
+        type: integer
+        format: int32
+      shopDetails:
+        $ref: '#/definitions/ShopDetails'
+      contractor:
+        $ref: '#/definitions/Contractor'
+      contract:
+        $ref: '#/definitions/ShopContract'
+  ShopContract:
+    type: object
+    required:
+    - number
+    - systemContractorRef
+    - concludedAt
+    - validSince
+    - validUntil
+    properties:
+      number:
+        type: string
+      systemContractorRef:
+        type: string
+      concludedAt:
+        type: string
+        format: date-time
+      validSince:
+        type: string
+        format: date-time
+      validUntil:
+        type: string
+        format: date-time
+      terminatedAt:
+        type: string
+        format: date-time
   PaymentConversionStat:
     type: object
     required:
@@ -575,6 +836,16 @@ definitions:
     properties:
       balance:
         type: integer
+  CreatePaymentToolTokenArgs:
+    type: object
+    required:
+    - paymentTool
+    - fingerprint
+    properties:
+      paymentTool:
+        $ref: '#/definitions/PaymentTool'
+      fingerprint:
+        type: string
   PaymentTool:
     type: object
     discriminator: paymentToolType
