@@ -441,7 +441,7 @@ paths:
               invoices:
                 type: array
                 items:
-                    $ref: '#/definitions/Invoices'
+                    $ref: '#/definitions/Invoice'
         '404':
           $ref: '#/responses/NotFound'
         '400':
@@ -830,12 +830,12 @@ definitions:
     type: object
     required:
     - paymentTool
-    - fingerprint
+    - clientInfo
     properties:
       paymentTool:
         $ref: '#/definitions/PaymentTool'
-      fingerprint:
-        type: string
+      clientInfo:
+        $ref: '#/definitions/ClientInfo'
   PaymentTool:
     type: object
     discriminator: paymentToolType
@@ -1059,3 +1059,13 @@ definitions:
   InvoiceContext:
     type: object
     maxLength: 512
+  ClientInfo:
+    type: object
+    required:
+    - fingerprint
+    - ipAddress
+    properties:
+      fingerprint:
+        type: string
+      ipAddress:
+        type: string
