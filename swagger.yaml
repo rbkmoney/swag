@@ -434,9 +434,14 @@ paths:
         '200':
           description: List of invoices
           schema:
-            type: array
-            items:
-                $ref: '#/definitions/Invoice'
+            type: object
+            properties:
+              totalCount:
+                type: integer
+              invoices:
+                type: array
+                items:
+                    $ref: '#/definitions/Invoices'
         '404':
           $ref: '#/responses/NotFound'
         '400':
@@ -452,11 +457,6 @@ paths:
       - name: shopID
         in: path
         description: Shop ID
-        required: true
-        type: string
-      - name: invoiceID
-        in: query
-        description: Invoice ID
         required: true
         type: string
       - name: fromTime
@@ -513,11 +513,6 @@ paths:
         description: Shop ID
         required: true
         type: string
-      - name: invoiceID
-        in: query
-        description: Invoice ID
-        required: true
-        type: string
       - name: fromTime
         in: query
         description: Selection starting time
@@ -570,11 +565,6 @@ paths:
       - name: shopID
         in: path
         description: Shop ID
-        required: true
-        type: string
-      - name: invoiceID
-        in: query
-        description: Invoice ID
         required: true
         type: string
       - name: fromTime
@@ -885,7 +875,6 @@ definitions:
     - currency
     - context
     - product
-    - description
     properties:
       id:
         type: string
@@ -920,7 +909,6 @@ definitions:
     - amount
     - currency
     - product
-    - description
     properties:
       shopID:
         type: string
