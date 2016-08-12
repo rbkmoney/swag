@@ -434,9 +434,14 @@ paths:
         '200':
           description: List of invoices
           schema:
-            type: array
-            items:
-                $ref: '#/definitions/Invoice'
+            type: object
+            properties:
+              totalCount:
+                type: integer
+              invoices:
+                type: array
+                items:
+                    $ref: '#/definitions/Invoices'
         '404':
           $ref: '#/responses/NotFound'
         '400':
