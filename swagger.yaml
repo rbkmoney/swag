@@ -971,7 +971,7 @@ definitions:
     - eventBody
     properties:
       id:
-        type: string
+        type: integer
       createdAt:
         type: string
         format: date-time
