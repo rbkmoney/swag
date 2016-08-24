@@ -41,51 +41,34 @@ parameters:
     required: true
     type: string
 paths:
-  '/processing/parties':
-    post:
-      description: Create a party
-      operationId: createParty
-      tags:
-      - Parties
-      parameters:
-      - $ref: '#/parameters/requestID'
-      responses:
-        '200':
-          description: Created a new party
-          schema:
-            type: object
-            required:
-            - id
-            properties:
-              id:
-                type: string
+  '/processing/claims/{claimID}':
     get:
-      description: Get current party
-      operationId: getParty
+      description: Get claim by ID
+      operationId: getClaimByID
       tags:
-      - Parties
+      - Claims
       parameters:
       - $ref: '#/parameters/requestID'
+      - name: claimID
+        in: path
+        description: Claim ID
+        required: true
+        type: string
       responses:
         '200':
-          description: A party
+          description: Claim found
           schema:
-            $ref: '#/definitions/Party'
+            $ref: '#/definitions/Claim'
         '404':
           $ref: '#/responses/NotFound'
-  '/processing/parties/{partyID}/shops':
+  '/processing/shops':
     post:
-      description: Create shop
+      description: Claim for creating a shop
       operationId: createShop
       tags:
       - Shops
       parameters:
       - $ref: '#/parameters/requestID'
-      - name: partyID
-        in: path
-        description: Party ID
-        required: true
-        type: string
       - name: createShopArgs
         in: body
         description: New shop params
@@ -94,29 +77,19 @@ paths:
           $ref: '#/definitions/CreateShopArgs'
       responses:
         '201':
-          description: Shop created
+          description: Claim created
           schema:
-            type: object
-            required:
-            - id
-            properties:
-              id:
-                type: string
+            $ref: '#/definitions/ClaimResult'
         '404':
           $ref: '#/responses/NotFound'
-  '/processing/parties/{partyID}/shops/{shopID}':
+  '/processing/shops/{shopID}':
     post:
-      description: Update shop
+      description: Claim for updating the shop
       operationId: updateShop
       tags:
       - Shops
       parameters:
       - $ref: '#/parameters/requestID'
-      - name: partyID
-        in: path
-        description: Party ID
-        required: true
-        type: string
       - name: shopID
         in: path
         description: Shop ID
@@ -129,15 +102,15 @@ paths:
         schema:
           $ref: '#/definitions/UpdateShopArgs'
       responses:
-        '200':
-          description: Shop updated
+        '201':
+          description: Claim created
           schema:
-            $ref: '#/definitions/Shop'
+            $ref: '#/definitions/ClaimResult'
         '404':
           $ref: '#/responses/NotFound'
         '400':
           $ref: '#/responses/BadRequest'
-  '/processing/parties/{partyID}/shops/{shopID}/suspend':
+  '/processing/shops/{shopID}/suspend':
     put:
       description: Suspend shop
       operationId: suspendShop
@@ -145,22 +118,19 @@ paths:
       - Shops
       parameters:
       - $ref: '#/parameters/requestID'
-      - name: partyID
-        in: path
-        description: Party ID
-        required: true
-        type: string
       - name: shopID
         in: path
         description: Shop ID
         required: true
         type: string
       responses:
-        '200':
-          description: Shop suspended
+        '201':
+          description: Claim created
+          schema:
+            $ref: '#/definitions/ClaimResult'
         '404':
           $ref: '#/responses/NotFound'
-  '/processing/parties/{partyID}/shops/{shopID}/activate':
+  '/processing/shops/{shopID}/activate':
     put:
       description: Activate shop
       operationId: activateShop
@@ -168,19 +138,16 @@ paths:
       - Shops
       parameters:
       - $ref: '#/parameters/requestID'
-      - name: partyID
-        in: path
-        description: Party ID
-        required: true
-        type: string
       - name: shopID
         in: path
         description: Shop ID
         required: true
         type: string
       responses:
-        '200':
-          description: Shop activated
+        '201':
+          description: Claim created
+          schema:
+            $ref: '#/definitions/ClaimResult'
         '404':
           $ref: '#/responses/NotFound'
   '/processing/accounts/{accountID}/balance':
@@ -643,6 +610,107 @@ paths:
         '400':
           $ref: '#/responses/BadRequest'
 definitions:
+  Claim:
+    type: object
+    required:
+    - id
+    - status
+    - changeset
+    properties:
+      id:
+        type: string
+      status:
+        $ref: '#/definitions/ClaimStatus'
+      changeset:
+        $ref: '#/definitions/PartyChangeset'
+  PartyChangeset:
+    type: array
+    items:
+      $ref: '#/definitions/PartyModification'
+  PartyModification:
+    type: object
+    required:
+    - modificationType
+    - modificationBody
+    properties:
+      modificationType:
+        format: string
+        enum:
+        - shopCreation
+        - shopModification
+      modificationBody:
+        type: object
+        enum:
+        - $ref: '#/definitions/Shop'
+        - $ref: '#/definitions/ShopModificationUnit'
+  ShopModificationUnit:
+    type: object
+    required:
+    - id
+    - modification
+    properties:
+      id:
+        type: string
+      modification:
+        $ref: '#/definitions/ShopModification'
+  ShopModification:
+    type: object
+    required:
+    - modificationType
+    - modificationBody
+    properties:
+      modificationType:
+        type: string
+        enum:
+        - suspension
+        - update
+      modificationBody:
+        type: object
+        enum:
+        - $ref: '#/definitions/Suspension'
+        - $ref: '#/definitions/UpdateShopArgs'
+  Suspension:
+    type: object
+    required:
+    - suspensionType
+    properties:
+      suspensionType:
+        type: string
+        enum:
+        - active
+        - suspended
+  ClaimResult:
+    type: object
+    required:
+    - id
+    - status
+    properties:
+      id:
+        type: string
+      status:
+        $ref: '#/definitions/ClaimStatus'
+  ClaimStatus:
+    type: object
+    required:
+    - claimType
+    properties:
+      claimType:
+        type: string
+        enum:
+        - pending
+        - approved
+        - denied
+      claimBody:
+        type: object
+        enum:
+        - $ref: '#/definitions/ClaimStatusDenied'
+  ClaimStatusDenied:
+    type: object
+    required:
+    - reason
+    properties:
+      reason:
+        type: string
   CreateShopArgs:
     type: object
     required:
@@ -693,24 +761,6 @@ definitions:
         type: string
       description:
         type: string
-  Party:
-    type: object
-    required:
-    - partyID
-    - isBlocked
-    - isSuspended
-    - shops
-    properties:
-      partyID:
-        type: string
-      isBlocked:
-        type: boolean
-      isSuspended:
-        type: boolean
-      shops:
-        type: array
-        items:
-          $ref: '#/definitions/Shop'
   Shop:
     type: object
     required:
