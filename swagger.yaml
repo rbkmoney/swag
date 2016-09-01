@@ -41,6 +41,55 @@ parameters:
     required: true
     type: string
 paths:
+  '/processing/me':
+    get:
+      description: Get current party
+      operationId: getCurrentParty
+      tags:
+      - Parties
+      parameters:
+      - $ref: '#/parameters/requestID'
+      responses:
+        '200':
+          description: Current party
+          schema:
+            $ref: '#/definitions/Party'
+        '404':
+           $ref: '#/responses/NotFound'
+  '/processing/me/suspend':
+    post:
+      description: Suspend current party
+      operationId: suspendCurrentParty
+      tags:
+      - Parties
+      parameters:
+      - $ref: '#/parameters/requestID'
+      responses:
+        '202':
+          description: Claim registered
+          schema:
+            $ref: '#/definitions/ClaimResult'
+        '400':
+          $ref: '#/responses/BadRequest'
+        '404':
+           $ref: '#/responses/NotFound'
+  '/processing/me/activate':
+    post:
+      description: Activate current party
+      operationId: activateCurrentParty
+      tags:
+      - Parties
+      parameters:
+      - $ref: '#/parameters/requestID'
+      responses:
+        '202':
+          description: Claim registered
+          schema:
+            $ref: '#/definitions/ClaimResult'
+        '400':
+          $ref: '#/responses/BadRequest'
+        '404':
+           $ref: '#/responses/NotFound'
   '/processing/claims/{claimID}':
     get:
       description: Get claim by ID
@@ -76,8 +125,8 @@ paths:
         schema:
           $ref: '#/definitions/CreateShopArgs'
       responses:
-        '201':
-          description: Claim created
+        '202':
+          description: Claim registered
           schema:
             $ref: '#/definitions/ClaimResult'
         '404':
@@ -102,8 +151,8 @@ paths:
         schema:
           $ref: '#/definitions/UpdateShopArgs'
       responses:
-        '201':
-          description: Claim created
+        '202':
+          description: Claim registered
           schema:
             $ref: '#/definitions/ClaimResult'
         '404':
@@ -111,7 +160,7 @@ paths:
         '400':
           $ref: '#/responses/BadRequest'
   '/processing/shops/{shopID}/suspend':
-    put:
+    post:
       description: Suspend shop
       operationId: suspendShop
       tags:
@@ -124,14 +173,16 @@ paths:
         required: true
         type: string
       responses:
-        '201':
-          description: Claim created
+        '202':
+          description: Claim registered
           schema:
             $ref: '#/definitions/ClaimResult'
+        '400':
+          $ref: '#/responses/BadRequest'
         '404':
           $ref: '#/responses/NotFound'
   '/processing/shops/{shopID}/activate':
-    put:
+    post:
       description: Activate shop
       operationId: activateShop
       tags:
@@ -144,10 +195,12 @@ paths:
         required: true
         type: string
       responses:
-        '201':
-          description: Claim created
+        '202':
+          description: Claim registered
           schema:
             $ref: '#/definitions/ClaimResult'
+        '400':
+          $ref: '#/responses/BadRequest'
         '404':
           $ref: '#/responses/NotFound'
   '/processing/accounts/{accountID}/balance':
@@ -194,8 +247,6 @@ paths:
             properties:
               id:
                 type: string
-        '404':
-          $ref: '#/responses/NotFound'
         '400':
           $ref: '#/responses/BadRequest'
   '/processing/invoices/{invoiceID}':
@@ -620,7 +671,15 @@ definitions:
       id:
         type: string
       status:
-        $ref: '#/definitions/ClaimStatus'
+        type: string
+        enum:
+        - pending
+        - approved
+        - denied
+      statusBody:
+        type: object
+        enum:
+        - $ref: '#/definitions/ClaimStatusDenied'
       changeset:
         $ref: '#/definitions/PartyChangeset'
   PartyChangeset:
@@ -683,27 +742,9 @@ definitions:
     type: object
     required:
     - id
-    - status
     properties:
       id:
         type: string
-      status:
-        $ref: '#/definitions/ClaimStatus'
-  ClaimStatus:
-    type: object
-    required:
-    - claimType
-    properties:
-      claimType:
-        type: string
-        enum:
-        - pending
-        - approved
-        - denied
-      claimBody:
-        type: object
-        enum:
-        - $ref: '#/definitions/ClaimStatusDenied'
   ClaimStatusDenied:
     type: object
     required:
@@ -761,6 +802,24 @@ definitions:
         type: string
       description:
         type: string
+  Party:
+    type: object
+    required:
+    - partyID
+    - isBlocked
+    - isSuspended
+    - shops
+    properties:
+      partyID:
+        type: string
+      isBlocked:
+        type: boolean
+      isSuspended:
+        type: boolean
+      shops:
+        type: array
+        items:
+          $ref: '#/definitions/Shop'
   Shop:
     type: object
     required:
