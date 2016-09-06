@@ -43,7 +43,7 @@ parameters:
 paths:
   '/processing/me':
     get:
-      description: Get current party
+      description: Get my party
       operationId: getMyParty
       tags:
       - Parties
@@ -51,12 +51,12 @@ paths:
       - $ref: '#/parameters/requestID'
       responses:
         '200':
-          description: Current party
+          description: My party
           schema:
             $ref: '#/definitions/Party'
   '/processing/me/suspend':
     put:
-      description: Suspend current party
+      description: Suspend my party
       operationId: suspendMyParty
       tags:
       - Parties
@@ -68,13 +68,13 @@ paths:
           schema:
             type: object
             required:
-            - id
+            - claimID
             properties:
-              id:
+              claimID:
                 type: string
   '/processing/me/activate':
     put:
-      description: Activate current party
+      description: Activate my party
       operationId: activateMyParty
       tags:
       - Parties
@@ -86,9 +86,9 @@ paths:
           schema:
             type: object
             required:
-            - id
+            - claimID
             properties:
-              id:
+              claimID:
                 type: string
   '/processing/claims/{claimID}':
     get:
@@ -130,9 +130,9 @@ paths:
           schema:
             type: object
             required:
-            - id
+            - claimID
             properties:
-              id:
+              claimID:
                 type: string
         '404':
           $ref: '#/responses/NotFound'
@@ -161,9 +161,9 @@ paths:
           schema:
             type: object
             required:
-            - id
+            - claimID
             properties:
-              id:
+              claimID:
                 type: string
         '404':
           $ref: '#/responses/NotFound'
@@ -188,9 +188,9 @@ paths:
           schema:
             type: object
             required:
-            - id
+            - claimID
             properties:
-              id:
+              claimID:
                 type: string
         '404':
           $ref: '#/responses/NotFound'
@@ -213,9 +213,9 @@ paths:
           schema:
             type: object
             required:
-            - id
+            - claimID
             properties:
-              id:
+              claimID:
                 type: string
         '404':
           $ref: '#/responses/NotFound'
@@ -701,10 +701,7 @@ definitions:
     - modificationType
     properties:
       modificationType:
-        format: string
-        enum:
-        - shopCreation
-        - shopModification
+        type: string
   PMShopCreation:
     type: object
     allOf:
@@ -721,10 +718,10 @@ definitions:
     - $ref: '#/definitions/PartyModification'
     - type: object
       required:
-      - id
+      - shopID
       - details
       properties:
-        id:
+        shopID:
           type: string
         details:
           $ref: '#/definitions/ShopModification'
@@ -736,9 +733,6 @@ definitions:
     properties:
       modificationType:
         type: string
-        enum:
-        - suspension
-        - update
   SMSuspension:
     type: object
     allOf:
@@ -777,10 +771,14 @@ definitions:
     properties:
       status:
         type: string
-        enum:
-        - pending
-        - approved
-        - denied
+  ClaimStatusPending:
+    type: object
+    allOf:
+    - $ref: '#/definitions/ClaimStatus'
+  ClaimStatusApproved:
+    type: object
+    allOf:
+    - $ref: '#/definitions/ClaimStatus'
   ClaimStatusDenied:
     type: object
     allOf:
@@ -990,8 +988,6 @@ definitions:
     properties:
       paymentToolType:
         type: string
-        enum:
-        - cardData
     required:
     - paymentToolType
   CardData:
@@ -1125,12 +1121,6 @@ definitions:
         format: date-time
       eventType:
         type: string
-        enum:
-        - invoiceStatusChanged
-        - paymentStatusChanged
-        - invoiceCreated
-        - paymentStarted
-        - paymentBound
   EventInvoiceStatusChanged:
     type: object
     allOf:
