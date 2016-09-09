@@ -287,6 +287,58 @@ paths:
           $ref: '#/responses/NotFound'
         '400':
           $ref: '#/responses/BadRequest'
+  '/processing/invoices/{invoiceID}/fulfill':
+    post:
+      description: Fullfill invoice
+      tags:
+        - Invoices
+      operationId: fulfillInvoice
+      parameters:
+      - $ref: '#/parameters/requestID'
+      - name: invoiceID
+        in: path
+        description: Invoice ID
+        required: true
+        type: string
+      - name: fulfillInvoice
+        in: body
+        description: Fulfill invoice params
+        required: true
+        schema:
+          $ref: '#/definitions/FulfillInvoice'
+      responses:
+        '200':
+          description: Invoice fullfilled
+        '400':
+          $ref: '#/responses/BadRequest'
+        '404':
+          $ref: '#/responses/NotFound'
+  '/processing/invoices/{invoiceID}/rescind':
+    post:
+      description: Rescind invoice
+      tags:
+        - Invoices
+      operationId: rescindInvoice
+      parameters:
+      - $ref: '#/parameters/requestID'
+      - name: invoiceID
+        in: path
+        description: Invoice ID
+        required: true
+        type: string
+      - name: rescindInvoice
+        in: body
+        description: Rescind invoice params
+        required: true
+        schema:
+          $ref: '#/definitions/RescindInvoice'
+      responses:
+        '200':
+          description: Invoice rescinded
+        '400':
+          $ref: '#/responses/BadRequest'
+        '404':
+          $ref: '#/responses/NotFound'
   '/processing/invoices/{invoiceID}/events':
     get:
       description: Returns invoice events
@@ -677,6 +729,20 @@ paths:
         '400':
           $ref: '#/responses/BadRequest'
 definitions:
+  FulfillInvoice:
+    type: object
+    required:
+    - reason
+    properties:
+      reason:
+        type: string
+  RescindInvoice:
+    type: object
+    required:
+    - reason
+    properties:
+      reason:
+        type: string
   Claim:
     type: object
     required:
