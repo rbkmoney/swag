@@ -702,7 +702,17 @@ definitions:
     properties:
       modificationType:
         type: string
-  PMShopCreation:
+  PartySuspension:
+    type: object
+    allOf:
+    - $ref: '#/definitions/PartyModification'
+    - type: object
+      required:
+      - details
+      properties:
+        details:
+          $ref: '#/definitions/Suspension'
+  ShopCreation:
     type: object
     allOf:
     - $ref: '#/definitions/PartyModification'
@@ -712,7 +722,7 @@ definitions:
       properties:
         shop:
           $ref: '#/definitions/Shop'
-  PMShopModification:
+  ShopModificationUnit:
     type: object
     allOf:
     - $ref: '#/definitions/PartyModification'
@@ -733,7 +743,7 @@ definitions:
     properties:
       modificationType:
         type: string
-  SMSuspension:
+  ShopSuspension:
     type: object
     allOf:
     - $ref: '#/definitions/ShopModification'
@@ -743,7 +753,7 @@ definitions:
       properties:
         details:
           $ref: '#/definitions/Suspension'
-  SMUpdate:
+  ShopUpdate:
     type: object
     allOf:
     - $ref: '#/definitions/ShopModification'
@@ -771,15 +781,15 @@ definitions:
     properties:
       status:
         type: string
-  ClaimStatusPending:
+  ClaimPending:
     type: object
     allOf:
     - $ref: '#/definitions/ClaimStatus'
-  ClaimStatusApproved:
+  ClaimApproved:
     type: object
     allOf:
     - $ref: '#/definitions/ClaimStatus'
-  ClaimStatusDenied:
+  ClaimDenied:
     type: object
     allOf:
     - $ref: '#/definitions/ClaimStatus'
