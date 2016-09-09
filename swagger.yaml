@@ -41,51 +41,83 @@ parameters:
     required: true
     type: string
 paths:
-  '/processing/parties':
-    post:
-      description: Create a party
-      operationId: createParty
+  '/processing/me':
+    get:
+      description: Get my party
+      operationId: getMyParty
       tags:
       - Parties
       parameters:
       - $ref: '#/parameters/requestID'
       responses:
         '200':
-          description: Created a new party
+          description: My party
+          schema:
+            $ref: '#/definitions/Party'
+  '/processing/me/suspend':
+    put:
+      description: Suspend my party
+      operationId: suspendMyParty
+      tags:
+      - Parties
+      parameters:
+      - $ref: '#/parameters/requestID'
+      responses:
+        '202':
+          description: Claim registered
           schema:
             type: object
             required:
-            - id
+            - claimID
             properties:
-              id:
+              claimID:
                 type: string
-    get:
-      description: Get current party
-      operationId: getParty
+  '/processing/me/activate':
+    put:
+      description: Activate my party
+      operationId: activateMyParty
       tags:
       - Parties
       parameters:
       - $ref: '#/parameters/requestID'
       responses:
-        '200':
-          description: A party
+        '202':
+          description: Claim registered
           schema:
-            $ref: '#/definitions/Party'
+            type: object
+            required:
+            - claimID
+            properties:
+              claimID:
+                type: string
+  '/processing/claims/{claimID}':
+    get:
+      description: Get claim by ID
+      operationId: getClaimByID
+      tags:
+      - Claims
+      parameters:
+      - $ref: '#/parameters/requestID'
+      - name: claimID
+        in: path
+        description: Claim ID
+        required: true
+        type: string
+      responses:
+        '200':
+          description: Claim found
+          schema:
+            $ref: '#/definitions/Claim'
         '404':
           $ref: '#/responses/NotFound'
-  '/processing/parties/{partyID}/shops':
+  '/processing/shops':
     post:
-      description: Create shop
+      description: Claim for creating a shop
       operationId: createShop
       tags:
       - Shops
       parameters:
       - $ref: '#/parameters/requestID'
-      - name: partyID
-        in: path
-        description: Party ID
-        required: true
-        type: string
       - name: createShopArgs
         in: body
         description: New shop params
@@ -93,30 +125,25 @@ paths:
         schema:
           $ref: '#/definitions/CreateShopArgs'
       responses:
-        '201':
-          description: Shop created
+        '202':
+          description: Claim registered
           schema:
             type: object
             required:
-            - id
+            - claimID
             properties:
-              id:
+              claimID:
                 type: string
         '404':
           $ref: '#/responses/NotFound'
-  '/processing/parties/{partyID}/shops/{shopID}':
+  '/processing/shops/{shopID}':
     post:
-      description: Update shop
+      description: Claim for updating the shop
       operationId: updateShop
       tags:
       - Shops
       parameters:
       - $ref: '#/parameters/requestID'
-      - name: partyID
-        in: path
-        description: Party ID
-        required: true
-        type: string
       - name: shopID
         in: path
         description: Shop ID
@@ -129,15 +156,20 @@ paths:
         schema:
           $ref: '#/definitions/UpdateShopArgs'
       responses:
-        '200':
-          description: Shop updated
+        '202':
+          description: Claim registered
           schema:
-            $ref: '#/definitions/Shop'
+            type: object
+            required:
+            - claimID
+            properties:
+              claimID:
+                type: string
         '404':
           $ref: '#/responses/NotFound'
         '400':
           $ref: '#/responses/BadRequest'
-  '/processing/parties/{partyID}/shops/{shopID}/suspend':
+  '/processing/shops/{shopID}/suspend':
     put:
       description: Suspend shop
       operationId: suspendShop
@@ -145,22 +177,24 @@ paths:
       - Shops
       parameters:
       - $ref: '#/parameters/requestID'
-      - name: partyID
-        in: path
-        description: Party ID
-        required: true
-        type: string
       - name: shopID
         in: path
         description: Shop ID
         required: true
         type: string
       responses:
-        '200':
-          description: Shop suspended
+        '202':
+          description: Claim registered
+          schema:
+            type: object
+            required:
+            - claimID
+            properties:
+              claimID:
+                type: string
         '404':
           $ref: '#/responses/NotFound'
-  '/processing/parties/{partyID}/shops/{shopID}/activate':
+  '/processing/shops/{shopID}/activate':
     put:
       description: Activate shop
       operationId: activateShop
@@ -168,19 +202,21 @@ paths:
       - Shops
       parameters:
       - $ref: '#/parameters/requestID'
-      - name: partyID
-        in: path
-        description: Party ID
-        required: true
-        type: string
       - name: shopID
         in: path
         description: Shop ID
         required: true
         type: string
       responses:
-        '200':
-          description: Shop activated
+        '202':
+          description: Claim registered
+          schema:
+            type: object
+            required:
+            - claimID
+            properties:
+              claimID:
+                type: string
         '404':
           $ref: '#/responses/NotFound'
   '/processing/accounts/{accountID}/balance':
@@ -227,8 +263,6 @@ paths:
             properties:
               id:
                 type: string
-        '404':
-          $ref: '#/responses/NotFound'
         '400':
           $ref: '#/responses/BadRequest'
   '/processing/invoices/{invoiceID}':
@@ -643,6 +677,128 @@ paths:
         '400':
           $ref: '#/responses/BadRequest'
 definitions:
+  Claim:
+    type: object
+    required:
+    - id
+    - status
+    - changeset
+    properties:
+      id:
+        type: string
+      status:
+        $ref: '#/definitions/ClaimStatus'
+      changeset:
+        $ref: '#/definitions/PartyChangeset'
+  PartyChangeset:
+    type: array
+    items:
+      $ref: '#/definitions/PartyModification'
+  PartyModification:
+    type: object
+    discriminator: modificationType
+    required:
+    - modificationType
+    properties:
+      modificationType:
+        type: string
+  PartySuspension:
+    type: object
+    allOf:
+    - $ref: '#/definitions/PartyModification'
+    - type: object
+      required:
+      - details
+      properties:
+        details:
+          $ref: '#/definitions/Suspension'
+  ShopCreation:
+    type: object
+    allOf:
+    - $ref: '#/definitions/PartyModification'
+    - type: object
+      required:
+      - shop
+      properties:
+        shop:
+          $ref: '#/definitions/Shop'
+  ShopModificationUnit:
+    type: object
+    allOf:
+    - $ref: '#/definitions/PartyModification'
+    - type: object
+      required:
+      - shopID
+      - details
+      properties:
+        shopID:
+          type: string
+        details:
+          $ref: '#/definitions/ShopModification'
+  ShopModification:
+    type: object
+    discriminator: modificationType
+    required:
+    - modificationType
+    properties:
+      modificationType:
+        type: string
+  ShopSuspension:
+    type: object
+    allOf:
+    - $ref: '#/definitions/ShopModification'
+    - type: object
+      required:
+      - details
+      properties:
+        details:
+          $ref: '#/definitions/Suspension'
+  ShopUpdate:
+    type: object
+    allOf:
+    - $ref: '#/definitions/ShopModification'
+    - type: object
+      required:
+      - details
+      properties:
+        details:
+          $ref: '#/definitions/UpdateShopArgs'
+  Suspension:
+    type: object
+    required:
+    - suspensionType
+    properties:
+      suspensionType:
+        type: string
+        enum:
+        - active
+        - suspended
+  ClaimStatus:
+    type: object
+    discriminator: status
+    required:
+    - status
+    properties:
+      status:
+        type: string
+  ClaimPending:
+    type: object
+    allOf:
+    - $ref: '#/definitions/ClaimStatus'
+  ClaimApproved:
+    type: object
+    allOf:
+    - $ref: '#/definitions/ClaimStatus'
+  ClaimDenied:
+    type: object
+    allOf:
+    - $ref: '#/definitions/ClaimStatus'
+    - type: object
+      required:
+      - reason
+      properties:
+        reason:
+          type: string
   CreateShopArgs:
     type: object
     required:
@@ -842,8 +998,6 @@ definitions:
     properties:
       paymentToolType:
         type: string
-        enum:
-        - cardData
     required:
     - paymentToolType
   CardData:
@@ -964,11 +1118,11 @@ definitions:
         type: string
   Event:
     type: object
+    discriminator: eventType
     required:
     - id
     - createdAt
     - eventType
-    - eventBody
     properties:
       id:
         type: integer
@@ -977,68 +1131,69 @@ definitions:
         format: date-time
       eventType:
         type: string
-        enum:
-        - invoiceStatusChanged
-        - paymentStatusChanged
-        - invoiceCreated
-        - paymentStarted
-        - paymentBound
-      eventBody:
-        type: object
-        enum:
-        - $ref: '#/definitions/EventInvoiceStatusChanged'
-        - $ref: '#/definitions/EventPaymentStatusChanged'
-        - $ref: '#/definitions/EventInvoiceCreated'
-        - $ref: '#/definitions/EventPaymentStarted'
-        - $ref: '#/definitions/EventPaymentBound'
   EventInvoiceStatusChanged:
     type: object
-    required:
-    - status
-    properties:
-      status:
-        type: string
-        enum:
-        - unpaid
-        - cancelled
-        - paid
-        - refunded
-        - fulfilled
+    allOf:
+    - $ref: '#/definitions/Event'
+    - type: object
+      required:
+      - status
+      properties:
+        status:
+          type: string
+          enum:
+          - unpaid
+          - cancelled
+          - paid
+          - refunded
+          - fulfilled
   EventPaymentStatusChanged:
     type: object
-    required:
-    - status
-    - paymentID
-    properties:
-      paymentID:
-        type: string
-      status:
-        type: string
-        enum:
-        - pending
-        - succeeded
-        - failed
+    allOf:
+    - $ref: '#/definitions/Event'
+    - type: object
+      required:
+      - status
+      - paymentID
+      properties:
+        paymentID:
+          type: string
+        status:
+          type: string
+          enum:
+          - pending
+          - succeeded
+          - failed
   EventInvoiceCreated:
     type: object
-    required:
-    - invoice
-    properties:
-      invoice:
-        $ref: '#/definitions/Invoice'
+    allOf:
+    - $ref: '#/definitions/Event'
+    - type: object
+      required:
+      - invoice
+      properties:
+        invoice:
+          $ref: '#/definitions/Invoice'
   EventPaymentStarted:
     type: object
-    required:
-    - payment
-    properties:
-      payment:
-        $ref: '#/definitions/Payment'
+    allOf:
+    - $ref: '#/definitions/Event'
+    - type: object
+      required:
+      - payment
+      properties:
+        payment:
+          $ref: '#/definitions/Payment'
   EventPaymentBound:
     type: object
-    required:
-    - paymentID
-    properties:
-      paymentID:
-        type: string
+    allOf:
+    - $ref: '#/definitions/Event'
+    - type: object
+      required:
+      - paymentID
+      properties:
+        paymentID:
+          type: string
   GeneralError:
     type: object
     required:
