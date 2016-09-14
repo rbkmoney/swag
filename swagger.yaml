@@ -941,7 +941,6 @@ definitions:
     - isSuspended
     - categoryRef
     - shopDetails
-    - contractor
     properties:
       shopID:
         type: string
