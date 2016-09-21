@@ -763,6 +763,57 @@ paths:
           $ref: '#/responses/NotFound'
         '400':
           $ref: '#/responses/BadRequest'
+  '/analytics/shops/{shopID}/customers/stats/card':
+    get:
+      operationId: getPaymentCardStats
+      parameters:
+      - $ref: '#/parameters/requestID'
+      - name: shopID
+        in: path
+        description: Shop ID
+        required: true
+        type: string
+      - name: fromTime
+        in: query
+        description: Selection starting time
+        required: true
+        type: string
+        format: date-time
+      - name: toTime
+        in: query
+        description: Selecting ending time
+        required: true
+        type: string
+        format: date-time
+      - name: splitUnit
+        in: query
+        description: Split unit
+        required: true
+        type: string
+        enum:
+          - minute
+          - hour
+          - day
+          - week
+          - month
+          - year
+      - name: splitSize
+        in: query
+        description: Split interval size (must be positive)
+        required: true
+        type: integer
+        format: int32
+      responses:
+        '201':
+          description: List of payment card stats
+          schema:
+            type: array
+            items:
+              $ref:  '#/definitions/PaymentCardStat'
+        '404':
+          $ref: '#/responses/NotFound'
+        '400':
+          $ref: '#/responses/BadRequest'
 definitions:
   FulfillInvoice:
     type: object
@@ -1054,6 +1105,25 @@ definitions:
       cityName:
         type: string
       currency:
+        type: string
+      profit:
+        type: integer
+      revenue:
+        type: integer
+  PaymentCardStat:
+    type: object
+    required:
+    - offset
+    - totalCount
+    - paymentSystem
+    - profit
+    - revenue
+    properties:
+      offset:
+        type: integer
+      totalCount:
+        type: integer
+      paymentSystem:
         type: string
       profit:
         type: integer
