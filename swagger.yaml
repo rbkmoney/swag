@@ -138,6 +138,12 @@ paths:
         description: Claim ID
         required: true
         type: string
+      - name: revokeClaim
+        in: body
+        description: Revoke claim params
+        required: true
+        schema:
+          $ref: '#/definitions/RevokeClaim'
       responses:
         '200':
           description: Claim revoked
@@ -254,24 +260,26 @@ paths:
                 type: string
         '404':
           $ref: '#/responses/NotFound'
-  '/processing/accounts/{accountID}/balance':
+  '/processing/shops/{shopID}/accounts':
     get:
-      description: Get actual account balance
-      operationId: getAccountBalance
+      description: Get shop accounts
+      operationId: getShopAccounts
       tags:
-      - Accounts
+      - Shops
       parameters:
       - $ref: '#/parameters/requestID'
-      - name: accountID
+      - name: shopID
         in: path
-        description: Account ID
+        description: Shop ID
         required: true
         type: string
       responses:
         '200':
-          description: Account balance
+          description: Accounts found
           schema:
-            $ref: '#/definitions/Balance'
+            type: array
+            items:
+              $ref: '#/definitions/Account'
         '404':
           $ref: '#/responses/NotFound'
   '/processing/invoices':
@@ -324,7 +332,7 @@ paths:
           $ref: '#/responses/BadRequest'
   '/processing/invoices/{invoiceID}/fulfill':
     post:
-      description: Fullfill invoice
+      description: Fulfill invoice
       tags:
         - Invoices
       operationId: fulfillInvoice
@@ -343,7 +351,7 @@ paths:
           $ref: '#/definitions/FulfillInvoice'
       responses:
         '200':
-          description: Invoice fullfilled
+          description: Invoice fulfilled
         '400':
           $ref: '#/responses/BadRequest'
         '404':
@@ -404,7 +412,7 @@ paths:
           schema:
             type: array
             items:
-                $ref: '#/definitions/Event'
+              $ref: '#/definitions/Event'
         '404':
           $ref: '#/responses/NotFound'
         '400':
@@ -815,6 +823,13 @@ paths:
         '400':
           $ref: '#/responses/BadRequest'
 definitions:
+  RevokeClaim:
+    type: object
+    required:
+    - reason
+    properties:
+      reason:
+        type: string
   FulfillInvoice:
     type: object
     required:
@@ -1145,13 +1160,25 @@ definitions:
         type: integer
       revenue:
         type: integer
-  Balance:
+  Account:
     type: object
     required:
+    - number
+    - currency
     - balance
+    - accountType
     properties:
+      number:
+        type: string
+      currency:
+        type: string
       balance:
         type: integer
+      accountType:
+        type: string
+        enum:
+        - main
+        - reserve
   CreatePaymentToolTokenArgs:
     type: object
     required:
