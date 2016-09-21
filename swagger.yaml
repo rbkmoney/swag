@@ -90,6 +90,21 @@ paths:
             properties:
               claimID:
                 type: string
+  '/processing/claims/':
+    get:
+      description: Get pending claim
+      operationId: getPendingClaim
+      tags:
+      - Claims
+      parameters:
+      - $ref: '#/parameters/requestID'
+      responses:
+        '200':
+          description: Claim found
+          schema:
+            $ref: '#/definitions/Claim'
+        '404':
+          $ref: '#/responses/NotFound'
   '/processing/claims/{claimID}':
     get:
       description: Get claim by ID
@@ -110,6 +125,26 @@ paths:
             $ref: '#/definitions/Claim'
         '404':
           $ref: '#/responses/NotFound'
+  '/processing/claims/{claimID}/revoke':
+    post:
+      description: Revoke claim by ID
+      operationId: revokeClaimByID
+      tags:
+      - Claims
+      parameters:
+      - $ref: '#/parameters/requestID'
+      - name: claimID
+        in: path
+        description: Claim ID
+        required: true
+        type: string
+      responses:
+        '200':
+          description: Claim revoked
+        '404':
+          $ref: '#/responses/NotFound'
+        '400':
+          $ref: '#/responses/BadRequest'
   '/processing/shops':
     post:
       description: Claim for creating a shop
