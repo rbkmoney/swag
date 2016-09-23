@@ -98,6 +98,12 @@ paths:
       - Claims
       parameters:
       - $ref: '#/parameters/requestID'
+      - name: claimStatus
+        in: query
+        type: string
+        enum:
+        - pending
+        required: true
       responses:
         '200':
           description: Claim found
@@ -143,7 +149,12 @@ paths:
         description: Revoke claim params
         required: true
         schema:
-          $ref: '#/definitions/RevokeClaim'
+          type: object
+          required:
+          - reason
+          properties:
+            reason:
+              type: string
       responses:
         '200':
           description: Claim revoked
@@ -279,7 +290,32 @@ paths:
           schema:
             type: array
             items:
-              $ref: '#/definitions/Account'
+              $ref: '#/definitions/ShopAccount'
+        '404':
+          $ref: '#/responses/NotFound'
+  '/processing/shops/{shopID}/accounts/{accountID}':
+    get:
+      description: Get account by ID
+      operationId: getAccountByID
+      tags:
+      - Shops
+      parameters:
+      - $ref: '#/parameters/requestID'
+      - name: shopID
+        in: path
+        description: Shop ID
+        required: true
+        type: string
+      - name: accountID
+        in: path
+        description: Account ID
+        required: true
+        type: string
+      responses:
+        '200':
+          description: Account found
+          schema:
+            $ref: '#/definitions/Account'
         '404':
           $ref: '#/responses/NotFound'
   '/processing/invoices':
@@ -348,7 +384,12 @@ paths:
         description: Fulfill invoice params
         required: true
         schema:
-          $ref: '#/definitions/FulfillInvoice'
+          type: object
+          required:
+          - reason
+          properties:
+            reason:
+              type: string
       responses:
         '200':
           description: Invoice fulfilled
@@ -374,7 +415,12 @@ paths:
         description: Rescind invoice params
         required: true
         schema:
-          $ref: '#/definitions/RescindInvoice'
+          type: object
+          required:
+          - reason
+          properties:
+            reason:
+              type: string
       responses:
         '200':
           description: Invoice rescinded
@@ -771,9 +817,12 @@ paths:
           $ref: '#/responses/NotFound'
         '400':
           $ref: '#/responses/BadRequest'
-  '/analytics/shops/{shopID}/customers/stats/card':
+  '/analytics/shops/{shopID}/customers/stats/payment_instrument':
     get:
-      operationId: getPaymentCardStats
+      description: Payment instrument stats
+      tags:
+      - Analytics
+      operationId: getPaymentInstrumentStats
       parameters:
       - $ref: '#/parameters/requestID'
       - name: shopID
@@ -811,39 +860,24 @@ paths:
         required: true
         type: integer
         format: int32
+      - name: paymentInstrument
+        in: query
+        description: Payment instrument type
+        type: string
+        enum:
+        - card
       responses:
         '201':
-          description: List of payment card stats
+          description: List of payment instrument stats
           schema:
             type: array
             items:
-              $ref:  '#/definitions/PaymentCardStat'
+              $ref:  '#/definitions/PaymentInstrumentStat'
         '404':
           $ref: '#/responses/NotFound'
         '400':
           $ref: '#/responses/BadRequest'
 definitions:
-  RevokeClaim:
-    type: object
-    required:
-    - reason
-    properties:
-      reason:
-        type: string
-  FulfillInvoice:
-    type: object
-    required:
-    - reason
-    properties:
-      reason:
-        type: string
-  RescindInvoice:
-    type: object
-    required:
-    - reason
-    properties:
-      reason:
-        type: string
   Claim:
     type: object
     required:
@@ -1083,6 +1117,32 @@ definitions:
       terminatedAt:
         type: string
         format: date-time
+  ShopAccount:
+    type: object
+    required:
+    - generalID
+    - guaranteeID
+    properties:
+      generalID:
+        type: string
+      guaranteeID:
+        type: string
+  Account:
+    type: object
+    required:
+    - id
+    - ownAmount
+    - availableAmount
+    - currency
+    properties:
+      id:
+        type: string
+      ownAmount:
+        type: integer
+      availableAmount:
+        type: integer
+      currency:
+        type: string
   PaymentConversionStat:
     type: object
     required:
@@ -1125,25 +1185,36 @@ definitions:
         type: integer
       revenue:
         type: integer
-  PaymentCardStat:
+  PaymentInstrumentStat:
     type: object
+    discriminator: statType
     required:
-    - offset
-    - totalCount
-    - paymentSystem
-    - profit
-    - revenue
+    - statType
     properties:
-      offset:
-        type: integer
-      totalCount:
-        type: integer
-      paymentSystem:
+      statType:
         type: string
-      profit:
-        type: integer
-      revenue:
-        type: integer
+  PaymentInstrumentCardStat:
+    type: object
+    allOf:
+    - $ref: '#/definitions/PaymentInstrumentStat'
+    - type: object
+      required:
+      - offset
+      - totalCount
+      - paymentSystem
+      - profit
+      - revenue
+      properties:
+        offset:
+          type: integer
+        totalCount:
+          type: integer
+        paymentSystem:
+          type: string
+        profit:
+          type: integer
+        revenue:
+          type: integer
   PaymentRevenueStat:
     type: object
     required:
@@ -1160,25 +1231,6 @@ definitions:
         type: integer
       revenue:
         type: integer
-  Account:
-    type: object
-    required:
-    - number
-    - currency
-    - balance
-    - accountType
-    properties:
-      number:
-        type: string
-      currency:
-        type: string
-      balance:
-        type: integer
-      accountType:
-        type: string
-        enum:
-        - main
-        - reserve
   CreatePaymentToolTokenArgs:
     type: object
     required:
