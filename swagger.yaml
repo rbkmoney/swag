@@ -92,8 +92,8 @@ paths:
                 type: string
   '/processing/claims/':
     get:
-      description: Get pending claim
-      operationId: getPendingClaim
+      description: Get current claim
+      operationId: getCurrentClaim
       tags:
       - Claims
       parameters:
