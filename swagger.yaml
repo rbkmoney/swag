@@ -90,6 +90,27 @@ paths:
             properties:
               claimID:
                 type: string
+  '/processing/claims/':
+    get:
+      description: Get claim by status
+      operationId: getClaimByStatus
+      tags:
+      - Claims
+      parameters:
+      - $ref: '#/parameters/requestID'
+      - name: claimStatus
+        in: query
+        type: string
+        enum:
+        - pending
+        required: true
+      responses:
+        '200':
+          description: Claim found
+          schema:
+            $ref: '#/definitions/Claim'
+        '404':
+          $ref: '#/responses/NotFound'
   '/processing/claims/{claimID}':
     get:
       description: Get claim by ID
@@ -110,6 +131,37 @@ paths:
             $ref: '#/definitions/Claim'
         '404':
           $ref: '#/responses/NotFound'
+  '/processing/claims/{claimID}/revoke':
+    post:
+      description: Revoke claim by ID
+      operationId: revokeClaimByID
+      tags:
+      - Claims
+      parameters:
+      - $ref: '#/parameters/requestID'
+      - name: claimID
+        in: path
+        description: Claim ID
+        required: true
+        type: string
+      - name: revokeClaim
+        in: body
+        description: Revoke claim params
+        required: true
+        schema:
+          type: object
+          required:
+          - reason
+          properties:
+            reason:
+              type: string
+      responses:
+        '200':
+          description: Claim revoked
+        '404':
+          $ref: '#/responses/NotFound'
+        '400':
+          $ref: '#/responses/BadRequest'
   '/processing/shops':
     post:
       description: Claim for creating a shop
@@ -219,14 +271,41 @@ paths:
                 type: string
         '404':
           $ref: '#/responses/NotFound'
-  '/processing/accounts/{accountID}/balance':
+  '/processing/shops/{shopID}/accounts':
     get:
-      description: Get actual account balance
-      operationId: getAccountBalance
+      description: Get shop accounts
+      operationId: getShopAccounts
       tags:
-      - Accounts
+      - Shops
       parameters:
       - $ref: '#/parameters/requestID'
+      - name: shopID
+        in: path
+        description: Shop ID
+        required: true
+        type: string
+      responses:
+        '200':
+          description: Accounts found
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/ShopAccount'
+        '404':
+          $ref: '#/responses/NotFound'
+  '/processing/shops/{shopID}/accounts/{accountID}':
+    get:
+      description: Get account by ID
+      operationId: getAccountByID
+      tags:
+      - Shops
+      parameters:
+      - $ref: '#/parameters/requestID'
+      - name: shopID
+        in: path
+        description: Shop ID
+        required: true
+        type: string
       - name: accountID
         in: path
         description: Account ID
@@ -234,9 +313,9 @@ paths:
         type: string
       responses:
         '200':
-          description: Account balance
+          description: Account found
           schema:
-            $ref: '#/definitions/Balance'
+            $ref: '#/definitions/Account'
         '404':
           $ref: '#/responses/NotFound'
   '/processing/invoices':
@@ -289,7 +368,7 @@ paths:
           $ref: '#/responses/BadRequest'
   '/processing/invoices/{invoiceID}/fulfill':
     post:
-      description: Fullfill invoice
+      description: Fulfill invoice
       tags:
         - Invoices
       operationId: fulfillInvoice
@@ -305,10 +384,15 @@ paths:
         description: Fulfill invoice params
         required: true
         schema:
-          $ref: '#/definitions/FulfillInvoice'
+          type: object
+          required:
+          - reason
+          properties:
+            reason:
+              type: string
       responses:
         '200':
-          description: Invoice fullfilled
+          description: Invoice fulfilled
         '400':
           $ref: '#/responses/BadRequest'
         '404':
@@ -331,7 +415,12 @@ paths:
         description: Rescind invoice params
         required: true
         schema:
-          $ref: '#/definitions/RescindInvoice'
+          type: object
+          required:
+          - reason
+          properties:
+            reason:
+              type: string
       responses:
         '200':
           description: Invoice rescinded
@@ -369,7 +458,7 @@ paths:
           schema:
             type: array
             items:
-                $ref: '#/definitions/Event'
+              $ref: '#/definitions/Event'
         '404':
           $ref: '#/responses/NotFound'
         '400':
@@ -728,21 +817,67 @@ paths:
           $ref: '#/responses/NotFound'
         '400':
           $ref: '#/responses/BadRequest'
+  '/analytics/shops/{shopID}/customers/stats/payment_method':
+    get:
+      description: Payment method stats
+      tags:
+      - Analytics
+      operationId: getPaymentMethodStats
+      parameters:
+      - $ref: '#/parameters/requestID'
+      - name: shopID
+        in: path
+        description: Shop ID
+        required: true
+        type: string
+      - name: fromTime
+        in: query
+        description: Selection starting time
+        required: true
+        type: string
+        format: date-time
+      - name: toTime
+        in: query
+        description: Selecting ending time
+        required: true
+        type: string
+        format: date-time
+      - name: splitUnit
+        in: query
+        description: Split unit
+        required: true
+        type: string
+        enum:
+          - minute
+          - hour
+          - day
+          - week
+          - month
+          - year
+      - name: splitSize
+        in: query
+        description: Split interval size (must be positive)
+        required: true
+        type: integer
+        format: int32
+      - name: paymentMethod
+        in: query
+        description: Payment method type
+        type: string
+        enum:
+        - bank_card
+      responses:
+        '201':
+          description: List of payment method stats
+          schema:
+            type: array
+            items:
+              $ref:  '#/definitions/PaymentMethodStat'
+        '404':
+          $ref: '#/responses/NotFound'
+        '400':
+          $ref: '#/responses/BadRequest'
 definitions:
-  FulfillInvoice:
-    type: object
-    required:
-    - reason
-    properties:
-      reason:
-        type: string
-  RescindInvoice:
-    type: object
-    required:
-    - reason
-    properties:
-      reason:
-        type: string
   Claim:
     type: object
     required:
@@ -982,6 +1117,32 @@ definitions:
       terminatedAt:
         type: string
         format: date-time
+  ShopAccount:
+    type: object
+    required:
+    - generalID
+    - guaranteeID
+    properties:
+      generalID:
+        type: string
+      guaranteeID:
+        type: string
+  Account:
+    type: object
+    required:
+    - id
+    - ownAmount
+    - availableAmount
+    - currency
+    properties:
+      id:
+        type: string
+      ownAmount:
+        type: integer
+      availableAmount:
+        type: integer
+      currency:
+        type: string
   PaymentConversionStat:
     type: object
     required:
@@ -1024,6 +1185,36 @@ definitions:
         type: integer
       revenue:
         type: integer
+  PaymentMethodStat:
+    type: object
+    discriminator: statType
+    required:
+    - statType
+    properties:
+      statType:
+        type: string
+  PaymentMethodBankCardStat:
+    type: object
+    allOf:
+    - $ref: '#/definitions/PaymentMethodStat'
+    - type: object
+      required:
+      - offset
+      - totalCount
+      - paymentSystem
+      - profit
+      - revenue
+      properties:
+        offset:
+          type: integer
+        totalCount:
+          type: integer
+        paymentSystem:
+          type: string
+        profit:
+          type: integer
+        revenue:
+          type: integer
   PaymentRevenueStat:
     type: object
     required:
@@ -1039,13 +1230,6 @@ definitions:
       profit:
         type: integer
       revenue:
-        type: integer
-  Balance:
-    type: object
-    required:
-    - balance
-    properties:
-      balance:
         type: integer
   CreatePaymentToolTokenArgs:
     type: object
