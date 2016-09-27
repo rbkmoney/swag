@@ -92,8 +92,8 @@ paths:
                 type: string
   '/processing/claims/':
     get:
-      description: Get current claim
-      operationId: getCurrentClaim
+      description: Get claim by status
+      operationId: getClaimByStatus
       tags:
       - Claims
       parameters:
@@ -817,12 +817,12 @@ paths:
           $ref: '#/responses/NotFound'
         '400':
           $ref: '#/responses/BadRequest'
-  '/analytics/shops/{shopID}/customers/stats/payment_instrument':
+  '/analytics/shops/{shopID}/customers/stats/payment_method':
     get:
-      description: Payment instrument stats
+      description: Payment method stats
       tags:
       - Analytics
-      operationId: getPaymentInstrumentStats
+      operationId: getPaymentMethodStats
       parameters:
       - $ref: '#/parameters/requestID'
       - name: shopID
@@ -860,19 +860,19 @@ paths:
         required: true
         type: integer
         format: int32
-      - name: paymentInstrument
+      - name: paymentMethod
         in: query
-        description: Payment instrument type
+        description: Payment method type
         type: string
         enum:
-        - card
+        - bank_card
       responses:
         '201':
-          description: List of payment instrument stats
+          description: List of payment method stats
           schema:
             type: array
             items:
-              $ref:  '#/definitions/PaymentInstrumentStat'
+              $ref:  '#/definitions/PaymentMethodStat'
         '404':
           $ref: '#/responses/NotFound'
         '400':
@@ -1185,7 +1185,7 @@ definitions:
         type: integer
       revenue:
         type: integer
-  PaymentInstrumentStat:
+  PaymentMethodStat:
     type: object
     discriminator: statType
     required:
@@ -1193,10 +1193,10 @@ definitions:
     properties:
       statType:
         type: string
-  PaymentInstrumentCardStat:
+  PaymentMethodBankCardStat:
     type: object
     allOf:
-    - $ref: '#/definitions/PaymentInstrumentStat'
+    - $ref: '#/definitions/PaymentMethodStat'
     - type: object
       required:
       - offset
