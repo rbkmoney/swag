@@ -1,8 +1,8 @@
 swagger: '2.0'
 info:
   version: 1.0.0
-  title: RBK Money Merchant API
-  description: "An API that implements merchant proxy"
+  title: RBK Money events processing API
+  description: "An API that implements events processing"
 host: api.rbkmoney.merchant.com
 basePath: /v1
 schemes:
@@ -23,7 +23,7 @@ paths:
     put:
       description: Register event
       tags:
-      - Invoices
+      - Events
       operationId: registerEvent
       parameters:
       - $ref: '#/parameters/requestID'
