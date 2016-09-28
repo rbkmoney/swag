@@ -1511,9 +1511,6 @@ definitions:
     type: object
     required:
     - fingerprint
-    - ipAddress
     properties:
       fingerprint:
-        type: string
-      ipAddress:
         type: string
