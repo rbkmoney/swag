@@ -552,6 +552,44 @@ paths:
                 type: string
         '400':
           $ref: '#/responses/BadRequest'
+  '/processing/categories/':
+    get:
+      description: Get categories list
+      tags:
+      - Categories
+      operationId: getCategories
+      parameters:
+      - $ref: '#/parameters/requestID'
+      responses:
+        '200':
+          description: List of categories
+          schema:
+            type: array
+            items:
+                $ref: '#/definitions/Category'
+  '/processing/categories/{categoryRef}':
+    get:
+      description: Get category by reference
+      tags:
+      - Categories
+      operationId: getCategoryByRef
+      parameters:
+      - $ref: '#/parameters/requestID'
+      - name: categoryRef
+        in: path
+        description: Category reference
+        required: true
+        type: integer
+        format: int32
+      responses:
+        '200':
+          description: Category found
+          schema:
+            $ref: '#/definitions/Category'
+        '404':
+          $ref: '#/responses/NotFound'
+        '400':
+          $ref: '#/responses/BadRequest'
   '/analytics/shops/{shopID}/invoices':
     get:
       description: Search invoices
@@ -1003,11 +1041,12 @@ definitions:
   CreateShopArgs:
     type: object
     required:
-    - category
+    - categoryRef
     - shopDetails
     properties:
-      category:
-        $ref: '#/definitions/Category'
+      categoryRef:
+        type: integer
+        format: int32
       shopDetails:
         $ref: '#/definitions/ShopDetails'
       contractor:
@@ -1025,8 +1064,9 @@ definitions:
         type: string
   UpdateShopArgs:
     properties:
-      category:
-        $ref: '#/definitions/Category'
+      categoryRef:
+        type: integer
+        format: int32
       contractor:
         $ref: '#/definitions/Contractor'
       shopDetails:
@@ -1045,9 +1085,13 @@ definitions:
     type: object
     required:
     - name
+    - categoryRef
     properties:
       name:
         type: string
+      categoryRef:
+        type: integer
+        format: int32
       description:
         type: string
   Party:
