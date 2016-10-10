@@ -1380,11 +1380,14 @@ definitions:
     required:
     - paymentToolToken
     - paymentSession
+    - contactInfo
     properties:
       paymentToolToken:
         type: string
       paymentSession:
         type: string
+      contactInfo:
+        $ref: '#/definitions/ContactInfo'
   Payment:
     type: object
     required:
@@ -1487,6 +1490,80 @@ definitions:
       properties:
         paymentID:
           type: string
+  EventInvoicePaymentInteractionRequested:
+    type: object
+    allOf:
+    - $ref: '#/definitions/Event'
+    - type: object
+      required:
+      - paymentID
+      - userInteraction
+      properties:
+        paymentID:
+          type: string
+        userInteraction:
+          $ref: '#/definitions/UserInteraction'
+  UserInteraction:
+    type: object
+    discriminator: interactionType
+    required:
+    - interactionType
+    properties:
+      interactionType:
+        type: string
+  Redirect:
+    type: object
+    allOf:
+    - $ref: '#/definitions/UserInteraction'
+    - type: object
+      required:
+      - request
+      properties:
+        request:
+          $ref: '#/definitions/BrowserRequest'
+  BrowserRequest:
+    type: object
+    discriminator: requestType
+    required:
+    - requestType
+    properties:
+      requestType:
+        type: string
+  BrowserGetRequest:
+    type: object
+    allOf:
+    - $ref: '#/definitions/BrowserRequest'
+    - type: object
+      required:
+      - uriTemplate
+      properties:
+        uriTemplate:
+          type: string
+  BrowserPostRequest:
+    type: object
+    allOf:
+    - $ref: '#/definitions/BrowserRequest'
+    - type: object
+      required:
+      - uriTemplate
+      - form
+      properties:
+        uriTemplate:
+          type: string
+        form:
+          $ref: "#/definitions/UserInteractionForm"
+  UserInteractionForm:
+    type: array
+    items:
+      type: object
+      required:
+      - key
+      - template
+      properties:
+        key:
+          type: string
+        template:
+          type: string
   GeneralError:
     type: object
     required:
@@ -1507,6 +1584,13 @@ definitions:
   InvoiceContext:
     type: object
     maxLength: 512
+  ContactInfo:
+    type: object
+    properties:
+      phone_number:
+        type: string
+      email:
+        type: string
   ClientInfo:
     type: object
     required:
