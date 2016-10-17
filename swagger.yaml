@@ -149,12 +149,7 @@ paths:
         description: Revoke claim params
         required: true
         schema:
-          type: object
-          required:
-          - reason
-          properties:
-            reason:
-              type: string
+          $ref: '#/definitions/Reason'
       responses:
         '200':
           description: Claim revoked
@@ -384,12 +379,7 @@ paths:
         description: Fulfill invoice params
         required: true
         schema:
-          type: object
-          required:
-          - reason
-          properties:
-            reason:
-              type: string
+          $ref: '#/definitions/Reason'
       responses:
         '200':
           description: Invoice fulfilled
@@ -415,12 +405,7 @@ paths:
         description: Rescind invoice params
         required: true
         schema:
-          type: object
-          required:
-          - reason
-          properties:
-            reason:
-              type: string
+          $ref: '#/definitions/Reason'
       responses:
         '200':
           description: Invoice rescinded
@@ -1002,6 +987,16 @@ definitions:
       properties:
         details:
           $ref: '#/definitions/UpdateShopArgs'
+  ShopAccountCreated:
+    type: object
+    allOf:
+    - $ref: '#/definitions/ShopModification'
+    - type: object
+      required:
+      - account
+      properties:
+        account:
+          $ref: '#/definitions/ShopAccount'
   Suspension:
     type: object
     required:
@@ -1564,6 +1559,13 @@ definitions:
           type: string
         template:
           type: string
+  Reason:
+    type: object
+    required:
+    - reason
+    properties:
+      reason:
+        type: string
   GeneralError:
     type: object
     required:
