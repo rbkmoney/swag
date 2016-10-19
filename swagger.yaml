@@ -1589,7 +1589,7 @@ definitions:
   ContactInfo:
     type: object
     properties:
-      phone_number:
+      phoneNumber:
         type: string
       email:
         type: string
