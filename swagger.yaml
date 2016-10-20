@@ -1019,7 +1019,7 @@ definitions:
     type: object
     allOf:
     - $ref: '#/definitions/ClaimStatus'
-  ClaimApproved:
+  ClaimAccepted:
     type: object
     allOf:
     - $ref: '#/definitions/ClaimStatus'
