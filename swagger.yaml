@@ -1403,7 +1403,9 @@ definitions:
         type: string
         enum:
         - pending
-        - succeeded
+        - processed
+        - captured
+        - cancelled
         - failed
       paymentToolToken:
         type: string
@@ -1453,7 +1455,9 @@ definitions:
           type: string
           enum:
           - pending
-          - succeeded
+          - processed
+          - captured
+          - cancelled
           - failed
   EventInvoiceCreated:
     type: object
