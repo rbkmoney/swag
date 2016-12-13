@@ -158,6 +158,20 @@ paths:
         '400':
           $ref: '#/responses/BadRequest'
   '/processing/shops':
+    get:
+      description: Get all shops
+      operationId: getShops
+      tags:
+      - Shops
+      parameters:
+      - $ref: '#/parameters/requestID'
+      responses:
+        '200':
+          description: List of shops
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Shop'
     post:
       description: Claim for creating a shop
       operationId: createShop
@@ -196,7 +210,7 @@ paths:
         description: Shop ID
         required: true
         type: integer
-        format: int64
+        format: int32
       - name: updateShopArgs
         in: body
         description: Shop params for an update
@@ -230,7 +244,7 @@ paths:
         description: Shop ID
         required: true
         type: integer
-        format: int64
+        format: int32
       responses:
         '202':
           description: Claim registered
@@ -256,7 +270,7 @@ paths:
         description: Shop ID
         required: true
         type: integer
-        format: int64
+        format: int32
       responses:
         '202':
           description: Claim registered
@@ -282,7 +296,7 @@ paths:
         description: Shop ID
         required: true
         type: integer
-        format: int64
+        format: int32
       responses:
         '200':
           description: Accounts found
@@ -305,7 +319,7 @@ paths:
         description: Shop ID
         required: true
         type: integer
-        format: int64
+        format: int32
       - name: accountID
         in: path
         description: Account ID
@@ -581,6 +595,20 @@ paths:
         '400':
           $ref: '#/responses/BadRequest'
   '/processing/contracts':
+    get:
+      description: Get all contracts
+      operationId: getContracts
+      tags:
+      - Contracts
+      parameters:
+      - $ref: '#/parameters/requestID'
+      responses:
+        '200':
+          description: List of contracts
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Contract'
     post:
       description: Create new contract
       tags:
@@ -628,6 +656,20 @@ paths:
         '404':
           $ref: '#/responses/NotFound'
   '/processing/payout_accounts':
+    get:
+      description: Get all payout accounts
+      operationId: getPayoutAccounts
+      tags:
+      - PayoutAccounts
+      parameters:
+      - $ref: '#/parameters/requestID'
+      responses:
+        '200':
+          description: List of payout accounts
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/PayoutAccount'
     post:
       description: Create new payout account
       tags:
@@ -666,7 +708,7 @@ paths:
         description: Shop ID
         required: true
         type: integer
-        format: int64
+        format: int32
       - name: limit
         in: query
         description: Invoices selection limit
@@ -736,7 +778,7 @@ paths:
         description: Shop ID
         required: true
         type: integer
-        format: int64
+        format: int32
       - name: fromTime
         in: query
         description: Selection starting time
@@ -768,7 +810,7 @@ paths:
         type: integer
         format: int32
       responses:
-        '201':
+        '200':
           description: List of payment conversion stats
           schema:
             type: array
@@ -791,7 +833,7 @@ paths:
         description: Shop ID
         required: true
         type: integer
-        format: int64
+        format: int32
       - name: fromTime
         in: query
         description: Selection starting time
@@ -823,7 +865,7 @@ paths:
         type: integer
         format: int32
       responses:
-        '201':
+        '200':
           description: List of payment revenue stats
           schema:
             type: array
@@ -846,7 +888,7 @@ paths:
         description: Shop ID
         required: true
         type: integer
-        format: int64
+        format: int32
       - name: fromTime
         in: query
         description: Selection starting time
@@ -878,7 +920,7 @@ paths:
         type: integer
         format: int32
       responses:
-        '201':
+        '200':
           description: List of payment geo stats
           schema:
             type: array
@@ -901,7 +943,7 @@ paths:
         description: Shop ID
         required: true
         type: integer
-        format: int64
+        format: int32
       - name: fromTime
         in: query
         description: Selection starting time
@@ -915,7 +957,7 @@ paths:
         type: string
         format: date-time
       responses:
-        '201':
+        '200':
           description: Payment rate stats
           schema:
             $ref:  '#/definitions/PaymentRateStat'
@@ -936,7 +978,7 @@ paths:
         description: Shop ID
         required: true
         type: integer
-        format: int64
+        format: int32
       - name: fromTime
         in: query
         description: Selection starting time
@@ -972,9 +1014,9 @@ paths:
         description: Payment method type
         type: string
         enum:
-        - bank_card
+        - bankCard
       responses:
-        '201':
+        '200':
           description: List of payment method stats
           schema:
             type: array
@@ -1061,7 +1103,7 @@ definitions:
       properties:
         shopID:
           type: integer
-          format: int64
+          format: int32
         details:
           $ref: '#/definitions/ShopModification'
   ShopModification:
@@ -1264,38 +1306,38 @@ definitions:
     type: object
     required:
     - currency
-    - method
+    - tool
     properties:
       currency:
         type: string
-      method:
-        $ref: '#/definitions/PaymentMethod'
+      tool:
+        $ref: '#/definitions/PayoutTool'
   PayoutAccount:
     type: object
     required:
     - id
     - currency
-    - method
+    - tool
     properties:
       id:
         type: integer
         format: int32
       currency:
         type: string
-      method:
-        $ref: '#/definitions/PaymentMethod'
-  PaymentMethod:
+      tool:
+        $ref: '#/definitions/PayoutTool'
+  PayoutTool:
     type: object
-    discriminator: paymentMethodType
+    discriminator: payoutToolType
     required:
-    - paymentMethodType
+    - payoutToolType
     properties:
-      paymentMethodType:
+      payoutToolType:
         type: string
-  PaymentMethodBankAccount:
+  PayoutToolBankAccount:
     type: object
     allOf:
-    - $ref: '#/definitions/PaymentMethod'
+    - $ref: '#/definitions/PayoutTool'
     - type: object
       required:
       - bankAccount
@@ -1321,7 +1363,6 @@ definitions:
     - partyID
     - isBlocked
     - isSuspended
-    - shops
     properties:
       partyID:
         type: string
@@ -1329,18 +1370,6 @@ definitions:
         type: boolean
       isSuspended:
         type: boolean
-      shops:
-        type: array
-        items:
-          $ref: '#/definitions/Shop'
-      contracts:
-        type: array
-        items:
-          $ref: '#/definitions/Contract'
-      payoutAccounts:
-        type: array
-        items:
-          $ref: '#/definitions/PayoutAccount'
   Shop:
     type: object
     required:
@@ -1354,7 +1383,7 @@ definitions:
     properties:
       shopID:
         type: integer
-        format: int64
+        format: int32
       isBlocked:
         type: boolean
       isSuspended:
@@ -1562,7 +1591,7 @@ definitions:
         type: string
       shopID:
         type: integer
-        format: int64
+        format: int32
       amount:
         type: integer
         format: int64
@@ -1595,7 +1624,7 @@ definitions:
     properties:
       shopID:
         type: integer
-        format: int64
+        format: int32
       amount:
         type: integer
         format: int64
