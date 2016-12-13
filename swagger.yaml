@@ -158,6 +158,20 @@ paths:
         '400':
           $ref: '#/responses/BadRequest'
   '/processing/shops':
+    get:
+      description: Get all shops
+      operationId: getShops
+      tags:
+      - Shops
+      parameters:
+      - $ref: '#/parameters/requestID'
+      responses:
+        '200':
+          description: List of shops
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Shop'
     post:
       description: Claim for creating a shop
       operationId: createShop
@@ -195,7 +209,8 @@ paths:
         in: path
         description: Shop ID
         required: true
-        type: string
+        type: integer
+        format: int32
       - name: updateShopArgs
         in: body
         description: Shop params for an update
@@ -228,7 +243,8 @@ paths:
         in: path
         description: Shop ID
         required: true
-        type: string
+        type: integer
+        format: int32
       responses:
         '202':
           description: Claim registered
@@ -253,7 +269,8 @@ paths:
         in: path
         description: Shop ID
         required: true
-        type: string
+        type: integer
+        format: int32
       responses:
         '202':
           description: Claim registered
@@ -278,7 +295,8 @@ paths:
         in: path
         description: Shop ID
         required: true
-        type: string
+        type: integer
+        format: int32
       responses:
         '200':
           description: Accounts found
@@ -300,7 +318,8 @@ paths:
         in: path
         description: Shop ID
         required: true
-        type: string
+        type: integer
+        format: int32
       - name: accountID
         in: path
         description: Account ID
@@ -575,6 +594,107 @@ paths:
           $ref: '#/responses/NotFound'
         '400':
           $ref: '#/responses/BadRequest'
+  '/processing/contracts':
+    get:
+      description: Get all contracts
+      operationId: getContracts
+      tags:
+      - Contracts
+      parameters:
+      - $ref: '#/parameters/requestID'
+      responses:
+        '200':
+          description: List of contracts
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Contract'
+    post:
+      description: Create new contract
+      tags:
+      - Contracts
+      operationId: createContract
+      parameters:
+      - $ref: '#/parameters/requestID'
+      - name: contractParams
+        description: New contract params
+        in: body
+        required: true
+        schema:
+          $ref: '#/definitions/ContractParams'
+      responses:
+        '202':
+          description: Claim registered
+          schema:
+            type: object
+            required:
+            - claimID
+            properties:
+              claimID:
+                type: string
+        '400':
+          $ref: '#/responses/BadRequest'
+  '/processing/contracts/{contractID}':
+    get:
+      description: Get contract by ID
+      operationId: getContractByID
+      tags:
+      - Contracts
+      parameters:
+      - $ref: '#/parameters/requestID'
+      - name: contractID
+        in: path
+        description: Contract ID
+        required: true
+        type: integer
+        format: int32
+      responses:
+        '200':
+          description: Contract found
+          schema:
+            $ref: '#/definitions/Contract'
+        '404':
+          $ref: '#/responses/NotFound'
+  '/processing/payout_accounts':
+    get:
+      description: Get all payout accounts
+      operationId: getPayoutAccounts
+      tags:
+      - PayoutAccounts
+      parameters:
+      - $ref: '#/parameters/requestID'
+      responses:
+        '200':
+          description: List of payout accounts
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/PayoutAccount'
+    post:
+      description: Create new payout account
+      tags:
+      - PayoutAccounts
+      operationId: createPayoutAccount
+      parameters:
+      - $ref: '#/parameters/requestID'
+      - name: PayoutAccountParams
+        description: New payout account params
+        in: body
+        required: true
+        schema:
+          $ref: '#/definitions/PayoutAccountParams'
+      responses:
+        '202':
+          description: Claim registered
+          schema:
+            type: object
+            required:
+            - claimID
+            properties:
+              claimID:
+                type: string
+        '400':
+          $ref: '#/responses/BadRequest'
   '/analytics/shops/{shopID}/invoices':
     get:
       description: Search invoices
@@ -587,7 +707,8 @@ paths:
         in: path
         description: Shop ID
         required: true
-        type: string
+        type: integer
+        format: int32
       - name: limit
         in: query
         description: Invoices selection limit
@@ -656,7 +777,8 @@ paths:
         in: path
         description: Shop ID
         required: true
-        type: string
+        type: integer
+        format: int32
       - name: fromTime
         in: query
         description: Selection starting time
@@ -688,7 +810,7 @@ paths:
         type: integer
         format: int32
       responses:
-        '201':
+        '200':
           description: List of payment conversion stats
           schema:
             type: array
@@ -710,7 +832,8 @@ paths:
         in: path
         description: Shop ID
         required: true
-        type: string
+        type: integer
+        format: int32
       - name: fromTime
         in: query
         description: Selection starting time
@@ -742,7 +865,7 @@ paths:
         type: integer
         format: int32
       responses:
-        '201':
+        '200':
           description: List of payment revenue stats
           schema:
             type: array
@@ -764,7 +887,8 @@ paths:
         in: path
         description: Shop ID
         required: true
-        type: string
+        type: integer
+        format: int32
       - name: fromTime
         in: query
         description: Selection starting time
@@ -796,7 +920,7 @@ paths:
         type: integer
         format: int32
       responses:
-        '201':
+        '200':
           description: List of payment geo stats
           schema:
             type: array
@@ -818,7 +942,8 @@ paths:
         in: path
         description: Shop ID
         required: true
-        type: string
+        type: integer
+        format: int32
       - name: fromTime
         in: query
         description: Selection starting time
@@ -832,7 +957,7 @@ paths:
         type: string
         format: date-time
       responses:
-        '201':
+        '200':
           description: Payment rate stats
           schema:
             $ref:  '#/definitions/PaymentRateStat'
@@ -852,7 +977,8 @@ paths:
         in: path
         description: Shop ID
         required: true
-        type: string
+        type: integer
+        format: int32
       - name: fromTime
         in: query
         description: Selection starting time
@@ -888,9 +1014,9 @@ paths:
         description: Payment method type
         type: string
         enum:
-        - bank_card
+        - bankCard
       responses:
-        '201':
+        '200':
           description: List of payment method stats
           schema:
             type: array
@@ -936,6 +1062,26 @@ definitions:
       properties:
         details:
           $ref: '#/definitions/Suspension'
+  ContractCreation:
+    type: object
+    allOf:
+    - $ref: '#/definitions/PartyModification'
+    - type: object
+      required:
+      - contract
+      properties:
+        contract:
+          $ref: '#/definitions/Contract'
+  PayoutAccountCreation:
+    type: object
+    allOf:
+    - $ref: '#/definitions/PartyModification'
+    - type: object
+      required:
+      - payoutAccount
+      properties:
+        payoutAccount:
+          $ref: '#/definitions/PayoutAccount'
   ShopCreation:
     type: object
     allOf:
@@ -956,7 +1102,8 @@ definitions:
       - details
       properties:
         shopID:
-          type: string
+          type: integer
+          format: int32
         details:
           $ref: '#/definitions/ShopModification'
   ShopModification:
@@ -1038,14 +1185,20 @@ definitions:
     required:
     - categoryRef
     - shopDetails
+    - contractID
+    - payoutAccountID
     properties:
       categoryRef:
         type: integer
         format: int32
       shopDetails:
         $ref: '#/definitions/ShopDetails'
-      contractor:
-        $ref: '#/definitions/Contractor'
+      contractID:
+        type: integer
+        format: int32
+      payoutAccountID:
+        type: integer
+        format: int32
   ShopDetails:
     type: object
     required:
@@ -1056,7 +1209,25 @@ definitions:
       description:
         type: string
       location:
+        $ref: '#/definitions/ShopLocation'
+  ShopLocation:
+    type: object
+    discriminator: locationType
+    required:
+    - locationType
+    properties:
+      locationType:
         type: string
+  ShopLocationUrl:
+    type: object
+    allOf:
+    - $ref: '#/definitions/ShopLocation'
+    - type: object
+      required:
+      - url
+      properties:
+        url:
+          type: string
   UpdateShopArgs:
     properties:
       categoryRef:
@@ -1069,13 +1240,110 @@ definitions:
   Contractor:
     type: object
     required:
-    - registeredName
-    - legalEntity
+    - bankAccount
+    - entity
     properties:
-      registeredName:
+      bankAccount:
+        $ref: '#/definitions/BankAccount'
+      entity:
+        $ref: '#/definitions/Entity'
+  BankAccount:
+    type: object
+    required:
+    - account
+    - bankName
+    - bankPostAccount
+    - bankBik
+    properties:
+      account:
         type: string
-      legalEntity:
+      bankName:
         type: string
+      bankPostAccount:
+        type: string
+      bankBik:
+        type: string
+  Entity:
+    type: object
+    discriminator: entityType
+    required:
+    - entityType
+    properties:
+      entityType:
+        type: string
+  RussianLegalEntity:
+    type: object
+    allOf:
+    - $ref: '#/definitions/Entity'
+    - type: object
+      required:
+      - registeredName
+      - registeredNumber
+      - inn
+      - actualAddress
+      - postAddress
+      - representativePosition
+      - representativeFullName
+      - representativeDocument
+      properties:
+        registeredName:
+          type: string
+        registeredNumber:
+          type: string
+        inn:
+          type: string
+        actualAddress:
+          type: string
+        postAddress:
+          type: string
+        representativePosition:
+          type: string
+        representativeFullName:
+          type: string
+        representativeDocument:
+          type: string
+  PayoutAccountParams:
+    type: object
+    required:
+    - currency
+    - tool
+    properties:
+      currency:
+        type: string
+      tool:
+        $ref: '#/definitions/PayoutTool'
+  PayoutAccount:
+    type: object
+    required:
+    - id
+    - currency
+    - tool
+    properties:
+      id:
+        type: integer
+        format: int32
+      currency:
+        type: string
+      tool:
+        $ref: '#/definitions/PayoutTool'
+  PayoutTool:
+    type: object
+    discriminator: payoutToolType
+    required:
+    - payoutToolType
+    properties:
+      payoutToolType:
+        type: string
+  PayoutToolBankAccount:
+    type: object
+    allOf:
+    - $ref: '#/definitions/PayoutTool'
+    - type: object
+      required:
+      - bankAccount
+      properties:
+        bankAccount:
+          $ref: '#/definitions/BankAccount'
   Category:
     type: object
     required:
@@ -1095,7 +1363,6 @@ definitions:
     - partyID
     - isBlocked
     - isSuspended
-    - shops
     properties:
       partyID:
         type: string
@@ -1103,10 +1370,6 @@ definitions:
         type: boolean
       isSuspended:
         type: boolean
-      shops:
-        type: array
-        items:
-          $ref: '#/definitions/Shop'
   Shop:
     type: object
     required:
@@ -1115,9 +1378,12 @@ definitions:
     - isSuspended
     - categoryRef
     - shopDetails
+    - contractID
+    - payoutAccountID
     properties:
       shopID:
-        type: string
+        type: integer
+        format: int32
       isBlocked:
         type: boolean
       isSuspended:
@@ -1127,30 +1393,33 @@ definitions:
         format: int32
       shopDetails:
         $ref: '#/definitions/ShopDetails'
-      contractor:
-        $ref: '#/definitions/Contractor'
       contract:
-        $ref: '#/definitions/ShopContract'
-  ShopContract:
+        $ref: '#/definitions/Contract'
+      contractID:
+        type: integer
+        format: int32
+      payoutAccountID:
+        type: integer
+        format: int32
+  ContractParams:
     type: object
     required:
-    - number
-    - systemContractorRef
-    - concludedAt
-    - validSince
-    - validUntil
+    - contractor
     properties:
-      number:
-        type: string
-      systemContractorRef:
-        type: string
+      contractor:
+        $ref: '#/definitions/Contractor'
+  Contract:
+    type: object
+    required:
+    - id
+    - contractor
+    properties:
+      id:
+        type: integer
+        format: int32
+      contractor:
+        $ref: '#/definitions/Contractor'
       concludedAt:
-        type: string
-        format: date-time
-      validSince:
-        type: string
-        format: date-time
-      validUntil:
         type: string
         format: date-time
       terminatedAt:
@@ -1321,7 +1590,8 @@ definitions:
       id:
         type: string
       shopID:
-        type: string
+        type: integer
+        format: int32
       amount:
         type: integer
         format: int64
@@ -1353,7 +1623,8 @@ definitions:
     - product
     properties:
       shopID:
-        type: string
+        type: integer
+        format: int32
       amount:
         type: integer
         format: int64
