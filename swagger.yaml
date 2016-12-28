@@ -1068,10 +1068,10 @@ definitions:
     - $ref: '#/definitions/PartyModification'
     - type: object
       required:
-      - contract
+      - contractor
       properties:
-        contract:
-          $ref: '#/definitions/Contract'
+        contractor:
+          $ref: '#/definitions/Contractor'
   PayoutAccountCreation:
     type: object
     allOf:
@@ -1233,10 +1233,14 @@ definitions:
       categoryRef:
         type: integer
         format: int32
-      contractor:
-        $ref: '#/definitions/Contractor'
       shopDetails:
         $ref: '#/definitions/ShopDetails'
+      contractID:
+        type: integer
+        format: int32
+      payoutAccountID:
+        type: integer
+        format: int32
   Contractor:
     type: object
     required:
@@ -1429,11 +1433,11 @@ definitions:
     type: object
     required:
     - generalID
-    - guaranteeID
+    - settlementID
     properties:
       generalID:
         type: string
-      guaranteeID:
+      settlementID:
         type: string
   Account:
     type: object
