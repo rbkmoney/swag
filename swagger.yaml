@@ -695,6 +695,36 @@ paths:
                 type: string
         '400':
           $ref: '#/responses/BadRequest'
+  '/reference/geo/location/names':
+    get:
+      description: Get locations names
+      operationId: getLocationsNames
+      tags:
+      - Geo
+      parameters:
+      - $ref: '#/parameters/requestID'
+      - name: language
+        in: query
+        description: Location language
+        required: true
+        type: string
+      - name: geoID
+        in: query
+        description: GeoID
+        required: true
+        type: array
+        items:
+          type: integer
+          format: int32
+      responses:
+        '200':
+          description: Locations Names
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/LocationName'
+        '400':
+          $ref: '#/responses/BadRequest'
   '/analytics/shops/{shopID}/invoices':
     get:
       description: Search invoices
@@ -1482,15 +1512,16 @@ definitions:
     type: object
     required:
     - offset
-    - cityName
+    - geoID
     - currency
     - profit
     - revenue
     properties:
       offset:
         type: integer
-      cityName:
-        type: string
+      geoID:
+        type: integer
+        format: int32
       currency:
         type: string
       profit:
@@ -1838,6 +1869,17 @@ definitions:
           type: string
         template:
           type: string
+  LocationName:
+    type: object
+    required:
+    - geoID
+    - name
+    properties:
+      geoID:
+        type: integer
+        format: int32
+      name:
+        type: string
   Reason:
     type: object
     required:
