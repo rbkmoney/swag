@@ -594,6 +594,62 @@ paths:
           $ref: '#/responses/NotFound'
         '400':
           $ref: '#/responses/BadRequest'
+  '/processing/shops/{shopID}/callback_handler':
+    get:
+      description: Get callback handler config
+      tags:
+      - CallbackHandler
+      operationId: getCallbackHandlerConfig
+      parameters:
+      - $ref: '#/parameters/requestID'
+      - name: shopID
+        in: path
+        description: Shop ID
+        required: true
+        type: integer
+        format: int32
+      responses:
+        '200':
+          description: Callback handler config
+          schema:
+            $ref: '#/definitions/CallbackHandlerConfig'
+        '404':
+          $ref: '#/responses/NotFound'
+        '400':
+          $ref: '#/responses/BadRequest'
+    post:
+      description: Create callback handler config
+      tags:
+      - CallbackHandler
+      operationId: createCallbackHandlerConfig
+      parameters:
+      - $ref: '#/parameters/requestID'
+      - name: shopID
+        in: path
+        description: Shop ID
+        required: true
+        type: integer
+        format: int32
+      - name: callbackHandlerConfigParams
+        description: Callback handler params
+        in: body
+        required: true
+        schema:
+          $ref: '#/definitions/CallbackHandlerConfigParams'
+      responses:
+        '202':
+          description: Claim registered
+          schema:
+            type: object
+            required:
+            - claimID
+            properties:
+              claimID:
+                type: string
+        '404':
+          $ref: '#/responses/NotFound'
+        '400':
+          $ref: '#/responses/BadRequest'
   '/processing/contracts':
     get:
       description: Get all contracts
@@ -1869,6 +1925,23 @@ definitions:
           type: string
         template:
           type: string
+  CallbackHandlerConfigParams:
+    type: object
+    required:
+    - url
+    properties:
+      url:
+        type: string
+  CallbackHandlerConfig:
+    type: object
+    required:
+    - url
+    - publicKey
+    properties:
+      url:
+        type: string
+      publicKey:
+        type: string
   LocationName:
     type: object
     required:
