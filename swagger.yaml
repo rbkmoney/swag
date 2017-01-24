@@ -71,7 +71,8 @@ paths:
             - claimID
             properties:
               claimID:
-                type: string
+                type: integer
+                format: int64
   '/processing/me/activate':
     put:
       description: Activate my party
@@ -89,7 +90,8 @@ paths:
             - claimID
             properties:
               claimID:
-                type: string
+                type: integer
+                format: int64
   '/processing/claims/':
     get:
       description: Get claim by status
@@ -194,7 +196,8 @@ paths:
             - claimID
             properties:
               claimID:
-                type: string
+                type: integer
+                format: int64
         '404':
           $ref: '#/responses/NotFound'
   '/processing/shops/{shopID}':
@@ -226,7 +229,8 @@ paths:
             - claimID
             properties:
               claimID:
-                type: string
+                type: integer
+                format: int64
         '404':
           $ref: '#/responses/NotFound'
         '400':
@@ -254,7 +258,8 @@ paths:
             - claimID
             properties:
               claimID:
-                type: string
+                type: integer
+                format: int64
         '404':
           $ref: '#/responses/NotFound'
   '/processing/shops/{shopID}/activate':
@@ -280,7 +285,8 @@ paths:
             - claimID
             properties:
               claimID:
-                type: string
+                type: integer
+                format: int64
         '404':
           $ref: '#/responses/NotFound'
   '/processing/shops/{shopID}/accounts':
@@ -645,7 +651,8 @@ paths:
             - claimID
             properties:
               claimID:
-                type: string
+                type: integer
+                format: int64
         '404':
           $ref: '#/responses/NotFound'
         '400':
@@ -687,7 +694,8 @@ paths:
             - claimID
             properties:
               claimID:
-                type: string
+                type: integer
+                format: int64
         '400':
           $ref: '#/responses/BadRequest'
   '/processing/contracts/{contractID}':
@@ -711,34 +719,46 @@ paths:
             $ref: '#/definitions/Contract'
         '404':
           $ref: '#/responses/NotFound'
-  '/processing/payout_accounts':
+  '/processing/contracts/{contractID}/payout_tools':
     get:
-      description: Get all payout accounts
-      operationId: getPayoutAccounts
+      description: Get all payout tools
+      operationId: getPayoutTools
       tags:
-      - PayoutAccounts
+      - PayoutTools
       parameters:
       - $ref: '#/parameters/requestID'
+      - name: contractID
+        in: path
+        description: Contract ID
+        required: true
+        type: integer
+        format: int32
       responses:
         '200':
-          description: List of payout accounts
+          description: List of payout tools
           schema:
             type: array
             items:
-              $ref: '#/definitions/PayoutAccount'
+              $ref: '#/definitions/PayoutTool'
     post:
-      description: Create new payout account
+      description: Create new payout tool
       tags:
-      - PayoutAccounts
-      operationId: createPayoutAccount
+      - PayoutTools
+      operationId: createPayoutTool
       parameters:
       - $ref: '#/parameters/requestID'
-      - name: PayoutAccountParams
-        description: New payout account params
+      - name: contractID
+        in: path
+        description: Contract ID
+        required: true
+        type: integer
+        format: int32
+      - name: PayoutToolParams
+        description: New payout tool params
         in: body
         required: true
         schema:
-          $ref: '#/definitions/PayoutAccountParams'
+          $ref: '#/definitions/PayoutToolParams'
       responses:
         '202':
           description: Claim registered
@@ -748,7 +768,8 @@ paths:
             - claimID
             properties:
               claimID:
-                type: string
+                type: integer
+                format: int64
         '400':
           $ref: '#/responses/BadRequest'
   '/reference/geo/location/names':
@@ -1158,16 +1179,6 @@ definitions:
       properties:
         contractor:
           $ref: '#/definitions/Contractor'
-  PayoutAccountCreation:
-    type: object
-    allOf:
-    - $ref: '#/definitions/PartyModification'
-    - type: object
-      required:
-      - payoutAccount
-      properties:
-        payoutAccount:
-          $ref: '#/definitions/PayoutAccount'
   ShopCreation:
     type: object
     allOf:
@@ -1272,7 +1283,7 @@ definitions:
     - categoryRef
     - shopDetails
     - contractID
-    - payoutAccountID
+    - payoutToolID
     properties:
       categoryRef:
         type: integer
@@ -1282,7 +1293,7 @@ definitions:
       contractID:
         type: integer
         format: int32
-      payoutAccountID:
+      payoutToolID:
         type: integer
         format: int32
   ShopDetails:
@@ -1324,7 +1335,7 @@ definitions:
       contractID:
         type: integer
         format: int32
-      payoutAccountID:
+      payoutToolID:
         type: integer
         format: int32
   Contractor:
@@ -1402,21 +1413,21 @@ definitions:
         type: string
       tool:
         $ref: '#/definitions/PayoutTool'
-  PayoutAccount:
+  PayoutTool:
     type: object
     required:
     - id
     - currency
-    - tool
+    - info
     properties:
       id:
         type: integer
         format: int32
       currency:
         type: string
-      tool:
-        $ref: '#/definitions/PayoutTool'
-  PayoutTool:
+      info:
+        $ref: '#/definitions/PayoutToolInfo'
+  PayoutToolInfo:
     type: object
     discriminator: payoutToolType
     required:
@@ -1427,7 +1438,7 @@ definitions:
   PayoutToolBankAccount:
     type: object
     allOf:
-    - $ref: '#/definitions/PayoutTool'
+    - $ref: '#/definitions/PayoutToolInfo'
     - type: object
       required:
       - bankAccount
@@ -1463,15 +1474,14 @@ definitions:
   Shop:
     type: object
     required:
-    - shopID
+    - id
     - isBlocked
     - isSuspended
     - categoryRef
-    - shopDetails
+    - details
     - contractID
-    - payoutAccountID
     properties:
-      shopID:
+      id:
         type: integer
         format: int32
       isBlocked:
@@ -1481,38 +1491,57 @@ definitions:
       categoryRef:
         type: integer
         format: int32
-      shopDetails:
+      details:
         $ref: '#/definitions/ShopDetails'
-      contract:
-        $ref: '#/definitions/Contract'
       contractID:
         type: integer
         format: int32
-      payoutAccountID:
+      payoutToolID:
         type: integer
         format: int32
   ContractParams:
     type: object
     required:
     - contractor
+    - payoutToolParams
     properties:
       contractor:
         $ref: '#/definitions/Contractor'
+      payoutToolParams:
+        $ref: '#/definitions/PayoutToolParams'
+  PayoutToolParams:
+    type: object
+    required:
+    - currency
+    - payoutToolInfo
+    properties:
+      currency:
+        type: string
+      payoutToolInfo:
+        $ref: '#/definitions/PayoutToolInfo'
   Contract:
     type: object
     required:
     - id
-    - contractor
+    - status
     properties:
       id:
         type: integer
         format: int32
       contractor:
         $ref: '#/definitions/Contractor'
-      concludedAt:
+      validSince:
         type: string
         format: date-time
-      terminatedAt:
+      validUntil:
+        type: string
+        format: date-time
+      status:
+        type: string
+        enum:
+        - active
+        - terminated
+      terminatedAt: #experimental simplification
         type: string
         format: date-time
   ShopAccount:
@@ -1673,26 +1702,28 @@ definitions:
     type: object
     required:
     - shopID
-    - amount
-    - currency
+    - createdAt
+    - dueDate
+    - cost
     - context
-    - product
+    - status
+    - details
     properties:
       id:
         type: string
       shopID:
         type: integer
         format: int32
-      amount:
-        type: integer
-        format: int64
-      currency:
+      createdAt:
         type: string
-      context:
-        $ref: '#/definitions/InvoiceContext'
+        format: date-time
       dueDate:
         type: string
         format: date-time
+      cost:
+        $ref: '#/definitions/Cost'
+      context:
+        $ref: '#/definitions/InvoiceContext'
       status:
         type: string
         enum:
@@ -1701,26 +1732,22 @@ definitions:
         - paid
         - refunded
         - fulfilled
-      product:
-        type: string
-      description:
-        type: string
+      details:
+        $ref: '#/definitions/InvoiceDetails'
   CreateInvoiceArgs:
     type: object
     required:
     - shopID
-    - amount
-    - currency
-    - product
+    - details
+    - dueDate
+    - cost
+    - context
     properties:
       shopID:
         type: integer
         format: int32
-      amount:
-        type: integer
-        format: int64
-      currency:
-        type: string
+      cost:
+        $ref: '#/definitions/Cost'
       context:
         $ref: '#/definitions/InvoiceContext'
       dueDate:
@@ -1728,10 +1755,8 @@ definitions:
           string
         format:
           date-time
-      product:
-        type: string
-      description:
-        type: string
+      details:
+        $ref: '#/definitions/InvoiceDetails'
   CreatePaymentArgs:
     type: object
     required:
@@ -1977,9 +2002,28 @@ definitions:
         type: string
       message:
         type: string
+  Cost:
+    type: object
+    required:
+    - amount
+    - currency
+    properties:
+      amount:
+        type: integer
+        format: int64
+      currency:
+        type: string
   InvoiceContext:
     type: object
-    maxLength: 512
+  InvoiceDetails:
+    type: object
+    required:
+    - product
+    properties:
+      product:
+        type: string
+      details:
+        type: string
   ContactInfo:
     type: object
     properties:
