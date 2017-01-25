@@ -291,8 +291,8 @@ paths:
           $ref: '#/responses/NotFound'
   '/processing/shops/{shopID}/accounts':
     get:
-      description: Get shop accounts
-      operationId: getShopAccounts
+      description: Get accounts
+      operationId: getAccounts
       tags:
       - Shops
       parameters:
@@ -309,7 +309,7 @@ paths:
           schema:
             type: array
             items:
-              $ref: '#/definitions/ShopAccount'
+              $ref: '#/definitions/Account'
         '404':
           $ref: '#/responses/NotFound'
   '/processing/shops/{shopID}/accounts/{accountID}':
@@ -1179,6 +1179,51 @@ definitions:
       properties:
         contractor:
           $ref: '#/definitions/Contractor'
+  ContractModificationUnit:
+    type: object
+    allOf:
+    - $ref: '#/definitions/PartyModification'
+    - type: object
+      required:
+      - contractID
+      - details
+      properties:
+        contractID:
+          type: integer
+          format: int32
+        details:
+          $ref: '#/definitions/ContractModification'
+  ContractModification:
+    type: object
+    discriminator: modificationType
+    required:
+    - modificationType
+    properties:
+      modificationType:
+        type: string
+  ContractTermination:
+    type: object
+    allOf:
+      - $ref: '#/definitions/ContractModification'
+      - type: object
+        required:
+        - terminatedAt
+        properties:
+          terminatedAt:
+            type: string
+            format: date-time
+          reason:
+            type: string
+  ContractPayoutToolCreation:
+    type: object
+    allOf:
+      - $ref: '#/definitions/ContractModification'
+      - type: object
+        required:
+        - payoutTool
+        properties:
+          payoutTool:
+            $ref: '#/definitions/PayoutTool'
   ShopCreation:
     type: object
     allOf:
@@ -1267,6 +1312,13 @@ definitions:
     type: object
     allOf:
     - $ref: '#/definitions/ClaimStatus'
+    - type: object
+      required:
+      - acceptedAt
+      properties:
+        acceptedAt:
+          type: string
+          format: date-time
   ClaimDenied:
     type: object
     allOf:
@@ -1281,14 +1333,14 @@ definitions:
     type: object
     required:
     - categoryRef
-    - shopDetails
+    - details
     - contractID
     - payoutToolID
     properties:
       categoryRef:
         type: integer
         format: int32
-      shopDetails:
+      details:
         $ref: '#/definitions/ShopDetails'
       contractID:
         type: integer
@@ -1330,7 +1382,7 @@ definitions:
       categoryRef:
         type: integer
         format: int32
-      shopDetails:
+      details:
         $ref: '#/definitions/ShopDetails'
       contractID:
         type: integer
@@ -1461,11 +1513,11 @@ definitions:
   Party:
     type: object
     required:
-    - partyID
+    - id
     - isBlocked
     - isSuspended
     properties:
-      partyID:
+      id:
         type: string
       isBlocked:
         type: boolean
@@ -1499,6 +1551,8 @@ definitions:
       payoutToolID:
         type: integer
         format: int32
+      account:
+        $ref: '#/definitions/ShopAccount'
   ContractParams:
     type: object
     required:
@@ -1547,23 +1601,32 @@ definitions:
   ShopAccount:
     type: object
     required:
-    - generalID
+    - guaranteeID
     - settlementID
+    - currency
     properties:
-      generalID:
+      guaranteeID:
         type: string
       settlementID:
+        type: string
+      currency:
         type: string
   Account:
     type: object
     required:
     - id
+    - accountType
     - ownAmount
     - availableAmount
     - currency
     properties:
       id:
         type: string
+      accountType:
+        type: string
+        enum:
+        - guarantee
+        - settlement
       ownAmount:
         type: integer
       availableAmount:
@@ -1701,6 +1764,7 @@ definitions:
   Invoice:
     type: object
     required:
+    - id
     - shopID
     - createdAt
     - dueDate
