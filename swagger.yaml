@@ -158,8 +158,8 @@ paths:
             $ref: '#/definitions/ClaimRegistrationResult'
   '/processing/claims/':
     get:
-      description: Get claim by status
-      operationId: getClaimByStatus
+      description: Get claims by status
+      operationId: getClaimsByStatus
       tags:
       - Claims
       parameters:
@@ -172,11 +172,13 @@ paths:
         required: true
       responses:
         '200':
-          description: Claim found
+          description: Claims found
           schema:
-            $ref: '#/definitions/Claim'
-        '404':
-          $ref: '#/responses/NotFound'
+            type: array
+            items:
+              $ref: '#/definitions/Claim'
+        '400':
+          $ref: '#/responses/BadRequest'
   '/processing/claims/{claimID}':
     get:
       description: Get claim by ID
