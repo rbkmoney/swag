@@ -40,6 +40,82 @@ parameters:
     description: Unique request identifier
     required: true
     type: string
+  claimID:
+    name: claimID
+    in: path
+    description: Claim ID
+    required: true
+    type: string
+  shopID:
+    name: shopID
+    in: path
+    description: Shop ID
+    required: true
+    type: integer
+    format: int32
+  invoiceID:
+    name: invoiceID
+    in: path
+    description: Invoice ID
+    required: true
+    type: string
+  contractID:
+    name: contractID
+    in: path
+    description: Contract ID
+    required: true
+    type: integer
+    format: int32
+  fromTime:
+    name: fromTime
+    in: query
+    description: Selection starting time
+    required: true
+    type: string
+    format: date-time
+  toTime:
+    name: toTime
+    in: query
+    description: Selection ending time
+    required: true
+    type: string
+    format: date-time
+  splitUnit:
+    name: splitUnit
+    in: query
+    description: Split unit
+    required: true
+    type: string
+    enum:
+      - minute
+      - hour
+      - day
+      - week
+      - month
+      - year
+  splitSize:
+    name: splitSize
+    in: query
+    description: Split interval size
+    required: true
+    type: integer
+    format: int32
+    minimum: 1
+  limit:
+    name: limit
+    in: query
+    description: Selection limit
+    required: false
+    type: integer
+    format: int32
+    minimum: 1
+  offset:
+    name: offset
+    in: query
+    description: Selection offset (inclusive)
+    required: false
+    type: integer
+    minimum: 0
 paths:
   '/processing/me':
     get:
@@ -66,12 +142,7 @@ paths:
         '202':
           description: Claim registered
           schema:
-            type: object
-            required:
-            - claimID
-            properties:
-              claimID:
-                type: string
+            $ref: '#/definitions/ClaimRegistrationResult'
   '/processing/me/activate':
     put:
       description: Activate my party
@@ -84,16 +155,11 @@ paths:
         '202':
           description: Claim registered
           schema:
-            type: object
-            required:
-            - claimID
-            properties:
-              claimID:
-                type: string
+            $ref: '#/definitions/ClaimRegistrationResult'
   '/processing/claims/':
     get:
-      description: Get claim by status
-      operationId: getClaimByStatus
+      description: Get claims by status
+      operationId: getClaimsByStatus
       tags:
       - Claims
       parameters:
@@ -106,11 +172,13 @@ paths:
         required: true
       responses:
         '200':
-          description: Claim found
+          description: Claims found
           schema:
-            $ref: '#/definitions/Claim'
-        '404':
-          $ref: '#/responses/NotFound'
+            type: array
+            items:
+              $ref: '#/definitions/Claim'
+        '400':
+          $ref: '#/responses/BadRequest'
   '/processing/claims/{claimID}':
     get:
       description: Get claim by ID
@@ -119,11 +187,7 @@ paths:
       - Claims
       parameters:
       - $ref: '#/parameters/requestID'
-      - name: claimID
-        in: path
-        description: Claim ID
-        required: true
-        type: string
+      - $ref: '#/parameters/claimID'
       responses:
         '200':
           description: Claim found
@@ -132,18 +196,14 @@ paths:
         '404':
           $ref: '#/responses/NotFound'
   '/processing/claims/{claimID}/revoke':
-    post:
+    put:
       description: Revoke claim by ID
       operationId: revokeClaimByID
       tags:
       - Claims
       parameters:
       - $ref: '#/parameters/requestID'
-      - name: claimID
-        in: path
-        description: Claim ID
-        required: true
-        type: string
+      - $ref: '#/parameters/claimID'
       - name: revokeClaim
         in: body
         description: Revoke claim params
@@ -189,15 +249,25 @@ paths:
         '202':
           description: Claim registered
           schema:
-            type: object
-            required:
-            - claimID
-            properties:
-              claimID:
-                type: string
+            $ref: '#/definitions/ClaimRegistrationResult'
         '404':
           $ref: '#/responses/NotFound'
   '/processing/shops/{shopID}':
+    get:
+      description: Get shop by id
+      operationId: getShopByID
+      tags:
+      - Shops
+      parameters:
+      - $ref: '#/parameters/requestID'
+      - $ref: '#/parameters/shopID'
+      responses:
+        '200':
+          description: Shop found
+          schema:
+            $ref: '#/definitions/Shop'
+        '404':
+          $ref: '#/responses/NotFound'
     post:
       description: Claim for updating the shop
       operationId: updateShop
@@ -205,12 +275,7 @@ paths:
       - Shops
       parameters:
       - $ref: '#/parameters/requestID'
-      - name: shopID
-        in: path
-        description: Shop ID
-        required: true
-        type: integer
-        format: int32
+      - $ref: '#/parameters/shopID'
       - name: updateShopArgs
         in: body
         description: Shop params for an update
@@ -221,12 +286,7 @@ paths:
         '202':
           description: Claim registered
           schema:
-            type: object
-            required:
-            - claimID
-            properties:
-              claimID:
-                type: string
+            $ref: '#/definitions/ClaimRegistrationResult'
         '404':
           $ref: '#/responses/NotFound'
         '400':
@@ -239,22 +299,12 @@ paths:
       - Shops
       parameters:
       - $ref: '#/parameters/requestID'
-      - name: shopID
-        in: path
-        description: Shop ID
-        required: true
-        type: integer
-        format: int32
+      - $ref: '#/parameters/shopID'
       responses:
         '202':
           description: Claim registered
           schema:
-            type: object
-            required:
-            - claimID
-            properties:
-              claimID:
-                type: string
+            $ref: '#/definitions/ClaimRegistrationResult'
         '404':
           $ref: '#/responses/NotFound'
   '/processing/shops/{shopID}/activate':
@@ -265,61 +315,22 @@ paths:
       - Shops
       parameters:
       - $ref: '#/parameters/requestID'
-      - name: shopID
-        in: path
-        description: Shop ID
-        required: true
-        type: integer
-        format: int32
+      - $ref: '#/parameters/shopID'
       responses:
         '202':
           description: Claim registered
           schema:
-            type: object
-            required:
-            - claimID
-            properties:
-              claimID:
-                type: string
+            $ref: '#/definitions/ClaimRegistrationResult'
         '404':
           $ref: '#/responses/NotFound'
-  '/processing/shops/{shopID}/accounts':
-    get:
-      description: Get shop accounts
-      operationId: getShopAccounts
-      tags:
-      - Shops
-      parameters:
-      - $ref: '#/parameters/requestID'
-      - name: shopID
-        in: path
-        description: Shop ID
-        required: true
-        type: integer
-        format: int32
-      responses:
-        '200':
-          description: Accounts found
-          schema:
-            type: array
-            items:
-              $ref: '#/definitions/ShopAccount'
-        '404':
-          $ref: '#/responses/NotFound'
-  '/processing/shops/{shopID}/accounts/{accountID}':
+  '/processing/accounts/{accountID}':
     get:
       description: Get account by ID
       operationId: getAccountByID
       tags:
-      - Shops
+      - Accounts
       parameters:
       - $ref: '#/parameters/requestID'
-      - name: shopID
-        in: path
-        description: Shop ID
-        required: true
-        type: integer
-        format: int32
       - name: accountID
         in: path
         description: Account ID
@@ -350,12 +361,7 @@ paths:
         '201':
           description: Invoice created
           schema:
-            type: object
-            required:
-            - id
-            properties:
-              id:
-                type: string
+            $ref: '#/definitions/Invoice'
         '400':
           $ref: '#/responses/BadRequest'
   '/processing/invoices/{invoiceID}':
@@ -366,11 +372,7 @@ paths:
       operationId: getInvoiceByID
       parameters:
       - $ref: '#/parameters/requestID'
-      - name: invoiceID
-        in: path
-        description: Invoice ID
-        required: true
-        type: string
+      - $ref: '#/parameters/invoiceID'
       responses:
         '200':
           description: Invoice object
@@ -388,11 +390,7 @@ paths:
       operationId: fulfillInvoice
       parameters:
       - $ref: '#/parameters/requestID'
-      - name: invoiceID
-        in: path
-        description: Invoice ID
-        required: true
-        type: string
+      - $ref: '#/parameters/invoiceID'
       - name: fulfillInvoice
         in: body
         description: Fulfill invoice params
@@ -400,7 +398,7 @@ paths:
         schema:
           $ref: '#/definitions/Reason'
       responses:
-        '200':
+        '204':
           description: Invoice fulfilled
         '400':
           $ref: '#/responses/BadRequest'
@@ -414,11 +412,7 @@ paths:
       operationId: rescindInvoice
       parameters:
       - $ref: '#/parameters/requestID'
-      - name: invoiceID
-        in: path
-        description: Invoice ID
-        required: true
-        type: string
+      - $ref: '#/parameters/invoiceID'
       - name: rescindInvoice
         in: body
         description: Rescind invoice params
@@ -440,17 +434,14 @@ paths:
       operationId: getInvoiceEvents
       parameters:
       - $ref: '#/parameters/requestID'
-      - name: invoiceID
-        in: path
-        description: Invoice ID
-        required: true
-        type: string
+      - $ref: '#/parameters/invoiceID'
       - name: limit
         in: query
         description: Events limit
         required: true
         type: integer
         format: int32
+        minimum: 1
       - name: eventID
         in: query
         description: Last seen event id
@@ -475,11 +466,7 @@ paths:
       operationId: createPayment
       parameters:
       - $ref: '#/parameters/requestID'
-      - name: invoiceID
-        in: path
-        description: Invoice ID
-        required: true
-        type: string
+      - $ref: '#/parameters/invoiceID'
       - name: createPaymentArgs
         description: Invoice initiation request
         in: body
@@ -490,12 +477,7 @@ paths:
         '201':
           description: Payment created
           schema:
-            type: object
-            required:
-            - id
-            properties:
-              id:
-                type: string
+            $ref: '#/definitions/Payment'
         '404':
           $ref: '#/responses/NotFound'
         '400':
@@ -508,11 +490,7 @@ paths:
       operationId: getPaymentByID
       parameters:
       - $ref: '#/parameters/requestID'
-      - name: invoiceID
-        in: path
-        description: Invoice ID
-        required: true
-        type: string
+      - $ref: '#/parameters/invoiceID'
       - name: paymentID
         in: path
         description: Payment ID
@@ -571,7 +549,7 @@ paths:
             type: array
             items:
                 $ref: '#/definitions/Category'
-  '/processing/categories/{categoryRef}':
+  '/processing/categories/{categoryID}':
     get:
       description: Get category by reference
       tags:
@@ -579,7 +557,7 @@ paths:
       operationId: getCategoryByRef
       parameters:
       - $ref: '#/parameters/requestID'
-      - name: categoryRef
+      - name: categoryID
         in: path
         description: Category reference
         required: true
@@ -626,12 +604,7 @@ paths:
         '202':
           description: Claim registered
           schema:
-            type: object
-            required:
-            - claimID
-            properties:
-              claimID:
-                type: string
+            $ref: '#/definitions/ClaimRegistrationResult'
         '400':
           $ref: '#/responses/BadRequest'
   '/processing/contracts/{contractID}':
@@ -642,12 +615,7 @@ paths:
       - Contracts
       parameters:
       - $ref: '#/parameters/requestID'
-      - name: contractID
-        in: path
-        description: Contract ID
-        required: true
-        type: integer
-        format: int32
+      - $ref: '#/parameters/contractID'
       responses:
         '200':
           description: Contract found
@@ -655,44 +623,45 @@ paths:
             $ref: '#/definitions/Contract'
         '404':
           $ref: '#/responses/NotFound'
-  '/processing/payout_accounts':
+  '/processing/contracts/{contractID}/payout_tools':
     get:
-      description: Get all payout accounts
-      operationId: getPayoutAccounts
+      description: Get all payout tools
+      operationId: getPayoutTools
       tags:
-      - PayoutAccounts
+      - PayoutTools
       parameters:
       - $ref: '#/parameters/requestID'
+      - $ref: '#/parameters/contractID'
       responses:
         '200':
-          description: List of payout accounts
+          description: List of payout tools
           schema:
             type: array
             items:
-              $ref: '#/definitions/PayoutAccount'
+              $ref: '#/definitions/PayoutTool'
+        '404':
+          $ref: '#/responses/NotFound'
     post:
-      description: Create new payout account
+      description: Create new payout tool
       tags:
-      - PayoutAccounts
-      operationId: createPayoutAccount
+      - PayoutTools
+      operationId: createPayoutTool
       parameters:
       - $ref: '#/parameters/requestID'
-      - name: PayoutAccountParams
-        description: New payout account params
+      - $ref: '#/parameters/contractID'
+      - name: PayoutToolParams
+        description: New payout tool params
         in: body
         required: true
         schema:
-          $ref: '#/definitions/PayoutAccountParams'
+          $ref: '#/definitions/PayoutToolParams'
       responses:
         '202':
           description: Claim registered
           schema:
-            type: object
-            required:
-            - claimID
-            properties:
-              claimID:
-                type: string
+            $ref: '#/definitions/ClaimRegistrationResult'
+        '404':
+          $ref: '#/responses/NotFound'
         '400':
           $ref: '#/responses/BadRequest'
   '/reference/geo/location/names':
@@ -733,34 +702,11 @@ paths:
       operationId: getInvoices
       parameters:
       - $ref: '#/parameters/requestID'
-      - name: shopID
-        in: path
-        description: Shop ID
-        required: true
-        type: integer
-        format: int32
-      - name: limit
-        in: query
-        description: Invoices selection limit
-        required: false
-        type: integer
-      - name: offset
-        in: query
-        description: Invoices selection offset (inclusive)
-        required: false
-        type: integer
-      - name: fromTime
-        in: query
-        description: Invoices created time from
-        required: false
-        type: string
-        format: date-time
-      - name: toTime
-        in: query
-        description: Invoices created time to
-        required: false
-        type: string
-        format: date-time
+      - $ref: '#/parameters/shopID'
+      - $ref: '#/parameters/fromTime'
+      - $ref: '#/parameters/toTime'
+      - $ref: '#/parameters/limit'
+      - $ref: '#/parameters/offset'
       - name: status
         in: query
         description: Invoices statuses (disjunction)
@@ -803,42 +749,11 @@ paths:
       operationId: getPaymentConversionStats
       parameters:
       - $ref: '#/parameters/requestID'
-      - name: shopID
-        in: path
-        description: Shop ID
-        required: true
-        type: integer
-        format: int32
-      - name: fromTime
-        in: query
-        description: Selection starting time
-        required: true
-        type: string
-        format: date-time
-      - name: toTime
-        in: query
-        description: Selecting ending time
-        required: true
-        type: string
-        format: date-time
-      - name: splitUnit
-        in: query
-        description: Split unit
-        required: true
-        type: string
-        enum:
-          - minute
-          - hour
-          - day
-          - week
-          - month
-          - year
-      - name: splitSize
-        in: query
-        description: Split interval size (must be positive)
-        required: true
-        type: integer
-        format: int32
+      - $ref: '#/parameters/shopID'
+      - $ref: '#/parameters/fromTime'
+      - $ref: '#/parameters/toTime'
+      - $ref: '#/parameters/splitUnit'
+      - $ref: '#/parameters/splitSize'
       responses:
         '200':
           description: List of payment conversion stats
@@ -858,42 +773,11 @@ paths:
       operationId: getPaymentRevenueStats
       parameters:
       - $ref: '#/parameters/requestID'
-      - name: shopID
-        in: path
-        description: Shop ID
-        required: true
-        type: integer
-        format: int32
-      - name: fromTime
-        in: query
-        description: Selection starting time
-        required: true
-        type: string
-        format: date-time
-      - name: toTime
-        in: query
-        description: Selecting ending time
-        required: true
-        type: string
-        format: date-time
-      - name: splitUnit
-        in: query
-        description: Split unit
-        required: true
-        type: string
-        enum:
-          - minute
-          - hour
-          - day
-          - week
-          - month
-          - year
-      - name: splitSize
-        in: query
-        description: Split interval size (must be positive)
-        required: true
-        type: integer
-        format: int32
+      - $ref: '#/parameters/shopID'
+      - $ref: '#/parameters/fromTime'
+      - $ref: '#/parameters/toTime'
+      - $ref: '#/parameters/splitUnit'
+      - $ref: '#/parameters/splitSize'
       responses:
         '200':
           description: List of payment revenue stats
@@ -913,42 +797,11 @@ paths:
       operationId: getPaymentGeoStats
       parameters:
       - $ref: '#/parameters/requestID'
-      - name: shopID
-        in: path
-        description: Shop ID
-        required: true
-        type: integer
-        format: int32
-      - name: fromTime
-        in: query
-        description: Selection starting time
-        required: true
-        type: string
-        format: date-time
-      - name: toTime
-        in: query
-        description: Selecting ending time
-        required: true
-        type: string
-        format: date-time
-      - name: splitUnit
-        in: query
-        description: Split unit
-        required: true
-        type: string
-        enum:
-          - minute
-          - hour
-          - day
-          - week
-          - month
-          - year
-      - name: splitSize
-        in: query
-        description: Split interval size (must be positive)
-        required: true
-        type: integer
-        format: int32
+      - $ref: '#/parameters/shopID'
+      - $ref: '#/parameters/fromTime'
+      - $ref: '#/parameters/toTime'
+      - $ref: '#/parameters/splitUnit'
+      - $ref: '#/parameters/splitSize'
       responses:
         '200':
           description: List of payment geo stats
@@ -968,24 +821,9 @@ paths:
       operationId: getPaymentRateStats
       parameters:
       - $ref: '#/parameters/requestID'
-      - name: shopID
-        in: path
-        description: Shop ID
-        required: true
-        type: integer
-        format: int32
-      - name: fromTime
-        in: query
-        description: Selection starting time
-        required: true
-        type: string
-        format: date-time
-      - name: toTime
-        in: query
-        description: Selecting ending time
-        required: true
-        type: string
-        format: date-time
+      - $ref: '#/parameters/shopID'
+      - $ref: '#/parameters/fromTime'
+      - $ref: '#/parameters/toTime'
       responses:
         '200':
           description: Payment rate stats
@@ -1003,42 +841,11 @@ paths:
       operationId: getPaymentMethodStats
       parameters:
       - $ref: '#/parameters/requestID'
-      - name: shopID
-        in: path
-        description: Shop ID
-        required: true
-        type: integer
-        format: int32
-      - name: fromTime
-        in: query
-        description: Selection starting time
-        required: true
-        type: string
-        format: date-time
-      - name: toTime
-        in: query
-        description: Selecting ending time
-        required: true
-        type: string
-        format: date-time
-      - name: splitUnit
-        in: query
-        description: Split unit
-        required: true
-        type: string
-        enum:
-          - minute
-          - hour
-          - day
-          - week
-          - month
-          - year
-      - name: splitSize
-        in: query
-        description: Split interval size (must be positive)
-        required: true
-        type: integer
-        format: int32
+      - $ref: '#/parameters/shopID'
+      - $ref: '#/parameters/fromTime'
+      - $ref: '#/parameters/toTime'
+      - $ref: '#/parameters/splitUnit'
+      - $ref: '#/parameters/splitSize'
       - name: paymentMethod
         in: query
         description: Payment method type
@@ -1070,17 +877,25 @@ definitions:
         $ref: '#/definitions/ClaimStatus'
       changeset:
         $ref: '#/definitions/PartyChangeset'
+  ClaimRegistrationResult:
+    type: object
+    required:
+    - claimID
+    properties:
+      claimID:
+        type: integer
+        format: int64
   PartyChangeset:
     type: array
     items:
       $ref: '#/definitions/PartyModification'
   PartyModification:
     type: object
-    discriminator: modificationType
+    discriminator: partyModificationType
     required:
-    - modificationType
+    - partyModificationType
     properties:
-      modificationType:
+      partyModificationType:
         type: string
   PartySuspension:
     type: object
@@ -1102,16 +917,44 @@ definitions:
       properties:
         contractor:
           $ref: '#/definitions/Contractor'
-  PayoutAccountCreation:
+  ContractModification:
     type: object
     allOf:
     - $ref: '#/definitions/PartyModification'
     - type: object
+      discriminator: contractModificationType
       required:
-      - payoutAccount
+      - contractModificationType
+      - contractID
       properties:
-        payoutAccount:
-          $ref: '#/definitions/PayoutAccount'
+        contractModificationType:
+          type: string
+        contractID:
+          type: integer
+          format: int32
+  ContractTermination:
+    type: object
+    allOf:
+      - $ref: '#/definitions/ContractModification'
+      - type: object
+        required:
+        - terminatedAt
+        properties:
+          terminatedAt:
+            type: string
+            format: date-time
+          reason:
+            type: string
+  ContractPayoutToolCreation:
+    type: object
+    allOf:
+      - $ref: '#/definitions/ContractModification'
+      - type: object
+        required:
+        - payoutTool
+        properties:
+          payoutTool:
+            $ref: '#/definitions/PayoutTool'
   ShopCreation:
     type: object
     allOf:
@@ -1122,28 +965,21 @@ definitions:
       properties:
         shop:
           $ref: '#/definitions/Shop'
-  ShopModificationUnit:
+  ShopModification:
     type: object
     allOf:
     - $ref: '#/definitions/PartyModification'
     - type: object
+      discriminator: shopModificationType
       required:
+      - shopModificationType
       - shopID
-      - details
       properties:
         shopID:
           type: integer
           format: int32
-        details:
-          $ref: '#/definitions/ShopModification'
-  ShopModification:
-    type: object
-    discriminator: modificationType
-    required:
-    - modificationType
-    properties:
-      modificationType:
-        type: string
+        shopModificationType:
+          type: string
   ShopSuspension:
     type: object
     allOf:
@@ -1164,7 +1000,7 @@ definitions:
       properties:
         details:
           $ref: '#/definitions/UpdateShopArgs'
-  ShopAccountCreated:
+  ShopAccountCreation:
     type: object
     allOf:
     - $ref: '#/definitions/ShopModification'
@@ -1200,6 +1036,13 @@ definitions:
     type: object
     allOf:
     - $ref: '#/definitions/ClaimStatus'
+    - type: object
+      required:
+      - acceptedAt
+      properties:
+        acceptedAt:
+          type: string
+          format: date-time
   ClaimDenied:
     type: object
     allOf:
@@ -1213,22 +1056,24 @@ definitions:
   CreateShopArgs:
     type: object
     required:
-    - categoryRef
-    - shopDetails
+    - categoryID
+    - details
     - contractID
-    - payoutAccountID
+    - payoutToolID
     properties:
-      categoryRef:
+      categoryID:
         type: integer
         format: int32
-      shopDetails:
+      details:
         $ref: '#/definitions/ShopDetails'
       contractID:
         type: integer
         format: int32
-      payoutAccountID:
+      payoutToolID:
         type: integer
         format: int32
+      callbackUrl:
+        type: string
   ShopDetails:
     type: object
     required:
@@ -1260,27 +1105,29 @@ definitions:
           type: string
   UpdateShopArgs:
     properties:
-      categoryRef:
+      categoryID:
         type: integer
         format: int32
-      shopDetails:
+      details:
         $ref: '#/definitions/ShopDetails'
       contractID:
         type: integer
         format: int32
-      payoutAccountID:
+      payoutToolID:
         type: integer
         format: int32
+      callbackUrl:
+        type: string
   Contractor:
     type: object
     required:
     - bankAccount
-    - entity
+    - legalEntity
     properties:
       bankAccount:
         $ref: '#/definitions/BankAccount'
-      entity:
-        $ref: '#/definitions/Entity'
+      legalEntity:
+        $ref: '#/definitions/LegalEntity'
   BankAccount:
     type: object
     required:
@@ -1297,7 +1144,7 @@ definitions:
         type: string
       bankBik:
         type: string
-  Entity:
+  LegalEntity:
     type: object
     discriminator: entityType
     required:
@@ -1308,7 +1155,7 @@ definitions:
   RussianLegalEntity:
     type: object
     allOf:
-    - $ref: '#/definitions/Entity'
+    - $ref: '#/definitions/LegalEntity'
     - type: object
       required:
       - registeredName
@@ -1336,42 +1183,32 @@ definitions:
           type: string
         representativeDocument:
           type: string
-  PayoutAccountParams:
+  PayoutToolParams:
     type: object
+    discriminator: payoutToolType
     required:
     - currency
-    - tool
+    - payoutToolType
     properties:
       currency:
         type: string
-      tool:
-        $ref: '#/definitions/PayoutTool'
-  PayoutAccount:
+      payoutToolType:
+        type: string
+  PayoutTool:
     type: object
     required:
     - id
-    - currency
-    - tool
+    - params
     properties:
       id:
         type: integer
         format: int32
-      currency:
-        type: string
-      tool:
-        $ref: '#/definitions/PayoutTool'
-  PayoutTool:
-    type: object
-    discriminator: payoutToolType
-    required:
-    - payoutToolType
-    properties:
-      payoutToolType:
-        type: string
+      params:
+        $ref: '#/definitions/PayoutToolParams'
   PayoutToolBankAccount:
     type: object
     allOf:
-    - $ref: '#/definitions/PayoutTool'
+    - $ref: '#/definitions/PayoutToolParams'
     - type: object
       required:
       - bankAccount
@@ -1382,11 +1219,11 @@ definitions:
     type: object
     required:
     - name
-    - categoryRef
+    - categoryID
     properties:
       name:
         type: string
-      categoryRef:
+      categoryID:
         type: integer
         format: int32
       description:
@@ -1394,11 +1231,11 @@ definitions:
   Party:
     type: object
     required:
-    - partyID
+    - id
     - isBlocked
     - isSuspended
     properties:
-      partyID:
+      id:
         type: string
       isBlocked:
         type: boolean
@@ -1407,67 +1244,82 @@ definitions:
   Shop:
     type: object
     required:
-    - shopID
+    - id
     - isBlocked
     - isSuspended
-    - categoryRef
-    - shopDetails
+    - categoryID
+    - details
     - contractID
-    - payoutAccountID
     properties:
-      shopID:
+      id:
         type: integer
         format: int32
       isBlocked:
         type: boolean
       isSuspended:
         type: boolean
-      categoryRef:
+      categoryID:
         type: integer
         format: int32
-      shopDetails:
+      details:
         $ref: '#/definitions/ShopDetails'
-      contract:
-        $ref: '#/definitions/Contract'
       contractID:
         type: integer
         format: int32
-      payoutAccountID:
+      payoutToolID:
         type: integer
         format: int32
+      account:
+        $ref: '#/definitions/ShopAccount'
+      callbackHandler:
+        $ref: '#/definitions/CallbackHandler'
   ContractParams:
     type: object
     required:
     - contractor
+    - payoutToolParams
     properties:
       contractor:
         $ref: '#/definitions/Contractor'
+      payoutToolParams:
+        $ref: '#/definitions/PayoutToolParams'
   Contract:
     type: object
     required:
     - id
-    - contractor
+    - status
     properties:
       id:
         type: integer
         format: int32
       contractor:
         $ref: '#/definitions/Contractor'
-      concludedAt:
+      validSince:
         type: string
         format: date-time
-      terminatedAt:
+      validUntil:
+        type: string
+        format: date-time
+      status:
+        type: string
+        enum:
+        - active
+        - terminated
+      terminatedAt: #experimental simplification
         type: string
         format: date-time
   ShopAccount:
     type: object
     required:
-    - generalID
+    - guaranteeID
     - settlementID
+    - currency
     properties:
-      generalID:
+      guaranteeID:
         type: string
       settlementID:
+        type: string
+      currency:
         type: string
   Account:
     type: object
@@ -1616,10 +1468,14 @@ definitions:
   Invoice:
     type: object
     required:
+    - id
     - shopID
+    - createdAt
+    - dueDate
     - amount
     - currency
     - context
+    - status
     - product
     properties:
       id:
@@ -1627,16 +1483,20 @@ definitions:
       shopID:
         type: integer
         format: int32
+      createdAt:
+        type: string
+        format: date-time
+      dueDate:
+        type: string
+        format: date-time
       amount:
         type: integer
         format: int64
+        minimum: 1
       currency:
         type: string
       context:
         $ref: '#/definitions/InvoiceContext'
-      dueDate:
-        type: string
-        format: date-time
       status:
         type: string
         enum:
@@ -1653,9 +1513,11 @@ definitions:
     type: object
     required:
     - shopID
+    - product
+    - dueDate
     - amount
     - currency
-    - product
+    - context
     properties:
       shopID:
         type: integer
@@ -1663,6 +1525,7 @@ definitions:
       amount:
         type: integer
         format: int64
+        minimum: 1
       currency:
         type: string
       context:
@@ -1697,6 +1560,8 @@ definitions:
     - createdAt
     - status
     - paymentToolToken
+    - contactInfo
+    - paymentSession
     properties:
       id:
         type: string
@@ -1714,6 +1579,10 @@ definitions:
         - cancelled
         - failed
       paymentToolToken:
+        type: string
+      contactInfo:
+        $ref: '#/definitions/ContactInfo'
+      paymentSession:
         type: string
   Event:
     type: object
@@ -1869,6 +1738,16 @@ definitions:
           type: string
         template:
           type: string
+  CallbackHandler:
+    type: object
+    required:
+    - url
+    - publicKey
+    properties:
+      url:
+        type: string
+      publicKey:
+        type: string
   LocationName:
     type: object
     required:
@@ -1906,7 +1785,6 @@ definitions:
         type: string
   InvoiceContext:
     type: object
-    maxLength: 512
   ContactInfo:
     type: object
     properties:
