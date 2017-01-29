@@ -913,10 +913,10 @@ definitions:
     - $ref: '#/definitions/PartyModification'
     - type: object
       required:
-      - contractor
+      - contract
       properties:
-        contractor:
-          $ref: '#/definitions/Contractor'
+        contract:
+          $ref: '#/definitions/Contract'
   ContractModification:
     type: object
     allOf:
