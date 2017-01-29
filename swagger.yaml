@@ -1467,42 +1467,42 @@ definitions:
           pattern: ^\d{3,4}$
   Invoice:
     type: object
-    required:
-    - id
-    - shopID
-    - createdAt
-    - dueDate
-    - amount
-    - currency
-    - context
-    - status
-    - product
-    properties:
-      id:
-        type: string
-      shopID:
-        type: integer
-        format: int32
-      createdAt:
-        type: string
-        format: date-time
-      dueDate:
-        type: string
-        format: date-time
-      amount:
-        type: integer
-        format: int64
-        minimum: 1
-      currency:
-        type: string
-      context:
-        $ref: '#/definitions/InvoiceContext'
-      status:
-        $ref: '#/definitions/InvoiceStatus'
-      product:
-        type: string
-      description:
-        type: string
+    allOf:
+    - $ref: '#/definitions/InvoiceStatus'
+    - type: object
+      required:
+      - id
+      - shopID
+      - createdAt
+      - dueDate
+      - amount
+      - currency
+      - context
+      - product
+      properties:
+        id:
+          type: string
+        shopID:
+          type: integer
+          format: int32
+        createdAt:
+          type: string
+          format: date-time
+        dueDate:
+          type: string
+          format: date-time
+        amount:
+          type: integer
+          format: int64
+          minimum: 1
+        currency:
+          type: string
+        context:
+          $ref: '#/definitions/InvoiceContext'
+        product:
+          type: string
+        description:
+          type: string
   InvoiceStatus:
     type: object
     required:
@@ -1563,30 +1563,30 @@ definitions:
         $ref: '#/definitions/ContactInfo'
   Payment:
     type: object
-    required:
-    - id
-    - invoiceID
-    - createdAt
-    - status
-    - paymentToolToken
-    - contactInfo
-    - paymentSession
-    properties:
-      id:
-        type: string
-      invoiceID:
-        type: string
-      createdAt:
-        type: string
-        format: date-time
-      status:
-        $ref: '#/definitions/PaymentStatus'
-      paymentToolToken:
-        type: string
-      contactInfo:
-        $ref: '#/definitions/ContactInfo'
-      paymentSession:
-        type: string
+    allOf:
+    - $ref: '#/definitions/PaymentStatus'
+    - type: object
+      required:
+      - id
+      - invoiceID
+      - createdAt
+      - paymentToolToken
+      - contactInfo
+      - paymentSession
+      properties:
+        id:
+          type: string
+        invoiceID:
+          type: string
+        createdAt:
+          type: string
+          format: date-time
+        paymentToolToken:
+          type: string
+        contactInfo:
+          $ref: '#/definitions/ContactInfo'
+        paymentSession:
+          type: string
   PaymentStatus:
     type: object
     required:
@@ -1621,25 +1621,18 @@ definitions:
     type: object
     allOf:
     - $ref: '#/definitions/Event'
-    - type: object
-      required:
-      - status
-      properties:
-        status:
-          $ref: '#/definitions/InvoiceStatus'
+    - $ref: '#/definitions/InvoiceStatus'
   EventPaymentStatusChanged:
     type: object
     allOf:
     - $ref: '#/definitions/Event'
+    - $ref: '#/definitions/PaymentStatus'
     - type: object
       required:
-      - status
       - paymentID
       properties:
         paymentID:
           type: string
-        status:
-          $ref: '#/definitions/PaymentStatus'
   EventInvoiceCreated:
     type: object
     allOf:
