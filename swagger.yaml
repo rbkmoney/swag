@@ -913,10 +913,10 @@ definitions:
     - $ref: '#/definitions/PartyModification'
     - type: object
       required:
-      - contractor
+      - contract
       properties:
-        contractor:
-          $ref: '#/definitions/Contractor'
+        contract:
+          $ref: '#/definitions/Contract'
   ContractModification:
     type: object
     allOf:
@@ -1467,36 +1467,47 @@ definitions:
           pattern: ^\d{3,4}$
   Invoice:
     type: object
+    allOf:
+    - $ref: '#/definitions/InvoiceStatus'
+    - type: object
+      required:
+      - id
+      - shopID
+      - createdAt
+      - dueDate
+      - amount
+      - currency
+      - context
+      - product
+      properties:
+        id:
+          type: string
+        shopID:
+          type: integer
+          format: int32
+        createdAt:
+          type: string
+          format: date-time
+        dueDate:
+          type: string
+          format: date-time
+        amount:
+          type: integer
+          format: int64
+          minimum: 1
+        currency:
+          type: string
+        context:
+          $ref: '#/definitions/InvoiceContext'
+        product:
+          type: string
+        description:
+          type: string
+  InvoiceStatus:
+    type: object
     required:
-    - id
-    - shopID
-    - createdAt
-    - dueDate
-    - amount
-    - currency
-    - context
     - status
-    - product
     properties:
-      id:
-        type: string
-      shopID:
-        type: integer
-        format: int32
-      createdAt:
-        type: string
-        format: date-time
-      dueDate:
-        type: string
-        format: date-time
-      amount:
-        type: integer
-        format: int64
-        minimum: 1
-      currency:
-        type: string
-      context:
-        $ref: '#/definitions/InvoiceContext'
       status:
         type: string
         enum:
@@ -1505,9 +1516,7 @@ definitions:
         - paid
         - refunded
         - fulfilled
-      product:
-        type: string
-      description:
+      reason:
         type: string
   CreateInvoiceArgs:
     type: object
@@ -1554,22 +1563,35 @@ definitions:
         $ref: '#/definitions/ContactInfo'
   Payment:
     type: object
+    allOf:
+    - $ref: '#/definitions/PaymentStatus'
+    - type: object
+      required:
+      - id
+      - invoiceID
+      - createdAt
+      - paymentToolToken
+      - contactInfo
+      - paymentSession
+      properties:
+        id:
+          type: string
+        invoiceID:
+          type: string
+        createdAt:
+          type: string
+          format: date-time
+        paymentToolToken:
+          type: string
+        contactInfo:
+          $ref: '#/definitions/ContactInfo'
+        paymentSession:
+          type: string
+  PaymentStatus:
+    type: object
     required:
-    - id
-    - invoiceID
-    - createdAt
     - status
-    - paymentToolToken
-    - contactInfo
-    - paymentSession
     properties:
-      id:
-        type: string
-      invoiceID:
-        type: string
-      createdAt:
-        type: string
-        format: date-time
       status:
         type: string
         enum:
@@ -1578,12 +1600,8 @@ definitions:
         - captured
         - cancelled
         - failed
-      paymentToolToken:
-        type: string
-      contactInfo:
-        $ref: '#/definitions/ContactInfo'
-      paymentSession:
-        type: string
+      error:
+        $ref: '#/definitions/LogicError'
   Event:
     type: object
     discriminator: eventType
@@ -1603,37 +1621,18 @@ definitions:
     type: object
     allOf:
     - $ref: '#/definitions/Event'
-    - type: object
-      required:
-      - status
-      properties:
-        status:
-          type: string
-          enum:
-          - unpaid
-          - cancelled
-          - paid
-          - refunded
-          - fulfilled
+    - $ref: '#/definitions/InvoiceStatus'
   EventPaymentStatusChanged:
     type: object
     allOf:
     - $ref: '#/definitions/Event'
+    - $ref: '#/definitions/PaymentStatus'
     - type: object
       required:
-      - status
       - paymentID
       properties:
         paymentID:
           type: string
-        status:
-          type: string
-          enum:
-          - pending
-          - processed
-          - captured
-          - cancelled
-          - failed
   EventInvoiceCreated:
     type: object
     allOf:
