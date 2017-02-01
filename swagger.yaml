@@ -873,7 +873,8 @@ definitions:
     - changeset
     properties:
       id:
-        type: string
+        type: integer
+        format: int64
       status:
         $ref: '#/definitions/ClaimStatus'
       changeset:
