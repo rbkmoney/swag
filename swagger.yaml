@@ -45,7 +45,8 @@ parameters:
     in: path
     description: Claim ID
     required: true
-    type: string
+    type: integer
+    format: int64
   shopID:
     name: shopID
     in: path
