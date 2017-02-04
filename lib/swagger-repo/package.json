@@ -1,0 +1,42 @@
+{
+  "name": "swagger-repo",
+  "version": "1.4.2",
+  "description": "CLI tool to help you manage your OpenAPI(fka Swagger) repo.",
+  "main": "lib/index.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Rebilly/swagger-repo.git"
+  },
+  "keywords": [
+    "API",
+    "REST",
+    "Restful",
+    "OpenAPI",
+    "OpenAPI Specification",
+    "Swagger"
+  ],
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Rebilly/swagger-repo/issues"
+  },
+  "homepage": "https://github.com/Rebilly/swagger-repo",
+  "bin": {
+    "swagger-repo": "./bin/swagger-repo.js"
+  },
+  "dependencies": {
+    "body-parser": "^1.15.2",
+    "commander": "^2.9.0",
+    "cors": "^2.7.1",
+    "express": "^4.13.4",
+    "glob": "^7.0.0",
+    "js-yaml": "^3.5.3",
+    "json-pointer": "^0.5.0",
+    "jsonpath": "^0.2.9",
+    "lodash": "^4.5.0",
+    "mkdirp": "^0.5.1",
+    "require-dir": "^0.3.1",
+    "swagger-editor": "^2.10.3",
+    "swagger-ui": "^2.1.4",
+    "sway": "^0.6.0"
+  }
+}
