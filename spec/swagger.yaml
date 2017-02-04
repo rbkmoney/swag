@@ -72,40 +72,40 @@ responses:
     schema:
       $ref: '#/definitions/GeneralError'
   BadRequest:
-    description: Illegal input for operation.
+    description: Illegal input for operation
     schema:
       $ref: '#/definitions/LogicError'
 parameters:
   requestID:
     name: X-Request-ID
     in: header
-    description: Unique request identifier
+    description: Уникальный идентификатор запроса к системе
     required: true
     type: string
   claimID:
     name: claimID
     in: path
-    description: Claim ID
+    description: Идентификатор заявки
     required: true
     type: integer
     format: int64
   shopID:
     name: shopID
     in: path
-    description: Shop ID
+    description: Идентификатор магазина
     required: true
     type: integer
     format: int32
   invoiceID:
     name: invoiceID
     in: path
-    description: Invoice ID
+    description: Идентификатор инвойса
     required: true
     type: string
   contractID:
     name: contractID
     in: path
-    description: Contract ID
+    description: Идентификатор договора
     required: true
     type: integer
     format: int32
