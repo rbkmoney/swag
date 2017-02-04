@@ -12,4 +12,5 @@ properties:
       - refunded
       - fulfilled
   reason:
+    description: Причина отмены или погашения инвойса
     type: string
