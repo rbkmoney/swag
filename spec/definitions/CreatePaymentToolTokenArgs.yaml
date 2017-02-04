@@ -4,8 +4,8 @@ required:
   - clientInfo
 properties:
   paymentTool:
-    description: Данные платежного средства
     $ref: '#/definitions/PaymentTool'
   clientInfo:
     description: Данные клиентского устройства плательщика
-    $ref: '#/definitions/ClientInfo'
+    allOf:
+      - $ref: '#/definitions/ClientInfo'

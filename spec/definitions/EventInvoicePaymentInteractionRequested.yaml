@@ -13,5 +13,4 @@ allOf:
         description: Идентификатор платежа
         type: string
       userInteraction:
-        description: Требуемое взаимодействие с пользователем
         $ref: '#/definitions/UserInteraction'

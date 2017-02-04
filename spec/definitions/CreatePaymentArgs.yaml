@@ -12,4 +12,5 @@ properties:
     type: string
   contactInfo:
     description: Контактные данные плательщика
-    $ref: '#/definitions/ContactInfo'
+    allOf:
+      - $ref: '#/definitions/ContactInfo'

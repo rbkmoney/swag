@@ -15,4 +15,5 @@ allOf:
         type: string
       form:
         description: Форма для отправки средствами браузера
-        $ref: '#/definitions/UserInteractionForm'
+        allOf:
+          - $ref: '#/definitions/UserInteractionForm'

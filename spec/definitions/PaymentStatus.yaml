@@ -13,4 +13,5 @@ properties:
       - failed
   error:
     description: Описание ошибки, возникшей в процессе проведения платежа
-    $ref: '#/definitions/LogicError'
+    allOf:
+      - $ref: '#/definitions/LogicError'
