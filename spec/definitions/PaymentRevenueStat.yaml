@@ -6,10 +6,14 @@ required:
   - revenue
 properties:
   offset:
+    description: Смещение сегмента выборки
     type: integer
   currency:
+    description: Валюта платежей
     type: string
   profit:
+    description: Прибыль магазина
     type: integer
   revenue:
+    description: Сумма платежей в магазине
     type: integer

@@ -7,13 +7,18 @@ required:
   - revenue
 properties:
   offset:
+    description: Смещение сегмента выборки
     type: integer
   geoID:
+    description: Идентификатор геопозиции плательщика
     type: integer
     format: int32
   currency:
+    description: Валюта платежей
     type: string
   profit:
+    description: Прибыль магазина
     type: integer
   revenue:
+    description: Сумма платежей в магазине
     type: integer
