@@ -2,11 +2,16 @@ type: object
 allOf:
   - $ref: '#/definitions/Event'
   - type: object
+    description: |
+      Требование провести взаимодействие с плательщиком для продолжения процесса
+      платежа
     required:
       - paymentID
       - userInteraction
     properties:
       paymentID:
+        description: Идентификатор платежа
         type: string
       userInteraction:
+        description: Требуемое взаимодействие с пользователем
         $ref: '#/definitions/UserInteraction'
