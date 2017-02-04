@@ -1,5 +1,6 @@
 get:
-  description: Получить данные геопозиционирования UA плательщиков
+  description: |
+    Получить статистику по геопозициям плательщиков за определённое время.
   tags:
     - Analytics
   operationId: getPaymentGeoStats
@@ -12,7 +13,7 @@ get:
     - $ref: '#/parameters/splitSize'
   responses:
     '200':
-      description: List of payment geo stats
+      description: Статистика по геопозициям плательщиков
       schema:
         type: array
         items:

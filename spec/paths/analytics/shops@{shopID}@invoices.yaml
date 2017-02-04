@@ -12,7 +12,7 @@ get:
     - $ref: '#/parameters/offset'
     - name: status
       in: query
-      description: Invoices statuses (disjunction)
+      description: Набор статусов инвойса для поиска
       required: false
       type: array
       items:
@@ -30,7 +30,7 @@ get:
       type: string
   responses:
     '200':
-      description: Invoice ID
+      description: Найденные инвойсы
       schema:
         type: object
         properties:

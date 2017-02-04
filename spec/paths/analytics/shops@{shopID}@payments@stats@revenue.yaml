@@ -1,5 +1,7 @@
 get:
-  description: Получить данные о сумме платежей магазина за вычетом коммиссии системы
+  description: |
+    Получить статистику по сумме платежей магазина за определенное время, в том
+    числе за вычетом коммиссии системы.
   tags:
     - Analytics
   operationId: getPaymentRevenueStats
@@ -12,7 +14,7 @@ get:
     - $ref: '#/parameters/splitSize'
   responses:
     '200':
-      description: List of payment revenue stats
+      description: Статистика по сумме платежей и прибыли
       schema:
         type: array
         items:

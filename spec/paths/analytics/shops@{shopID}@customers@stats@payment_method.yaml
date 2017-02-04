@@ -1,5 +1,6 @@
 get:
-  description: Получить данные о платежных средствах
+  description: |
+    Получить статистику по платежным средствам за определённое время.
   tags:
     - Analytics
   operationId: getPaymentMethodStats
@@ -12,13 +13,13 @@ get:
     - $ref: '#/parameters/splitSize'
     - name: paymentMethod
       in: query
-      description: Payment method type
+      description: Метод оплаты
       type: string
       enum:
         - bankCard
   responses:
     '200':
-      description: List of payment method stats
+      description: Статистика по платежным средствам
       schema:
         type: array
         items:

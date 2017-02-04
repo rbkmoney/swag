@@ -1,5 +1,6 @@
 get:
-  description: Получить информацию о конверсии платежей магазина
+  description: |
+    Получить статистику конверсии платежей магазина за определённое время.
   tags:
     - Analytics
   operationId: getPaymentConversionStats
@@ -12,7 +13,7 @@ get:
     - $ref: '#/parameters/splitSize'
   responses:
     '200':
-      description: List of payment conversion stats
+      description: Статистика конверсии платежей
       schema:
         type: array
         items:

@@ -112,21 +112,21 @@ parameters:
   fromTime:
     name: fromTime
     in: query
-    description: Selection starting time
+    description: Начало временного отрезка
     required: true
     type: string
     format: date-time
   toTime:
     name: toTime
     in: query
-    description: Selection ending time
+    description: Конец временного отрезка
     required: true
     type: string
     format: date-time
   splitUnit:
     name: splitUnit
     in: query
-    description: Split unit
+    description: Единица времени сегмента разбиения
     required: true
     type: string
     enum:
@@ -139,7 +139,7 @@ parameters:
   splitSize:
     name: splitSize
     in: query
-    description: Split interval size
+    description: Размер сегмента разбиения
     required: true
     type: integer
     format: int32
@@ -147,7 +147,7 @@ parameters:
   limit:
     name: limit
     in: query
-    description: Selection limit
+    description: Лимит выборки
     required: false
     type: integer
     format: int32
@@ -155,7 +155,7 @@ parameters:
   offset:
     name: offset
     in: query
-    description: Selection offset (inclusive)
+    description: Смещение выборки
     required: false
     type: integer
     minimum: 0

@@ -1,5 +1,6 @@
 get:
-  description: Получить статистику платежей в привязке ко времени
+  description: >
+    Получить статистику по уникальным плательщикам за определённое время.
   tags:
     - Analytics
   operationId: getPaymentRateStats
@@ -10,7 +11,7 @@ get:
     - $ref: '#/parameters/toTime'
   responses:
     '200':
-      description: Payment rate stats
+      description: Статистика по уникальным плательщикам
       schema:
         $ref: '#/definitions/PaymentRateStat'
     '400':
