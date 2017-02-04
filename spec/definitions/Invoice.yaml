@@ -13,25 +13,34 @@ allOf:
       - product
     properties:
       id:
+        description: Идентификатор инвойса
         type: string
       shopID:
+        description: Идентификатор магазина
         type: integer
         format: int32
       createdAt:
+        description: Дата и время создания
         type: string
         format: date-time
       dueDate:
+        description: Дата и время окончания действия
         type: string
         format: date-time
       amount:
+        description: Стоимость предлагаемых товаров или услуг
         type: integer
         format: int64
         minimum: 1
       currency:
+        description: Валюта
         type: string
       context:
-        $ref: '#/definitions/InvoiceContext'
+        description: Связанные с инвойсом метаданные
+        type: object
       product:
+        description: Наименование предлагаемых товаров или услуг
         type: string
       description:
+        description: Описание предлагаемых товаров или услуг
         type: string

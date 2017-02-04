@@ -3,6 +3,7 @@ required:
   - status
 properties:
   status:
+    description: Статус инвойса
     type: string
     enum:
       - unpaid

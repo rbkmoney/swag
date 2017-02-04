@@ -1,5 +1,5 @@
 post:
-  description: Запустить новый платеж
+  description: Создать новый платеж по указанному инвойсу.
   tags:
     - Payments
   operationId: createPayment
@@ -7,14 +7,14 @@ post:
     - $ref: '#/parameters/requestID'
     - $ref: '#/parameters/invoiceID'
     - name: createPaymentArgs
-      description: Invoice initiation request
+      description: Параметры создаваемого платежа
       in: body
       required: true
       schema:
         $ref: '#/definitions/CreatePaymentArgs'
   responses:
     '201':
-      description: Payment created
+      description: Платёж создан
       schema:
         $ref: '#/definitions/Payment'
     '400':

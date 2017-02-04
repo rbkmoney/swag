@@ -1,5 +1,5 @@
 get:
-  description: Получить статус платежа
+  description: Получить данные платежа по указанному инвойсу.
   tags:
     - Payments
   operationId: getPaymentByID
@@ -8,12 +8,12 @@ get:
     - $ref: '#/parameters/invoiceID'
     - name: paymentID
       in: path
-      description: Payment ID
+      description: Идентификатор платежа
       required: true
       type: string
   responses:
     '200':
-      description: Payment object
+      description: Данные платежа
       schema:
         $ref: '#/definitions/Payment'
     '400':

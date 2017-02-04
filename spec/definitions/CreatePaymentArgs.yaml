@@ -5,8 +5,11 @@ required:
   - contactInfo
 properties:
   paymentToolToken:
+    description: Токен платежного средства, предоставленного плательщиком
     type: string
   paymentSession:
+    description: Идентификатор платежной сессии
     type: string
   contactInfo:
+    description: Контактные данные плательщика
     $ref: '#/definitions/ContactInfo'

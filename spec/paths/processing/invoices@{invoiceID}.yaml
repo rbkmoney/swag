@@ -1,5 +1,5 @@
 get:
-  description: Returns invoice information by ID
+  description: Получить данные инвойса по его идентификатору.
   tags:
     - Invoices
   operationId: getInvoiceByID
@@ -8,7 +8,7 @@ get:
     - $ref: '#/parameters/invoiceID'
   responses:
     '200':
-      description: Invoice object
+      description: Данные инвойса
       schema:
         $ref: '#/definitions/Invoice'
     '400':

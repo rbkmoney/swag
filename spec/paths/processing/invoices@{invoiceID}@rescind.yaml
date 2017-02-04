@@ -1,5 +1,5 @@
 post:
-  description: Перевести инвойс в состояние "Отменен" со статусом "Аннулирован"
+  description: Перевести инвойс в состояние "Отменен" со статусом "Аннулирован".
   tags:
     - Payments
   operationId: rescindInvoice
@@ -8,13 +8,13 @@ post:
     - $ref: '#/parameters/invoiceID'
     - name: rescindInvoice
       in: body
-      description: Rescind invoice params
+      description: Произвольная причина совершения операции
       required: true
       schema:
         $ref: '#/definitions/Reason'
   responses:
     '200':
-      description: Invoice rescinded
+      description: Инвойс аннулирован
     '400':
       $ref: '#/responses/BadRequest'
     '404':

@@ -1,5 +1,5 @@
 post:
-  description: Fulfill invoice
+  description: Погасить указанный инвойс.
   tags:
     - Invoices
   operationId: fulfillInvoice
@@ -8,13 +8,13 @@ post:
     - $ref: '#/parameters/invoiceID'
     - name: fulfillInvoice
       in: body
-      description: Fulfill invoice params
+      description: Произвольная причина совершения операции
       required: true
       schema:
         $ref: '#/definitions/Reason'
   responses:
     '204':
-      description: Invoice fulfilled
+      description: Инвойс погашен
     '400':
       $ref: '#/responses/BadRequest'
     '404':

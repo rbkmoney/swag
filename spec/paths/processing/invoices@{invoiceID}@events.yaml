@@ -1,5 +1,5 @@
 get:
-  description: Получить все события по указанному инвойсу
+  description: Получить историю указанного инвойса в виде набора событий.
   tags:
     - Invoices
   operationId: getInvoiceEvents
@@ -8,19 +8,22 @@ get:
     - $ref: '#/parameters/invoiceID'
     - name: limit
       in: query
-      description: Events limit
+      description: Лимит выборки
       required: true
       type: integer
       format: int32
       minimum: 1
     - name: eventID
       in: query
-      description: Last seen event id
+      description: |
+        Идентификтор события.
+
+        Все события, возникшие в системе _после_ указанного, попадут в выборку.
       required: false
       type: string
   responses:
     '200':
-      description: List of invoice events
+      description: Набор событий
       schema:
         type: array
         items:
