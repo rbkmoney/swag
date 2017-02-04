@@ -1,0 +1,9 @@
+type: object
+allOf:
+  - $ref: '#/definitions/BrowserRequest'
+  - type: object
+    required:
+      - uriTemplate
+    properties:
+      uriTemplate:
+        type: string

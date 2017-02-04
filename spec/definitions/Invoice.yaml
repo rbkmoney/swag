@@ -1,0 +1,37 @@
+type: object
+allOf:
+  - $ref: '#/definitions/InvoiceStatus'
+  - type: object
+    required:
+      - id
+      - shopID
+      - createdAt
+      - dueDate
+      - amount
+      - currency
+      - context
+      - product
+    properties:
+      id:
+        type: string
+      shopID:
+        type: integer
+        format: int32
+      createdAt:
+        type: string
+        format: date-time
+      dueDate:
+        type: string
+        format: date-time
+      amount:
+        type: integer
+        format: int64
+        minimum: 1
+      currency:
+        type: string
+      context:
+        $ref: '#/definitions/InvoiceContext'
+      product:
+        type: string
+      description:
+        type: string

@@ -1,0 +1,15 @@
+type: object
+required:
+  - offset
+  - currency
+  - profit
+  - revenue
+properties:
+  offset:
+    type: integer
+  currency:
+    type: string
+  profit:
+    type: integer
+  revenue:
+    type: integer

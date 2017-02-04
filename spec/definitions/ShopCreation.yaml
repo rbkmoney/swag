@@ -1,0 +1,9 @@
+type: object
+allOf:
+  - $ref: '#/definitions/PartyModification'
+  - type: object
+    required:
+      - shop
+    properties:
+      shop:
+        $ref: '#/definitions/Shop'

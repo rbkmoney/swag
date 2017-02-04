@@ -1,0 +1,20 @@
+post:
+  description: Create new invoice
+  tags:
+    - Инвойсы
+  operationId: createInvoice
+  parameters:
+    - $ref: '#/parameters/requestID'
+    - name: createInvoiceArgs
+      description: New invoice params
+      in: body
+      required: true
+      schema:
+        $ref: '#/definitions/CreateInvoiceArgs'
+  responses:
+    '201':
+      description: Invoice created
+      schema:
+        $ref: '#/definitions/Invoice'
+    '400':
+      $ref: '#/responses/BadRequest'

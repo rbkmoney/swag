@@ -1,0 +1,19 @@
+type: object
+required:
+  - offset
+  - geoID
+  - currency
+  - profit
+  - revenue
+properties:
+  offset:
+    type: integer
+  geoID:
+    type: integer
+    format: int32
+  currency:
+    type: string
+  profit:
+    type: integer
+  revenue:
+    type: integer

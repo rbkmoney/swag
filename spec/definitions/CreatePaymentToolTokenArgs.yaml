@@ -1,0 +1,9 @@
+type: object
+required:
+  - paymentTool
+  - clientInfo
+properties:
+  paymentTool:
+    $ref: '#/definitions/PaymentTool'
+  clientInfo:
+    $ref: '#/definitions/ClientInfo'

@@ -1,0 +1,29 @@
+get:
+  description: Get locations names
+  operationId: getLocationsNames
+  tags:
+    - Геопозиционирование
+  parameters:
+    - $ref: '#/parameters/requestID'
+    - name: language
+      in: query
+      description: Location language
+      required: true
+      type: string
+    - name: geoID
+      in: query
+      description: GeoID
+      required: true
+      type: array
+      items:
+        type: integer
+        format: int32
+  responses:
+    '200':
+      description: Locations Names
+      schema:
+        type: array
+        items:
+          $ref: '#/definitions/LocationName'
+    '400':
+      $ref: '#/responses/BadRequest'

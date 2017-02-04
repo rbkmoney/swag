@@ -1,0 +1,19 @@
+get:
+  description: Получить статистику платежей в привязке ко времени
+  tags:
+    - Аналитика
+  operationId: getPaymentRateStats
+  parameters:
+    - $ref: '#/parameters/requestID'
+    - $ref: '#/parameters/shopID'
+    - $ref: '#/parameters/fromTime'
+    - $ref: '#/parameters/toTime'
+  responses:
+    '200':
+      description: Payment rate stats
+      schema:
+        $ref: '#/definitions/PaymentRateStat'
+    '400':
+      $ref: '#/responses/BadRequest'
+    '404':
+      $ref: '#/responses/NotFound'

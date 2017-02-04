@@ -1,0 +1,7 @@
+type: object
+discriminator: paymentToolType
+properties:
+  paymentToolType:
+    type: string
+required:
+  - paymentToolType

@@ -1,0 +1,12 @@
+type: object
+allOf:
+  - $ref: '#/definitions/Event'
+  - type: object
+    required:
+      - paymentID
+      - userInteraction
+    properties:
+      paymentID:
+        type: string
+      userInteraction:
+        $ref: '#/definitions/UserInteraction'

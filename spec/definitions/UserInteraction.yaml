@@ -1,0 +1,7 @@
+type: object
+discriminator: interactionType
+required:
+  - interactionType
+properties:
+  interactionType:
+    type: string

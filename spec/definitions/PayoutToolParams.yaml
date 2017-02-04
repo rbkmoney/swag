@@ -1,0 +1,10 @@
+type: object
+discriminator: payoutToolType
+required:
+  - currency
+  - payoutToolType
+properties:
+  currency:
+    type: string
+  payoutToolType:
+    type: string

@@ -1,0 +1,12 @@
+type: object
+required:
+  - guaranteeID
+  - settlementID
+  - currency
+properties:
+  guaranteeID:
+    type: string
+  settlementID:
+    type: string
+  currency:
+    type: string

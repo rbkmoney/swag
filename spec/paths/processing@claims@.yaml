@@ -1,0 +1,22 @@
+get:
+  description: Get claims by status
+  operationId: getClaimsByStatus
+  tags:
+    - Заявки
+  parameters:
+    - $ref: '#/parameters/requestID'
+    - name: claimStatus
+      in: query
+      type: string
+      enum:
+        - pending
+      required: true
+  responses:
+    '200':
+      description: Claims found
+      schema:
+        type: array
+        items:
+          $ref: '#/definitions/Claim'
+    '400':
+      $ref: '#/responses/BadRequest'

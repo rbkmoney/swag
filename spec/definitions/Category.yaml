@@ -1,0 +1,12 @@
+type: object
+required:
+  - name
+  - categoryID
+properties:
+  name:
+    type: string
+  categoryID:
+    type: integer
+    format: int32
+  description:
+    type: string

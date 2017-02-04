@@ -1,0 +1,7 @@
+type: object
+discriminator: requestType
+required:
+  - requestType
+properties:
+  requestType:
+    type: string

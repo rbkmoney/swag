@@ -1,0 +1,17 @@
+get:
+  description: Returns invoice information by ID
+  tags:
+    - Инвойсы
+  operationId: getInvoiceByID
+  parameters:
+    - $ref: '#/parameters/requestID'
+    - $ref: '#/parameters/invoiceID'
+  responses:
+    '200':
+      description: Invoice object
+      schema:
+        $ref: '#/definitions/Invoice'
+    '400':
+      $ref: '#/responses/BadRequest'
+    '404':
+      $ref: '#/responses/NotFound'

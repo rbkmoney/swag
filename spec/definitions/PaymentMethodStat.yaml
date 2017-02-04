@@ -1,0 +1,7 @@
+type: object
+discriminator: statType
+required:
+  - statType
+properties:
+  statType:
+    type: string

@@ -1,0 +1,21 @@
+type: object
+allOf:
+  - $ref: '#/definitions/PaymentMethodStat'
+  - type: object
+    required:
+      - offset
+      - totalCount
+      - paymentSystem
+      - profit
+      - revenue
+    properties:
+      offset:
+        type: integer
+      totalCount:
+        type: integer
+      paymentSystem:
+        type: string
+      profit:
+        type: integer
+      revenue:
+        type: integer

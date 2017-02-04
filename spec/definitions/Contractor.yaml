@@ -1,0 +1,9 @@
+type: object
+required:
+  - bankAccount
+  - legalEntity
+properties:
+  bankAccount:
+    $ref: '#/definitions/BankAccount'
+  legalEntity:
+    $ref: '#/definitions/LegalEntity'

@@ -1,0 +1,14 @@
+type: object
+required:
+  - status
+properties:
+  status:
+    type: string
+    enum:
+      - pending
+      - processed
+      - captured
+      - cancelled
+      - failed
+  error:
+    $ref: '#/definitions/LogicError'

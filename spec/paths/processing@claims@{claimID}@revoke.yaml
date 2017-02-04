@@ -1,0 +1,21 @@
+put:
+  description: Revoke claim by ID
+  operationId: revokeClaimByID
+  tags:
+    - Заявки
+  parameters:
+    - $ref: '#/parameters/requestID'
+    - $ref: '#/parameters/claimID'
+    - name: revokeClaim
+      in: body
+      description: Revoke claim params
+      required: true
+      schema:
+        $ref: '#/definitions/Reason'
+  responses:
+    '200':
+      description: Claim revoked
+    '400':
+      $ref: '#/responses/BadRequest'
+    '404':
+      $ref: '#/responses/NotFound'

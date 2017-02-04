@@ -1,0 +1,28 @@
+post:
+  description: Создать новый токен платежной карты
+  tags:
+    - Токены
+  operationId: createPaymentToolToken
+  parameters:
+    - $ref: '#/parameters/requestID'
+    - name: paymentTool
+      description: Payment tool args
+      in: body
+      required: true
+      schema:
+        $ref: '#/definitions/CreatePaymentToolTokenArgs'
+  responses:
+    '201':
+      description: Token created
+      schema:
+        type: object
+        required:
+          - token
+          - session
+        properties:
+          token:
+            type: string
+          session:
+            type: string
+    '400':
+      $ref: '#/responses/BadRequest'

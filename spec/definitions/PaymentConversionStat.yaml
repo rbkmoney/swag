@@ -1,0 +1,15 @@
+type: object
+required:
+  - offset
+  - successfulCount
+  - totalCount
+  - conversion
+properties:
+  offset:
+    type: integer
+  successfulCount:
+    type: integer
+  totalCount:
+    type: integer
+  conversion:
+    type: number

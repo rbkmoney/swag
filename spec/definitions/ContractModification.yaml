@@ -1,0 +1,14 @@
+type: object
+allOf:
+  - $ref: '#/definitions/PartyModification'
+  - type: object
+    discriminator: contractModificationType
+    required:
+      - contractModificationType
+      - contractID
+    properties:
+      contractModificationType:
+        type: string
+      contractID:
+        type: integer
+        format: int32

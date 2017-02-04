@@ -1,0 +1,21 @@
+post:
+  description: Fulfill invoice
+  tags:
+    - Инвойсы
+  operationId: fulfillInvoice
+  parameters:
+    - $ref: '#/parameters/requestID'
+    - $ref: '#/parameters/invoiceID'
+    - name: fulfillInvoice
+      in: body
+      description: Fulfill invoice params
+      required: true
+      schema:
+        $ref: '#/definitions/Reason'
+  responses:
+    '204':
+      description: Invoice fulfilled
+    '400':
+      $ref: '#/responses/BadRequest'
+    '404':
+      $ref: '#/responses/NotFound'

@@ -1,0 +1,12 @@
+put:
+  description: Activate my party
+  operationId: activateMyParty
+  tags:
+    - Участники
+  parameters:
+    - $ref: '#/parameters/requestID'
+  responses:
+    '202':
+      description: Claim registered
+      schema:
+        $ref: '#/definitions/ClaimRegistrationResult'

@@ -1,0 +1,11 @@
+type: array
+items:
+  type: object
+  required:
+    - key
+    - template
+  properties:
+    key:
+      type: string
+    template:
+      type: string

@@ -1,0 +1,38 @@
+get:
+  description: Get shop by id
+  operationId: getShopByID
+  tags:
+    - Магазины
+  parameters:
+    - $ref: '#/parameters/requestID'
+    - $ref: '#/parameters/shopID'
+  responses:
+    '200':
+      description: Shop found
+      schema:
+        $ref: '#/definitions/Shop'
+    '404':
+      $ref: '#/responses/NotFound'
+post:
+  description: Claim for updating the shop
+  operationId: updateShop
+  tags:
+    - Магазины
+  parameters:
+    - $ref: '#/parameters/requestID'
+    - $ref: '#/parameters/shopID'
+    - name: updateShopArgs
+      in: body
+      description: Shop params for an update
+      required: true
+      schema:
+        $ref: '#/definitions/UpdateShopArgs'
+  responses:
+    '202':
+      description: Claim registered
+      schema:
+        $ref: '#/definitions/ClaimRegistrationResult'
+    '400':
+      $ref: '#/responses/BadRequest'
+    '404':
+      $ref: '#/responses/NotFound'

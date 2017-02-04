@@ -1,0 +1,22 @@
+get:
+  description: Получить статус платежа
+  tags:
+    - Платежи
+  operationId: getPaymentByID
+  parameters:
+    - $ref: '#/parameters/requestID'
+    - $ref: '#/parameters/invoiceID'
+    - name: paymentID
+      in: path
+      description: Payment ID
+      required: true
+      type: string
+  responses:
+    '200':
+      description: Payment object
+      schema:
+        $ref: '#/definitions/Payment'
+    '400':
+      $ref: '#/responses/BadRequest'
+    '404':
+      $ref: '#/responses/NotFound'

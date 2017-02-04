@@ -1,0 +1,27 @@
+type: object
+required:
+  - shopID
+  - product
+  - dueDate
+  - amount
+  - currency
+  - context
+properties:
+  shopID:
+    type: integer
+    format: int32
+  amount:
+    type: integer
+    format: int64
+    minimum: 1
+  currency:
+    type: string
+  context:
+    $ref: '#/definitions/InvoiceContext'
+  dueDate:
+    type: string
+    format: date-time
+  product:
+    type: string
+  description:
+    type: string

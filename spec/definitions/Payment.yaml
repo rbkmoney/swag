@@ -1,0 +1,25 @@
+type: object
+allOf:
+  - $ref: '#/definitions/PaymentStatus'
+  - type: object
+    required:
+      - id
+      - invoiceID
+      - createdAt
+      - paymentToolToken
+      - contactInfo
+      - paymentSession
+    properties:
+      id:
+        type: string
+      invoiceID:
+        type: string
+      createdAt:
+        type: string
+        format: date-time
+      paymentToolToken:
+        type: string
+      contactInfo:
+        $ref: '#/definitions/ContactInfo'
+      paymentSession:
+        type: string

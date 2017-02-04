@@ -1,0 +1,23 @@
+post:
+  description: Запустить новый платеж
+  tags:
+    - Платежи
+  operationId: createPayment
+  parameters:
+    - $ref: '#/parameters/requestID'
+    - $ref: '#/parameters/invoiceID'
+    - name: createPaymentArgs
+      description: Invoice initiation request
+      in: body
+      required: true
+      schema:
+        $ref: '#/definitions/CreatePaymentArgs'
+  responses:
+    '201':
+      description: Payment created
+      schema:
+        $ref: '#/definitions/Payment'
+    '400':
+      $ref: '#/responses/BadRequest'
+    '404':
+      $ref: '#/responses/NotFound'

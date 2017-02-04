@@ -1,0 +1,12 @@
+type: object
+allOf:
+  - $ref: '#/definitions/BrowserRequest'
+  - type: object
+    required:
+      - uriTemplate
+      - form
+    properties:
+      uriTemplate:
+        type: string
+      form:
+        $ref: '#/definitions/UserInteractionForm'

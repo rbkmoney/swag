@@ -1,0 +1,31 @@
+get:
+  description: Получить все события по указанному инвойсу
+  tags:
+    - Инвойсы
+  operationId: getInvoiceEvents
+  parameters:
+    - $ref: '#/parameters/requestID'
+    - $ref: '#/parameters/invoiceID'
+    - name: limit
+      in: query
+      description: Events limit
+      required: true
+      type: integer
+      format: int32
+      minimum: 1
+    - name: eventID
+      in: query
+      description: Last seen event id
+      required: false
+      type: string
+  responses:
+    '200':
+      description: List of invoice events
+      schema:
+        type: array
+        items:
+          $ref: '#/definitions/Event'
+    '400':
+      $ref: '#/responses/BadRequest'
+    '404':
+      $ref: '#/responses/NotFound'

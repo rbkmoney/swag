@@ -1,0 +1,20 @@
+type: object
+allOf:
+  - $ref: '#/definitions/PaymentTool'
+  - type: object
+    required:
+      - cardNumber
+      - expDate
+      - cvv
+    properties:
+      cardHolder:
+        type: string
+      cardNumber:
+        type: string
+        pattern: '^\d{10,19}$'
+      expDate:
+        type: string
+        pattern: '^\d{2}\/\d{2}$'
+      cvv:
+        type: string
+        pattern: '^\d{3,4}$'

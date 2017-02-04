@@ -1,0 +1,10 @@
+type: object
+allOf:
+  - $ref: '#/definitions/ClaimStatus'
+  - type: object
+    required:
+      - acceptedAt
+    properties:
+      acceptedAt:
+        type: string
+        format: date-time

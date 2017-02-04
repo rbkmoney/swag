@@ -1,0 +1,14 @@
+type: object
+required:
+  - status
+properties:
+  status:
+    type: string
+    enum:
+      - unpaid
+      - cancelled
+      - paid
+      - refunded
+      - fulfilled
+  reason:
+    type: string

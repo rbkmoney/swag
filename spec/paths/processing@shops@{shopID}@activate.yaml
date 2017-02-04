@@ -1,0 +1,15 @@
+put:
+  description: Activate shop
+  operationId: activateShop
+  tags:
+    - Магазины
+  parameters:
+    - $ref: '#/parameters/requestID'
+    - $ref: '#/parameters/shopID'
+  responses:
+    '202':
+      description: Claim registered
+      schema:
+        $ref: '#/definitions/ClaimRegistrationResult'
+    '404':
+      $ref: '#/responses/NotFound'

@@ -1,0 +1,12 @@
+type: object
+required:
+  - paymentToolToken
+  - paymentSession
+  - contactInfo
+properties:
+  paymentToolToken:
+    type: string
+  paymentSession:
+    type: string
+  contactInfo:
+    $ref: '#/definitions/ContactInfo'

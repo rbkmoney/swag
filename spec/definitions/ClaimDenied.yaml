@@ -1,0 +1,9 @@
+type: object
+allOf:
+  - $ref: '#/definitions/ClaimStatus'
+  - type: object
+    required:
+      - reason
+    properties:
+      reason:
+        type: string
