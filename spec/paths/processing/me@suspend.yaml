@@ -6,7 +6,5 @@ put:
   parameters:
     - $ref: '#/parameters/requestID'
   responses:
-    '202':
-      description: Claim registered
-      schema:
-        $ref: '#/definitions/ClaimRegistrationResult'
+    '204':
+      description: Party suspended

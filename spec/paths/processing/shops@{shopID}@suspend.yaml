@@ -9,9 +9,7 @@ put:
     - $ref: '#/parameters/requestID'
     - $ref: '#/parameters/shopID'
   responses:
-    '202':
-      description: Claim registered
-      schema:
-        $ref: '#/definitions/ClaimRegistrationResult'
+    '204':
+      description: Shop suspended
     '404':
       $ref: '#/responses/NotFound'
