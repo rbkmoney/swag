@@ -3,4 +3,5 @@ required:
   - fingerprint
 properties:
   fingerprint:
+    description: Уникальный отпечаток user agent'а плательщика
     type: string

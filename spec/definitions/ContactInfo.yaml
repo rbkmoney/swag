@@ -1,6 +1,8 @@
 type: object
 properties:
-  phoneNumber:
-    type: string
   email:
+    description: Адрес электронной почты
+    type: string
+  phoneNumber:
+    description: Номер мобильного телефона
     type: string

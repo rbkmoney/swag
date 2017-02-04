@@ -1,19 +1,23 @@
 post:
-  description: Создать новый токен платежной карты
+  description: |
+    Создать новый токен платежного средства, предоставленного плательщиком, а
+    также новую уникальную платежную сессию.
+    Токен платежного средства и идентификатор сессии необходим для создания
+    платежа по инвойсу.
   tags:
     - Tokens
   operationId: createPaymentToolToken
   parameters:
     - $ref: '#/parameters/requestID'
     - name: paymentTool
-      description: Payment tool args
+      description: Данные для создания токена
       in: body
       required: true
       schema:
         $ref: '#/definitions/CreatePaymentToolTokenArgs'
   responses:
     '201':
-      description: Token created
+      description: Токен и сессия созданы
       schema:
         type: object
         required:
@@ -21,8 +25,10 @@ post:
           - session
         properties:
           token:
+            description: Созданный токен
             type: string
           session:
+            description: Идентификатор созданной платежной сессии
             type: string
     '400':
       $ref: '#/responses/BadRequest'

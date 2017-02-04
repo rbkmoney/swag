@@ -2,6 +2,7 @@ type: object
 discriminator: paymentToolType
 properties:
   paymentToolType:
+    decription: Тип платежного средства
     type: string
 required:
   - paymentToolType

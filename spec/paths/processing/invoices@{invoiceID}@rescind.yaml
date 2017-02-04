@@ -1,7 +1,7 @@
 post:
   description: Перевести инвойс в состояние "Отменен" со статусом "Аннулирован".
   tags:
-    - Payments
+    - Invoices
   operationId: rescindInvoice
   parameters:
     - $ref: '#/parameters/requestID'

@@ -11,15 +11,21 @@ allOf:
       - paymentSession
     properties:
       id:
+        description: Идентификатор платежа
         type: string
       invoiceID:
+        description: Идентификатор инвойса, в рамках которого был создан платеж
         type: string
       createdAt:
+        description: Дата и время создания
         type: string
         format: date-time
       paymentToolToken:
+        description: Токен платежного средства
+        type: string
+      paymentSession:
+        description: Идентификатор платежной сессии
         type: string
       contactInfo:
+        description: Контактные данные плательщика
         $ref: '#/definitions/ContactInfo'
-      paymentSession:
-        type: string
