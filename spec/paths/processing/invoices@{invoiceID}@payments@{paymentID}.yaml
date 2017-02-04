@@ -1,7 +1,7 @@
 get:
   description: Получить статус платежа
   tags:
-    - Платежи
+    - Payments
   operationId: getPaymentByID
   parameters:
     - $ref: '#/parameters/requestID'

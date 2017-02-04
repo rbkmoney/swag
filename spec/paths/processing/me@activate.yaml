@@ -2,7 +2,7 @@ put:
   description: Activate my party
   operationId: activateMyParty
   tags:
-    - Участники
+    - Parties
   parameters:
     - $ref: '#/parameters/requestID'
   responses:

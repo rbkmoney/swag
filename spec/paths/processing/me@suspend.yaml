@@ -2,7 +2,7 @@ put:
   description: Suspend my party
   operationId: suspendMyParty
   tags:
-    - Участники
+    - Parties
   parameters:
     - $ref: '#/parameters/requestID'
   responses:

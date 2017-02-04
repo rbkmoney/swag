@@ -1,7 +1,7 @@
 get:
   description: Получить список категорий
   tags:
-    - Категории магазинов
+    - Categories
   operationId: getCategories
   parameters:
     - $ref: '#/parameters/requestID'

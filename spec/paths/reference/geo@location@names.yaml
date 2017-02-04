@@ -2,7 +2,7 @@ get:
   description: Get locations names
   operationId: getLocationsNames
   tags:
-    - Геопозиционирование
+    - Geo
   parameters:
     - $ref: '#/parameters/requestID'
     - name: language

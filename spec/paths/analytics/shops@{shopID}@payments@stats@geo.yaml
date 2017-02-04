@@ -1,7 +1,7 @@
 get:
   description: Получить данные геопозиционирования UA плательщиков
   tags:
-    - Аналитика
+    - Analytics
   operationId: getPaymentGeoStats
   parameters:
     - $ref: '#/parameters/requestID'

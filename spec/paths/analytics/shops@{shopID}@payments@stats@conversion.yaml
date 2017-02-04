@@ -1,7 +1,7 @@
 get:
   description: Получить информацию о конверсии платежей магазина
   tags:
-    - Аналитика
+    - Analytics
   operationId: getPaymentConversionStats
   parameters:
     - $ref: '#/parameters/requestID'

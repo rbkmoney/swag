@@ -1,7 +1,7 @@
 get:
   description: Получить статистику платежей в привязке ко времени
   tags:
-    - Аналитика
+    - Analytics
   operationId: getPaymentRateStats
   parameters:
     - $ref: '#/parameters/requestID'

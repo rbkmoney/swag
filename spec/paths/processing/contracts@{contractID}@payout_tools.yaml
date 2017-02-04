@@ -2,7 +2,7 @@ get:
   description: Получить данные всех средств вывода
   operationId: getPayoutTools
   tags:
-    - Вывод средств
+    - Payouts
   parameters:
     - $ref: '#/parameters/requestID'
     - $ref: '#/parameters/contractID'
@@ -18,7 +18,7 @@ get:
 post:
   description: Создать заявку на внесение новых данных по выводу средств
   tags:
-    - Вывод средств
+    - Payouts
   operationId: createPayoutTool
   parameters:
     - $ref: '#/parameters/requestID'

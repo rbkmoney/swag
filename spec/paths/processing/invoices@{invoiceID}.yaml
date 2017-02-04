@@ -1,7 +1,7 @@
 get:
   description: Returns invoice information by ID
   tags:
-    - Инвойсы
+    - Invoices
   operationId: getInvoiceByID
   parameters:
     - $ref: '#/parameters/requestID'

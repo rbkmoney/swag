@@ -1,7 +1,7 @@
 get:
   description: Получить данные о сумме платежей магазина за вычетом коммиссии системы
   tags:
-    - Аналитика
+    - Analytics
   operationId: getPaymentRevenueStats
   parameters:
     - $ref: '#/parameters/requestID'

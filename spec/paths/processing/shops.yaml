@@ -2,7 +2,7 @@ get:
   description: Get all shops
   operationId: getShops
   tags:
-    - Магазины
+    - Shops
   parameters:
     - $ref: '#/parameters/requestID'
   responses:
@@ -16,7 +16,7 @@ post:
   description: Claim for creating a shop
   operationId: createShop
   tags:
-    - Магазины
+    - Shops
   parameters:
     - $ref: '#/parameters/requestID'
     - name: createShopArgs

@@ -1,7 +1,7 @@
 post:
   description: Запустить новый платеж
   tags:
-    - Платежи
+    - Payments
   operationId: createPayment
   parameters:
     - $ref: '#/parameters/requestID'

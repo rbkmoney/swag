@@ -4,7 +4,7 @@ put:
     автоматически и исполняется сразу же после отправки
   operationId: suspendShop
   tags:
-    - Магазины
+    - Shops
   parameters:
     - $ref: '#/parameters/requestID'
     - $ref: '#/parameters/shopID'

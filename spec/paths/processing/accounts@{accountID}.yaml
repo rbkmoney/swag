@@ -2,7 +2,7 @@ get:
   description: Get account by ID
   operationId: getAccountByID
   tags:
-    - Счета
+    - Accounts
   parameters:
     - $ref: '#/parameters/requestID'
     - name: accountID

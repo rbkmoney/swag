@@ -2,7 +2,7 @@ put:
   description: Revoke claim by ID
   operationId: revokeClaimByID
   tags:
-    - Заявки
+    - Claims
   parameters:
     - $ref: '#/parameters/requestID'
     - $ref: '#/parameters/claimID'

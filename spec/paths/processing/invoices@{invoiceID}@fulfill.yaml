@@ -1,7 +1,7 @@
 post:
   description: Fulfill invoice
   tags:
-    - Инвойсы
+    - Invoices
   operationId: fulfillInvoice
   parameters:
     - $ref: '#/parameters/requestID'

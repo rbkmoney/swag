@@ -1,7 +1,7 @@
 post:
   description: Создать новый токен платежной карты
   tags:
-    - Токены
+    - Tokens
   operationId: createPaymentToolToken
   parameters:
     - $ref: '#/parameters/requestID'

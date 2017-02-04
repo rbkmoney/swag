@@ -1,6 +1,6 @@
 get:
   tags:
-    - Участники
+    - Parties
   operationId: getMyParty
   parameters:
     - $ref: '#/parameters/requestID'

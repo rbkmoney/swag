@@ -1,7 +1,7 @@
 get:
   description: Получить данные категории по ее ID
   tags:
-    - Категории магазинов
+    - Categories
   operationId: getCategoryByRef
   parameters:
     - $ref: '#/parameters/requestID'

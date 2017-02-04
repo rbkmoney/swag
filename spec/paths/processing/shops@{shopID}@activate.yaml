@@ -2,7 +2,7 @@ put:
   description: Activate shop
   operationId: activateShop
   tags:
-    - Магазины
+    - Shops
   parameters:
     - $ref: '#/parameters/requestID'
     - $ref: '#/parameters/shopID'

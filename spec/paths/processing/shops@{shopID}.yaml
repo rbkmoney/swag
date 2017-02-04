@@ -2,7 +2,7 @@ get:
   description: Get shop by id
   operationId: getShopByID
   tags:
-    - Магазины
+    - Shops
   parameters:
     - $ref: '#/parameters/requestID'
     - $ref: '#/parameters/shopID'
@@ -17,7 +17,7 @@ post:
   description: Claim for updating the shop
   operationId: updateShop
   tags:
-    - Магазины
+    - Shops
   parameters:
     - $ref: '#/parameters/requestID'
     - $ref: '#/parameters/shopID'

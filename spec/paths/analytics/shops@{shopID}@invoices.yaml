@@ -1,7 +1,7 @@
 get:
   description: Поиск инвойсов
   tags:
-    - Поиск инвойсов
+    - Search
   operationId: getInvoices
   parameters:
     - $ref: '#/parameters/requestID'

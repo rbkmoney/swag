@@ -1,7 +1,7 @@
 get:
   description: Получить все события по указанному инвойсу
   tags:
-    - Инвойсы
+    - Invoices
   operationId: getInvoiceEvents
   parameters:
     - $ref: '#/parameters/requestID'

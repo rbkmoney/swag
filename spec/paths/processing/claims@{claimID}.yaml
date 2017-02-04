@@ -2,7 +2,7 @@ get:
   description: Get claim by ID
   operationId: getClaimByID
   tags:
-    - Заявки
+    - Claims
   parameters:
     - $ref: '#/parameters/requestID'
     - $ref: '#/parameters/claimID'

@@ -2,7 +2,7 @@ get:
   description: Получить данные всех договоров участника
   operationId: getContracts
   tags:
-    - Договоры
+    - Contracts
   parameters:
     - $ref: '#/parameters/requestID'
   responses:
@@ -15,7 +15,7 @@ get:
 post:
   description: Создать заявку на регистрацию договора
   tags:
-    - Договоры
+    - Contracts
   operationId: createContract
   parameters:
     - $ref: '#/parameters/requestID'

@@ -1,7 +1,7 @@
 get:
   description: Получить данные о платежных средствах
   tags:
-    - Аналитика
+    - Analytics
   operationId: getPaymentMethodStats
   parameters:
     - $ref: '#/parameters/requestID'
