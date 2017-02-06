@@ -12,11 +12,12 @@ get:
       description: Язык для локализации
       required: true
       type: string
-    - name: geoID
+    - name: geoIDs
       in: query
       description: Идентификаторы геопозиций
       required: true
       type: array
+      collectionFormat: csv
       items:
         type: integer
         format: int32
