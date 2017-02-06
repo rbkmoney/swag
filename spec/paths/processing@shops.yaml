@@ -19,12 +19,12 @@ post:
     - Shops
   parameters:
     - $ref: '#/parameters/requestID'
-    - name: createShopArgs
+    - name: shopParams
       in: body
       description: New shop params
       required: true
       schema:
-        $ref: '#/definitions/CreateShopArgs'
+        $ref: '#/definitions/ShopParams'
   responses:
     '202':
       description: Claim registered

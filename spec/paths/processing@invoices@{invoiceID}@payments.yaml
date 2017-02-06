@@ -6,12 +6,12 @@ post:
   parameters:
     - $ref: '#/parameters/requestID'
     - $ref: '#/parameters/invoiceID'
-    - name: createPaymentArgs
+    - name: paymentParams
       description: Параметры создаваемого платежа
       in: body
       required: true
       schema:
-        $ref: '#/definitions/CreatePaymentArgs'
+        $ref: '#/definitions/PaymentParams'
   responses:
     '201':
       description: Платёж создан

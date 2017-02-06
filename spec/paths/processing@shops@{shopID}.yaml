@@ -21,12 +21,12 @@ post:
   parameters:
     - $ref: '#/parameters/requestID'
     - $ref: '#/parameters/shopID'
-    - name: updateShopArgs
+    - name: updateShopParams
       in: body
       description: Shop params for an update
       required: true
       schema:
-        $ref: '#/definitions/UpdateShopArgs'
+        $ref: '#/definitions/UpdateShopParams'
   responses:
     '202':
       description: Claim registered

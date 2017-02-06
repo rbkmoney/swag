@@ -5,12 +5,12 @@ post:
   operationId: createInvoice
   parameters:
     - $ref: '#/parameters/requestID'
-    - name: createInvoiceArgs
+    - name: invoiceParams
       description: Параметры создаваемого инвойса
       in: body
       required: true
       schema:
-        $ref: '#/definitions/CreateInvoiceArgs'
+        $ref: '#/definitions/InvoiceParams'
   responses:
     '201':
       description: Инвойс создан

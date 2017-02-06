@@ -6,4 +6,4 @@ allOf:
       - details
     properties:
       details:
-        $ref: '#/definitions/UpdateShopArgs'
+        $ref: '#/definitions/UpdateShopParams'
