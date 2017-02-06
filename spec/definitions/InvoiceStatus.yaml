@@ -1,0 +1,16 @@
+type: object
+required:
+  - status
+properties:
+  status:
+    description: Статус инвойса
+    type: string
+    enum:
+      - unpaid
+      - cancelled
+      - paid
+      - refunded
+      - fulfilled
+  reason:
+    description: Причина отмены или погашения инвойса
+    type: string

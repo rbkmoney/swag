@@ -1,0 +1,11 @@
+get:
+  tags:
+    - Parties
+  operationId: getMyParty
+  parameters:
+    - $ref: '#/parameters/requestID'
+  responses:
+    '200':
+      description: Get my party
+      schema:
+        $ref: '#/definitions/Party'

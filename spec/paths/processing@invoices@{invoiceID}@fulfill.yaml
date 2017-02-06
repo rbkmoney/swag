@@ -1,0 +1,21 @@
+post:
+  description: Погасить указанный инвойс.
+  tags:
+    - Invoices
+  operationId: fulfillInvoice
+  parameters:
+    - $ref: '#/parameters/requestID'
+    - $ref: '#/parameters/invoiceID'
+    - name: fulfillInvoice
+      in: body
+      description: Произвольная причина совершения операции
+      required: true
+      schema:
+        $ref: '#/definitions/Reason'
+  responses:
+    '204':
+      description: Инвойс погашен
+    '400':
+      $ref: '#/responses/BadRequest'
+    '404':
+      $ref: '#/responses/NotFound'

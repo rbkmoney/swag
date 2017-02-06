@@ -1,0 +1,9 @@
+type: object
+required:
+  - url
+  - publicKey
+properties:
+  url:
+    type: string
+  publicKey:
+    type: string

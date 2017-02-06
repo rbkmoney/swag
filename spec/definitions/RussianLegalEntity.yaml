@@ -1,0 +1,30 @@
+type: object
+allOf:
+  - $ref: '#/definitions/LegalEntity'
+  - type: object
+    required:
+      - registeredName
+      - registeredNumber
+      - inn
+      - actualAddress
+      - postAddress
+      - representativePosition
+      - representativeFullName
+      - representativeDocument
+    properties:
+      registeredName:
+        type: string
+      registeredNumber:
+        type: string
+      inn:
+        type: string
+      actualAddress:
+        type: string
+      postAddress:
+        type: string
+      representativePosition:
+        type: string
+      representativeFullName:
+        type: string
+      representativeDocument:
+        type: string

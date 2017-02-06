@@ -1,0 +1,12 @@
+type: object
+required:
+  - id
+  - isBlocked
+  - isSuspended
+properties:
+  id:
+    type: string
+  isBlocked:
+    type: boolean
+  isSuspended:
+    type: boolean

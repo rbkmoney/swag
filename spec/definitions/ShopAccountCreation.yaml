@@ -1,0 +1,9 @@
+type: object
+allOf:
+  - $ref: '#/definitions/ShopModification'
+  - type: object
+    required:
+      - account
+    properties:
+      account:
+        $ref: '#/definitions/ShopAccount'

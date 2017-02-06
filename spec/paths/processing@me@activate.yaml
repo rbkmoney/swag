@@ -1,0 +1,10 @@
+put:
+  description: Activate my party
+  operationId: activateMyParty
+  tags:
+    - Parties
+  parameters:
+    - $ref: '#/parameters/requestID'
+  responses:
+    '204':
+      description: Party activated

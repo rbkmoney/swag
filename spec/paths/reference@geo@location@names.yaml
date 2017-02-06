@@ -1,0 +1,31 @@
+get:
+  description: |
+    Получить локализованные названия геопозиций плательщиков по их
+    идентификторам.
+  operationId: getLocationsNames
+  tags:
+    - Geo
+  parameters:
+    - $ref: '#/parameters/requestID'
+    - name: language
+      in: query
+      description: Язык для локализации
+      required: true
+      type: string
+    - name: geoID
+      in: query
+      description: Идентификаторы геопозиций
+      required: true
+      type: array
+      items:
+        type: integer
+        format: int32
+  responses:
+    '200':
+      description: Locations Names
+      schema:
+        type: array
+        items:
+          $ref: '#/definitions/LocationName'
+    '400':
+      $ref: '#/responses/BadRequest'

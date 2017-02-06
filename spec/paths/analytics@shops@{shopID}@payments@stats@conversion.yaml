@@ -1,0 +1,24 @@
+get:
+  description: |
+    Получить статистику конверсии платежей магазина за определённое время.
+  tags:
+    - Analytics
+  operationId: getPaymentConversionStats
+  parameters:
+    - $ref: '#/parameters/requestID'
+    - $ref: '#/parameters/shopID'
+    - $ref: '#/parameters/fromTime'
+    - $ref: '#/parameters/toTime'
+    - $ref: '#/parameters/splitUnit'
+    - $ref: '#/parameters/splitSize'
+  responses:
+    '200':
+      description: Статистика конверсии платежей
+      schema:
+        type: array
+        items:
+          $ref: '#/definitions/PaymentConversionStat'
+    '400':
+      $ref: '#/responses/BadRequest'
+    '404':
+      $ref: '#/responses/NotFound'

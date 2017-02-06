@@ -1,0 +1,9 @@
+type: object
+allOf:
+  - $ref: '#/definitions/ShopLocation'
+  - type: object
+    required:
+      - url
+    properties:
+      url:
+        type: string

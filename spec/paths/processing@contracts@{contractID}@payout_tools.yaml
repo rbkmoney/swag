@@ -1,0 +1,40 @@
+get:
+  description: Получить данные всех средств вывода
+  operationId: getPayoutTools
+  tags:
+    - Payouts
+  parameters:
+    - $ref: '#/parameters/requestID'
+    - $ref: '#/parameters/contractID'
+  responses:
+    '200':
+      description: List of payout tools
+      schema:
+        type: array
+        items:
+          $ref: '#/definitions/PayoutTool'
+    '404':
+      $ref: '#/responses/NotFound'
+post:
+  description: Создать заявку на внесение новых данных по выводу средств
+  tags:
+    - Payouts
+  operationId: createPayoutTool
+  parameters:
+    - $ref: '#/parameters/requestID'
+    - $ref: '#/parameters/contractID'
+    - name: PayoutToolParams
+      description: New payout tool params
+      in: body
+      required: true
+      schema:
+        $ref: '#/definitions/PayoutToolParams'
+  responses:
+    '202':
+      description: Claim registered
+      schema:
+        $ref: '#/definitions/ClaimRegistrationResult'
+    '400':
+      $ref: '#/responses/BadRequest'
+    '404':
+      $ref: '#/responses/NotFound'

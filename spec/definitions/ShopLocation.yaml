@@ -1,0 +1,7 @@
+type: object
+discriminator: locationType
+required:
+  - locationType
+properties:
+  locationType:
+    type: string

@@ -1,0 +1,10 @@
+put:
+  description: Suspend my party
+  operationId: suspendMyParty
+  tags:
+    - Parties
+  parameters:
+    - $ref: '#/parameters/requestID'
+  responses:
+    '204':
+      description: Party suspended

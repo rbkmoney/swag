@@ -1,0 +1,19 @@
+type: object
+required:
+  - offset
+  - successfulCount
+  - totalCount
+  - conversion
+properties:
+  offset:
+    description: Смещение сегмента выборки
+    type: integer
+  successfulCount:
+    description: Количество успешных платежей
+    type: integer
+  totalCount:
+    description: Общее количество платежей
+    type: integer
+  conversion:
+    description: Значение конверсии
+    type: number

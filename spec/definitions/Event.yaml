@@ -1,0 +1,14 @@
+type: object
+discriminator: eventType
+required:
+  - id
+  - createdAt
+  - eventType
+properties:
+  id:
+    type: integer
+  createdAt:
+    type: string
+    format: date-time
+  eventType:
+    type: string

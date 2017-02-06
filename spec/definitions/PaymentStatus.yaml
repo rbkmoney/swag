@@ -1,0 +1,17 @@
+type: object
+required:
+  - status
+properties:
+  status:
+    description: Статус платежа
+    type: string
+    enum:
+      - pending
+      - processed
+      - captured
+      - cancelled
+      - failed
+  error:
+    description: Описание ошибки, возникшей в процессе проведения платежа
+    allOf:
+      - $ref: '#/definitions/LogicError'

@@ -1,0 +1,9 @@
+type: object
+required:
+  - contractor
+  - payoutToolParams
+properties:
+  contractor:
+    $ref: '#/definitions/Contractor'
+  payoutToolParams:
+    $ref: '#/definitions/PayoutToolParams'

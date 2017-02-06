@@ -1,0 +1,25 @@
+get:
+  description: |
+    Получить статистику по сумме платежей магазина за определенное время, в том
+    числе за вычетом коммиссии системы.
+  tags:
+    - Analytics
+  operationId: getPaymentRevenueStats
+  parameters:
+    - $ref: '#/parameters/requestID'
+    - $ref: '#/parameters/shopID'
+    - $ref: '#/parameters/fromTime'
+    - $ref: '#/parameters/toTime'
+    - $ref: '#/parameters/splitUnit'
+    - $ref: '#/parameters/splitSize'
+  responses:
+    '200':
+      description: Статистика по сумме платежей и прибыли
+      schema:
+        type: array
+        items:
+          $ref: '#/definitions/PaymentRevenueStat'
+    '400':
+      $ref: '#/responses/BadRequest'
+    '404':
+      $ref: '#/responses/NotFound'

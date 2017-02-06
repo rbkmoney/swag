@@ -1,0 +1,20 @@
+get:
+  description: >
+    Получить статистику по уникальным плательщикам за определённое время.
+  tags:
+    - Analytics
+  operationId: getPaymentRateStats
+  parameters:
+    - $ref: '#/parameters/requestID'
+    - $ref: '#/parameters/shopID'
+    - $ref: '#/parameters/fromTime'
+    - $ref: '#/parameters/toTime'
+  responses:
+    '200':
+      description: Статистика по уникальным плательщикам
+      schema:
+        $ref: '#/definitions/PaymentRateStat'
+    '400':
+      $ref: '#/responses/BadRequest'
+    '404':
+      $ref: '#/responses/NotFound'

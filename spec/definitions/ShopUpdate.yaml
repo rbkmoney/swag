@@ -1,0 +1,9 @@
+type: object
+allOf:
+  - $ref: '#/definitions/ShopModification'
+  - type: object
+    required:
+      - details
+    properties:
+      details:
+        $ref: '#/definitions/UpdateShopParams'

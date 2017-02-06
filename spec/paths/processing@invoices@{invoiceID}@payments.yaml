@@ -1,0 +1,23 @@
+post:
+  description: Создать новый платеж по указанному инвойсу.
+  tags:
+    - Payments
+  operationId: createPayment
+  parameters:
+    - $ref: '#/parameters/requestID'
+    - $ref: '#/parameters/invoiceID'
+    - name: paymentParams
+      description: Параметры создаваемого платежа
+      in: body
+      required: true
+      schema:
+        $ref: '#/definitions/PaymentParams'
+  responses:
+    '201':
+      description: Платёж создан
+      schema:
+        $ref: '#/definitions/Payment'
+    '400':
+      $ref: '#/responses/BadRequest'
+    '404':
+      $ref: '#/responses/NotFound'

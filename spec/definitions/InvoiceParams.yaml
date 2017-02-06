@@ -1,0 +1,36 @@
+type: object
+required:
+  - shopID
+  - product
+  - dueDate
+  - amount
+  - currency
+  - metadata
+properties:
+  shopID:
+    description: Идентификатор магазина
+    type: integer
+    format: int32
+  amount:
+    description: Стоимость предлагаемых товаров или услуг
+    type: integer
+    format: int64
+    minimum: 1
+  currency:
+    description: Валюта
+    type: string
+  metadata:
+    description: Метаданные, которые необходимо связать с инвойсом
+    type: object
+  dueDate:
+    description: |
+      Дата и время окончания действия инвойса, после наступления которых его
+      уже невозможно будет оплатить
+    type: string
+    format: date-time
+  product:
+    description: Наименование предлагаемых товаров или услуг
+    type: string
+  description:
+    description: Описание предлагаемых товаров или услуг
+    type: string

@@ -1,0 +1,19 @@
+get:
+  description: Get account by ID
+  operationId: getAccountByID
+  tags:
+    - Accounts
+  parameters:
+    - $ref: '#/parameters/requestID'
+    - name: accountID
+      in: path
+      description: Account ID
+      required: true
+      type: string
+  responses:
+    '200':
+      description: Account found
+      schema:
+        $ref: '#/definitions/Account'
+    '404':
+      $ref: '#/responses/NotFound'

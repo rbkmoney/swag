@@ -1,0 +1,15 @@
+get:
+  description: Получить данные договора по его ID
+  operationId: getContractByID
+  tags:
+    - Claims
+  parameters:
+    - $ref: '#/parameters/requestID'
+    - $ref: '#/parameters/contractID'
+  responses:
+    '200':
+      description: Contract found
+      schema:
+        $ref: '#/definitions/Contract'
+    '404':
+      $ref: '#/responses/NotFound'

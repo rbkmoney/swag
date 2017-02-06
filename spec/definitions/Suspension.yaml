@@ -1,0 +1,9 @@
+type: object
+required:
+  - suspensionType
+properties:
+  suspensionType:
+    type: string
+    enum:
+      - active
+      - suspended

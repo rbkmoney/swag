@@ -1,0 +1,7 @@
+type: object
+discriminator: status
+required:
+  - status
+properties:
+  status:
+    type: string

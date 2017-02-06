@@ -1,0 +1,31 @@
+type: object
+required:
+  - id
+  - isBlocked
+  - isSuspended
+  - categoryID
+  - details
+  - contractID
+properties:
+  id:
+    type: integer
+    format: int32
+  isBlocked:
+    type: boolean
+  isSuspended:
+    type: boolean
+  categoryID:
+    type: integer
+    format: int32
+  details:
+    $ref: '#/definitions/ShopDetails'
+  contractID:
+    type: integer
+    format: int32
+  payoutToolID:
+    type: integer
+    format: int32
+  account:
+    $ref: '#/definitions/ShopAccount'
+  callbackHandler:
+    $ref: '#/definitions/CallbackHandler'

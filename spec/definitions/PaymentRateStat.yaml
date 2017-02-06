@@ -1,0 +1,7 @@
+type: object
+required:
+  - uniqueCount
+properties:
+  uniqueCount:
+    description: Количество уникальных плательщиков
+    type: integer
