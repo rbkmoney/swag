@@ -1,7 +1,7 @@
 get:
   description: |
     Получить локализованные названия геопозиций плательщиков по их
-    идентификторам.
+    идентификаторам.
   operationId: getLocationsNames
   tags:
     - Geo
