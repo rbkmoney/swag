@@ -1,0 +1,46 @@
+function generateSignature($data='', $private_key='')
+{
+    $pkeyid = openssl_get_privatekey($private_key);
+    openssl_sign($data, $signature, $pkeyid, OPENSSL_ALGO_SHA256);
+    openssl_free_key($pkeyid);
+    return base64_encode($signature);
+}
+
+$data = [
+    'invoice_id' => "2Dbs4d4Dw",
+    'payment_id' => "1",
+    'amount' => "120000",
+    'currency' => "RUB",
+    'created_at' => "2011-07-01T09:00:00Z",
+    'metadata' => [
+      'order_id' => "some_order_id"
+    ],
+    'status' => 'paid'
+];
+
+$jsonData = json_encode($data);
+
+$headers = [];
+$headers[] = 'X-Signature:' . generateSignature($jsonData, $private_key);
+$headers[] = 'Content-type: application/json; charset=utf-8';
+$headers[] = 'Accept: application/json';
+
+$url = "https://{host}:{port}/{path}";
+$curl = curl_init($url);
+curl_setopt($curl, CURLOPT_POST, TRUE);
+curl_setopt($curl, CURLOPT_POSTFIELDS, $jsonData);
+curl_setopt($curl, CURLOPT_SSL_VERIFYHOST, FALSE);
+curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, FALSE);
+curl_setopt($curl, CURLOPT_RETURNTRANSFER, TRUE);
+curl_setopt($curl, CURLOPT_HTTPHEADER, $headers);
+
+$body = curl_exec($curl);
+$info = curl_getinfo($curl);
+
+$curl_errno = curl_errno($curl);
+
+$response['http_code'] = $info['http_code'];
+$response['body'] = $body;
+
+http_response_code($info['http_code']);
+curl_close($curl);

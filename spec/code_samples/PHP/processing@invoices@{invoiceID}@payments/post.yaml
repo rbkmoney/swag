@@ -1,0 +1,49 @@
+header('Access-Control-Allow-Origin: *');
+header('Access-Control-Allow-Methods: PUT, POST, GET, OPTIONS');
+header('Access-Control-Allow-Headers: Origin, X-Requested-With, Content-Type, Accept, Authorization, X-Request-ID');
+
+if ($_SERVER['REQUEST_METHOD'] == 'OPTIONS') {
+    http_response_code(200);
+    exit();
+}
+
+$headers = [];
+$headers[] = 'X-Request-ID: ' . uniqid();
+$headers[] = 'Authorization: Bearer ' . $private_token;
+$headers[] = 'Content-type: application/json; charset=utf-8';
+$headers[] = 'Accept: application/json';
+
+$body = file_get_contents('php://input');
+$request = json_decode($body, true);
+
+$url = 'https://{host}:{port}' . "/processing/invoices/" . $request['invoiceId'] . '/payments';
+
+$curl = curl_init($url);
+curl_setopt($curl, CURLOPT_POST, TRUE);
+
+$data = [
+    'paymentToolToken' => $request['token'],
+    'paymentSession' => $request['session'],
+    'contactInfo' => [
+        'email' => $request['contractInfo']['email'],
+    ]
+];
+
+curl_setopt($curl, CURLOPT_POSTFIELDS, json_encode($data));
+curl_setopt($curl, CURLOPT_SSL_VERIFYHOST, FALSE);
+curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, FALSE);
+curl_setopt($curl, CURLOPT_RETURNTRANSFER, TRUE);
+curl_setopt($curl, CURLOPT_HTTPHEADER, $headers);
+$body = curl_exec($curl);
+
+$response['http_code'] = $info['http_code'];
+$response['body'] = $body;
+
+curl_close($curl);
+/**
+ * Необходимо вернуть в заголовке http code и вывести тело сообщения
+ * Например:
+ * http_response_code($response['http_code']);
+ * return $response['body'];
+ */
+return $response;

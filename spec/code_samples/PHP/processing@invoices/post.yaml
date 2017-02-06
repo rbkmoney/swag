@@ -1,0 +1,32 @@
+$headers = [];
+$headers[] = 'X-Request-ID: ' . uniqid();
+$headers[] = 'Authorization: Bearer ' . $private_token;
+$headers[] = 'Content-type: application/json; charset=utf-8';
+$headers[] = 'Accept: application/json';
+
+$url = 'https://{host}:{port}' .   '/processing/invoices';
+
+$curl = curl_init($url);
+curl_setopt($curl, CURLOPT_POST, TRUE);
+
+date_default_timezone_set('UTC');
+$data = [
+    'shopID' => 'your shop id',
+    'amount' => $amount,
+    'context' => [
+        "order_id" => $order_id,
+    ],
+    'dueDate' => date("Y-m-d\TH:i:s\Z", strtotime("+1 days")),
+    'currency' => $currency,
+    'product' => $product,
+    'description' => $description,
+];
+
+curl_setopt($curl, CURLOPT_POSTFIELDS, json_encode($data));
+curl_setopt($curl, CURLOPT_SSL_VERIFYHOST, FALSE);
+curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, FALSE);
+curl_setopt($curl, CURLOPT_RETURNTRANSFER, TRUE);
+curl_setopt($curl, CURLOPT_HTTPHEADER, $headers);
+
+// Возвращает номер инвойса. Example: {"id":"2Dbs4d4Dw"}
+$response = curl_exec($curl);
