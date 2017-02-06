@@ -5,7 +5,7 @@ required:
   - dueDate
   - amount
   - currency
-  - context
+  - metadata
 properties:
   shopID:
     description: Идентификатор магазина
@@ -19,7 +19,7 @@ properties:
   currency:
     description: Валюта
     type: string
-  context:
+  metadata:
     description: Метаданные, которые необходимо связать с инвойсом
     type: object
   dueDate:

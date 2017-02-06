@@ -9,7 +9,7 @@ allOf:
       - dueDate
       - amount
       - currency
-      - context
+      - metadata
       - product
     properties:
       id:
@@ -35,7 +35,7 @@ allOf:
       currency:
         description: Валюта
         type: string
-      context:
+      metadata:
         description: Связанные с инвойсом метаданные
         type: object
       product:
