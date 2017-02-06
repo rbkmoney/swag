@@ -5,9 +5,11 @@ var Path = require('path');
 require('shelljs/global');
 set('-e');
 
-mkdir('-p', 'web_deploy')
+mkdir('-p', 'web_deploy/wsd')
 
 cp('-R', 'web/*', 'web_deploy/');
+
+cp('-R', 'spec/wsd/*', 'web_deploy/wsd/');
 
 exec('npm run swagger bundle --        -o web_deploy/swagger.json');
 exec('npm run swagger bundle -- --yaml -o web_deploy/swagger.yaml');
