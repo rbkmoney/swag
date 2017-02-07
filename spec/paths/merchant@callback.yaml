@@ -1,0 +1,37 @@
+post:
+  description: |
+    На указанный мерчантом в личном кабинете CallbackUrl отправляется POST запрос с телом сообщения в формате JSON, 
+    уведомляющий мерчанта об изменении статуса инвойса.
+
+    Тело запроса в формате JSON подписывается и добавляется в виде заголовка: `X-Signature`.
+    Сигнатура формируется подписыванием тела запроса приватным ключом RSA с алгоритмом хэширования SHA-256 и размером ключа 1024.
+
+    В результате успешного завершения обработки запроса возвращается код `200`.
+
+    Если запрос не проходит валидацию у мерчанта (тело запроса некорректно), возвращается код `400`.
+
+    При внутренних ошибках сервера на стороне мерчанта возвращается ошибка `500`. ([список кодов состояния HTTP](https://ru.wikipedia.org/wiki/%D0%A1%D0%BF%D0%B8%D1%81%D0%BE%D0%BA_%D0%BA%D0%BE%D0%B4%D0%BE%D0%B2_%D1%81%D0%BE%D1%81%D1%82%D0%BE%D1%8F%D0%BD%D0%B8%D1%8F_HTTP))
+
+
+    Мерчант, используя публичный ключ RSA и имея в распоряжении тело запроса, подпись, алгоритм подписи и хэширования, может произвести проверку подписи
+
+  tags:
+    - CallbackUrl
+  operationId: callbackUrl
+  produces:
+    - application/json
+  parameters:
+    - $ref: '#/parameters/xSignature'
+    - name: callbackUrl
+      in: body
+      description: Параметры для уведомления мерчанта об изменения статуса инвойса
+      required: true
+      schema:
+        $ref: '#/definitions/CallbackUrl'
+  responses:
+    '200':
+      description: Successful operation
+    '400':
+      description: Bad Request
+    '500':
+      description: Internal Server Error

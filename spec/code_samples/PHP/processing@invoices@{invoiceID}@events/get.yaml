@@ -1,0 +1,32 @@
+header('Access-Control-Allow-Origin: *');
+header('Access-Control-Allow-Methods: PUT, POST, GET, OPTIONS');
+header('Access-Control-Allow-Headers: Origin, X-Requested-With, Content-Type, Accept, Authorization, X-Request-ID');
+
+$headers = [];
+$headers[] = 'X-Request-ID: ' . uniqid();
+$headers[] = 'Authorization: Bearer ' . $private_token;
+
+$prepareQueryParams = [];
+$prepareQueryParams['limit'] = (!empty($_GET['limit'])) ? $_GET['limit'] : 100000;
+$prepareQueryParams['eventID'] = $_GET['eventID'];
+
+$url = https://{host}:{port} . '/processing/invoices/' . $_GET['invoiceId'] . "/events?" . http_build_query($prepareQueryParams);
+
+$curl = curl_init($url);
+curl_setopt($curl, CURLOPT_SSL_VERIFYHOST, FALSE);
+curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, FALSE);
+curl_setopt($curl, CURLOPT_RETURNTRANSFER, TRUE);
+curl_setopt($curl, CURLOPT_HTTPHEADER, $headers);
+$body = curl_exec($curl);
+
+$response['http_code'] = $info['http_code'];
+$response['body'] = $body;
+
+curl_close($curl);
+/**
+ * Необходимо вернуть в заголовке http code и вывести тело сообщения
+ * Например:
+ * http_response_code($response['http_code']);
+ * return $response['body'];
+ */
+return $response;

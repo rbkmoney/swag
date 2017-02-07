@@ -80,6 +80,12 @@ parameters:
     description: Уникальный идентификатор запроса к системе
     required: true
     type: string
+  xSignature:
+    name: X-Signature
+    in: header
+    description: Сигнатура подписи тела запроса
+    required: true
+    type: string
   claimID:
     name: claimID
     in: path
@@ -368,3 +374,8 @@ tags:
       подготовлены заранее и не подразумевают интерактивного изменения структуры
       данных. Для получения дополнительных наборов данных необходимо обратиться
       к вашему курирующему менеджеру.
+
+  - name: CallbackUrl
+    x-displayName: Мерчант Callback Url
+    description: >
+      Обработка уведомления изменения статуса инвойса на стороне мерчанта

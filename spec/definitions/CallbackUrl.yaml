@@ -1,0 +1,33 @@
+type: object
+required:
+  - invoice_id
+  - payment_id
+  - amount
+  - currency
+  - created_at
+  - metadata
+  - status
+properties:
+  invoice_id:
+    type: string
+    description: "Номер инвойса (2Dbs4d4Dw)"
+  payment_id:
+    type: string
+    description: "Номер платежа (1)"
+  amount:
+    description: "Сумма в минорных единицах (120000)"
+    type: string
+  currency:
+    description: "Валюта (RUB)"
+    type: string
+  created_at:
+    description: "Дата (2011-07-01T09:00:00Z)"
+    type: string
+  metadata:
+    description: "Данные переданные мерчантом в context при создании инвойса ({'order_id':'my_order_id'})"
+    type: string
+  status:
+    description: Статус (paid)
+    type: string
+    enum:
+      - paid
