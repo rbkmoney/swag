@@ -1,0 +1,15 @@
+box: node:7
+
+build:
+  steps:
+    - npm-install
+    - npm-test
+    - script:
+      name: build docsite
+      code: npm run build -- ${WERCKER_OUTPUT_DIR}
+
+deploy:
+  steps:
+    - lukevivier/gh-pages:
+      repo: rbkmoney/api
+      token: ${GITHUB_API_TOKEN}
