@@ -2,6 +2,7 @@ type: object
 allOf:
   - $ref: '#/definitions/InvoiceStatus'
   - type: object
+    format: application/json; charset=utf-8
     required:
       - id
       - shopID
