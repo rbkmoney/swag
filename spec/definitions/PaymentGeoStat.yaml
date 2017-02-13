@@ -14,7 +14,9 @@ properties:
     type: integer
     format: int32
   currency:
-    description: Валюта платежей
+    description: |
+      Валюта платежей, символьный код согласно
+      [RFC 4217](http://www.iso.org/iso/home/standards/currency_codes.htm).
     type: string
   profit:
     description: Прибыль магазина
