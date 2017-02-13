@@ -38,6 +38,16 @@ info:
     ```
       Content-Type: application/json; charset=utf-8
     ```
+
+    ## Формат дат
+
+    Платформа принимает значения date-time в стандарте ISO 8601 с обязательным указанием нулевого UTC-оффсета, например:
+
+    ```
+      2017-01-01T00:00:00Z
+      2017-01-01T00:00:00+00:00
+    ```
+
   termsOfService: 'http://rbkmoney.com/'
   contact:
     name: RBKmoney support team
