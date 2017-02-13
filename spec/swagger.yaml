@@ -22,26 +22,34 @@ info:
     участника в пределах платформы ID запроса. Данный ID передается в
     соответствующем заголовке HTTP-запроса:
 
-    ```shell
+    ```
      X-Request-ID: c7c7b7b5-562f-45b1-9046-9aadd8776dd7
     ```
 
     Для генерации ID запросов мы рекомендуем использовать алгоритмы генерации из
     стандарта [RFC-4122](https://www.ietf.org/rfc/rfc4122.txt). Платформа
     гарантирует идемпотентность запросов, отправленных с одинаковым ID.
+
+    # Тип содержимого и кодировка
+
+    Любой запрос к API должен выполняться в кодировке UTF-8 и с указанием содержимого в формате JSON
+
+    ```
+      Content-Type: application/json; charset=utf-8
+    ```    
   termsOfService: 'http://rbkmoney.com/'
   contact:
-    name: Anton Kuranda
-    email: a.kuranda@rbk.money
+    name: RBKmoney support team
+    email: support@rbk.money
     url: 'https://api.rbk.money'
-host: api.rbkmoney.com
+host: api.rbk.money
 basePath: /v1
 schemes:
   - https
 consumes:
-  - application/json
+  - application/json; charset=utf-8
 produces:
-  - application/json
+  - application/json; charset=utf-8
 securityDefinitions:
   bearer:
     type: apiKey
