@@ -1,0 +1,19 @@
+post:
+  operationId: createInvoiceAccessToken
+  description: |
+    Создать новый токен для доступа к указанному инвойсу.
+
+    С помошью этого токена можно токенизировать платёжные инструменты, создавать
+    платежи по этому и только этому инвойсу, получать его состояние и события.
+  tags:
+    - Invoices
+  parameters:
+    - $ref: '#/parameters/requestID'
+    - $ref: '#/parameters/invoiceID'
+  responses:
+    '201':
+      description: Токен для доступа создан
+      schema:
+        $ref: '#/definitions/InvoiceAccessToken'
+    '404':
+      $ref: '#/responses/NotFound'
