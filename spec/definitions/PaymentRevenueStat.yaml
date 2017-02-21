@@ -9,7 +9,9 @@ properties:
     description: Смещение сегмента выборки
     type: integer
   currency:
-    description: Валюта платежей
+    description: |
+      Валюта платежей, символьный код согласно
+      [RFC 4217](http://www.iso.org/iso/home/standards/currency_codes.htm).
     type: string
   profit:
     description: Прибыль магазина

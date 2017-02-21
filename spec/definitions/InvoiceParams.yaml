@@ -12,12 +12,16 @@ properties:
     type: integer
     format: int32
   amount:
-    description: Стоимость предлагаемых товаров или услуг
+    description: |
+      Стоимость предлагаемых товаров или услуг, в минорных денежных единицах,
+      например в копейках в случае указания российских рублей в качестве валюты.
     type: integer
     format: int64
     minimum: 1
   currency:
-    description: Валюта
+    description: |
+      Валюта, символьный код согласно
+      [RFC 4217](http://www.iso.org/iso/home/standards/currency_codes.htm).
     type: string
   metadata:
     description: Метаданные, которые необходимо связать с инвойсом
