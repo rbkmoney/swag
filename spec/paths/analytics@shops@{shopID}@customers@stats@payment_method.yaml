@@ -15,6 +15,7 @@ get:
       in: query
       description: Метод оплаты
       type: string
+      required: true
       enum:
         - bankCard
   responses:
