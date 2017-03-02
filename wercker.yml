@@ -7,9 +7,17 @@ build:
     - script:
       name: build docsite
       code: npm run build -- ${WERCKER_OUTPUT_DIR}
+  after-steps:
+    - slack-notifier:
+      url: ${SLACK_WEBHOOK_URL}
+      username: "wercker"
 
 deploy:
   steps:
     - lukevivier/gh-pages:
       repo: rbkmoney/api
       token: ${GITHUB_API_TOKEN}
+  after-steps:
+    - slack-notifier:
+      url: ${SLACK_WEBHOOK_URL}
+      username: "wercker"
