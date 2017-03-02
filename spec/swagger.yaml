@@ -23,7 +23,7 @@ info:
     соответствующем заголовке HTTP-запроса:
 
     ```
-     X-Request-ID: c7c7b7b5-562f-45b1-9046-9aadd8776dd7
+     X-Request-ID: oX5MWM2AQy
     ```
 
     Для генерации ID запросов мы рекомендуем использовать алгоритмы генерации из
@@ -36,7 +36,7 @@ info:
 
     ```
       Content-Type: application/json; charset=utf-8
-    ```    
+    ```
   termsOfService: 'http://rbkmoney.com/'
   contact:
     name: RBKmoney support team
@@ -88,6 +88,7 @@ parameters:
     description: Уникальный идентификатор запроса к системе
     required: true
     type: string
+    maxLength: 32
   claimID:
     name: claimID
     in: path
@@ -377,7 +378,7 @@ tags:
       данных. Для получения дополнительных наборов данных необходимо обратиться
       к вашему курирующему менеджеру.
   - name: Error Codes
-    x-displayName: Коды ошибок 
+    x-displayName: Коды ошибок
     description: >
 
       # Ошибки бизнес-логики
@@ -385,9 +386,9 @@ tags:
       Все ошибки бизнес-логики имеют следуюший вид:
 
         ```json
-        {          
-          "code": "string", 
-          "message": "string"       
+        {
+          "code": "string",
+          "message": "string"
         }
         ```
 
