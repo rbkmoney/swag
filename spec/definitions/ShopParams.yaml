@@ -1,6 +1,5 @@
 type: object
 required:
-  - categoryID
   - details
   - contractID
   - payoutToolID
