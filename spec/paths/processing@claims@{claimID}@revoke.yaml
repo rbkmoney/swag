@@ -13,7 +13,7 @@ put:
       schema:
         $ref: '#/definitions/Reason'
   responses:
-    '200':
+    '204':
       description: Claim revoked
     '400':
       $ref: '#/responses/BadRequest'

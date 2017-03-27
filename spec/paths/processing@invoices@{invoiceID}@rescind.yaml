@@ -13,7 +13,7 @@ post:
       schema:
         $ref: '#/definitions/Reason'
   responses:
-    '200':
+    '204':
       description: Инвойс аннулирован
     '400':
       $ref: '#/responses/BadRequest'
