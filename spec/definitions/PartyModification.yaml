@@ -1,3 +1,4 @@
+description: Единичное изменение данных участника
 type: object
 discriminator: partyModificationType
 required:
@@ -5,3 +6,6 @@ required:
 properties:
   partyModificationType:
     type: string
+    enum:
+      - ContractModification
+      - ShopModification

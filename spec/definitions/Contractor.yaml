@@ -1,3 +1,4 @@
+description: Данные лица, выступающего стороной договора
 type: object
 required:
   - bankAccount

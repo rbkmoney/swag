@@ -1,7 +1,0 @@
-type: object
-required:
-  - claimID
-properties:
-  claimID:
-    type: integer
-    format: int64

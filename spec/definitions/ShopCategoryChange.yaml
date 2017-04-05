@@ -1,0 +1,13 @@
+description: Изменение категории магазина
+type: object
+allOf:
+  - $ref: '#/definitions/ShopModification'
+  - type: object
+    required:
+      - categoryID
+    properties:
+      categoryID:
+        description: |
+          Идентификатор категории товаров и услуг, предлагаемых в этом магазине
+        type: integer
+        format: int32

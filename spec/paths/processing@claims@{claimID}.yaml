@@ -1,5 +1,6 @@
 get:
-  description: Get claim by ID
+  description: |
+    Получить заявку по её идентификатору.
   operationId: getClaimByID
   tags:
     - Claims
@@ -8,7 +9,7 @@ get:
     - $ref: '#/parameters/claimID'
   responses:
     '200':
-      description: Claim found
+      description: Данные заявки
       schema:
         $ref: '#/definitions/Claim'
     '404':

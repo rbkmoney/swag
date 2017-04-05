@@ -1,9 +1,11 @@
+description: Создание новых счетов в магазине
 type: object
 allOf:
   - $ref: '#/definitions/ShopModification'
   - type: object
     required:
-      - account
+      - currency
     properties:
-      account:
-        $ref: '#/definitions/ShopAccount'
+      currency:
+        description: Валюта создаваемых счетов
+        type: string

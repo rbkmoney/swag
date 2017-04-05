@@ -1,9 +1,10 @@
+description: Создание нового договора
 type: object
 allOf:
-  - $ref: '#/definitions/PartyModification'
+  - $ref: '#/definitions/ContractModification'
   - type: object
     required:
-      - contract
+      - contractor
     properties:
-      contract:
-        $ref: '#/definitions/Contract'
+      contractor:
+        $ref: '#/definitions/Contractor'

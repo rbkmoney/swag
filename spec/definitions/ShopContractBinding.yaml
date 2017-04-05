@@ -1,0 +1,18 @@
+description: Привязка магазина к указанному договору
+type: object
+allOf:
+  - $ref: '#/definitions/ShopModification'
+  - type: object
+    required:
+      - contractID
+      - payoutToolID
+    properties:
+      contractID:
+        description: |
+          Идентификатор договора, на основании которого следует производить
+          обслуживание магазина
+        type: string
+      payoutToolID:
+        description: |
+          Идентификатор средства вывода в рамках указанного контракта
+        type: string

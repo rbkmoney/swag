@@ -1,9 +1,12 @@
+description: Обработчик коллбэков
 type: object
 required:
   - url
   - publicKey
 properties:
   url:
+    description: URL обработчика коллбэков в системе участника
     type: string
   publicKey:
+    description: Публичный ключ для сверки подписи запросов к системе участника
     type: string

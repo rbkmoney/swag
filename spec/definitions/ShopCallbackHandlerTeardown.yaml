@@ -1,0 +1,4 @@
+description: Снятие обработчика коллбэков по операциям в магазине
+type: object
+allOf:
+  - $ref: '#/definitions/ShopModification'

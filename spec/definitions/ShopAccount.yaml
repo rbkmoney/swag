@@ -1,12 +1,14 @@
+description: Счета магазина
 type: object
 required:
+  - currency
   - guaranteeID
   - settlementID
-  - currency
 properties:
+  currency:
+    description: Валюта счетов
+    type: string
   guaranteeID:
     type: string
   settlementID:
-    type: string
-  currency:
     type: string
