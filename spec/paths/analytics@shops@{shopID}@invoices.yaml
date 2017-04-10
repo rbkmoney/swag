@@ -46,19 +46,19 @@ get:
       description: Идентификатор платежа
       required: false
       type: string
-    - name: paymentEmail
+    - name: payerEmail
       in: query
-      description: 'Email платежа, полностью или частично'
+      description: 'Email, указанный при оплате'
       required: false
       type: string
-    - name: paymentIP
+    - name: payerIP
       in: query
       description: IP-адрес плательщика
       required: false
       type: string
-    - name: paymentFingerprint
+    - name: payerFingerprint
       in: query
-      description: Fingerprint плательщика
+      description: Уникальный отпечаток user agent'а плательщика
       required: false
       type: string
     - name: cardNumberMask
@@ -66,6 +66,7 @@ get:
       description: Маскированый номер карты
       required: false
       type: string
+      pattern: '^\d{6}\*{2,9}\d{4}$'
     - name: paymentAmount
       in: query
       description: Сумма платежа
@@ -88,10 +89,10 @@ get:
         properties:
           totalCount:
             type: integer
-          invoices:
+          result:
             type: array
             items:
-              $ref: '#/definitions/Invoice'
+              $ref: '#/definitions/InvoiceSearchResult'
     '400':
       $ref: '#/responses/BadRequest'
     '404':

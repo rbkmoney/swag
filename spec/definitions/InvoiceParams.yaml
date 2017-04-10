@@ -24,7 +24,7 @@ properties:
       [RFC 4217](http://www.iso.org/iso/home/standards/currency_codes.htm).
     type: string
   metadata:
-    description: Метаданные, которые необходимо связать с инвойсом
+    description: 'Метаданные, которые необходимо связать с инвойсом'
     type: object
   dueDate:
     description: |

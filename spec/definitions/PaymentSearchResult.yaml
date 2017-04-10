@@ -11,6 +11,8 @@ allOf:
       - paymentSession
       - amount
       - currency
+      - fingerprint
+      - payerIP
     properties:
       id:
         description: Идентификатор платежа
@@ -46,4 +48,10 @@ allOf:
         description: |
           Валюта, символьный код согласно
           [RFC 4217](http://www.iso.org/iso/home/standards/currency_codes.htm).
+        type: string
+      fingerprint:
+        description: Уникальный отпечаток user agent'а плательщика
+        type: string
+      payerIP:
+        description: IP-адрес плательщика
         type: string

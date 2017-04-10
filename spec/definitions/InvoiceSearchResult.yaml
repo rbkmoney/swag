@@ -1,37 +1,32 @@
 type: object
 allOf:
-  - $ref: '#/definitions/PaymentStatus'
+  - $ref: '#/definitions/InvoiceStatus'
   - type: object
     required:
       - id
-      - invoiceID
+      - shopID
       - createdAt
-      - paymentToolToken
-      - contactInfo
-      - paymentSession
+      - dueDate
       - amount
       - currency
+      - metadata
+      - product
     properties:
       id:
-        description: Идентификатор платежа
+        description: Идентификатор инвойса
         type: string
-      invoiceID:
-        description: 'Идентификатор инвойса, в рамках которого был создан платеж'
-        type: string
+      shopID:
+        description: Идентификатор магазина
+        type: integer
+        format: int32
       createdAt:
         description: Дата и время создания
         type: string
         format: date-time
-      paymentToolToken:
-        description: Токен платежного средства
+      dueDate:
+        description: Дата и время окончания действия
         type: string
-      paymentSession:
-        description: Идентификатор платежной сессии
-        type: string
-      contactInfo:
-        description: Контактные данные плательщика
-        allOf:
-          - $ref: '#/definitions/ContactInfo'
+        format: date-time
       amount:
         description: >
           Стоимость предлагаемых товаров или услуг, в минорных денежных
@@ -46,4 +41,13 @@ allOf:
         description: |
           Валюта, символьный код согласно
           [RFC 4217](http://www.iso.org/iso/home/standards/currency_codes.htm).
+        type: string
+      metadata:
+        description: Связанные с инвойсом метаданные
+        type: object
+      product:
+        description: Наименование предлагаемых товаров или услуг
+        type: string
+      description:
+        description: Описание предлагаемых товаров или услуг
         type: string
