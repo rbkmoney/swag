@@ -1,7 +1,13 @@
-type: object
-discriminator: entityType
-required:
-  - entityType
-properties:
-  entityType:
-    type: string
+description: Юридическое лицо
+allOf:
+  - $ref: '#/definitions/Contractor'
+  - type: object
+    discriminator: entityType
+    required:
+      - entityType
+    properties:
+      entityType:
+        description: Тип юридического лица
+        type: string
+        enum:
+          - RussianLegalEntity

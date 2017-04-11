@@ -1,3 +1,4 @@
+description: Юридическое лицо, ведущее деятельность под юрисдикцией РФ
 type: object
 allOf:
   - $ref: '#/definitions/LegalEntity'
@@ -13,18 +14,40 @@ allOf:
       - representativeDocument
     properties:
       registeredName:
+        description: |
+          Зарегистрированное наименование юридического лица
         type: string
       registeredNumber:
+        description: |
+          Регистрационный номер,
+          [ОГРН](https://ru.wikipedia.org/wiki/Основной_государственный_регистрационный_номер) или
+          [ОГРНИП](https://ru.wikipedia.org/wiki/Основной_государственный_регистрационный_номер_индивидуального_предпринимателя)
         type: string
       inn:
+        description: |
+          [ИНН](https://ru.wikipedia.org/wiki/Идентификационный_номер_налогоплательщика)
         type: string
       actualAddress:
+        description: |
+          Почтовый адрес места нахождения
         type: string
       postAddress:
+        description: |
+          Почтовый адрес для отправки корреспонденции
         type: string
       representativePosition:
+        description: |
+          Наименование должности
+          [ЕИО](https://ru.wikipedia.org/wiki/Исполнительный_орган_общества) или его представителя
         type: string
       representativeFullName:
+        description: |
+          ФИО [ЕИО](https://ru.wikipedia.org/wiki/Исполнительный_орган_общества) или его представителя
         type: string
       representativeDocument:
+        description: |
+          Идентификационные данные документа, на основании которого действует
+          [ЕИО](https://ru.wikipedia.org/wiki/Исполнительный_орган_общества) или его представитель
         type: string
+      bankAccount:
+        $ref: '#/definitions/BankAccount'
