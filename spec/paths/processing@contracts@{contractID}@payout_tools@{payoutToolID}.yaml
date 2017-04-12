@@ -1,0 +1,16 @@
+get:
+  description: Получить данные средства вывода по его идентификатору
+  operationId: getPayoutToolByID
+  tags:
+    - Payouts
+  parameters:
+    - $ref: '#/parameters/requestID'
+    - $ref: '#/parameters/contractID'
+    - $ref: '#/parameters/payoutToolID'
+  responses:
+    '200':
+      description: Данные средства вывода
+      schema:
+        $ref: '#/definitions/PayoutTool'
+    '404':
+      $ref: '#/responses/NotFound'

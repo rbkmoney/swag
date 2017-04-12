@@ -1,14 +1,21 @@
+description: Изменение или создание договора
 type: object
 allOf:
   - $ref: '#/definitions/PartyModification'
   - type: object
     discriminator: contractModificationType
     required:
-      - contractModificationType
       - contractID
+      - contractModificationType
     properties:
+      contractID:
+        description: Идентификатор договора
+        type: string
       contractModificationType:
         type: string
-      contractID:
-        type: integer
-        format: int32
+        enum:
+          - ContractCreation
+          - ContractTermination
+          - ContractLegalAgreementBinding
+          - ContractAdjustmentCreation
+          - ContractPayoutToolCreation

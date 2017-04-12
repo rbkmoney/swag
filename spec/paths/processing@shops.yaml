@@ -12,25 +12,3 @@ get:
         type: array
         items:
           $ref: '#/definitions/Shop'
-post:
-  description: Claim for creating a shop
-  operationId: createShop
-  tags:
-    - Shops
-  parameters:
-    - $ref: '#/parameters/requestID'
-    - name: shopParams
-      in: body
-      description: New shop params
-      required: true
-      schema:
-        $ref: '#/definitions/ShopParams'
-  responses:
-    '202':
-      description: Claim registered
-      schema:
-        $ref: '#/definitions/ClaimRegistrationResult'
-    '400':
-      $ref: '#/responses/BadRequest'
-    '404':
-      $ref: '#/responses/NotFound'

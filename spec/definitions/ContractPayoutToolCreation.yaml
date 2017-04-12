@@ -1,9 +1,13 @@
+description: Создание инструмента вывода в рамках договора
 type: object
 allOf:
   - $ref: '#/definitions/ContractModification'
-  - type: object
-    required:
-      - payoutTool
-    properties:
-      payoutTool:
-        $ref: '#/definitions/PayoutTool'
+  - allOf:
+    - type: object
+      required:
+        - payoutToolID
+      properties:
+        payoutToolID:
+          description: Идентификатор средства вывода
+          type: string
+    - $ref: '#/definitions/PayoutToolParams'

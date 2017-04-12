@@ -1,9 +1,25 @@
+description: Создание нового магазина
 type: object
 allOf:
-  - $ref: '#/definitions/PartyModification'
+  - $ref: '#/definitions/ShopModification'
   - type: object
     required:
-      - shop
+      - location
+      - details
+      - contractID
+      - payoutToolID
     properties:
-      shop:
-        $ref: '#/definitions/Shop'
+      location:
+        $ref: '#/definitions/ShopLocation'
+      details:
+        $ref: '#/definitions/ShopDetails'
+      contractID:
+        description: |
+          Идентификатор договора, на основании которого следует производить
+          обслуживание создаваемого магазина
+        type: string
+      payoutToolID:
+        description: |
+          Идентификатор средства вывода для создаваемого магазина в рамках
+          указанного контракта
+        type: string

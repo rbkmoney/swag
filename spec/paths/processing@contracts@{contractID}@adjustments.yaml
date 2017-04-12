@@ -1,0 +1,17 @@
+get:
+  description: Получить данные всех поправок к указанному договору
+  operationId: getContractAdjustments
+  tags:
+    - Contracts
+  parameters:
+    - $ref: '#/parameters/requestID'
+    - $ref: '#/parameters/contractID'
+  responses:
+    '200':
+      description: Набор поправок к договору
+      schema:
+        type: array
+        items:
+          $ref: '#/definitions/ContractAdjustment'
+    '404':
+      $ref: '#/responses/NotFound'

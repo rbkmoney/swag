@@ -13,26 +13,3 @@ get:
         $ref: '#/definitions/Shop'
     '404':
       $ref: '#/responses/NotFound'
-post:
-  description: Claim for updating the shop
-  operationId: updateShop
-  tags:
-    - Shops
-  parameters:
-    - $ref: '#/parameters/requestID'
-    - $ref: '#/parameters/shopID'
-    - name: updateShopParams
-      in: body
-      description: Shop params for an update
-      required: true
-      schema:
-        $ref: '#/definitions/UpdateShopParams'
-  responses:
-    '202':
-      description: Claim registered
-      schema:
-        $ref: '#/definitions/ClaimRegistrationResult'
-    '400':
-      $ref: '#/responses/BadRequest'
-    '404':
-      $ref: '#/responses/NotFound'

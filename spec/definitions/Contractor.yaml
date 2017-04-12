@@ -1,9 +1,12 @@
+description: Данные лица, выступающего стороной договора
 type: object
+discriminator: contractorType
 required:
-  - bankAccount
-  - legalEntity
+  - contractorType
 properties:
-  bankAccount:
-    $ref: '#/definitions/BankAccount'
-  legalEntity:
-    $ref: '#/definitions/LegalEntity'
+  contractorType:
+    description: Тип лица, выступающего стороной договора
+    type: string
+    enum:
+      - LegalEntity
+      - RegisteredUser

@@ -1,3 +1,4 @@
+description: Изменение деталей магазина
 type: object
 allOf:
   - $ref: '#/definitions/ShopModification'
@@ -6,4 +7,4 @@ allOf:
       - details
     properties:
       details:
-        $ref: '#/definitions/Suspension'
+        $ref: '#/definitions/ShopDetails'

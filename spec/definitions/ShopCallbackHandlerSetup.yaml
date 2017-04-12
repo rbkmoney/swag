@@ -1,0 +1,11 @@
+description: Задание обработчика коллбэков по операциям в магазине
+type: object
+allOf:
+  - $ref: '#/definitions/ShopModification'
+  - type: object
+    required:
+      - url
+    properties:
+      url:
+        description: Целевой URL обработчика в системе участника
+        type: string

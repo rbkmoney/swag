@@ -1,3 +1,4 @@
+description: Местоположение в Интернете
 type: object
 allOf:
   - $ref: '#/definitions/ShopLocation'
@@ -6,6 +7,7 @@ allOf:
       - url
     properties:
       url:
+        description: URL сайта магазина
         type: string
         format: uri
         maxLength: 1000

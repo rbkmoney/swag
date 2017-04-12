@@ -119,13 +119,6 @@ parameters:
     in: path
     description: Идентификатор магазина
     required: true
-    type: integer
-    format: int32
-  invoiceID:
-    name: invoiceID
-    in: path
-    description: Идентификатор инвойса
-    required: true
     type: string
     maxLength: 40
   paymentID:
@@ -149,6 +142,24 @@ parameters:
     required: true
     type: string
     maxLength: 40
+  adjustmentID:
+    name: adjustmentID
+    in: path
+    description: Идентификатор поправки к договору
+    required: true
+    type: string
+  payoutToolID:
+    name: payoutToolID
+    in: path
+    description: Идентификатор средства вывода
+    required: true
+    type: string
+  invoiceID:
+    name: invoiceID
+    in: path
+    description: Идентификатор инвойса
+    required: true
+    type: string
   fromTime:
     name: fromTime
     in: query

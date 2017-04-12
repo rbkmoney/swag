@@ -1,13 +1,16 @@
 type: object
+discriminator: status
 required:
   - id
   - status
   - changeset
 properties:
   id:
+    description: Идентификатор заявки
     type: integer
     format: int64
   status:
-    $ref: '#/definitions/ClaimStatus'
+    description: Статус заявки
+    type: string
   changeset:
-    $ref: '#/definitions/PartyChangeset'
+    $ref: '#/definitions/ClaimChangeset'
