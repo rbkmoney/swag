@@ -1,0 +1,21 @@
+description: Данные поправки к договору
+type: object
+required:
+  - id
+  - createdAt
+properties:
+  id:
+    description: Идентификатор поправки
+    type: string
+  createdAt:
+    description: Дата и время создания поправки
+    type: string
+    format: date-time
+  validSince:
+    description: Дата и время вступления поправки в силу
+    type: string
+    format: date-time
+  validUntil:
+    description: Дата и время прекращения силы поправки
+    type: string
+    format: date-time

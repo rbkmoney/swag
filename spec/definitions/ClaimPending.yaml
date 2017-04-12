@@ -1,3 +1,3 @@
 type: object
 allOf:
-  - $ref: '#/definitions/ClaimStatus'
+  - $ref: '#/definitions/Claim'

@@ -12,23 +12,3 @@ get:
         type: array
         items:
           $ref: '#/definitions/Contract'
-post:
-  description: Создать заявку на регистрацию договора
-  tags:
-    - Contracts
-  operationId: createContract
-  parameters:
-    - $ref: '#/parameters/requestID'
-    - name: contractParams
-      description: New contract params
-      in: body
-      required: true
-      schema:
-        $ref: '#/definitions/ContractParams'
-  responses:
-    '202':
-      description: Claim registered
-      schema:
-        $ref: '#/definitions/ClaimRegistrationResult'
-    '400':
-      $ref: '#/responses/BadRequest'

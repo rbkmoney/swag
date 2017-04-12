@@ -1,0 +1,10 @@
+description: Привязка юридического соглашения
+type: object
+allOf:
+  - $ref: '#/definitions/ContractModification'
+  - type: object
+    required:
+      - legalAgreement
+    properties:
+      legalAgreement:
+        $ref: '#/definitions/LegalAgreement'

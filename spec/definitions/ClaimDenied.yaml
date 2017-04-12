@@ -1,9 +1,10 @@
 type: object
 allOf:
-  - $ref: '#/definitions/ClaimStatus'
+  - $ref: '#/definitions/Claim'
   - type: object
     required:
       - reason
     properties:
       reason:
+        description: Причина отклонения заявки
         type: string

@@ -3,8 +3,8 @@ required:
   - name
 properties:
   name:
+    description: Название магазина
     type: string
   description:
+    description: Краткое описание
     type: string
-  location:
-    $ref: '#/definitions/ShopLocation'

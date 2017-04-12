@@ -1,12 +1,9 @@
+description: Расторжение договора
 type: object
 allOf:
   - $ref: '#/definitions/ContractModification'
   - type: object
-    required:
-      - terminatedAt
     properties:
-      terminatedAt:
-        type: string
-        format: date-time
       reason:
+        description: Причина расторжения
         type: string

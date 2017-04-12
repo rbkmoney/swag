@@ -1,20 +1,14 @@
 put:
-  description: Revoke claim by ID
+  description: Отозвать заявку по её идентификатору.
   operationId: revokeClaimByID
   tags:
     - Claims
   parameters:
     - $ref: '#/parameters/requestID'
     - $ref: '#/parameters/claimID'
-    - name: revokeClaim
-      in: body
-      description: Revoke claim params
-      required: true
-      schema:
-        $ref: '#/definitions/Reason'
   responses:
     '204':
-      description: Claim revoked
+      description: Заявка отозвана
     '400':
       $ref: '#/responses/BadRequest'
     '404':
