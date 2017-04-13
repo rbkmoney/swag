@@ -1,0 +1,37 @@
+post:
+  description: Установить новый webhook.
+  tags:
+    - Webhooks
+  operationId: createWebhook
+  parameters:
+    - $ref: '#/parameters/requestID'
+    - name: webhookParams
+      description: Параметры устанавливаемого webhook'а
+      in: body
+      required: true
+      schema:
+        $ref: '#/definitions/WebhookParams'
+  responses:
+    '201':
+      description: Webhook установлен
+      schema:
+        $ref: '#/definitions/Webhook'
+    '400':
+      $ref: '#/responses/BadRequest'
+
+get:
+  description: Получить набор установленных webhook'ов.
+  tags:
+    - Webhooks
+  operationId: getWebhooks
+  parameters:
+    - $ref: '#/parameters/requestID'
+  responses:
+    '200':
+      description: Набор webhook'ов
+      schema:
+        type: array
+        items:
+          $ref: '#/definitions/Webhook'
+    '404':
+      $ref: '#/responses/NotFound'

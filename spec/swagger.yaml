@@ -117,6 +117,12 @@ parameters:
     required: true
     type: integer
     format: int32
+  webhookID:
+    name: webhookID
+    in: path
+    description: Идентификатор webhook'а
+    required: true
+    type: string
   fromTime:
     name: fromTime
     in: query
@@ -359,6 +365,8 @@ tags:
 
       Любые изменения данных требуют верификации на стороне платформы путем
       создания заявок на изменение.
+  - name: Webhooks
+    x-displayName: Webhooks
   - name: Geo
     x-displayName: Геопозиционирование
     description: >

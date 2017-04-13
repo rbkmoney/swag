@@ -1,0 +1,13 @@
+description: Данные для установки нового webhook'а
+type: object
+required:
+  - scope
+  - url
+properties:
+  scope:
+    $ref: '#/definitions/WebhookScope'
+  url:
+    description: |
+      URL, на который будут поступать оповещения о произошедших событиях
+    type: string
+    format: url
