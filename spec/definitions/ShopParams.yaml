@@ -15,5 +15,3 @@ properties:
   payoutToolID:
     type: integer
     format: int32
-  callbackUrl:
-    type: string
