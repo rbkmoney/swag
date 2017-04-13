@@ -6,6 +6,4 @@ properties:
   paymentTool:
     $ref: '#/definitions/PaymentTool'
   clientInfo:
-    description: Данные клиентского устройства плательщика
-    allOf:
-      - $ref: '#/definitions/ClientInfo'
+    $ref: '#/definitions/ClientInfo'

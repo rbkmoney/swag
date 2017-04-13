@@ -1,3 +1,4 @@
+description: Форма для отправки средствами браузера
 type: array
 items:
   type: object

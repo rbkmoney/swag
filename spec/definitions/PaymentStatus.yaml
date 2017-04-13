@@ -12,6 +12,4 @@ properties:
       - cancelled
       - failed
   error:
-    description: Описание ошибки, возникшей в процессе проведения платежа
-    allOf:
-      - $ref: '#/definitions/LogicError'
+    $ref: '#/definitions/LogicError'

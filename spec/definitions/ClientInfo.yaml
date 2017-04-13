@@ -1,3 +1,4 @@
+description: Данные клиентского устройства плательщика
 type: object
 required:
   - fingerprint

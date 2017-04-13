@@ -1,3 +1,4 @@
+description: Описание ошибки, возникшей в процессе проведения платежа
 type: object
 required:
   - code
