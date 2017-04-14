@@ -10,7 +10,8 @@ allOf:
     properties:
       shopID:
         description: Идентификатор магазина
-        type: string
+        type: integer
+        format: int32
       eventTypes:
         description: Набор типов событий инвойсов, о которых следует оповещать
         type: array
