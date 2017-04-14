@@ -33,5 +33,3 @@ get:
         type: array
         items:
           $ref: '#/definitions/Webhook'
-    '404':
-      $ref: '#/responses/NotFound'
