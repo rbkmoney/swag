@@ -2,26 +2,12 @@ description: |
   Область охвата webhook'а, ограничивающая набор типов событий, по которым
   следует отправлять оповещения
 type: object
+discriminator: topic
 required:
-  - subject
-  - subjectID
-  - eventTypes
+  - topic
 properties:
-  subject:
-    description: Вид объекта, о событиях по которому следует оповещать
+  topic:
+    description: Предмет оповещений
     type: string
     enum:
-      - Shop
-  subjectID:
-    description: Идентификатор объекта оповещений
-    type: string
-  eventTypes:
-    description: Набор типов событий, о которых следует оповещать
-    type: array
-    items:
-      type: string
-      enum:
-        - InvoiceCreated
-        - InvoiceStatusChanged
-        - PaymentCreated
-        - PaymentStatusChanged
+      - InvoicesTopic
