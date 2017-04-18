@@ -1,0 +1,9 @@
+description: Данные средства вывода
+type: object
+discriminator: type
+properties:
+  type:
+    description: Тип средства вывода
+    type: string
+    enum:
+      - PayoutToolBankAccount
