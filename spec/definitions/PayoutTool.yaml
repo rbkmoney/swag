@@ -1,4 +1,4 @@
-description: Данные средства вывода
+description: Средство вывода
 allOf:
  - type: object
    required:

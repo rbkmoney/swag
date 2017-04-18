@@ -1,14 +1,10 @@
 type: object
-discriminator: payoutToolType
 required:
   - currency
-  - payoutToolType
+  - details
 properties:
   currency:
     description: Валюта, в которой производится вывод
     type: string
-  payoutToolType:
-    description: Тип средства вывода
-    type: string
-    enum:
-      - PayoutToolBankAccount
+  details:
+    $ref: '#/definitions/PayoutToolDetails'
