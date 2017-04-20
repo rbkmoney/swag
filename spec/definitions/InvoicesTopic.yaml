@@ -23,5 +23,7 @@ allOf:
             - InvoiceCancelled
             - InvoiceFulfilled
             - PaymentStarted
+            - PaymentProcessed
             - PaymentCaptured
+            - PaymentCancelled
             - PaymentFailed
