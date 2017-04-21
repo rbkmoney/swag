@@ -12,30 +12,26 @@ get:
     - $ref: '#/parameters/offset'
     - name: invoiceStatus
       in: query
-      description: Набор статусов инвойсов для поиска
+      description: Статус инвойса для поиска
       required: false
-      type: array
-      items:
-        type: string
-        enum:
-          - unpaid
-          - cancelled
-          - paid
-          - refunded
-          - fulfilled
+      type: string
+      enum:
+        - unpaid
+        - cancelled
+        - paid
+        - refunded
+        - fulfilled
     - name: paymentStatus
       in: query
-      description: Набор статусов платежей для поиска
+      description: Статус платежа для поиска
       required: false
-      type: array
-      items:
-        type: string
-        enum:
-          - pending
-          - processed
-          - captured
-          - cancelled
-          - failed
+      type: string
+      enum:
+        - pending
+        - processed
+        - captured
+        - cancelled
+        - failed
     - name: invoiceID
       in: query
       description: Идентификатор инвойса
