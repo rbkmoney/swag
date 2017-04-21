@@ -1,0 +1,179 @@
+swagger: '2.0'
+info:
+  version: 1.0.0
+  title: RBK Money events processing API
+  description: "An API that implements events processing"
+host: api.rbkmoney.merchant.com
+basePath: /v1
+schemes:
+  - https
+consumes:
+  - application/json
+produces:
+  - application/json
+parameters:
+  requestID:
+    name: X-Request-ID
+    in: header
+    description: Unique request identifier
+    required: true
+    type: string
+paths:
+  '/events':
+    put:
+      description: Register event
+      tags:
+      - Events
+      operationId: registerEvent
+      parameters:
+      - $ref: '#/parameters/requestID'
+      - name: event
+        in: body
+        description: Event to register
+        required: true
+        schema:
+          $ref: '#/definitions/Event'
+      responses:
+        '200':
+          description: Event registered
+definitions:
+  Event:
+    type: object
+    discriminator: eventType
+    required:
+    - id
+    - createdAt
+    - eventType
+    properties:
+      id:
+        type: integer
+      createdAt:
+        type: string
+        format: date-time
+      eventType:
+        type: string
+  EventInvoiceStatusChanged:
+    type: object
+    allOf:
+    - $ref: '#/definitions/Event'
+    - type: object
+      required:
+      - status
+      properties:
+        status:
+          type: string
+          enum:
+          - unpaid
+          - cancelled
+          - paid
+          - refunded
+          - fulfilled
+  EventPaymentStatusChanged:
+    type: object
+    allOf:
+    - $ref: '#/definitions/Event'
+    - type: object
+      required:
+      - status
+      - paymentID
+      properties:
+        paymentID:
+          type: string
+        status:
+          type: string
+          enum:
+          - pending
+          - succeeded
+          - failed
+  EventInvoiceCreated:
+    type: object
+    allOf:
+    - $ref: '#/definitions/Event'
+    - type: object
+      required:
+      - invoice
+      properties:
+        invoice:
+          $ref: '#/definitions/Invoice'
+  EventPaymentStarted:
+    type: object
+    allOf:
+    - $ref: '#/definitions/Event'
+    - type: object
+      required:
+      - payment
+      properties:
+        payment:
+          $ref: '#/definitions/Payment'
+  EventPaymentBound:
+    type: object
+    allOf:
+    - $ref: '#/definitions/Event'
+    - type: object
+      required:
+      - paymentID
+      properties:
+        paymentID:
+          type: string
+  Invoice:
+    type: object
+    required:
+    - shopID
+    - amount
+    - currency
+    - context
+    - product
+    properties:
+      id:
+        type: string
+      shopID:
+        type: string
+      amount:
+        type: integer
+        format: int64
+      currency:
+        type: string
+      context:
+        $ref: '#/definitions/InvoiceContext'
+      dueDate:
+        type: string
+        format: date-time
+      status:
+        type: string
+        enum:
+        - unpaid
+        - cancelled
+        - paid
+        - refunded
+        - fulfilled
+      product:
+        type: string
+      description:
+        type: string
+  InvoiceContext:
+    type: object
+    maxLength: 512
+  Payment:
+    type: object
+    required:
+    - id
+    - invoiceID
+    - createdAt
+    - status
+    - paymentToolToken
+    properties:
+      id:
+        type: string
+      invoiceID:
+        type: string
+      createdAt:
+        type: string
+        format: date-time
+      status:
+        type: string
+        enum:
+        - pending
+        - succeeded
+        - failed
+      paymentToolToken:
+        type: string
