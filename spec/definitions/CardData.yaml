@@ -11,7 +11,7 @@ allOf:
       cardNumber:
         description: Номер банковской карты
         type: string
-        pattern: '^\d{10,19}$'
+        pattern: '^\d{12,19}$'
       expDate:
         description: Срок действия банковской карты
         type: string

@@ -1,8 +1,8 @@
 get:
-  description: Поиск инвойсов
+  description: Поиск платежей
   tags:
     - Search
-  operationId: searchInvoices
+  operationId: searchPayments
   parameters:
     - $ref: '#/parameters/requestID'
     - $ref: '#/parameters/shopID'
@@ -10,17 +10,6 @@ get:
     - $ref: '#/parameters/toTime'
     - $ref: '#/parameters/limit'
     - $ref: '#/parameters/offset'
-    - name: invoiceStatus
-      in: query
-      description: Статус инвойса для поиска
-      required: false
-      type: string
-      enum:
-        - unpaid
-        - cancelled
-        - paid
-        - refunded
-        - fulfilled
     - name: paymentStatus
       in: query
       description: Статус платежа для поиска
@@ -70,16 +59,9 @@ get:
       type: integer
       format: int64
       minimum: 1
-    - name: invoiceAmount
-      in: query
-      description: Сумма инвойса
-      required: false
-      type: integer
-      format: int64
-      minimum: 1
   responses:
     '200':
-      description: Найденные инвойсы
+      description: Найденные платежи
       schema:
         type: object
         properties:
@@ -88,7 +70,7 @@ get:
           result:
             type: array
             items:
-              $ref: '#/definitions/InvoiceSearchResult'
+              $ref: '#/definitions/PaymentSearchResult'
     '400':
       $ref: '#/responses/BadRequest'
     '404':

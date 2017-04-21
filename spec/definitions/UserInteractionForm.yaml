@@ -13,7 +13,6 @@ items:
     template:
       description: |
         Шаблон значения элемента формы
-
         Шаблон представлен согласно стандарту
         [RFC6570](https://tools.ietf.org/html/rfc6570).
       type: string
