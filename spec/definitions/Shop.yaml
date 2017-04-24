@@ -27,5 +27,3 @@ properties:
     format: int32
   account:
     $ref: '#/definitions/ShopAccount'
-  callbackHandler:
-    $ref: '#/definitions/CallbackHandler'

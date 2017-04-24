@@ -14,6 +14,4 @@ allOf:
           [RFC6570](https://tools.ietf.org/html/rfc6570).
         type: string
       form:
-        description: Форма для отправки средствами браузера
-        allOf:
-          - $ref: '#/definitions/UserInteractionForm'
+        $ref: '#/definitions/UserInteractionForm'

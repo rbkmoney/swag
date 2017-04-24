@@ -29,9 +29,7 @@ allOf:
         description: Идентификатор платежной сессии
         type: string
       contactInfo:
-        description: Контактные данные плательщика
-        allOf:
-          - $ref: '#/definitions/ContactInfo'
+        $ref: '#/definitions/ContactInfo'
       amount:
         description: >
           Стоимость предлагаемых товаров или услуг, в минорных денежных

@@ -1,0 +1,29 @@
+description: |
+  Область охвата, включающая события по инвойсам в рамках определённого
+  магазина
+allOf:
+  - $ref: '#/definitions/WebhookScope'
+  - type: object
+    required:
+      - shopID
+      - eventTypes
+    properties:
+      shopID:
+        description: Идентификатор магазина
+        type: integer
+        format: int32
+      eventTypes:
+        description: Набор типов событий инвойсов, о которых следует оповещать
+        type: array
+        items:
+          type: string
+          enum:
+            - InvoiceCreated
+            - InvoicePaid
+            - InvoiceCancelled
+            - InvoiceFulfilled
+            - PaymentStarted
+            - PaymentProcessed
+            - PaymentCaptured
+            - PaymentCancelled
+            - PaymentFailed

@@ -1,0 +1,13 @@
+description: |
+  Область охвата webhook'а, ограничивающая набор типов событий, по которым
+  следует отправлять оповещения
+type: object
+discriminator: topic
+required:
+  - topic
+properties:
+  topic:
+    description: Предмет оповещений
+    type: string
+    enum:
+      - InvoicesTopic

@@ -11,6 +11,4 @@ properties:
     description: Идентификатор платежной сессии
     type: string
   contactInfo:
-    description: Контактные данные плательщика
-    allOf:
-      - $ref: '#/definitions/ContactInfo'
+    $ref: '#/definitions/ContactInfo'
