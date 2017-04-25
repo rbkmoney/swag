@@ -2,6 +2,7 @@ type: object
 discriminator: status
 required:
   - id
+  - revision
   - status
   - changeset
 properties:
@@ -9,6 +10,8 @@ properties:
     description: Идентификатор заявки
     type: integer
     format: int64
+  revision:
+    $ref: '#/definitions/ClaimRevision'
   status:
     description: Статус заявки
     type: string

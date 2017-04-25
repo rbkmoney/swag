@@ -1,0 +1,9 @@
+type: object
+required:
+  - revision
+  - changeset
+properties:
+  revision:
+    $ref: '#/definitions/ClaimRevision'
+  changeset:
+    $ref: '#/definitions/ClaimChangeset'

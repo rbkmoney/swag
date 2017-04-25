@@ -6,6 +6,11 @@ put:
   parameters:
     - $ref: '#/parameters/requestID'
     - $ref: '#/parameters/claimID'
+    - name: claimRevision
+      in: body
+      required: true
+      schema:
+        $ref: '#/definitions/ClaimRevision'
   responses:
     '204':
       description: Заявка отозвана

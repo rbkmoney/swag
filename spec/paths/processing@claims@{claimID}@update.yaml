@@ -1,0 +1,22 @@
+post:
+  description: |
+    Обновить набор изменений заявки, новые изменения будут добавленны
+    к существующей заявке.
+  operationId: updateClaimByID
+  tags:
+    - Claims
+  parameters:
+    - $ref: '#/parameters/requestID'
+    - $ref: '#/parameters/claimID'
+    - name: claimUpdateParams
+      in: body
+      required: true
+      schema:
+        $ref: '#/definitions/ClaimUpdateParams'
+  responses:
+    '200':
+      description: Claim updated
+    '400':
+      $ref: '#/responses/BadRequest'
+    '404':
+      $ref: '#/responses/NotFound'
