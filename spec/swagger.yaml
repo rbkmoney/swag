@@ -401,8 +401,13 @@ tags:
       ## RBKmoney Webhooks Events API
 
       Внимание! Только Webhooks Management API является частью платформы RBKmoney, 
+<<<<<<< HEAD
       а следовательно и данной спецификации. Для реализации обработчика присылаемых 
       уведомлений вам необходимо будет ознакомиться со Swagger-спецификацей 
+=======
+      а следовательно и данной спецификации. Для реализации обработки присылаемых 
+      уведомлений вам понадобится ознакомиться со Swagger-спецификацей 
+>>>>>>> removed duplicate api adress
       [RBKmoney Webhooks Events API](https://rbkmoney.github.io/webhooks-events-api).
 
   - name: Geo
