@@ -395,8 +395,7 @@ tags:
       Внимание! Только Webhooks Management API является частью платформы RBKmoney, 
       а следовательно и данной спецификации. Для реализации обработки присылаемых 
       уведомлений вам понадобится ознакомиться со Swagger-спецификацей 
-      [RBKmoney Webhooks Events API](https://rbkmoney.github.io/webhooks-events-api),
-      которая находится по отдельному [адресу](https://rbkmoney.github.io/webhooks-events-api).
+      [RBKmoney Webhooks Events API](https://rbkmoney.github.io/webhooks-events-api).
 
   - name: Geo
     x-displayName: Геопозиционирование
