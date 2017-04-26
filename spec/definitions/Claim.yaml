@@ -11,7 +11,9 @@ properties:
     type: integer
     format: int64
   revision:
-    $ref: '#/definitions/ClaimRevision'
+    description: Версия заявки
+    type: integer
+    format: int64
   status:
     description: Статус заявки
     type: string

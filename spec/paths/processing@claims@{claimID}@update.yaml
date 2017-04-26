@@ -8,11 +8,12 @@ post:
   parameters:
     - $ref: '#/parameters/requestID'
     - $ref: '#/parameters/claimID'
-    - name: claimUpdateParams
+    - $ref: '#/parameters/claimRevision'
+    - name: claimChangeset
       in: body
       required: true
       schema:
-        $ref: '#/definitions/ClaimUpdateParams'
+        $ref: '#/definitions/ClaimChangeset'
   responses:
     '200':
       description: Claim updated
