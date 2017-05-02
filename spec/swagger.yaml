@@ -103,7 +103,7 @@ parameters:
     description: Версия заявки
     required: true
     type: integer
-    format: int64
+    format: int32
   shopID:
     name: shopID
     in: path
