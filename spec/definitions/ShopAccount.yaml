@@ -8,12 +8,10 @@ properties:
   currency:
     description: Валюта счетов
     type: string
+    format: '^[A-Z]{3}$'
   guaranteeID:
     type: integer
     format: int64
   settlementID:
     type: integer
     format: int64
-  currency:
-    type: string
-    format: '^[A-Z]{3}$'

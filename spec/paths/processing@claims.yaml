@@ -23,7 +23,6 @@ get:
         type: array
         items:
           $ref: '#/definitions/Claim'
-
 post:
   description: |
     Создать новую заявку с заданным набором изменений и отправить её на
@@ -33,11 +32,11 @@ post:
     - Claims
   parameters:
     - $ref: '#/parameters/requestID'
-    - name: claimParams
+    - name: claimChangeset
       in: body
       required: true
       schema:
-        $ref: '#/definitions/ClaimParams'
+        $ref: '#/definitions/ClaimChangeset'
   responses:
     '201':
       description: Заявка создана

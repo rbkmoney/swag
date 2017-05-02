@@ -114,6 +114,13 @@ parameters:
     required: true
     type: integer
     format: int64
+  claimRevision:
+    name: claimRevision
+    in: query
+    description: Версия заявки
+    required: true
+    type: integer
+    format: int32
   shopID:
     name: shopID
     in: path

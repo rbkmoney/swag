@@ -18,6 +18,4 @@ allOf:
           - ShopCategoryChange
           - ShopLocationChange
           - ShopDetailsChange
-          - ShopCallbackHandlerSetup
-          - ShopCallbackHandlerTeardown
           - ShopContractBinding
