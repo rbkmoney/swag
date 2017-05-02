@@ -3,6 +3,7 @@ discriminator: status
 required:
   - id
   - revision
+  - createdAt
   - status
   - changeset
 properties:
@@ -13,7 +14,15 @@ properties:
   revision:
     description: Версия заявки
     type: integer
-    format: int64
+    format: int32
+  createdAt:
+    description: Дата создания
+    type: string
+    format: date-time
+  updatedAt:
+    description: Дата изменения
+    type: string
+    format: date-time
   status:
     description: Статус заявки
     type: string
