@@ -8,7 +8,10 @@ allOf:
       - createdAt
       - amount
       - currency
-      - payer
+      - contactInfo
+      - paymentSession
+      - paymentToolToken
+      - paymentToolDetails
     properties:
       id:
         description: Идентификатор платежа
@@ -20,8 +23,6 @@ allOf:
         description: Дата и время создания
         type: string
         format: date-time
-      payer:
-        $ref: '#/definitions/Payer'
       amount:
         description: >
           Стоимость предлагаемых товаров или услуг, в минорных денежных
@@ -36,4 +37,22 @@ allOf:
         description: |
           Валюта, символьный код согласно
           [RFC 4217](http://www.iso.org/iso/home/standards/currency_codes.htm).
+        type: string
+      paymentSession:
+        description: Идентификатор платежной сессии
+        type: string
+      contactInfo:
+        description: Контактные данные плательщика
+        allOf:
+          - $ref: '#/definitions/ContactInfo'
+      paymentToolToken:
+        description: 'Токен платежного средства, предоставленного плательщиком'
+        type: string
+      paymentToolDetails:
+        $ref: '#/definitions/PaymentToolDetails'
+      ip:
+        description: IP-адрес плательщика
+        type: string
+      fingerprint:
+        description: Уникальный отпечаток user agent'а плательщика
         type: string
