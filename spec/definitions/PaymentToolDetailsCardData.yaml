@@ -13,7 +13,7 @@ allOf:
       cardNumberMask:
         description: Маскированый номер карты
         type: string
-        pattern: '^\d{6}\*{2,9}\d{4}$'
+        pattern: '^\d{4}$'
       paymentSystem:
         description: Платежная система
         type: string

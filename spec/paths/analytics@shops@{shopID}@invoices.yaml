@@ -62,7 +62,7 @@ get:
       description: Маскированый номер карты
       required: false
       type: string
-      pattern: '^\d{6}\*{2,9}\d{4}$'
+      pattern: '^\d{4}$'
     - name: paymentAmount
       in: query
       description: Сумма платежа
