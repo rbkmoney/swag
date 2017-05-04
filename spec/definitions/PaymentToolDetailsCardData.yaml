@@ -1,0 +1,19 @@
+type: object
+allOf:
+  - $ref: '#/definitions/PaymentToolDetails'
+  - type: object
+    required:
+      - token
+      - cardNumberMask
+      - paymentSystem
+    properties:
+      token:
+        description: Токен платежного средства
+        type: string
+      cardNumberMask:
+        description: Маскированый номер карты
+        type: string
+        pattern: '^\d{6}\*{2,9}\d{4}$'
+      paymentSystem:
+        description: Платежная система
+        type: string

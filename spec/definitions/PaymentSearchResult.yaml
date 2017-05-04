@@ -6,13 +6,9 @@ allOf:
       - id
       - invoiceID
       - createdAt
-      - paymentToolToken
-      - contactInfo
-      - paymentSession
       - amount
       - currency
-      - fingerprint
-      - payerIP
+      - payer
     properties:
       id:
         description: Идентификатор платежа
@@ -24,16 +20,6 @@ allOf:
         description: Дата и время создания
         type: string
         format: date-time
-      paymentToolToken:
-        description: Токен платежного средства
-        type: string
-      paymentSession:
-        description: Идентификатор платежной сессии
-        type: string
-      contactInfo:
-        description: Контактные данные плательщика
-        allOf:
-          - $ref: '#/definitions/ContactInfo'
       amount:
         description: >
           Стоимость предлагаемых товаров или услуг, в минорных денежных
@@ -49,9 +35,5 @@ allOf:
           Валюта, символьный код согласно
           [RFC 4217](http://www.iso.org/iso/home/standards/currency_codes.htm).
         type: string
-      fingerprint:
-        description: Уникальный отпечаток user agent'а плательщика
-        type: string
-      payerIP:
-        description: IP-адрес плательщика
-        type: string
+      payer:
+        $ref: '#/definitions/Payer'

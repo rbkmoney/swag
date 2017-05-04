@@ -6,11 +6,9 @@ allOf:
       - id
       - invoiceID
       - createdAt
-      - paymentToolToken
-      - contactInfo
-      - paymentSession
       - amount
       - currency
+      - payer
     properties:
       id:
         description: Идентификатор платежа
@@ -22,14 +20,8 @@ allOf:
         description: Дата и время создания
         type: string
         format: date-time
-      paymentToolToken:
-        description: Токен платежного средства
-        type: string
-      paymentSession:
-        description: Идентификатор платежной сессии
-        type: string
-      contactInfo:
-        $ref: '#/definitions/ContactInfo'
+      payer:
+        $ref: '#/definitions/Payer'
       amount:
         description: >
           Стоимость предлагаемых товаров или услуг, в минорных денежных
