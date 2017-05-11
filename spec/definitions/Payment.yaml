@@ -57,7 +57,7 @@ allOf:
         description: IP-адрес плательщика
         type: string
         format: ip-address
-        maxLength: 40
+        maxLength: 45
       fingerprint:
         description: Уникальный отпечаток user agent'а плательщика
         type: string

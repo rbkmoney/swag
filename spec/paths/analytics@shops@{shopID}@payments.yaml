@@ -46,7 +46,7 @@ get:
       required: false
       type: string
       format: ip-address
-      maxLength: 40
+      maxLength: 45
     - name: payerFingerprint
       in: query
       description: Уникальный отпечаток user agent'а плательщика
