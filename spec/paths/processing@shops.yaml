@@ -30,5 +30,7 @@ post:
       description: Claim registered
       schema:
         $ref: '#/definitions/ClaimRegistrationResult'
+    '400':
+      $ref: '#/responses/BadRequest'
     '404':
       $ref: '#/responses/NotFound'
