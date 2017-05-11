@@ -26,26 +26,33 @@ get:
       description: Идентификатор инвойса
       required: false
       type: string
+      maxLength: 40
     - name: paymentID
       in: query
       description: Идентификатор платежа
       required: false
       type: string
+      maxLength: 40
     - name: payerEmail
       in: query
       description: 'Email, указанный при оплате'
       required: false
       type: string
+      format: email
+      maxLength: 100
     - name: payerIP
       in: query
       description: IP-адрес плательщика
       required: false
       type: string
+      format: ip-address
+      maxLength: 40
     - name: payerFingerprint
       in: query
       description: Уникальный отпечаток user agent'а плательщика
       required: false
       type: string
+      maxLength: 1000
     - name: cardNumberMask
       in: query
       description: Маскированый номер карты

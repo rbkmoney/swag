@@ -10,3 +10,4 @@ allOf:
         format: date-time
       reason:
         type: string
+        maxLength: 1000

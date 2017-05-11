@@ -10,6 +10,7 @@ get:
       description: Account ID
       required: true
       type: string
+      maxLength: 40
   responses:
     '200':
       description: Account found

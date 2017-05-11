@@ -24,12 +24,10 @@ allOf:
         type: string
         format: date-time
       amount:
-        description: >
+        description: |
           Стоимость предлагаемых товаров или услуг, в минорных денежных
-          единицах,
-
-          например в копейках в случае указания российских рублей в качестве
-          валюты.
+          единицах, например в копейках в случае указания российских рублей в
+          качестве валюты.
         type: integer
         format: int64
         minimum: 1
@@ -38,21 +36,27 @@ allOf:
           Валюта, символьный код согласно
           [RFC 4217](http://www.iso.org/iso/home/standards/currency_codes.htm).
         type: string
-      paymentSession:
-        description: Идентификатор платежной сессии
-        type: string
+        pattern: '^[A-Z]{3}$'
       contactInfo:
         description: Контактные данные плательщика
         allOf:
           - $ref: '#/definitions/ContactInfo'
+      paymentSession:
+        description: Идентификатор платежной сессии
+        type: string
+        maxLength: 1000
       paymentToolToken:
         description: 'Токен платежного средства, предоставленного плательщиком'
         type: string
+        maxLength: 1000
       paymentToolDetails:
         $ref: '#/definitions/PaymentToolDetails'
       ip:
         description: IP-адрес плательщика
         type: string
+        format: ip-address
+        maxLength: 40
       fingerprint:
         description: Уникальный отпечаток user agent'а плательщика
         type: string
+        maxLength: 1000

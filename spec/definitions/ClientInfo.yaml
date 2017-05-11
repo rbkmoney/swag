@@ -6,3 +6,4 @@ properties:
   fingerprint:
     description: Уникальный отпечаток user agent'а плательщика
     type: string
+    maxLength: 1000

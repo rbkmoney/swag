@@ -7,3 +7,4 @@ allOf:
     properties:
       reason:
         type: string
+        maxLength: 1000

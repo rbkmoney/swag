@@ -110,6 +110,14 @@ parameters:
     description: Идентификатор инвойса
     required: true
     type: string
+    maxLength: 40
+  paymentID:
+    name: paymentID
+    in: path
+    description: Идентификатор платежа в рамках инвойса
+    required: true
+    type: string
+    maxLength: 40
   contractID:
     name: contractID
     in: path
@@ -123,6 +131,7 @@ parameters:
     description: Идентификатор webhook'а
     required: true
     type: string
+    maxLength: 40
   fromTime:
     name: fromTime
     in: query
@@ -162,10 +171,11 @@ parameters:
     name: limit
     in: query
     description: Лимит выборки
-    required: false
+    required: true
     type: integer
     format: int32
     minimum: 1
+    maximum: 1000
   offset:
     name: offset
     in: query

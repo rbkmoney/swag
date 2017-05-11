@@ -4,6 +4,10 @@ properties:
   email:
     description: Адрес электронной почты
     type: string
+    format: email
+    maxLength: 100
   phoneNumber:
     description: Номер мобильного телефона
     type: string
+    maxLength: 20
+    format: '^\+\d+$'

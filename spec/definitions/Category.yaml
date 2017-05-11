@@ -5,8 +5,10 @@ required:
 properties:
   name:
     type: string
+    maxLength: 100
   categoryID:
     type: integer
     format: int32
   description:
     type: string
+    maxLength: 1000
