@@ -14,17 +14,25 @@ allOf:
     properties:
       registeredName:
         type: string
+        maxLength: 100
       registeredNumber:
         type: string
+        pattern: '^(\d{13}|\d{15})$'
       inn:
         type: string
+        pattern: '^\d{10}$'
       actualAddress:
         type: string
+        maxLength: 1000
       postAddress:
         type: string
+        maxLength: 1000
       representativePosition:
         type: string
+        maxLength: 100
       representativeFullName:
         type: string
+        maxLength: 100
       representativeDocument:
         type: string
+        maxLength: 100

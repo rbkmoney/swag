@@ -6,11 +6,7 @@ get:
   parameters:
     - $ref: '#/parameters/requestID'
     - $ref: '#/parameters/invoiceID'
-    - name: paymentID
-      in: path
-      description: Идентификатор платежа
-      required: true
-      type: string
+    - $ref: '#/parameters/paymentID'
   responses:
     '200':
       description: Данные платежа

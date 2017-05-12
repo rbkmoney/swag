@@ -14,3 +14,4 @@ properties:
   reason:
     description: Причина отмены или погашения инвойса
     type: string
+    maxLength: 1000

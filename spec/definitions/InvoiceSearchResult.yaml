@@ -40,14 +40,17 @@ allOf:
       currency:
         description: |
           Валюта, символьный код согласно
-          [RFC 4217](http://www.iso.org/iso/home/standards/currency_codes.htm).
+          [ISO 4217](http://www.iso.org/iso/home/standards/currency_codes.htm).
         type: string
+        pattern: '^[A-Z]{3}$'
       metadata:
         description: Связанные с инвойсом метаданные
         type: object
       product:
         description: Наименование предлагаемых товаров или услуг
         type: string
+        maxLength: 100
       description:
         description: Описание предлагаемых товаров или услуг
         type: string
+        maxLength: 1000

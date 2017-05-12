@@ -7,9 +7,13 @@ required:
 properties:
   account:
     type: string
+    pattern: '^\d{20}$'
   bankName:
     type: string
+    maxLength: 100
   bankPostAccount:
     type: string
+    pattern: '^\d{20}$'
   bankBik:
     type: string
+    pattern: '^\d{9}$'

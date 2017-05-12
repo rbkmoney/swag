@@ -10,3 +10,4 @@ properties:
     type: string
   currency:
     type: string
+    format: '^[A-Z]{3}$'

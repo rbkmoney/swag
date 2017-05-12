@@ -13,3 +13,4 @@ allOf:
       paymentSystem:
         description: Платежная система
         type: string
+        maxLength: 100

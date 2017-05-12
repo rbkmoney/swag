@@ -27,8 +27,10 @@ post:
           token:
             description: Созданный токен
             type: string
+            maxLength: 1000
           session:
             description: Идентификатор созданной платежной сессии
             type: string
+            maxLength: 1000
     '400':
       $ref: '#/responses/BadRequest'
