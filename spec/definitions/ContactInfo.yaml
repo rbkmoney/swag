@@ -7,7 +7,8 @@ properties:
     format: email
     maxLength: 100
   phoneNumber:
-    description: Номер мобильного телефона
+    description: |
+        Номер мобильного телефона с международным префиксом согласно
+        [E.164](https://en.wikipedia.org/wiki/E.164).
     type: string
-    maxLength: 20
-    format: '^\+\d+$'
+    format: '^\+\d{4,15}$'
