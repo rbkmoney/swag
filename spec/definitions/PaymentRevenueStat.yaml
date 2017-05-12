@@ -11,7 +11,7 @@ properties:
   currency:
     description: |
       Валюта платежей, символьный код согласно
-      [RFC 4217](http://www.iso.org/iso/home/standards/currency_codes.htm).
+      [ISO 4217](http://www.iso.org/iso/home/standards/currency_codes.htm).
     type: string
     pattern: '^[A-Z]{3}$'
   profit:
