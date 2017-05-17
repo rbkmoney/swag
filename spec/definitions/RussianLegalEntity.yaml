@@ -35,4 +35,4 @@ allOf:
         maxLength: 100
       representativeDocument:
         type: string
-        maxLength: 100
+        maxLength: 1000
