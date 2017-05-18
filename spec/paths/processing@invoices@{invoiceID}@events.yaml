@@ -20,7 +20,8 @@ get:
 
         Все события, возникшие в системе _после_ указанного, попадут в выборку.
       required: false
-      type: string
+      type: integer
+      format: int32
   responses:
     '200':
       description: Набор событий
