@@ -1,0 +1,11 @@
+type: object
+required:
+  - cityGeoID
+  - countryGeoID
+properties:
+  cityGeoID:
+    type: integer
+    format: int32
+  countryGeoID:
+    type: integer
+    format: int32
