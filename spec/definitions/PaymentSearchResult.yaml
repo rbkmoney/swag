@@ -19,6 +19,10 @@ allOf:
       invoiceID:
         description: 'Идентификатор инвойса, в рамках которого был создан платеж'
         type: string
+      shopID:
+        description: 'Идентификатор магазина, в рамках которого был создан платеж'
+        type: integer
+        format: int32
       createdAt:
         description: Дата и время создания
         type: string
@@ -31,6 +35,11 @@ allOf:
         type: integer
         format: int64
         minimum: 1
+      fee:
+        description: 'Комиссия системы, в минорных денежных единицах'
+        type: integer
+        format: int64
+        minimum: 0
       currency:
         description: |
           Валюта, символьный код согласно
@@ -56,7 +65,12 @@ allOf:
         type: string
         format: ip-address
         maxLength: 45
+      geoLocationInfo:
+        $ref: '#/definitions/GeoLocationInfo'
       fingerprint:
         description: Уникальный отпечаток user agent'а плательщика
         type: string
         maxLength: 1000
+      metadata:
+        description: Связанные с платежом метаданные
+        type: object
