@@ -9,7 +9,7 @@ allOf:
       - amount
       - currency
       - contactInfo
-      - paymentSessionID
+      - paymentSession
       - paymentToolToken
       - paymentToolDetails
     properties:
@@ -43,7 +43,7 @@ allOf:
         description: Контактные данные плательщика
         allOf:
           - $ref: '#/definitions/ContactInfo'
-      paymentSessionID:
+      paymentSession:
         description: Идентификатор платежной сессии
         type: string
         maxLength: 1000

@@ -9,7 +9,7 @@ allOf:
       - amount
       - currency
       - contactInfo
-      - paymentSessionID
+      - paymentSession
       - paymentToolToken
       - paymentToolDetails
     properties:
@@ -36,7 +36,7 @@ allOf:
         format: int64
         minimum: 1
       fee:
-        description: 'Комиссия, в минорных денежных единицах'
+        description: 'Комиссия системы, в минорных денежных единицах'
         type: integer
         format: int64
         minimum: 0
@@ -50,7 +50,7 @@ allOf:
         description: Контактные данные плательщика
         allOf:
           - $ref: '#/definitions/ContactInfo'
-      paymentSessionID:
+      paymentSession:
         description: Идентификатор платежной сессии
         type: string
         maxLength: 1000
@@ -65,7 +65,7 @@ allOf:
         type: string
         format: ip-address
         maxLength: 45
-      location:
+      geoLocationInfo:
         $ref: '#/definitions/GeoLocationInfo'
       fingerprint:
         description: Уникальный отпечаток user agent'а плательщика

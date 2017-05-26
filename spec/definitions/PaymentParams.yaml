@@ -1,12 +1,12 @@
 type: object
 required:
   - contactInfo
-  - paymentSessionID
+  - paymentSession
   - paymentToolToken
 properties:
   contactInfo:
     $ref: '#/definitions/ContactInfo'
-  paymentSessionID:
+  paymentSession:
     description: Идентификатор платежной сессии
     type: string
     maxLength: 1000
