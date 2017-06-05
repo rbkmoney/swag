@@ -6,7 +6,8 @@ required:
   - currency
 properties:
   id:
-    $ref: '#/definitions/AccountID'
+    type: integer
+    format: int64
   ownAmount:
     type: integer
   availableAmount:
