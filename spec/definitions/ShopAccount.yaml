@@ -5,9 +5,11 @@ required:
   - currency
 properties:
   guaranteeID:
-    type: string
+    type: integer
+    format: int64
   settlementID:
-    type: string
+    type: integer
+    format: int64
   currency:
     type: string
     format: '^[A-Z]{3}$'
