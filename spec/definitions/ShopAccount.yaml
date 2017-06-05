@@ -5,9 +5,9 @@ required:
   - currency
 properties:
   guaranteeID:
-    type: string
+    $ref: '#/definitions/AccountID'
   settlementID:
-    type: string
+    $ref: '#/definitions/AccountID'
   currency:
     type: string
     format: '^[A-Z]{3}$'

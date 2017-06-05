@@ -5,12 +5,7 @@ get:
     - Accounts
   parameters:
     - $ref: '#/parameters/requestID'
-    - name: accountID
-      in: path
-      description: Account ID
-      required: true
-      type: integer
-      format: int64
+    - $ref: '#/parameters/accountID'
   responses:
     '200':
       description: Account found
