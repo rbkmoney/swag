@@ -9,8 +9,8 @@ get:
       in: path
       description: Account ID
       required: true
-      type: string
-      maxLength: 40
+      type: integer
+      format: int64
   responses:
     '200':
       description: Account found
