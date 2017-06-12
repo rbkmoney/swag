@@ -1,7 +1,0 @@
-type: object
-discriminator: partyModificationType
-required:
-  - partyModificationType
-properties:
-  partyModificationType:
-    type: string

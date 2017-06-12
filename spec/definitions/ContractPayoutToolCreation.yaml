@@ -1,9 +1,0 @@
-type: object
-allOf:
-  - $ref: '#/definitions/ContractModification'
-  - type: object
-    required:
-      - payoutTool
-    properties:
-      payoutTool:
-        $ref: '#/definitions/PayoutTool'

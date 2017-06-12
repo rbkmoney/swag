@@ -1,9 +1,0 @@
-type: object
-allOf:
-  - $ref: '#/definitions/Event'
-  - type: object
-    required:
-      - paymentID
-    properties:
-      paymentID:
-        type: string

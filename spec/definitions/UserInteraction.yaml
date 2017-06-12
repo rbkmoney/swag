@@ -1,8 +1,0 @@
-type: object
-discriminator: interactionType
-required:
-  - interactionType
-properties:
-  interactionType:
-    description: Тип взаимодействия с пользователем
-    type: string

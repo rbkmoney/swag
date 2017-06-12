@@ -1,8 +1,0 @@
-type: object
-discriminator: statType
-required:
-  - statType
-properties:
-  statType:
-    description: Тип статистики по методу оплаты
-    type: string

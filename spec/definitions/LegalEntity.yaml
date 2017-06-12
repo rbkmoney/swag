@@ -1,7 +1,0 @@
-type: object
-discriminator: entityType
-required:
-  - entityType
-properties:
-  entityType:
-    type: string

@@ -1,9 +1,0 @@
-type: object
-allOf:
-  - $ref: '#/definitions/Event'
-  - type: object
-    required:
-      - payment
-    properties:
-      payment:
-        $ref: '#/definitions/Payment'

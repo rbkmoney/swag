@@ -1,9 +1,0 @@
-description: Данные клиентского устройства плательщика
-type: object
-required:
-  - fingerprint
-properties:
-  fingerprint:
-    description: Уникальный отпечаток user agent'а плательщика
-    type: string
-    maxLength: 1000

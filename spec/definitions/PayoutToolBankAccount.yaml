@@ -1,9 +1,0 @@
-type: object
-allOf:
-  - $ref: '#/definitions/PayoutToolParams'
-  - type: object
-    required:
-      - bankAccount
-    properties:
-      bankAccount:
-        $ref: '#/definitions/BankAccount'

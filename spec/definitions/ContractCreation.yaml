@@ -1,9 +1,0 @@
-type: object
-allOf:
-  - $ref: '#/definitions/PartyModification'
-  - type: object
-    required:
-      - contract
-    properties:
-      contract:
-        $ref: '#/definitions/Contract'

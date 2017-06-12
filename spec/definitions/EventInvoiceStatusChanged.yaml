@@ -1,4 +1,0 @@
-type: object
-allOf:
-  - $ref: '#/definitions/Event'
-  - $ref: '#/definitions/InvoiceStatus'
