@@ -16,7 +16,7 @@ release:
   steps:
     - script:
       name: prepare release artifacts
-      code: rm -rf out/ && mkdir -p out && cp ./swagger.{yaml,json} out/
+      code: mkdir -p out && cp ./swagger.{yaml,json} out/
     - lordlothar99/git-push:
       gh_oauth: ${GITHUB_API_TOKEN}
       branch: release
