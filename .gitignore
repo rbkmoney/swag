@@ -1,5 +1,6 @@
 # Dir for API portal deploy
 web_deploy
+out
 
 # Logs
 logs
