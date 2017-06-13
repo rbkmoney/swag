@@ -1,0 +1,3812 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "version": "1.0.0",
+    "title": "RBKmoney Platform API",
+    "description": "## Описание\nRBKmoney API является базовой и единственной точкой взаимодействия с платежной платформой. Все изменения состояний платформы осуществляются с помощью вызовов соответствующих методов API. Любые сторонние приложения, включая наши веб-сайты и другие UI-интерфейсы являются внешними приложениями-клиентами.\nRBKmoney API работает поверх HTTP-протокола. Мы используем REST архитектуру, схема описывается в соответствии со [Swagger](http://swagger.io/). Коды возврата описываются соответствующими HTTP-статусами. Платформа принимает и возвращает JSON-структуры в HTTP body.\n## Идемпотентные запросы\nЛюбой вызов методов API обязан предваряться предоставлением уникального для участника в пределах платформы ID запроса. Данный ID передается в соответствующем заголовке HTTP-запроса:\n```\n X-Request-ID: oX5MWM2AQy\n```\nДля генерации ID запросов мы рекомендуем использовать алгоритмы генерации из стандарта [RFC-4122](https://www.ietf.org/rfc/rfc4122.txt). Платформа гарантирует идемпотентность запросов, отправленных с одинаковым ID.\n## Тип содержимого и кодировка\nЛюбой запрос к API должен выполняться в кодировке UTF-8 и с указанием содержимого в формате JSON\n```\n  Content-Type: application/json; charset=utf-8\n```\n## Формат дат\nПлатформа принимает значения date-time в стандарте ISO 8601 с обязательным указанием UTC-оффсета, например:\n```\n  2017-01-01T00:00:00Z\n  2017-01-01T00:00:01+00:00\n```\n",
+    "termsOfService": "http://rbkmoney.com/",
+    "contact": {
+      "name": "RBKmoney support team",
+      "email": "support@rbk.money",
+      "url": "https://api.rbk.money"
+    }
+  },
+  "host": "api.rbk.money",
+  "basePath": "/v1",
+  "schemes": [
+    "https"
+  ],
+  "consumes": [
+    "application/json; charset=utf-8"
+  ],
+  "produces": [
+    "application/json; charset=utf-8"
+  ],
+  "securityDefinitions": {
+    "bearer": {
+      "type": "apiKey",
+      "name": "Authorization",
+      "in": "header",
+      "description": "Для аутентификации вызовов мы используем [JWT](https://jwt.io). Ваш приватный ключ и ключ для токенизации вы можете получить в личном кабинете. Для аутентификации запросов соответствующий ключ передается в заголовке.\n```shell\n Authorization: Bearer {TOKENIZATION|PRIVATE_JWT}\n```\nКлючи не разделяются на тестовые и боевые, ваш приватный ключ открывает доступ ко всем функциям платформы. Для тестовых транзакций используйте ID тестовых магазинов.\nПомните, что вы никому не должны передавать ваш приватный ключ!\n"
+    }
+  },
+  "security": [
+    {
+      "bearer": []
+    }
+  ],
+  "responses": {
+    "NotFound": {
+      "description": "Entity not found",
+      "schema": {
+        "$ref": "#/definitions/GeneralError"
+      }
+    },
+    "BadRequest": {
+      "description": "Illegal input for operation",
+      "schema": {
+        "$ref": "#/definitions/LogicError"
+      }
+    }
+  },
+  "parameters": {
+    "accountID": {
+      "name": "accountID",
+      "in": "path",
+      "description": "Account ID",
+      "required": true,
+      "type": "integer",
+      "format": "int64"
+    },
+    "requestID": {
+      "name": "X-Request-ID",
+      "in": "header",
+      "description": "Уникальный идентификатор запроса к системе",
+      "required": true,
+      "type": "string",
+      "maxLength": 32
+    },
+    "claimID": {
+      "name": "claimID",
+      "in": "path",
+      "description": "Идентификатор заявки",
+      "required": true,
+      "type": "integer",
+      "format": "int64"
+    },
+    "shopID": {
+      "name": "shopID",
+      "in": "path",
+      "description": "Идентификатор магазина",
+      "required": true,
+      "type": "integer",
+      "format": "int32"
+    },
+    "invoiceID": {
+      "name": "invoiceID",
+      "in": "path",
+      "description": "Идентификатор инвойса",
+      "required": true,
+      "type": "string",
+      "maxLength": 40
+    },
+    "paymentID": {
+      "name": "paymentID",
+      "in": "path",
+      "description": "Идентификатор платежа в рамках инвойса",
+      "required": true,
+      "type": "string",
+      "maxLength": 40
+    },
+    "contractID": {
+      "name": "contractID",
+      "in": "path",
+      "description": "Идентификатор договора",
+      "required": true,
+      "type": "integer",
+      "format": "int32"
+    },
+    "webhookID": {
+      "name": "webhookID",
+      "in": "path",
+      "description": "Идентификатор webhook'а",
+      "required": true,
+      "type": "string",
+      "maxLength": 40
+    },
+    "fromTime": {
+      "name": "fromTime",
+      "in": "query",
+      "description": "Начало временного отрезка",
+      "required": true,
+      "type": "string",
+      "format": "date-time"
+    },
+    "toTime": {
+      "name": "toTime",
+      "in": "query",
+      "description": "Конец временного отрезка",
+      "required": true,
+      "type": "string",
+      "format": "date-time"
+    },
+    "splitUnit": {
+      "name": "splitUnit",
+      "in": "query",
+      "description": "Единица времени сегмента разбиения",
+      "required": true,
+      "type": "string",
+      "enum": [
+        "minute",
+        "hour",
+        "day",
+        "week",
+        "month",
+        "year"
+      ]
+    },
+    "splitSize": {
+      "name": "splitSize",
+      "in": "query",
+      "description": "Размер сегмента разбиения",
+      "required": true,
+      "type": "integer",
+      "format": "int32",
+      "minimum": 1
+    },
+    "limit": {
+      "name": "limit",
+      "in": "query",
+      "description": "Лимит выборки",
+      "required": true,
+      "type": "integer",
+      "format": "int32",
+      "minimum": 1,
+      "maximum": 1000
+    },
+    "offset": {
+      "name": "offset",
+      "in": "query",
+      "description": "Смещение выборки",
+      "required": false,
+      "type": "integer",
+      "minimum": 0
+    }
+  },
+  "tags": [
+    {
+      "name": "Parties",
+      "x-displayName": "Участники",
+      "description": "Участник системы объединяет в себе данные о вашей организации, списке и условиях договоров, заключенных с вами, а также информацию о привязанных к организации сотрудниках. Идентификатором участника является email, использованный при регистрации. Если вы зарегистрировались впервые, то это учетная запись, с которой проводилась регистрация в личном кабинете.\n"
+    },
+    {
+      "name": "Claims",
+      "x-displayName": "Заявки",
+      "description": "Некоторая область данных может быть изменена только после премодерации на стороне платформы. Например, создание и активация новых магазинов, изменение финансовых данных вашего участника и т.п. требуют ручной проверки сотрудниками RBKmoney. Попытка изменить такие данные приводит к автоматическому созданию заявки на изменение данных. До тех пор, пока заявка не одобрена, вы можете добавлять изменения. После одобрения они будут применены к набору данных. В случае отказа по заявке данные останутся в неизменном состоянии. Ближайшим аналогом заявок можно представить Pull Request в распределенных системах контроля версий.\n"
+    },
+    {
+      "name": "Shops",
+      "x-displayName": "Магазины",
+      "description": "Магазин - это отображение вашего веб-сайта или точки продаж в платформе. К магазину привязываются финансовые условия, которые определяют, в частности, процент комиссии платформы. Каждый магазин в системе имеет привязанные счета, на которых аккумулируются отправленные плательщиками деньги. В каждой валюте может существовать только один счет. Категория магазина определяет группы товаров или услуг, которые в нем представлены. К магазину может быть привязан банковский терминал на стороне банка-эквайера. Любые изменения данных магазинов требуют верификации на стороне платформы.\nДля тестовых платежей используются магазины, созданные в тестовой категории. Первый тестовый магазин платформа создает автоматически при регистрации участника.\nВаш веб-сайт или точка продаж могут иметь более одного магазина, ближайшим аналогом можно представить банковские POS-терминалы на точке продаж.\n## Асинхронные уведомления\nДля любого магазина можно указать URL для получения асинхронных оповещений об изменении состояния данных при помощи установки webhook'а. Например, если вы используете неперсистентные интерпретируемые языки разработки, такие как PHP, вы можете установить webhook, указав URL вашего приложения, на который платформа будет отправлять данных об изменении состояния инвойса. Для проверки подлинности присланных на URL вашего приложения данных используется соответствующий публичный ключ, который создаётся при установке этого webhook'а и получить который можно в вашем личном кабинете.\n"
+    },
+    {
+      "name": "Invoices",
+      "x-displayName": "Инвойсы",
+      "description": "Инвойс - это базовая часть работы с платформой по приему платежей. Перед рендерингом платежной формы, запуском транзакций на списание денег, холдированием средств на карте плательщика и запуском других подобных бизнес-процессов, необходимо создать инвойс и узнать его идентификатор.\nВ общем случае, инвойс является контейнером для платежей, данных о товарах и магазине. Инвойсы имеют настраиваемый ограниченный срок жизни. После истечения срока жизни состояние инвойса изменить невозможно.\n\n## Состояния и статусы инвойса\nТаблица состояний инвойса:\n  |    |    |    |\n  | -- | -- | -- |\n  | Не оплачен | `unpaid` | Инвойс создан, но финансовые обязательства ещё не погашены. |\n  | Отменён | `cancelled` | Инвойс отменён с указанием причины, все обязательства по нему недействительны. |\n  | Оплачен | `paid` | Финансовые обязательства по инвойсу погашены, но товары или услуги плательщику ещё не предоставлены. |\n  | Погашен | `fulfilled` | Все обязательства, как плательщика, так и мерчанта, погашены. |\n  | Возмещён | `refunded` | Мерчанту не удалось выполнить свои обязательства, и финансовые обязательства плательщика были возмещены. |\n\nВ узлах диаграммы указаны статусы инвойса, стрелки помечены процессами, успешное завершение которых порождает переход из одного статуса в другой.\n![Invoice State diagram](wsd/img/invoice.svg)\n## Метаданные инвойса\nПлатформа предоставляет вам возможность заполнить и сохранить любые необходимые метаданные в структуре инвойса. Данные описываются массивом JSON. В дальнейшем платформа предоставит вам эти данные при запросе данных инвойса по его ID либо пришлет в асинхронном режиме на webhook, установленный для соответствующего магазине, если он есть.\n## События инвойса\nМы используем event-based, или событийную архитектуру для любого изменения состояния данных в платформе. События, которые генерируют участники процесса привязываются к объектам системы, и таким образом позволяют узнать конечное состояние данных объекта. В системе можно получить как полный список событий, приведших к определенному состоянию данных, так и последнее событие, описывающее текущее состояние объекта. Например, для того, чтобы узнать состояние инвойса, и таким образом принять решение об отгрузке товара или предоставлении услуги плательщику, можно запросить у платформы все события, произошедшие в рамках указанного ID инвойса, либо самое последнее из них.\n"
+    },
+    {
+      "name": "Accounts",
+      "x-displayName": "Счета",
+      "description": "Каждый магазин в платформе имеет привязанные счета, на которых аккумулируются средства плательщиков. К магазину может быть привязан счет в любой валюте, если это описано в рамках договора с участником системы, однако не более одного счета в одинаковой валюте.\nСчета разделяются на два основных типа - основной счет и счет гарантийного фонда.\nОсновной счет используется для оперативных взаиморасчетов между банковскими счетами RBKmoney и вашими банковскими счетами для вывода средств. Вывод средств предваряется суммированием всех средств со счетов ваших магазинов и последующим переводом с помощью банковских транзакций, либо других средств вывода денег из системы.\nСчет гарантийного фонда используется для накопления определенных сумм средств от оборота магазина так, как это указано в договоре с участником.\n"
+    },
+    {
+      "name": "Payments",
+      "x-displayName": "Платежи",
+      "description": "Реальное списание денег с плательщиков осуществляется вызовом метода создания платежа. Перед запуском платежей необходимо создать инвойс, в рамках которого платформа будет проводить попытки списания, а также указать токен платежного средства плательщика. Таким образом, платформа предоставляет вам интерфейс, позволяющий со стороны вашего серверного кода инициировать и контролировать процесс списания денег. Данный процесс может быть, как синхронным, когда вы ожидаете ответа системы, так и асинхронным, когда после запуска платежа вы ожидаете уведомлений на установленный для соответствующего магазина webhook.\n## Платежная сессия\nПлатформа обеспечивает идемпотентность списания денег с платежного средства, предоставляя уникальный идентификатор платежной сессии. Данный идентификатор предоставляется в процессе создания токена платежного средства и гарантирует идемпотентность запросов на списание средств, обеспечивая защиту от ошибочных повторных списаний.\n"
+    },
+    {
+      "name": "Tokens",
+      "x-displayName": "Токены",
+      "description": "Платформа предоставляет вам возможность самостоятельно инициировать списание денег с платежных карт плательщиков и берет на себя процессы сертификации и соответствия стандартам PCS-DSS. Стандарт декларирует запрет на обработку и хранение данных держателей карт (ДДК) на стороне мерчанта. Используемые нами подходы к реализации интерфейса подразумевают возможность верстки и отдачи HTML формы для ввода ДДК на стороне вашего серверного кода. Чтобы обеспечить соответствие стандартам мы предоставляем разработанную нами JS-библиотеку, которая после встраивания в HTML-код вашей платежной формы в асинхронном режиме собирает ДДК и отправляет на интерфейс платформы для дальнейшего шифрования и токенизации. В ответ JS-библиотека возвращает на вашу платежную форму уникальный токен платежной карты, который в дальнейшем вы можете использовать для запуска платежей.\n## Платежная сессия\nПлатформа обеспечивает идемпотентность списания денег с платежного средства, предоставляя уникальный идентификатор платежной сессии. Данный идентификатор предоставляется в процессе создания токена платежного средства и гарантирует идемпотентность запросов на списание средств, обеспечивая защиту от ошибочных повторных списаний.\n"
+    },
+    {
+      "name": "Categories",
+      "x-displayName": "Категории магазинов",
+      "description": "Для описания групп товаров и услуг, предоставляемых магазинами, используются категории. Категории могут влиять на предоставление статистики, упорядочивание магазинов, а также на финансовые условия системы.\n"
+    },
+    {
+      "name": "Contracts",
+      "x-displayName": "Договоры",
+      "description": "Договор содержит данные юридического соглашения, на основе которого система предоставляет всевозможные услуги мерчанту. В договоре, в частности описывается набор условий, по которым предоставляются сервисы платформы, например, комиссии на проведение транзакций, условия вывода средств и данных юридического лица.\nЛюбые изменения данных магазинов требуют верификации на стороне платформы путем создания заявок на изменение.\n"
+    },
+    {
+      "name": "Payouts",
+      "x-displayName": "Вывод средств",
+      "description": "Для получения автоматических выплат по принятым платежам на ваш банковский счет необходимо в рамках договора с системой указать данные для вывода средств. В дальнейшем по указанным данным система будет инициировать банковские переводы на основе суммы платежей, принятой по всем активным магазинам.\nЛюбые изменения данных требуют верификации на стороне платформы путем создания заявок на изменение.\n"
+    },
+    {
+      "name": "Webhooks",
+      "x-displayName": "Webhooks",
+      "description": "## RBKmoney Webhooks Management API\nВ данном разделе описаны методы, позволяющие управлять Webhook'ами, или инструментами для получения асинхронных оповещений посредством HTTP-запросов при наступлении одного или группы интересующих вас событий, например, о том, что платеж в рамках созданного инвойса был успешно оплачен.\n## RBKmoney Webhooks Events API\nВнимание! Только Webhooks Management API является частью платформы RBKmoney, а следовательно и данной спецификации. Для реализации обработчика присылаемых уведомлений вам необходимо будет ознакомиться со Swagger-спецификацей [RBKmoney Webhooks Events API](https://rbkmoney.github.io/webhooks-events-api).\n"
+    },
+    {
+      "name": "Geo",
+      "x-displayName": "Геопозиционирование",
+      "description": "Для отображения геоданных плательщиков существуют вспомогательные операции, например, получение названия геопозиции по её идентификатору.\n"
+    },
+    {
+      "name": "Search",
+      "x-displayName": "Поиск",
+      "description": "Для получения списка всех инвойсов/платежей указанного магазина необходимо вызвать соответствующий метод платформы. Также имеется возможность отфильтровать выборку по определенным статусам инвойсов/платежей.\n"
+    },
+    {
+      "name": "Analytics",
+      "x-displayName": "Аналитика",
+      "description": "Платформа предоставляет возможность получения различных аналитических данных, полученных в рамках взаимодействия с ней. Аналитические отчеты подготовлены заранее и не подразумевают интерактивного изменения структуры данных. Для получения дополнительных наборов данных необходимо обратиться к вашему курирующему менеджеру.\n"
+    },
+    {
+      "name": "Error Codes",
+      "x-displayName": "Коды ошибок",
+      "description": "\n## Ошибки бизнес-логики\nВсе ошибки бизнес-логики имеют следуюший вид:\n\n  ```json\n  {\n    \"code\": \"string\",\n    \"message\": \"string\"\n  }\n  ```\n\nВ поле `code` содержится тип ошибки, а в `message` - дополнительная информация по произошедшей ошибке.\nНа данный момент существуют следующие коды ошибок:\n\n  |  Код  |  Описание  |\n  | -- | -- |\n  | **invalidUser**  | Запрос невозможен для данного пользователя. |\n  | **invalidRequest** | Запрос соответствует спецификации, но не удовлетворяет остальным параметрам системы. Например, попытка создания инвойса с несуществующей валютой |\n  | **invalidInvoiceStatus** | Запрос невозможен из-за ненадлежащего статуса инвойса. Например, попытка оплаты погашенного инвойса |\n  |  **invalidPartyStatus** | Запрос невозможен из-за ненадлежащего статуса пользователя. Например, попытка создания инвойса для заблокированного пользователя |\n  | **invalidPaymentStatus** | Запрос невозможен из-за ненадлежащего статуса платежа. Например, попытка аннулировать инвойс, по которому имеется незавершенный платеж |\n  | **invalidShopStatus** | Запрос невозможен из-за ненадлежащего статуса магазина. Например, попытка создания инвойса в рамках магазина со статусом \"приостановлен\" |\n  | **invalidContractStatus** | Запрос невозможен из-за ненадлежащего статуса контракта. Например, попытка создания магазина с контрактом, у которого истек срок действия |\n\n\n## Общие ошибки\nОшибки возникающие при попытках совершения операций с незарегистрированными в системе объектами. Имеют вид\n\n  ```json\n  {\n      \"message\": \"string\"\n  }\n  ```\n\nВ поле `message` содержится информация по произошедшей ошибке. Например:\n\n  ```json\n  {\n      \"message\": \"Invoice not found\"\n  }\n  ```\n"
+    }
+  ],
+  "paths": {
+    "/analytics/shops/{shopID}/customers/stats/payment_method": {
+      "get": {
+        "description": "Получить статистику по платежным средствам за определённое время.\n",
+        "tags": [
+          "Analytics"
+        ],
+        "operationId": "getPaymentMethodStats",
+        "parameters": [
+          {
+            "$ref": "#/parameters/requestID"
+          },
+          {
+            "$ref": "#/parameters/shopID"
+          },
+          {
+            "$ref": "#/parameters/fromTime"
+          },
+          {
+            "$ref": "#/parameters/toTime"
+          },
+          {
+            "$ref": "#/parameters/splitUnit"
+          },
+          {
+            "$ref": "#/parameters/splitSize"
+          },
+          {
+            "name": "paymentMethod",
+            "in": "query",
+            "description": "Метод оплаты",
+            "type": "string",
+            "required": true,
+            "enum": [
+              "bankCard"
+            ]
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Статистика по платежным средствам",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/PaymentMethodStat"
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/responses/BadRequest"
+          },
+          "404": {
+            "$ref": "#/responses/NotFound"
+          }
+        }
+      }
+    },
+    "/analytics/shops/{shopID}/customers/stats/rate": {
+      "get": {
+        "description": "Получить статистику по уникальным плательщикам за определённое время.\n",
+        "tags": [
+          "Analytics"
+        ],
+        "operationId": "getPaymentRateStats",
+        "parameters": [
+          {
+            "$ref": "#/parameters/requestID"
+          },
+          {
+            "$ref": "#/parameters/shopID"
+          },
+          {
+            "$ref": "#/parameters/fromTime"
+          },
+          {
+            "$ref": "#/parameters/toTime"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Статистика по уникальным плательщикам",
+            "schema": {
+              "$ref": "#/definitions/PaymentRateStat"
+            }
+          },
+          "400": {
+            "$ref": "#/responses/BadRequest"
+          },
+          "404": {
+            "$ref": "#/responses/NotFound"
+          }
+        }
+      }
+    },
+    "/analytics/shops/{shopID}/invoices": {
+      "get": {
+        "description": "Поиск инвойсов",
+        "tags": [
+          "Search"
+        ],
+        "operationId": "searchInvoices",
+        "parameters": [
+          {
+            "$ref": "#/parameters/requestID"
+          },
+          {
+            "$ref": "#/parameters/shopID"
+          },
+          {
+            "$ref": "#/parameters/fromTime"
+          },
+          {
+            "$ref": "#/parameters/toTime"
+          },
+          {
+            "$ref": "#/parameters/limit"
+          },
+          {
+            "$ref": "#/parameters/offset"
+          },
+          {
+            "name": "invoiceStatus",
+            "in": "query",
+            "description": "Статус инвойса для поиска",
+            "required": false,
+            "type": "string",
+            "enum": [
+              "unpaid",
+              "cancelled",
+              "paid",
+              "refunded",
+              "fulfilled"
+            ]
+          },
+          {
+            "name": "paymentStatus",
+            "in": "query",
+            "description": "Статус платежа для поиска",
+            "required": false,
+            "type": "string",
+            "enum": [
+              "pending",
+              "processed",
+              "captured",
+              "cancelled",
+              "failed"
+            ]
+          },
+          {
+            "name": "invoiceID",
+            "in": "query",
+            "description": "Идентификатор инвойса",
+            "required": false,
+            "type": "string",
+            "maxLength": 40
+          },
+          {
+            "name": "paymentID",
+            "in": "query",
+            "description": "Идентификатор платежа",
+            "required": false,
+            "type": "string",
+            "maxLength": 40
+          },
+          {
+            "name": "payerEmail",
+            "in": "query",
+            "description": "Email, указанный при оплате",
+            "required": false,
+            "type": "string",
+            "format": "email",
+            "maxLength": 100
+          },
+          {
+            "name": "payerIP",
+            "in": "query",
+            "description": "IP-адрес плательщика",
+            "required": false,
+            "type": "string",
+            "format": "ip-address",
+            "maxLength": 45
+          },
+          {
+            "name": "payerFingerprint",
+            "in": "query",
+            "description": "Уникальный отпечаток user agent'а плательщика",
+            "required": false,
+            "type": "string",
+            "maxLength": 1000
+          },
+          {
+            "name": "cardNumberMask",
+            "in": "query",
+            "description": "Маскированый номер карты",
+            "required": false,
+            "type": "string",
+            "pattern": "^\\d{4}$"
+          },
+          {
+            "name": "paymentAmount",
+            "in": "query",
+            "description": "Сумма платежа",
+            "required": false,
+            "type": "integer",
+            "format": "int64",
+            "minimum": 1
+          },
+          {
+            "name": "invoiceAmount",
+            "in": "query",
+            "description": "Сумма инвойса",
+            "required": false,
+            "type": "integer",
+            "format": "int64",
+            "minimum": 1
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Найденные инвойсы",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "totalCount": {
+                  "type": "integer"
+                },
+                "result": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/definitions/InvoiceSearchResult"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/responses/BadRequest"
+          },
+          "404": {
+            "$ref": "#/responses/NotFound"
+          }
+        }
+      }
+    },
+    "/analytics/shops/{shopID}/payments": {
+      "get": {
+        "description": "Поиск платежей",
+        "tags": [
+          "Search"
+        ],
+        "operationId": "searchPayments",
+        "parameters": [
+          {
+            "$ref": "#/parameters/requestID"
+          },
+          {
+            "$ref": "#/parameters/shopID"
+          },
+          {
+            "$ref": "#/parameters/fromTime"
+          },
+          {
+            "$ref": "#/parameters/toTime"
+          },
+          {
+            "$ref": "#/parameters/limit"
+          },
+          {
+            "$ref": "#/parameters/offset"
+          },
+          {
+            "name": "paymentStatus",
+            "in": "query",
+            "description": "Статус платежа для поиска",
+            "required": false,
+            "type": "string",
+            "enum": [
+              "pending",
+              "processed",
+              "captured",
+              "cancelled",
+              "failed"
+            ]
+          },
+          {
+            "name": "invoiceID",
+            "in": "query",
+            "description": "Идентификатор инвойса",
+            "required": false,
+            "type": "string",
+            "maxLength": 40
+          },
+          {
+            "name": "paymentID",
+            "in": "query",
+            "description": "Идентификатор платежа",
+            "required": false,
+            "type": "string",
+            "maxLength": 40
+          },
+          {
+            "name": "payerEmail",
+            "in": "query",
+            "description": "Email, указанный при оплате",
+            "required": false,
+            "type": "string",
+            "format": "email",
+            "maxLength": 100
+          },
+          {
+            "name": "payerIP",
+            "in": "query",
+            "description": "IP-адрес плательщика",
+            "required": false,
+            "type": "string",
+            "format": "ip-address",
+            "maxLength": 45
+          },
+          {
+            "name": "payerFingerprint",
+            "in": "query",
+            "description": "Уникальный отпечаток user agent'а плательщика",
+            "required": false,
+            "type": "string",
+            "maxLength": 1000
+          },
+          {
+            "name": "cardNumberMask",
+            "in": "query",
+            "description": "Маскированый номер карты",
+            "required": false,
+            "type": "string",
+            "pattern": "^\\d{4}$"
+          },
+          {
+            "name": "paymentAmount",
+            "in": "query",
+            "description": "Сумма платежа",
+            "required": false,
+            "type": "integer",
+            "format": "int64",
+            "minimum": 1
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Найденные платежи",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "totalCount": {
+                  "type": "integer"
+                },
+                "result": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/definitions/PaymentSearchResult"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/responses/BadRequest"
+          },
+          "404": {
+            "$ref": "#/responses/NotFound"
+          }
+        }
+      }
+    },
+    "/analytics/shops/{shopID}/payments/stats/conversion": {
+      "get": {
+        "description": "Получить статистику конверсии платежей магазина за определённое время.\n",
+        "tags": [
+          "Analytics"
+        ],
+        "operationId": "getPaymentConversionStats",
+        "parameters": [
+          {
+            "$ref": "#/parameters/requestID"
+          },
+          {
+            "$ref": "#/parameters/shopID"
+          },
+          {
+            "$ref": "#/parameters/fromTime"
+          },
+          {
+            "$ref": "#/parameters/toTime"
+          },
+          {
+            "$ref": "#/parameters/splitUnit"
+          },
+          {
+            "$ref": "#/parameters/splitSize"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Статистика конверсии платежей",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/PaymentConversionStat"
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/responses/BadRequest"
+          },
+          "404": {
+            "$ref": "#/responses/NotFound"
+          }
+        }
+      }
+    },
+    "/analytics/shops/{shopID}/payments/stats/geo": {
+      "get": {
+        "description": "Получить статистику по геопозициям плательщиков за определённое время.\n",
+        "tags": [
+          "Analytics"
+        ],
+        "operationId": "getPaymentGeoStats",
+        "parameters": [
+          {
+            "$ref": "#/parameters/requestID"
+          },
+          {
+            "$ref": "#/parameters/shopID"
+          },
+          {
+            "$ref": "#/parameters/fromTime"
+          },
+          {
+            "$ref": "#/parameters/toTime"
+          },
+          {
+            "$ref": "#/parameters/splitUnit"
+          },
+          {
+            "$ref": "#/parameters/splitSize"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Статистика по геопозициям плательщиков",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/PaymentGeoStat"
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/responses/BadRequest"
+          },
+          "404": {
+            "$ref": "#/responses/NotFound"
+          }
+        }
+      }
+    },
+    "/analytics/shops/{shopID}/payments/stats/revenue": {
+      "get": {
+        "description": "Получить статистику по сумме платежей магазина за определенное время, в том\nчисле за вычетом комиссии системы.\n",
+        "tags": [
+          "Analytics"
+        ],
+        "operationId": "getPaymentRevenueStats",
+        "parameters": [
+          {
+            "$ref": "#/parameters/requestID"
+          },
+          {
+            "$ref": "#/parameters/shopID"
+          },
+          {
+            "$ref": "#/parameters/fromTime"
+          },
+          {
+            "$ref": "#/parameters/toTime"
+          },
+          {
+            "$ref": "#/parameters/splitUnit"
+          },
+          {
+            "$ref": "#/parameters/splitSize"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Статистика по сумме платежей и прибыли",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/PaymentRevenueStat"
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/responses/BadRequest"
+          },
+          "404": {
+            "$ref": "#/responses/NotFound"
+          }
+        }
+      }
+    },
+    "/processing/accounts/{accountID}": {
+      "get": {
+        "description": "Get account by ID",
+        "operationId": "getAccountByID",
+        "tags": [
+          "Accounts"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/parameters/requestID"
+          },
+          {
+            "$ref": "#/parameters/accountID"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Account found",
+            "schema": {
+              "$ref": "#/definitions/Account"
+            }
+          },
+          "404": {
+            "$ref": "#/responses/NotFound"
+          }
+        }
+      }
+    },
+    "/processing/categories": {
+      "get": {
+        "description": "Получить список категорий",
+        "tags": [
+          "Categories"
+        ],
+        "operationId": "getCategories",
+        "parameters": [
+          {
+            "$ref": "#/parameters/requestID"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "List of categories",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Category"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/processing/categories/{categoryID}": {
+      "get": {
+        "description": "Получить данные категории по ее ID",
+        "tags": [
+          "Categories"
+        ],
+        "operationId": "getCategoryByRef",
+        "parameters": [
+          {
+            "$ref": "#/parameters/requestID"
+          },
+          {
+            "name": "categoryID",
+            "in": "path",
+            "description": "Category reference",
+            "required": true,
+            "type": "integer",
+            "format": "int32"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Category found",
+            "schema": {
+              "$ref": "#/definitions/Category"
+            }
+          },
+          "400": {
+            "$ref": "#/responses/BadRequest"
+          },
+          "404": {
+            "$ref": "#/responses/NotFound"
+          }
+        }
+      }
+    },
+    "/processing/claims": {
+      "get": {
+        "description": "Get claims by status",
+        "operationId": "getClaimsByStatus",
+        "tags": [
+          "Claims"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/parameters/requestID"
+          },
+          {
+            "name": "claimStatus",
+            "in": "query",
+            "type": "string",
+            "enum": [
+              "pending"
+            ],
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Claims found",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Claim"
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/responses/BadRequest"
+          }
+        }
+      }
+    },
+    "/processing/claims/{claimID}": {
+      "get": {
+        "description": "Get claim by ID",
+        "operationId": "getClaimByID",
+        "tags": [
+          "Claims"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/parameters/requestID"
+          },
+          {
+            "$ref": "#/parameters/claimID"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Claim found",
+            "schema": {
+              "$ref": "#/definitions/Claim"
+            }
+          },
+          "404": {
+            "$ref": "#/responses/NotFound"
+          }
+        }
+      }
+    },
+    "/processing/claims/{claimID}/revoke": {
+      "put": {
+        "description": "Revoke claim by ID",
+        "operationId": "revokeClaimByID",
+        "tags": [
+          "Claims"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/parameters/requestID"
+          },
+          {
+            "$ref": "#/parameters/claimID"
+          },
+          {
+            "name": "revokeClaim",
+            "in": "body",
+            "description": "Revoke claim params",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Reason"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Claim revoked"
+          },
+          "400": {
+            "$ref": "#/responses/BadRequest"
+          },
+          "404": {
+            "$ref": "#/responses/NotFound"
+          }
+        }
+      }
+    },
+    "/processing/contracts": {
+      "get": {
+        "description": "Получить данные всех договоров участника",
+        "operationId": "getContracts",
+        "tags": [
+          "Contracts"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/parameters/requestID"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "List of contracts",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Contract"
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "description": "Создать заявку на регистрацию договора",
+        "tags": [
+          "Contracts"
+        ],
+        "operationId": "createContract",
+        "parameters": [
+          {
+            "$ref": "#/parameters/requestID"
+          },
+          {
+            "name": "contractParams",
+            "description": "New contract params",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/ContractParams"
+            }
+          }
+        ],
+        "responses": {
+          "202": {
+            "description": "Claim registered",
+            "schema": {
+              "$ref": "#/definitions/ClaimRegistrationResult"
+            }
+          },
+          "400": {
+            "$ref": "#/responses/BadRequest"
+          }
+        }
+      }
+    },
+    "/processing/contracts/{contractID}": {
+      "get": {
+        "description": "Получить данные договора по его ID",
+        "operationId": "getContractByID",
+        "tags": [
+          "Contracts"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/parameters/requestID"
+          },
+          {
+            "$ref": "#/parameters/contractID"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Contract found",
+            "schema": {
+              "$ref": "#/definitions/Contract"
+            }
+          },
+          "404": {
+            "$ref": "#/responses/NotFound"
+          }
+        }
+      }
+    },
+    "/processing/contracts/{contractID}/payout_tools": {
+      "get": {
+        "description": "Получить данные всех средств вывода",
+        "operationId": "getPayoutTools",
+        "tags": [
+          "Payouts"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/parameters/requestID"
+          },
+          {
+            "$ref": "#/parameters/contractID"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "List of payout tools",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/PayoutTool"
+              }
+            }
+          },
+          "404": {
+            "$ref": "#/responses/NotFound"
+          }
+        }
+      },
+      "post": {
+        "description": "Создать заявку на внесение новых данных по выводу средств",
+        "tags": [
+          "Payouts"
+        ],
+        "operationId": "createPayoutTool",
+        "parameters": [
+          {
+            "$ref": "#/parameters/requestID"
+          },
+          {
+            "$ref": "#/parameters/contractID"
+          },
+          {
+            "name": "PayoutToolParams",
+            "description": "New payout tool params",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/PayoutToolParams"
+            }
+          }
+        ],
+        "responses": {
+          "202": {
+            "description": "Claim registered",
+            "schema": {
+              "$ref": "#/definitions/ClaimRegistrationResult"
+            }
+          },
+          "400": {
+            "$ref": "#/responses/BadRequest"
+          },
+          "404": {
+            "$ref": "#/responses/NotFound"
+          }
+        }
+      }
+    },
+    "/processing/invoices": {
+      "post": {
+        "description": "Создать новый инвойс.",
+        "tags": [
+          "Invoices"
+        ],
+        "operationId": "createInvoice",
+        "parameters": [
+          {
+            "$ref": "#/parameters/requestID"
+          },
+          {
+            "name": "invoiceParams",
+            "description": "Параметры создаваемого инвойса",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/InvoiceParams"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Инвойс создан",
+            "schema": {
+              "$ref": "#/definitions/Invoice"
+            }
+          },
+          "400": {
+            "$ref": "#/responses/BadRequest"
+          }
+        }
+      }
+    },
+    "/processing/invoices/{invoiceID}": {
+      "get": {
+        "description": "Получить данные инвойса по его идентификатору.",
+        "tags": [
+          "Invoices"
+        ],
+        "operationId": "getInvoiceByID",
+        "parameters": [
+          {
+            "$ref": "#/parameters/requestID"
+          },
+          {
+            "$ref": "#/parameters/invoiceID"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Данные инвойса",
+            "schema": {
+              "$ref": "#/definitions/Invoice"
+            }
+          },
+          "400": {
+            "$ref": "#/responses/BadRequest"
+          },
+          "404": {
+            "$ref": "#/responses/NotFound"
+          }
+        }
+      }
+    },
+    "/processing/invoices/{invoiceID}/access_tokens": {
+      "post": {
+        "operationId": "createInvoiceAccessToken",
+        "description": "Создать новый токен для доступа к указанному инвойсу.\n\nС помощью этого токена можно авторизовать ограниченное количество операций,\nнеобходимых для проведения платежей по указанному инвойсу, в частности:\n\n  * токенизация платёжных инструментов,\n  * создание платежей по этому и только этому инвойсу,\n  * получение состояния и событий этого инвойса.\n\nСрок действия токена составляет 1 час от момента создания, после истечения\nкоторого использовать его для авторизации операций будет более невозможно.\n",
+        "tags": [
+          "Invoices"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/parameters/requestID"
+          },
+          {
+            "$ref": "#/parameters/invoiceID"
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Токен для доступа создан",
+            "schema": {
+              "$ref": "#/definitions/InvoiceAccessToken"
+            }
+          },
+          "404": {
+            "$ref": "#/responses/NotFound"
+          }
+        }
+      }
+    },
+    "/processing/invoices/{invoiceID}/events": {
+      "get": {
+        "description": "Получить историю указанного инвойса в виде набора событий.",
+        "tags": [
+          "Invoices"
+        ],
+        "operationId": "getInvoiceEvents",
+        "parameters": [
+          {
+            "$ref": "#/parameters/requestID"
+          },
+          {
+            "$ref": "#/parameters/invoiceID"
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "description": "Лимит выборки",
+            "required": true,
+            "type": "integer",
+            "format": "int32",
+            "minimum": 1
+          },
+          {
+            "name": "eventID",
+            "in": "query",
+            "description": "Идентификатор события.\n\nВсе события, возникшие в системе _после_ указанного, попадут в выборку.\n",
+            "required": false,
+            "type": "integer",
+            "format": "int32"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Набор событий",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Event"
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/responses/BadRequest"
+          },
+          "404": {
+            "$ref": "#/responses/NotFound"
+          }
+        }
+      }
+    },
+    "/processing/invoices/{invoiceID}/fulfill": {
+      "post": {
+        "description": "Погасить указанный инвойс.",
+        "tags": [
+          "Invoices"
+        ],
+        "operationId": "fulfillInvoice",
+        "parameters": [
+          {
+            "$ref": "#/parameters/requestID"
+          },
+          {
+            "$ref": "#/parameters/invoiceID"
+          },
+          {
+            "name": "fulfillInvoice",
+            "in": "body",
+            "description": "Произвольная причина совершения операции",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Reason"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Инвойс погашен"
+          },
+          "400": {
+            "$ref": "#/responses/BadRequest"
+          },
+          "404": {
+            "$ref": "#/responses/NotFound"
+          }
+        }
+      }
+    },
+    "/processing/invoices/{invoiceID}/payments": {
+      "get": {
+        "description": "Получить все платежи по указанному инвойсу.",
+        "tags": [
+          "Payments"
+        ],
+        "operationId": "getPayments",
+        "parameters": [
+          {
+            "$ref": "#/parameters/requestID"
+          },
+          {
+            "$ref": "#/parameters/invoiceID"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Данные платежей по инвойсу",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Payment"
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/responses/BadRequest"
+          },
+          "404": {
+            "$ref": "#/responses/NotFound"
+          }
+        }
+      },
+      "post": {
+        "description": "Создать новый платеж по указанному инвойсу.",
+        "tags": [
+          "Payments"
+        ],
+        "operationId": "createPayment",
+        "parameters": [
+          {
+            "$ref": "#/parameters/requestID"
+          },
+          {
+            "$ref": "#/parameters/invoiceID"
+          },
+          {
+            "name": "paymentParams",
+            "description": "Параметры создаваемого платежа",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/PaymentParams"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Платёж создан",
+            "schema": {
+              "$ref": "#/definitions/Payment"
+            }
+          },
+          "400": {
+            "$ref": "#/responses/BadRequest"
+          },
+          "404": {
+            "$ref": "#/responses/NotFound"
+          }
+        }
+      }
+    },
+    "/processing/invoices/{invoiceID}/payments/{paymentID}": {
+      "get": {
+        "description": "Получить данные платежа по указанному инвойсу.",
+        "tags": [
+          "Payments"
+        ],
+        "operationId": "getPaymentByID",
+        "parameters": [
+          {
+            "$ref": "#/parameters/requestID"
+          },
+          {
+            "$ref": "#/parameters/invoiceID"
+          },
+          {
+            "$ref": "#/parameters/paymentID"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Данные платежа",
+            "schema": {
+              "$ref": "#/definitions/Payment"
+            }
+          },
+          "400": {
+            "$ref": "#/responses/BadRequest"
+          },
+          "404": {
+            "$ref": "#/responses/NotFound"
+          }
+        }
+      }
+    },
+    "/processing/invoices/{invoiceID}/rescind": {
+      "post": {
+        "description": "Перевести инвойс в состояние \"Отменен\" со статусом \"Аннулирован\".",
+        "tags": [
+          "Invoices"
+        ],
+        "operationId": "rescindInvoice",
+        "parameters": [
+          {
+            "$ref": "#/parameters/requestID"
+          },
+          {
+            "$ref": "#/parameters/invoiceID"
+          },
+          {
+            "name": "rescindInvoice",
+            "in": "body",
+            "description": "Произвольная причина совершения операции",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Reason"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Инвойс аннулирован"
+          },
+          "400": {
+            "$ref": "#/responses/BadRequest"
+          },
+          "404": {
+            "$ref": "#/responses/NotFound"
+          }
+        }
+      }
+    },
+    "/processing/me": {
+      "get": {
+        "tags": [
+          "Parties"
+        ],
+        "operationId": "getMyParty",
+        "parameters": [
+          {
+            "$ref": "#/parameters/requestID"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Get my party",
+            "schema": {
+              "$ref": "#/definitions/Party"
+            }
+          }
+        }
+      }
+    },
+    "/processing/me/activate": {
+      "put": {
+        "description": "Activate my party",
+        "operationId": "activateMyParty",
+        "tags": [
+          "Parties"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/parameters/requestID"
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Party activated"
+          }
+        }
+      }
+    },
+    "/processing/me/suspend": {
+      "put": {
+        "description": "Suspend my party",
+        "operationId": "suspendMyParty",
+        "tags": [
+          "Parties"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/parameters/requestID"
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Party suspended"
+          }
+        }
+      }
+    },
+    "/processing/payment_tools": {
+      "post": {
+        "description": "Создать новый токен платежного средства, предоставленного плательщиком, а\nтакже новую уникальную платежную сессию.\nТокен платежного средства и идентификатор сессии необходим для создания\nплатежа по инвойсу.\n",
+        "tags": [
+          "Tokens"
+        ],
+        "operationId": "createPaymentToolToken",
+        "parameters": [
+          {
+            "$ref": "#/parameters/requestID"
+          },
+          {
+            "name": "paymentTool",
+            "description": "Данные для создания токена",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/PaymentToolTokenParams"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Токен и сессия созданы",
+            "schema": {
+              "type": "object",
+              "required": [
+                "token",
+                "session"
+              ],
+              "properties": {
+                "token": {
+                  "description": "Созданный токен",
+                  "type": "string",
+                  "maxLength": 1000
+                },
+                "session": {
+                  "description": "Идентификатор созданной платежной сессии",
+                  "type": "string",
+                  "maxLength": 1000
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/responses/BadRequest"
+          }
+        }
+      }
+    },
+    "/processing/shops": {
+      "get": {
+        "description": "Get all shops",
+        "operationId": "getShops",
+        "tags": [
+          "Shops"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/parameters/requestID"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "List of shops",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Shop"
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "description": "Claim for creating a shop",
+        "operationId": "createShop",
+        "tags": [
+          "Shops"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/parameters/requestID"
+          },
+          {
+            "name": "shopParams",
+            "in": "body",
+            "description": "New shop params",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/ShopParams"
+            }
+          }
+        ],
+        "responses": {
+          "202": {
+            "description": "Claim registered",
+            "schema": {
+              "$ref": "#/definitions/ClaimRegistrationResult"
+            }
+          },
+          "400": {
+            "$ref": "#/responses/BadRequest"
+          },
+          "404": {
+            "$ref": "#/responses/NotFound"
+          }
+        }
+      }
+    },
+    "/processing/shops/{shopID}": {
+      "get": {
+        "description": "Get shop by id",
+        "operationId": "getShopByID",
+        "tags": [
+          "Shops"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/parameters/requestID"
+          },
+          {
+            "$ref": "#/parameters/shopID"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Shop found",
+            "schema": {
+              "$ref": "#/definitions/Shop"
+            }
+          },
+          "404": {
+            "$ref": "#/responses/NotFound"
+          }
+        }
+      },
+      "post": {
+        "description": "Claim for updating the shop",
+        "operationId": "updateShop",
+        "tags": [
+          "Shops"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/parameters/requestID"
+          },
+          {
+            "$ref": "#/parameters/shopID"
+          },
+          {
+            "name": "updateShopParams",
+            "in": "body",
+            "description": "Shop params for an update",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/UpdateShopParams"
+            }
+          }
+        ],
+        "responses": {
+          "202": {
+            "description": "Claim registered",
+            "schema": {
+              "$ref": "#/definitions/ClaimRegistrationResult"
+            }
+          },
+          "400": {
+            "$ref": "#/responses/BadRequest"
+          },
+          "404": {
+            "$ref": "#/responses/NotFound"
+          }
+        }
+      }
+    },
+    "/processing/shops/{shopID}/activate": {
+      "put": {
+        "description": "Activate shop",
+        "operationId": "activateShop",
+        "tags": [
+          "Shops"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/parameters/requestID"
+          },
+          {
+            "$ref": "#/parameters/shopID"
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Shop activated"
+          },
+          "404": {
+            "$ref": "#/responses/NotFound"
+          }
+        }
+      }
+    },
+    "/processing/shops/{shopID}/suspend": {
+      "put": {
+        "description": "Приостановить действие магазина. Этот тип заявок обрабатывается платформой\nавтоматически и исполняется сразу же после отправки.\n",
+        "operationId": "suspendShop",
+        "tags": [
+          "Shops"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/parameters/requestID"
+          },
+          {
+            "$ref": "#/parameters/shopID"
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Shop suspended"
+          },
+          "404": {
+            "$ref": "#/responses/NotFound"
+          }
+        }
+      }
+    },
+    "/processing/webhooks": {
+      "post": {
+        "description": "Установить новый webhook.",
+        "tags": [
+          "Webhooks"
+        ],
+        "operationId": "createWebhook",
+        "parameters": [
+          {
+            "$ref": "#/parameters/requestID"
+          },
+          {
+            "name": "webhookParams",
+            "description": "Параметры устанавливаемого webhook'а",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/WebhookParams"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Webhook установлен",
+            "schema": {
+              "$ref": "#/definitions/Webhook"
+            }
+          },
+          "400": {
+            "$ref": "#/responses/BadRequest"
+          }
+        }
+      },
+      "get": {
+        "description": "Получить набор установленных webhook'ов.",
+        "tags": [
+          "Webhooks"
+        ],
+        "operationId": "getWebhooks",
+        "parameters": [
+          {
+            "$ref": "#/parameters/requestID"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Набор webhook'ов",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Webhook"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/processing/webhooks/{webhookID}": {
+      "get": {
+        "description": "Получить webhook по его идентификатору.",
+        "tags": [
+          "Webhooks"
+        ],
+        "operationId": "getWebhookByID",
+        "parameters": [
+          {
+            "$ref": "#/parameters/requestID"
+          },
+          {
+            "$ref": "#/parameters/webhookID"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Данные webhook'а",
+            "schema": {
+              "$ref": "#/definitions/Webhook"
+            }
+          },
+          "404": {
+            "$ref": "#/responses/NotFound"
+          }
+        }
+      },
+      "delete": {
+        "description": "Снять указанный webhook.",
+        "tags": [
+          "Webhooks"
+        ],
+        "operationId": "deleteWebhookByID",
+        "parameters": [
+          {
+            "$ref": "#/parameters/requestID"
+          },
+          {
+            "$ref": "#/parameters/webhookID"
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Webhook успешно снят"
+          },
+          "404": {
+            "$ref": "#/responses/NotFound"
+          }
+        }
+      }
+    },
+    "/reference/geo/location/names": {
+      "get": {
+        "description": "Получить локализованные названия геопозиций плательщиков по их\nидентификаторам.\n",
+        "operationId": "getLocationsNames",
+        "tags": [
+          "Geo"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/parameters/requestID"
+          },
+          {
+            "name": "language",
+            "in": "query",
+            "description": "Язык для локализации",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "geoIDs",
+            "in": "query",
+            "description": "Идентификаторы геопозиций",
+            "required": true,
+            "type": "array",
+            "collectionFormat": "csv",
+            "items": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Locations Names",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/LocationName"
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/responses/BadRequest"
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "Account": {
+      "type": "object",
+      "required": [
+        "id",
+        "ownAmount",
+        "availableAmount",
+        "currency"
+      ],
+      "properties": {
+        "id": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "ownAmount": {
+          "type": "integer"
+        },
+        "availableAmount": {
+          "type": "integer"
+        },
+        "currency": {
+          "type": "string"
+        }
+      }
+    },
+    "BankAccount": {
+      "type": "object",
+      "required": [
+        "account",
+        "bankName",
+        "bankPostAccount",
+        "bankBik"
+      ],
+      "properties": {
+        "account": {
+          "type": "string",
+          "pattern": "^\\d{20}$"
+        },
+        "bankName": {
+          "type": "string",
+          "maxLength": 100
+        },
+        "bankPostAccount": {
+          "type": "string",
+          "pattern": "^\\d{20}$"
+        },
+        "bankBik": {
+          "type": "string",
+          "pattern": "^\\d{9}$"
+        }
+      }
+    },
+    "BrowserGetRequest": {
+      "type": "object",
+      "allOf": [
+        {
+          "$ref": "#/definitions/BrowserRequest"
+        },
+        {
+          "type": "object",
+          "required": [
+            "uriTemplate"
+          ],
+          "properties": {
+            "uriTemplate": {
+              "description": "Шаблон значения URL для перехода в браузере\n\nШаблон представлен согласно стандарту\n[RFC6570](https://tools.ietf.org/html/rfc6570).\n",
+              "type": "string"
+            }
+          }
+        }
+      ]
+    },
+    "BrowserPostRequest": {
+      "type": "object",
+      "allOf": [
+        {
+          "$ref": "#/definitions/BrowserRequest"
+        },
+        {
+          "type": "object",
+          "required": [
+            "uriTemplate",
+            "form"
+          ],
+          "properties": {
+            "uriTemplate": {
+              "description": "Шаблон значения URL для отправки формы\n\nШаблон представлен согласно стандарту\n[RFC6570](https://tools.ietf.org/html/rfc6570).\n",
+              "type": "string"
+            },
+            "form": {
+              "$ref": "#/definitions/UserInteractionForm"
+            }
+          }
+        }
+      ]
+    },
+    "BrowserRequest": {
+      "type": "object",
+      "discriminator": "requestType",
+      "required": [
+        "requestType"
+      ],
+      "properties": {
+        "requestType": {
+          "description": "Тип браузерной операции",
+          "type": "string"
+        }
+      }
+    },
+    "CardData": {
+      "type": "object",
+      "allOf": [
+        {
+          "$ref": "#/definitions/PaymentTool"
+        },
+        {
+          "type": "object",
+          "description": "Банковская карта",
+          "required": [
+            "cardNumber",
+            "expDate",
+            "cvv"
+          ],
+          "properties": {
+            "cardNumber": {
+              "description": "Номер банковской карты",
+              "type": "string",
+              "pattern": "^\\d{12,19}$"
+            },
+            "expDate": {
+              "description": "Срок действия банковской карты",
+              "type": "string",
+              "pattern": "^\\d{2}\\/(\\d{2}|\\d{4})$"
+            },
+            "cvv": {
+              "description": "Код верификации",
+              "type": "string",
+              "pattern": "^\\d{3,4}$"
+            },
+            "cardHolder": {
+              "description": "Имя держателя карты",
+              "type": "string",
+              "maxLength": 100
+            }
+          }
+        }
+      ]
+    },
+    "Category": {
+      "type": "object",
+      "required": [
+        "name",
+        "categoryID"
+      ],
+      "properties": {
+        "name": {
+          "type": "string",
+          "maxLength": 100
+        },
+        "categoryID": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "description": {
+          "type": "string",
+          "maxLength": 1000
+        }
+      }
+    },
+    "Claim": {
+      "type": "object",
+      "required": [
+        "id",
+        "status",
+        "changeset"
+      ],
+      "properties": {
+        "id": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "status": {
+          "$ref": "#/definitions/ClaimStatus"
+        },
+        "changeset": {
+          "$ref": "#/definitions/PartyChangeset"
+        }
+      }
+    },
+    "ClaimAccepted": {
+      "type": "object",
+      "allOf": [
+        {
+          "$ref": "#/definitions/ClaimStatus"
+        },
+        {
+          "type": "object",
+          "required": [
+            "acceptedAt"
+          ],
+          "properties": {
+            "acceptedAt": {
+              "type": "string",
+              "format": "date-time"
+            }
+          }
+        }
+      ]
+    },
+    "ClaimDenied": {
+      "type": "object",
+      "allOf": [
+        {
+          "$ref": "#/definitions/ClaimStatus"
+        },
+        {
+          "type": "object",
+          "required": [
+            "reason"
+          ],
+          "properties": {
+            "reason": {
+              "type": "string",
+              "maxLength": 1000
+            }
+          }
+        }
+      ]
+    },
+    "ClaimPending": {
+      "type": "object",
+      "allOf": [
+        {
+          "$ref": "#/definitions/ClaimStatus"
+        }
+      ]
+    },
+    "ClaimRegistrationResult": {
+      "type": "object",
+      "required": [
+        "claimID"
+      ],
+      "properties": {
+        "claimID": {
+          "type": "integer",
+          "format": "int64"
+        }
+      }
+    },
+    "ClaimRevoked": {
+      "type": "object",
+      "allOf": [
+        {
+          "$ref": "#/definitions/ClaimStatus"
+        }
+      ]
+    },
+    "ClaimStatus": {
+      "type": "object",
+      "discriminator": "status",
+      "required": [
+        "status"
+      ],
+      "properties": {
+        "status": {
+          "type": "string"
+        }
+      }
+    },
+    "ClientInfo": {
+      "description": "Данные клиентского устройства плательщика",
+      "type": "object",
+      "required": [
+        "fingerprint"
+      ],
+      "properties": {
+        "fingerprint": {
+          "description": "Уникальный отпечаток user agent'а плательщика",
+          "type": "string",
+          "maxLength": 1000
+        }
+      }
+    },
+    "ContactInfo": {
+      "description": "Контактные данные плательщика",
+      "type": "object",
+      "properties": {
+        "email": {
+          "description": "Адрес электронной почты",
+          "type": "string",
+          "format": "email",
+          "maxLength": 100
+        },
+        "phoneNumber": {
+          "description": "Номер мобильного телефона с международным префиксом согласно\n[E.164](https://en.wikipedia.org/wiki/E.164).\n",
+          "type": "string",
+          "format": "^\\+\\d{4,15}$"
+        }
+      }
+    },
+    "Contract": {
+      "type": "object",
+      "required": [
+        "id",
+        "status"
+      ],
+      "properties": {
+        "id": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "contractor": {
+          "$ref": "#/definitions/Contractor"
+        },
+        "validSince": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "validUntil": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "status": {
+          "type": "string",
+          "enum": [
+            "active",
+            "terminated"
+          ]
+        },
+        "terminatedAt": {
+          "type": "string",
+          "format": "date-time"
+        }
+      }
+    },
+    "ContractCreation": {
+      "type": "object",
+      "allOf": [
+        {
+          "$ref": "#/definitions/PartyModification"
+        },
+        {
+          "type": "object",
+          "required": [
+            "contract"
+          ],
+          "properties": {
+            "contract": {
+              "$ref": "#/definitions/Contract"
+            }
+          }
+        }
+      ]
+    },
+    "ContractModification": {
+      "type": "object",
+      "allOf": [
+        {
+          "$ref": "#/definitions/PartyModification"
+        },
+        {
+          "type": "object",
+          "discriminator": "contractModificationType",
+          "required": [
+            "contractModificationType",
+            "contractID"
+          ],
+          "properties": {
+            "contractModificationType": {
+              "type": "string"
+            },
+            "contractID": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        }
+      ]
+    },
+    "Contractor": {
+      "type": "object",
+      "required": [
+        "bankAccount",
+        "legalEntity"
+      ],
+      "properties": {
+        "bankAccount": {
+          "$ref": "#/definitions/BankAccount"
+        },
+        "legalEntity": {
+          "$ref": "#/definitions/LegalEntity"
+        }
+      }
+    },
+    "ContractParams": {
+      "type": "object",
+      "required": [
+        "contractor",
+        "payoutToolParams"
+      ],
+      "properties": {
+        "contractor": {
+          "$ref": "#/definitions/Contractor"
+        },
+        "payoutToolParams": {
+          "$ref": "#/definitions/PayoutToolParams"
+        }
+      }
+    },
+    "ContractPayoutToolCreation": {
+      "type": "object",
+      "allOf": [
+        {
+          "$ref": "#/definitions/ContractModification"
+        },
+        {
+          "type": "object",
+          "required": [
+            "payoutTool"
+          ],
+          "properties": {
+            "payoutTool": {
+              "$ref": "#/definitions/PayoutTool"
+            }
+          }
+        }
+      ]
+    },
+    "ContractTermination": {
+      "type": "object",
+      "allOf": [
+        {
+          "$ref": "#/definitions/ContractModification"
+        },
+        {
+          "type": "object",
+          "required": [
+            "terminatedAt"
+          ],
+          "properties": {
+            "terminatedAt": {
+              "type": "string",
+              "format": "date-time"
+            },
+            "reason": {
+              "type": "string",
+              "maxLength": 1000
+            }
+          }
+        }
+      ]
+    },
+    "Event": {
+      "type": "object",
+      "discriminator": "eventType",
+      "required": [
+        "id",
+        "createdAt",
+        "eventType"
+      ],
+      "properties": {
+        "id": {
+          "type": "integer"
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "eventType": {
+          "type": "string"
+        }
+      }
+    },
+    "EventInvoiceCreated": {
+      "type": "object",
+      "allOf": [
+        {
+          "$ref": "#/definitions/Event"
+        },
+        {
+          "type": "object",
+          "required": [
+            "invoice"
+          ],
+          "properties": {
+            "invoice": {
+              "$ref": "#/definitions/Invoice"
+            }
+          }
+        }
+      ]
+    },
+    "EventInvoicePaymentInteractionRequested": {
+      "type": "object",
+      "allOf": [
+        {
+          "$ref": "#/definitions/Event"
+        },
+        {
+          "type": "object",
+          "description": "Требование провести взаимодействие с плательщиком для продолжения процесса\nплатежа\n",
+          "required": [
+            "paymentID",
+            "userInteraction"
+          ],
+          "properties": {
+            "paymentID": {
+              "description": "Идентификатор платежа",
+              "type": "string"
+            },
+            "userInteraction": {
+              "$ref": "#/definitions/UserInteraction"
+            }
+          }
+        }
+      ]
+    },
+    "EventInvoiceStatusChanged": {
+      "type": "object",
+      "allOf": [
+        {
+          "$ref": "#/definitions/Event"
+        },
+        {
+          "$ref": "#/definitions/InvoiceStatus"
+        }
+      ]
+    },
+    "EventPaymentBound": {
+      "type": "object",
+      "allOf": [
+        {
+          "$ref": "#/definitions/Event"
+        },
+        {
+          "type": "object",
+          "required": [
+            "paymentID"
+          ],
+          "properties": {
+            "paymentID": {
+              "type": "string"
+            }
+          }
+        }
+      ]
+    },
+    "EventPaymentStarted": {
+      "type": "object",
+      "allOf": [
+        {
+          "$ref": "#/definitions/Event"
+        },
+        {
+          "type": "object",
+          "required": [
+            "payment"
+          ],
+          "properties": {
+            "payment": {
+              "$ref": "#/definitions/Payment"
+            }
+          }
+        }
+      ]
+    },
+    "EventPaymentStatusChanged": {
+      "type": "object",
+      "allOf": [
+        {
+          "$ref": "#/definitions/Event"
+        },
+        {
+          "$ref": "#/definitions/PaymentStatus"
+        },
+        {
+          "type": "object",
+          "required": [
+            "paymentID"
+          ],
+          "properties": {
+            "paymentID": {
+              "type": "string"
+            }
+          }
+        }
+      ]
+    },
+    "GeneralError": {
+      "type": "object",
+      "required": [
+        "message"
+      ],
+      "properties": {
+        "message": {
+          "type": "string"
+        }
+      }
+    },
+    "GeoLocationInfo": {
+      "description": "Информация о геопозиции",
+      "type": "object",
+      "required": [
+        "cityGeoID",
+        "countryGeoID"
+      ],
+      "properties": {
+        "cityGeoID": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "countryGeoID": {
+          "type": "integer",
+          "format": "int32"
+        }
+      }
+    },
+    "Invoice": {
+      "type": "object",
+      "allOf": [
+        {
+          "$ref": "#/definitions/InvoiceStatus"
+        },
+        {
+          "type": "object",
+          "required": [
+            "id",
+            "shopID",
+            "createdAt",
+            "dueDate",
+            "amount",
+            "currency",
+            "metadata",
+            "product"
+          ],
+          "properties": {
+            "id": {
+              "description": "Идентификатор инвойса",
+              "type": "string"
+            },
+            "shopID": {
+              "description": "Идентификатор магазина",
+              "type": "integer",
+              "format": "int32"
+            },
+            "createdAt": {
+              "description": "Дата и время создания",
+              "type": "string",
+              "format": "date-time"
+            },
+            "dueDate": {
+              "description": "Дата и время окончания действия",
+              "type": "string",
+              "format": "date-time"
+            },
+            "amount": {
+              "description": "Стоимость предлагаемых товаров или услуг, в минорных денежных единицах,\nнапример в копейках в случае указания российских рублей в качестве валюты.\n",
+              "type": "integer",
+              "format": "int64",
+              "minimum": 1
+            },
+            "currency": {
+              "description": "Валюта, символьный код согласно\n[ISO 4217](http://www.iso.org/iso/home/standards/currency_codes.htm).\n",
+              "type": "string",
+              "pattern": "^[A-Z]{3}$"
+            },
+            "metadata": {
+              "description": "Связанные с инвойсом метаданные",
+              "type": "object"
+            },
+            "product": {
+              "description": "Наименование предлагаемых товаров или услуг",
+              "type": "string",
+              "maxLength": 100
+            },
+            "description": {
+              "description": "Описание предлагаемых товаров или услуг",
+              "type": "string",
+              "maxLength": 1000
+            }
+          }
+        }
+      ]
+    },
+    "InvoiceAccessToken": {
+      "type": "object",
+      "required": [
+        "payload"
+      ],
+      "properties": {
+        "payload": {
+          "description": "Содержимое токена для доступа\n",
+          "type": "string"
+        }
+      }
+    },
+    "InvoiceParams": {
+      "type": "object",
+      "required": [
+        "shopID",
+        "product",
+        "dueDate",
+        "amount",
+        "currency",
+        "metadata"
+      ],
+      "properties": {
+        "shopID": {
+          "description": "Идентификатор магазина",
+          "type": "integer",
+          "format": "int32"
+        },
+        "amount": {
+          "description": "Стоимость предлагаемых товаров или услуг, в минорных денежных единицах,\nнапример в копейках в случае указания российских рублей в качестве валюты.\n",
+          "type": "integer",
+          "format": "int64",
+          "minimum": 1
+        },
+        "currency": {
+          "description": "Валюта, символьный код согласно\n[ISO 4217](http://www.iso.org/iso/home/standards/currency_codes.htm).\n",
+          "type": "string",
+          "pattern": "^[A-Z]{3}$"
+        },
+        "metadata": {
+          "description": "Метаданные, которые необходимо связать с инвойсом",
+          "type": "object"
+        },
+        "dueDate": {
+          "description": "Дата и время окончания действия инвойса, после наступления которых его\nуже невозможно будет оплатить\n",
+          "type": "string",
+          "format": "date-time"
+        },
+        "product": {
+          "description": "Наименование предлагаемых товаров или услуг",
+          "type": "string",
+          "maxLength": 100
+        },
+        "description": {
+          "description": "Описание предлагаемых товаров или услуг",
+          "type": "string",
+          "maxLength": 1000
+        }
+      }
+    },
+    "InvoiceSearchResult": {
+      "type": "object",
+      "allOf": [
+        {
+          "$ref": "#/definitions/InvoiceStatus"
+        },
+        {
+          "type": "object",
+          "required": [
+            "id",
+            "shopID",
+            "createdAt",
+            "dueDate",
+            "amount",
+            "currency",
+            "metadata",
+            "product"
+          ],
+          "properties": {
+            "id": {
+              "description": "Идентификатор инвойса",
+              "type": "string"
+            },
+            "shopID": {
+              "description": "Идентификатор магазина",
+              "type": "integer",
+              "format": "int32"
+            },
+            "createdAt": {
+              "description": "Дата и время создания",
+              "type": "string",
+              "format": "date-time"
+            },
+            "dueDate": {
+              "description": "Дата и время окончания действия",
+              "type": "string",
+              "format": "date-time"
+            },
+            "amount": {
+              "description": "Стоимость предлагаемых товаров или услуг, в минорных денежных единицах,\nнапример в копейках в случае указания российских рублей в качестве валюты.\n",
+              "type": "integer",
+              "format": "int64",
+              "minimum": 1
+            },
+            "currency": {
+              "description": "Валюта, символьный код согласно\n[ISO 4217](http://www.iso.org/iso/home/standards/currency_codes.htm).\n",
+              "type": "string",
+              "pattern": "^[A-Z]{3}$"
+            },
+            "metadata": {
+              "description": "Связанные с инвойсом метаданные",
+              "type": "object"
+            },
+            "product": {
+              "description": "Наименование предлагаемых товаров или услуг",
+              "type": "string",
+              "maxLength": 100
+            },
+            "description": {
+              "description": "Описание предлагаемых товаров или услуг",
+              "type": "string",
+              "maxLength": 1000
+            }
+          }
+        }
+      ]
+    },
+    "InvoiceStatus": {
+      "type": "object",
+      "required": [
+        "status"
+      ],
+      "properties": {
+        "status": {
+          "description": "Статус инвойса",
+          "type": "string",
+          "enum": [
+            "unpaid",
+            "cancelled",
+            "paid",
+            "refunded",
+            "fulfilled"
+          ]
+        },
+        "reason": {
+          "description": "Причина отмены или погашения инвойса",
+          "type": "string",
+          "maxLength": 1000
+        }
+      }
+    },
+    "InvoicesTopic": {
+      "description": "Область охвата, включающая события по инвойсам в рамках определённого\nмагазина\n",
+      "allOf": [
+        {
+          "$ref": "#/definitions/WebhookScope"
+        },
+        {
+          "type": "object",
+          "required": [
+            "shopID",
+            "eventTypes"
+          ],
+          "properties": {
+            "shopID": {
+              "description": "Идентификатор магазина",
+              "type": "integer",
+              "format": "int32"
+            },
+            "eventTypes": {
+              "description": "Набор типов событий инвойсов, о которых следует оповещать",
+              "type": "array",
+              "items": {
+                "type": "string",
+                "enum": [
+                  "InvoiceCreated",
+                  "InvoicePaid",
+                  "InvoiceCancelled",
+                  "InvoiceFulfilled",
+                  "PaymentStarted",
+                  "PaymentProcessed",
+                  "PaymentCaptured",
+                  "PaymentCancelled",
+                  "PaymentFailed"
+                ]
+              }
+            }
+          }
+        }
+      ]
+    },
+    "LegalEntity": {
+      "type": "object",
+      "discriminator": "entityType",
+      "required": [
+        "entityType"
+      ],
+      "properties": {
+        "entityType": {
+          "type": "string"
+        }
+      }
+    },
+    "LocationName": {
+      "type": "object",
+      "required": [
+        "geoID",
+        "name"
+      ],
+      "properties": {
+        "geoID": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "name": {
+          "type": "string"
+        }
+      }
+    },
+    "LogicError": {
+      "description": "Описание ошибки, возникшей в процессе проведения платежа",
+      "type": "object",
+      "required": [
+        "code",
+        "message"
+      ],
+      "properties": {
+        "code": {
+          "type": "string"
+        },
+        "message": {
+          "type": "string"
+        }
+      }
+    },
+    "Party": {
+      "type": "object",
+      "required": [
+        "id",
+        "isBlocked",
+        "isSuspended"
+      ],
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "isBlocked": {
+          "type": "boolean"
+        },
+        "isSuspended": {
+          "type": "boolean"
+        }
+      }
+    },
+    "PartyChangeset": {
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/PartyModification"
+      }
+    },
+    "PartyModification": {
+      "type": "object",
+      "discriminator": "partyModificationType",
+      "required": [
+        "partyModificationType"
+      ],
+      "properties": {
+        "partyModificationType": {
+          "type": "string"
+        }
+      }
+    },
+    "PartySuspension": {
+      "type": "object",
+      "allOf": [
+        {
+          "$ref": "#/definitions/PartyModification"
+        },
+        {
+          "type": "object",
+          "required": [
+            "details"
+          ],
+          "properties": {
+            "details": {
+              "$ref": "#/definitions/Suspension"
+            }
+          }
+        }
+      ]
+    },
+    "Payment": {
+      "type": "object",
+      "allOf": [
+        {
+          "$ref": "#/definitions/PaymentStatus"
+        },
+        {
+          "type": "object",
+          "required": [
+            "id",
+            "invoiceID",
+            "createdAt",
+            "amount",
+            "currency",
+            "contactInfo",
+            "paymentSession",
+            "paymentToolToken",
+            "paymentToolDetails"
+          ],
+          "properties": {
+            "id": {
+              "description": "Идентификатор платежа",
+              "type": "string"
+            },
+            "invoiceID": {
+              "description": "Идентификатор инвойса, в рамках которого был создан платеж",
+              "type": "string"
+            },
+            "createdAt": {
+              "description": "Дата и время создания",
+              "type": "string",
+              "format": "date-time"
+            },
+            "amount": {
+              "description": "Стоимость предлагаемых товаров или услуг, в минорных денежных единицах,\nнапример в копейках в случае указания российских рублей в качестве валюты.\n",
+              "type": "integer",
+              "format": "int64",
+              "minimum": 1
+            },
+            "currency": {
+              "description": "Валюта, символьный код согласно\n[ISO 4217](http://www.iso.org/iso/home/standards/currency_codes.htm).\n",
+              "type": "string",
+              "pattern": "^[A-Z]{3}$"
+            },
+            "contactInfo": {
+              "description": "Контактные данные плательщика",
+              "allOf": [
+                {
+                  "$ref": "#/definitions/ContactInfo"
+                }
+              ]
+            },
+            "paymentSession": {
+              "description": "Идентификатор платежной сессии",
+              "type": "string",
+              "maxLength": 1000
+            },
+            "paymentToolToken": {
+              "description": "Токен платежного средства, предоставленного плательщиком",
+              "type": "string",
+              "maxLength": 1000
+            },
+            "paymentToolDetails": {
+              "$ref": "#/definitions/PaymentToolDetails"
+            },
+            "ip": {
+              "description": "IP-адрес плательщика",
+              "type": "string",
+              "format": "ip-address",
+              "maxLength": 45
+            },
+            "fingerprint": {
+              "description": "Уникальный отпечаток user agent'а плательщика",
+              "type": "string",
+              "maxLength": 1000
+            }
+          }
+        }
+      ]
+    },
+    "PaymentConversionStat": {
+      "type": "object",
+      "required": [
+        "offset",
+        "successfulCount",
+        "totalCount",
+        "conversion"
+      ],
+      "properties": {
+        "offset": {
+          "description": "Смещение сегмента выборки",
+          "type": "integer"
+        },
+        "successfulCount": {
+          "description": "Количество успешных платежей",
+          "type": "integer"
+        },
+        "totalCount": {
+          "description": "Общее количество платежей",
+          "type": "integer"
+        },
+        "conversion": {
+          "description": "Значение конверсии",
+          "type": "number"
+        }
+      }
+    },
+    "PaymentGeoStat": {
+      "type": "object",
+      "required": [
+        "offset",
+        "geoID",
+        "currency",
+        "profit",
+        "revenue"
+      ],
+      "properties": {
+        "offset": {
+          "description": "Смещение сегмента выборки",
+          "type": "integer"
+        },
+        "geoID": {
+          "description": "Идентификатор геопозиции плательщика",
+          "type": "integer",
+          "format": "int32"
+        },
+        "currency": {
+          "description": "Валюта платежей, символьный код согласно\n[ISO 4217](http://www.iso.org/iso/home/standards/currency_codes.htm).\n",
+          "type": "string",
+          "pattern": "^[A-Z]{3}$"
+        },
+        "profit": {
+          "description": "Прибыль магазина",
+          "type": "integer"
+        },
+        "revenue": {
+          "description": "Сумма платежей в магазине",
+          "type": "integer"
+        }
+      }
+    },
+    "PaymentMethodBankCardStat": {
+      "type": "object",
+      "allOf": [
+        {
+          "$ref": "#/definitions/PaymentMethodStat"
+        },
+        {
+          "type": "object",
+          "required": [
+            "offset",
+            "totalCount",
+            "paymentSystem",
+            "profit",
+            "revenue"
+          ],
+          "properties": {
+            "offset": {
+              "description": "Смещение сегмента выборки",
+              "type": "integer"
+            },
+            "totalCount": {
+              "description": "Общее количество плательщиков",
+              "type": "integer"
+            },
+            "paymentSystem": {
+              "description": "Тип платежной системы",
+              "type": "string"
+            },
+            "profit": {
+              "description": "Прибыль магазина",
+              "type": "integer"
+            },
+            "revenue": {
+              "description": "Сумма платежей в магазине",
+              "type": "integer"
+            }
+          }
+        }
+      ]
+    },
+    "PaymentMethodStat": {
+      "type": "object",
+      "discriminator": "statType",
+      "required": [
+        "statType"
+      ],
+      "properties": {
+        "statType": {
+          "description": "Тип статистики по методу оплаты",
+          "type": "string"
+        }
+      }
+    },
+    "PaymentParams": {
+      "type": "object",
+      "required": [
+        "contactInfo",
+        "paymentSession",
+        "paymentToolToken"
+      ],
+      "properties": {
+        "contactInfo": {
+          "$ref": "#/definitions/ContactInfo"
+        },
+        "paymentSession": {
+          "description": "Идентификатор платежной сессии",
+          "type": "string",
+          "maxLength": 1000
+        },
+        "paymentToolToken": {
+          "description": "Токен платежного средства, предоставленного плательщиком",
+          "type": "string",
+          "maxLength": 1000
+        }
+      }
+    },
+    "PaymentRateStat": {
+      "type": "object",
+      "required": [
+        "uniqueCount"
+      ],
+      "properties": {
+        "uniqueCount": {
+          "description": "Количество уникальных плательщиков",
+          "type": "integer"
+        }
+      }
+    },
+    "PaymentRevenueStat": {
+      "type": "object",
+      "required": [
+        "offset",
+        "currency",
+        "profit",
+        "revenue"
+      ],
+      "properties": {
+        "offset": {
+          "description": "Смещение сегмента выборки",
+          "type": "integer"
+        },
+        "currency": {
+          "description": "Валюта платежей, символьный код согласно\n[ISO 4217](http://www.iso.org/iso/home/standards/currency_codes.htm).\n",
+          "type": "string",
+          "pattern": "^[A-Z]{3}$"
+        },
+        "profit": {
+          "description": "Прибыль магазина",
+          "type": "integer"
+        },
+        "revenue": {
+          "description": "Сумма платежей в магазине",
+          "type": "integer"
+        }
+      }
+    },
+    "PaymentSearchResult": {
+      "type": "object",
+      "allOf": [
+        {
+          "$ref": "#/definitions/PaymentStatus"
+        },
+        {
+          "type": "object",
+          "required": [
+            "id",
+            "invoiceID",
+            "createdAt",
+            "amount",
+            "currency",
+            "contactInfo",
+            "paymentSession",
+            "paymentToolToken",
+            "paymentToolDetails"
+          ],
+          "properties": {
+            "id": {
+              "description": "Идентификатор платежа",
+              "type": "string"
+            },
+            "invoiceID": {
+              "description": "Идентификатор инвойса, в рамках которого был создан платеж",
+              "type": "string"
+            },
+            "shopID": {
+              "description": "Идентификатор магазина, в рамках которого был создан платеж",
+              "type": "integer",
+              "format": "int32"
+            },
+            "createdAt": {
+              "description": "Дата и время создания",
+              "type": "string",
+              "format": "date-time"
+            },
+            "amount": {
+              "description": "Стоимость предлагаемых товаров или услуг, в минорных денежных\nединицах, например в копейках в случае указания российских рублей в\nкачестве валюты.\n",
+              "type": "integer",
+              "format": "int64",
+              "minimum": 1
+            },
+            "fee": {
+              "description": "Комиссия системы, в минорных денежных единицах",
+              "type": "integer",
+              "format": "int64",
+              "minimum": 0
+            },
+            "currency": {
+              "description": "Валюта, символьный код согласно\n[ISO 4217](http://www.iso.org/iso/home/standards/currency_codes.htm).\n",
+              "type": "string",
+              "pattern": "^[A-Z]{3}$"
+            },
+            "contactInfo": {
+              "description": "Контактные данные плательщика",
+              "allOf": [
+                {
+                  "$ref": "#/definitions/ContactInfo"
+                }
+              ]
+            },
+            "paymentSession": {
+              "description": "Идентификатор платежной сессии",
+              "type": "string",
+              "maxLength": 1000
+            },
+            "paymentToolToken": {
+              "description": "Токен платежного средства, предоставленного плательщиком",
+              "type": "string",
+              "maxLength": 1000
+            },
+            "paymentToolDetails": {
+              "$ref": "#/definitions/PaymentToolDetails"
+            },
+            "ip": {
+              "description": "IP-адрес плательщика",
+              "type": "string",
+              "format": "ip-address",
+              "maxLength": 45
+            },
+            "geoLocationInfo": {
+              "$ref": "#/definitions/GeoLocationInfo"
+            },
+            "fingerprint": {
+              "description": "Уникальный отпечаток user agent'а плательщика",
+              "type": "string",
+              "maxLength": 1000
+            },
+            "metadata": {
+              "description": "Связанные с платежом метаданные",
+              "type": "object"
+            }
+          }
+        }
+      ]
+    },
+    "PaymentStatus": {
+      "type": "object",
+      "required": [
+        "status"
+      ],
+      "properties": {
+        "status": {
+          "description": "Статус платежа",
+          "type": "string",
+          "enum": [
+            "pending",
+            "processed",
+            "captured",
+            "cancelled",
+            "failed"
+          ]
+        },
+        "error": {
+          "$ref": "#/definitions/LogicError"
+        }
+      }
+    },
+    "PaymentTool": {
+      "type": "object",
+      "discriminator": "paymentToolType",
+      "properties": {
+        "paymentToolType": {
+          "description": "Тип платежного средства",
+          "type": "string"
+        }
+      },
+      "required": [
+        "paymentToolType"
+      ]
+    },
+    "PaymentToolDetails": {
+      "type": "object",
+      "discriminator": "detailsType",
+      "description": "Детали платежного средства",
+      "required": [
+        "detailsType"
+      ],
+      "properties": {
+        "detailsType": {
+          "description": "Тип информации о платежном средстве",
+          "type": "string"
+        }
+      }
+    },
+    "PaymentToolDetailsCardData": {
+      "type": "object",
+      "allOf": [
+        {
+          "$ref": "#/definitions/PaymentToolDetails"
+        },
+        {
+          "type": "object",
+          "required": [
+            "cardNumberMask",
+            "paymentSystem"
+          ],
+          "properties": {
+            "cardNumberMask": {
+              "description": "Маскированый номер карты",
+              "type": "string",
+              "pattern": "^\\d{4}$"
+            },
+            "paymentSystem": {
+              "description": "Платежная система",
+              "type": "string",
+              "maxLength": 100
+            }
+          }
+        }
+      ]
+    },
+    "PaymentToolTokenParams": {
+      "type": "object",
+      "required": [
+        "paymentTool",
+        "clientInfo"
+      ],
+      "properties": {
+        "paymentTool": {
+          "$ref": "#/definitions/PaymentTool"
+        },
+        "clientInfo": {
+          "$ref": "#/definitions/ClientInfo"
+        }
+      }
+    },
+    "PayoutTool": {
+      "type": "object",
+      "required": [
+        "id",
+        "params"
+      ],
+      "properties": {
+        "id": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "params": {
+          "$ref": "#/definitions/PayoutToolParams"
+        }
+      }
+    },
+    "PayoutToolBankAccount": {
+      "type": "object",
+      "allOf": [
+        {
+          "$ref": "#/definitions/PayoutToolParams"
+        },
+        {
+          "type": "object",
+          "required": [
+            "bankAccount"
+          ],
+          "properties": {
+            "bankAccount": {
+              "$ref": "#/definitions/BankAccount"
+            }
+          }
+        }
+      ]
+    },
+    "PayoutToolParams": {
+      "type": "object",
+      "discriminator": "payoutToolType",
+      "required": [
+        "currency",
+        "payoutToolType"
+      ],
+      "properties": {
+        "currency": {
+          "type": "string"
+        },
+        "payoutToolType": {
+          "type": "string"
+        }
+      }
+    },
+    "Reason": {
+      "type": "object",
+      "required": [
+        "reason"
+      ],
+      "properties": {
+        "reason": {
+          "description": "Причина совершения операции",
+          "type": "string",
+          "maxLength": 1000
+        }
+      }
+    },
+    "Redirect": {
+      "type": "object",
+      "allOf": [
+        {
+          "$ref": "#/definitions/UserInteraction"
+        },
+        {
+          "type": "object",
+          "required": [
+            "request"
+          ],
+          "properties": {
+            "request": {
+              "$ref": "#/definitions/BrowserRequest"
+            }
+          }
+        }
+      ]
+    },
+    "RussianLegalEntity": {
+      "type": "object",
+      "allOf": [
+        {
+          "$ref": "#/definitions/LegalEntity"
+        },
+        {
+          "type": "object",
+          "required": [
+            "registeredName",
+            "registeredNumber",
+            "inn",
+            "actualAddress",
+            "postAddress",
+            "representativePosition",
+            "representativeFullName",
+            "representativeDocument"
+          ],
+          "properties": {
+            "registeredName": {
+              "type": "string",
+              "maxLength": 100
+            },
+            "registeredNumber": {
+              "type": "string",
+              "pattern": "^(\\d{13}|\\d{15})$"
+            },
+            "inn": {
+              "type": "string",
+              "pattern": "^\\d{10}$"
+            },
+            "actualAddress": {
+              "type": "string",
+              "maxLength": 1000
+            },
+            "postAddress": {
+              "type": "string",
+              "maxLength": 1000
+            },
+            "representativePosition": {
+              "type": "string",
+              "maxLength": 100
+            },
+            "representativeFullName": {
+              "type": "string",
+              "maxLength": 100
+            },
+            "representativeDocument": {
+              "type": "string",
+              "maxLength": 1000
+            }
+          }
+        }
+      ]
+    },
+    "Shop": {
+      "type": "object",
+      "required": [
+        "id",
+        "isBlocked",
+        "isSuspended",
+        "categoryID",
+        "details",
+        "contractID"
+      ],
+      "properties": {
+        "id": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "isBlocked": {
+          "type": "boolean"
+        },
+        "isSuspended": {
+          "type": "boolean"
+        },
+        "categoryID": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "details": {
+          "$ref": "#/definitions/ShopDetails"
+        },
+        "contractID": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "payoutToolID": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "account": {
+          "$ref": "#/definitions/ShopAccount"
+        }
+      }
+    },
+    "ShopAccount": {
+      "type": "object",
+      "required": [
+        "guaranteeID",
+        "settlementID",
+        "currency"
+      ],
+      "properties": {
+        "guaranteeID": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "settlementID": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "currency": {
+          "type": "string",
+          "format": "^[A-Z]{3}$"
+        }
+      }
+    },
+    "ShopAccountCreation": {
+      "type": "object",
+      "allOf": [
+        {
+          "$ref": "#/definitions/ShopModification"
+        },
+        {
+          "type": "object",
+          "required": [
+            "account"
+          ],
+          "properties": {
+            "account": {
+              "$ref": "#/definitions/ShopAccount"
+            }
+          }
+        }
+      ]
+    },
+    "ShopCreation": {
+      "type": "object",
+      "allOf": [
+        {
+          "$ref": "#/definitions/PartyModification"
+        },
+        {
+          "type": "object",
+          "required": [
+            "shop"
+          ],
+          "properties": {
+            "shop": {
+              "$ref": "#/definitions/Shop"
+            }
+          }
+        }
+      ]
+    },
+    "ShopDetails": {
+      "type": "object",
+      "required": [
+        "name"
+      ],
+      "properties": {
+        "name": {
+          "type": "string",
+          "maxLength": 100
+        },
+        "description": {
+          "type": "string",
+          "maxLength": 1000
+        },
+        "location": {
+          "$ref": "#/definitions/ShopLocation"
+        }
+      }
+    },
+    "ShopLocation": {
+      "type": "object",
+      "discriminator": "locationType",
+      "required": [
+        "locationType"
+      ],
+      "properties": {
+        "locationType": {
+          "type": "string"
+        }
+      }
+    },
+    "ShopLocationUrl": {
+      "type": "object",
+      "allOf": [
+        {
+          "$ref": "#/definitions/ShopLocation"
+        },
+        {
+          "type": "object",
+          "required": [
+            "url"
+          ],
+          "properties": {
+            "url": {
+              "type": "string",
+              "format": "uri",
+              "maxLength": 1000
+            }
+          }
+        }
+      ]
+    },
+    "ShopModification": {
+      "type": "object",
+      "allOf": [
+        {
+          "$ref": "#/definitions/PartyModification"
+        },
+        {
+          "type": "object",
+          "discriminator": "shopModificationType",
+          "required": [
+            "shopModificationType",
+            "shopID"
+          ],
+          "properties": {
+            "shopID": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "shopModificationType": {
+              "type": "string"
+            }
+          }
+        }
+      ]
+    },
+    "ShopParams": {
+      "type": "object",
+      "required": [
+        "details",
+        "contractID",
+        "payoutToolID"
+      ],
+      "properties": {
+        "categoryID": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "details": {
+          "$ref": "#/definitions/ShopDetails"
+        },
+        "contractID": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "payoutToolID": {
+          "type": "integer",
+          "format": "int32"
+        }
+      }
+    },
+    "ShopSuspension": {
+      "type": "object",
+      "allOf": [
+        {
+          "$ref": "#/definitions/ShopModification"
+        },
+        {
+          "type": "object",
+          "required": [
+            "details"
+          ],
+          "properties": {
+            "details": {
+              "$ref": "#/definitions/Suspension"
+            }
+          }
+        }
+      ]
+    },
+    "ShopUpdate": {
+      "type": "object",
+      "allOf": [
+        {
+          "$ref": "#/definitions/ShopModification"
+        },
+        {
+          "type": "object",
+          "required": [
+            "details"
+          ],
+          "properties": {
+            "details": {
+              "$ref": "#/definitions/UpdateShopParams"
+            }
+          }
+        }
+      ]
+    },
+    "Suspension": {
+      "type": "object",
+      "required": [
+        "suspensionType"
+      ],
+      "properties": {
+        "suspensionType": {
+          "type": "string",
+          "enum": [
+            "active",
+            "suspended"
+          ]
+        }
+      }
+    },
+    "UpdateShopParams": {
+      "type": "object",
+      "properties": {
+        "categoryID": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "details": {
+          "$ref": "#/definitions/ShopDetails"
+        },
+        "contractID": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "payoutToolID": {
+          "type": "integer",
+          "format": "int32"
+        }
+      }
+    },
+    "UserInteraction": {
+      "type": "object",
+      "discriminator": "interactionType",
+      "required": [
+        "interactionType"
+      ],
+      "properties": {
+        "interactionType": {
+          "description": "Тип взаимодействия с пользователем",
+          "type": "string"
+        }
+      }
+    },
+    "UserInteractionForm": {
+      "description": "Форма для отправки средствами браузера",
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "key",
+          "template"
+        ],
+        "properties": {
+          "key": {
+            "description": "Значение ключа элемента формы, которую необходимо отправить средствами\nбраузера\n",
+            "type": "string"
+          },
+          "template": {
+            "description": "Шаблон значения элемента формы\nШаблон представлен согласно стандарту\n[RFC6570](https://tools.ietf.org/html/rfc6570).\n",
+            "type": "string"
+          }
+        }
+      }
+    },
+    "Webhook": {
+      "type": "object",
+      "required": [
+        "id",
+        "active",
+        "scope",
+        "url",
+        "publicKey"
+      ],
+      "properties": {
+        "id": {
+          "description": "Идентификатор webhook'а\n",
+          "type": "string"
+        },
+        "active": {
+          "description": "Включена ли в данный момент доставка оповещений?\n",
+          "type": "boolean"
+        },
+        "scope": {
+          "$ref": "#/definitions/WebhookScope"
+        },
+        "url": {
+          "description": "URL, на который будут поступать оповещения о произошедших событиях\n",
+          "type": "string",
+          "format": "uri",
+          "maxLength": 1000
+        },
+        "publicKey": {
+          "description": "Содержимое публичного ключа, служащего для проверки авторитативности\nприходящих на `url` оповещений\n",
+          "type": "string",
+          "format": "hexadecimal"
+        }
+      }
+    },
+    "WebhookParams": {
+      "description": "Данные для установки нового webhook'а",
+      "type": "object",
+      "required": [
+        "scope",
+        "url"
+      ],
+      "properties": {
+        "scope": {
+          "$ref": "#/definitions/WebhookScope"
+        },
+        "url": {
+          "description": "URL, на который будут поступать оповещения о произошедших событиях\n",
+          "type": "string",
+          "format": "uri",
+          "maxLength": 1000
+        }
+      }
+    },
+    "WebhookScope": {
+      "description": "Область охвата webhook'а, ограничивающая набор типов событий, по которым\nследует отправлять оповещения\n",
+      "type": "object",
+      "discriminator": "topic",
+      "required": [
+        "topic"
+      ],
+      "properties": {
+        "topic": {
+          "description": "Предмет оповещений",
+          "type": "string",
+          "enum": [
+            "InvoicesTopic"
+          ]
+        }
+      }
+    }
+  }
+}
