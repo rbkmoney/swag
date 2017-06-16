@@ -1,0 +1,14 @@
+type: object
+allOf:
+  - $ref: '#/definitions/InvoiceTemplateCost'
+  - type: object
+    required:
+      - amount
+    properties:
+      amount:
+        description: |
+          Стоимость предлагаемых товаров или услуг, в минорных денежных единицах,
+          например в копейках в случае указания российских рублей в качестве валюты.
+        type: integer
+        format: int64
+        minimum: 1

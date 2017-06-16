@@ -1,0 +1,9 @@
+type: object
+allOf:
+  - $ref: '#/definitions/InvoiceTemplateCost'
+  - type: object
+    required:
+      - range
+    properties:
+      range:
+        $ref: '#/definitions/CostAmountRange'

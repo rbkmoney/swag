@@ -1,0 +1,30 @@
+type: object
+required:
+  - shopID
+  - product
+  - lifetime
+properties:
+  id:
+    description: Идентификатор шаблона инвойса
+    type: string
+  shopID:
+    description: Идентификатор магазина
+    type: integer
+    format: int32
+  product:
+    description: Наименование предлагаемых товаров или услуг
+    type: string
+    maxLength: 100
+  description:
+    description: Описание предлагаемых товаров или услуг
+    type: string
+    maxLength: 1000
+  lifetime:
+    $ref: '#/definitions/LifetimeInterval'
+  costSpec:
+    $ref: '#/definitions/InvoiceTemplateCost'
+  metadata:
+    description: >
+      Метаданные, которые будут связаны с инвойсом, созданным по шаблону, в
+      случае, если иные метаданные не указаны в запросе на создание инвойса.
+    type: object

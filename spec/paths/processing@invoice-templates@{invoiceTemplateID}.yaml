@@ -1,0 +1,38 @@
+put:
+  description: Модифицировать шаблон инвойса.
+  tags:
+    - InvoiceTemplates
+  operationId: updateInvoiceTemplate
+  parameters:
+    - $ref: '#/parameters/requestID'
+    - $ref: '#/parameters/invoiceTemplateID'
+    - name: invoiceTemplateParams
+      description: Параметры модифицируемого инвойса.
+      in: body
+      required: true
+      schema:
+        $ref: '#/definitions/InvoiceTemplateParams'
+  responses:
+    '200':
+      description: Инвойс модифицирован.
+      schema:
+        $ref: '#/definitions/InvoiceTemplate'
+    '400':
+      $ref: '#/responses/BadRequest'
+    '404':
+      $ref: '#/responses/NotFound'
+delete:
+  description: Удалить шаблон инвойса.
+  tags:
+    - InvoiceTemplates
+  operationId: deleteInvoiceTemplate
+  parameters:
+    - $ref: '#/parameters/requestID'
+    - $ref: '#/parameters/invoiceTemplateID'
+  responses:
+    '204':
+      description: Инвойс удален.
+    '400':
+      $ref: '#/responses/BadRequest'
+    '404':
+      $ref: '#/responses/NotFound'
