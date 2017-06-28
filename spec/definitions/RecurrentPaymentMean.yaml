@@ -1,0 +1,12 @@
+type: object
+allOf:
+  - $ref: '#/definitions/PaymentMean'
+  - type: object
+    description: Рекуррентное платежное средство
+    required:
+      - paymentToolToken
+    properties:
+      paymentToolToken:
+        description: Рекуррентный токен платежного средства, предоставленного плательщиком
+        type: string
+        maxLength: 1000

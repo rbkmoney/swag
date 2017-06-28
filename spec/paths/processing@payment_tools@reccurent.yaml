@@ -1,0 +1,28 @@
+post:
+  description:
+    Создать новый рекуррентный токен платежного средства, предоставленного плательщиком
+  tags:
+    - Tokens
+  operationId: createRecPaymentToolToken
+  parameters:
+    - $ref: '#/parameters/requestID'
+    - name: paymentTool
+      description: Данные для создания рекуррентного токена
+      in: body
+      required: true
+      schema:
+        $ref: '#/definitions/PaymentToolTokenParams'
+  responses:
+    '201':
+      description: Рекуррентный токен создан
+      schema:
+        type: object
+        required:
+          - token
+        properties:
+          token:
+            description: Созданный рекуррентный токен
+            type: string
+            maxLength: 1000
+    '400':
+      $ref: '#/responses/BadRequest'
