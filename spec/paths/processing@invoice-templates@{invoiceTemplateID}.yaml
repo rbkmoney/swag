@@ -14,7 +14,7 @@ put:
         $ref: '#/definitions/InvoiceTemplateParams'
   responses:
     '200':
-      description: Инвойс модифицирован.
+      description: Шаблон инвойса модифицирован.
       schema:
         $ref: '#/definitions/InvoiceTemplate'
     '400':
@@ -31,7 +31,7 @@ delete:
     - $ref: '#/parameters/invoiceTemplateID'
   responses:
     '204':
-      description: Инвойс удален.
+      description: Шаблон инвойса удален.
     '400':
       $ref: '#/responses/BadRequest'
     '404':

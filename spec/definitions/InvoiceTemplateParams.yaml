@@ -21,7 +21,7 @@ properties:
     maxLength: 1000
   lifetime:
     $ref: '#/definitions/LifetimeInterval'
-  costSpec:
+  cost:
     $ref: '#/definitions/InvoiceTemplateCost'
   metadata:
     description: >

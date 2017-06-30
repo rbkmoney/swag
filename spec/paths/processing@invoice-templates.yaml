@@ -6,14 +6,14 @@ post:
   parameters:
     - $ref: '#/parameters/requestID'
     - name: invoiceParams
-      description: Параметры создаваемого инвойса.
+      description: Параметры инвойса.
       in: body
       required: true
       schema:
         $ref: '#/definitions/InvoiceTemplateParams'
   responses:
     '201':
-      description: Инвойс создан.
+      description: Шаблон инвойса создан.
       schema:
         $ref: '#/definitions/InvoiceTemplate'
     '400':
