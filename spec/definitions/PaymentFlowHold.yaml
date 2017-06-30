@@ -3,16 +3,16 @@ allOf:
   - $ref: '#/definitions/PaymentFlow'
   - type: object
     required:
-      - policy
+      - onHoldExpiration
       - heldUntil
     properties:
-      policy:
+      onHoldExpiration:
         description: Политика управления удержанием денежных средств
         type: string
-        default: cancelAfterHold
+        default: cancel
         enum:
-          - cancelAfterHold
-          - captureAfterHold
+          - cancel
+          - capture
       heldUntil:
         description: 'Дата и время, до которого происходит удержание денежных средств'
         type: string
