@@ -7,3 +7,6 @@ properties:
     description: Тип процесса выполнения платежа
     type: string
     default: PaymentFlowInstant
+    enum:
+      - PaymentFlowInstant
+      - PaymentFlowHold
