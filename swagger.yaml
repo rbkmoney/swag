@@ -1013,6 +1013,52 @@ paths:
           $ref: '#/responses/BadRequest'
         '404':
           $ref: '#/responses/NotFound'
+  '/processing/invoices/{invoiceID}/payments/{paymentID}/cancel':
+    post:
+      description: Отменить указанный платеж.
+      tags:
+        - Payments
+      operationId: cancelPayment
+      parameters:
+        - $ref: '#/parameters/requestID'
+        - $ref: '#/parameters/invoiceID'
+        - $ref: '#/parameters/paymentID'
+        - name: cancelPayment
+          in: body
+          description: Произвольная причина совершения операции
+          required: true
+          schema:
+            $ref: '#/definitions/Reason'
+      responses:
+        '204':
+          description: Платеж отменен
+        '400':
+          $ref: '#/responses/BadRequest'
+        '404':
+          $ref: '#/responses/NotFound'
+  '/processing/invoices/{invoiceID}/payments/{paymentID}/capture':
+    post:
+      description: Подтвердить указанный платеж.
+      tags:
+        - Payments
+      operationId: capturePayment
+      parameters:
+        - $ref: '#/parameters/requestID'
+        - $ref: '#/parameters/invoiceID'
+        - $ref: '#/parameters/paymentID'
+        - name: capturePayment
+          in: body
+          description: Произвольная причина совершения операции
+          required: true
+          schema:
+            $ref: '#/definitions/Reason'
+      responses:
+        '204':
+          description: Платеж подтвержден
+        '400':
+          $ref: '#/responses/BadRequest'
+        '404':
+          $ref: '#/responses/NotFound'
   '/processing/invoices/{invoiceID}/rescind':
     post:
       description: Перевести инвойс в состояние "Отменен" со статусом "Аннулирован".
@@ -1993,6 +2039,7 @@ definitions:
           - createdAt
           - amount
           - currency
+          - flow
           - contactInfo
           - paymentSession
           - paymentToolToken
@@ -2021,6 +2068,8 @@ definitions:
               [ISO 4217](http://www.iso.org/iso/home/standards/currency_codes.htm).
             type: string
             pattern: '^[A-Z]{3}$'
+          flow:
+            $ref: '#/definitions/PaymentFlow'
           contactInfo:
             description: Контактные данные плательщика
             allOf:
@@ -2064,6 +2113,44 @@ definitions:
       conversion:
         description: Значение конверсии
         type: number
+  PaymentFlow:
+    type: object
+    discriminator: type
+    required:
+      - type
+    properties:
+      type:
+        description: Тип процесса выполнения платежа
+        type: string
+        default: PaymentFlowInstant
+        enum:
+          - PaymentFlowInstant
+          - PaymentFlowHold
+  PaymentFlowHold:
+    type: object
+    allOf:
+      - $ref: '#/definitions/PaymentFlow'
+      - type: object
+        required:
+          - onHoldExpiration
+          - heldUntil
+        properties:
+          onHoldExpiration:
+            description: Политика управления удержанием денежных средств
+            type: string
+            default: cancel
+            enum:
+              - cancel
+              - capture
+          heldUntil:
+            description: 'Дата и время, до которого происходит удержание денежных средств'
+            type: string
+            format: date-time
+            readOnly: true
+  PaymentFlowInstant:
+    type: object
+    allOf:
+      - $ref: '#/definitions/PaymentFlow'
   PaymentGeoStat:
     type: object
     required:
@@ -2129,12 +2216,14 @@ definitions:
         description: Тип статистики по методу оплаты
         type: string
   PaymentParams:
-    type: object
     required:
+      - flow
       - contactInfo
       - paymentSession
       - paymentToolToken
     properties:
+      flow:
+        $ref: '#/definitions/PaymentFlow'
       contactInfo:
         $ref: '#/definitions/ContactInfo'
       paymentSession:
