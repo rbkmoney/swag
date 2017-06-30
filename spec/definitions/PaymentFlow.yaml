@@ -1,10 +1,16 @@
 type: object
 required:
-  - flow
+  - type
 properties:
-  flow:
-    description: Процесс выполнения платежа
+  type:
+    description: Тип процесса выполнения платежа
     type: string
     enum:
       - instant
       - twoPhase
+  twoPhasePolicy:
+    description: Политика управления удержанием денежных средств
+    type: string
+    enum:
+      - cancelAfterHold
+      - captureAfterHold
