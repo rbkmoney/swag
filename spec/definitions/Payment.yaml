@@ -8,11 +8,11 @@ allOf:
       - createdAt
       - amount
       - currency
+      - flow
       - contactInfo
       - paymentSession
       - paymentToolToken
       - paymentToolDetails
-      - flow
     properties:
       id:
         description: Идентификатор платежа
@@ -40,6 +40,8 @@ allOf:
           [ISO 4217](http://www.iso.org/iso/home/standards/currency_codes.htm).
         type: string
         pattern: '^[A-Z]{3}$'
+      flow:
+        $ref: '#/definitions/PaymentFlow'
       contactInfo:
         description: Контактные данные плательщика
         allOf:
@@ -63,27 +65,3 @@ allOf:
         description: Уникальный отпечаток user agent'а плательщика
         type: string
         maxLength: 1000
-      links:
-        description: Список ссылок на связанные с платежом ресурсы
-        type: array
-        items:
-          type: object
-          required:
-            - rel
-            - path
-          properties:
-            rel:
-              description: Название связи
-              type: string
-              enum:
-                - capture
-                - cancel
-            path:
-              description: Путь к ресурсу
-              type: string
-      held_until:
-        description: 'Дата и время, до которого происходит удержание денежных средств'
-        type: string
-        format: date-time
-      flow:
-        $ref: '#/definitions/PaymentFlow'

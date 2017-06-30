@@ -1,16 +1,9 @@
 type: object
+discriminator: type
 required:
   - type
 properties:
   type:
     description: Тип процесса выполнения платежа
     type: string
-    enum:
-      - instant
-      - twoPhase
-  twoPhasePolicy:
-    description: Политика управления удержанием денежных средств
-    type: string
-    enum:
-      - cancelAfterHold
-      - captureAfterHold
+    default: PaymentFlowInstant
