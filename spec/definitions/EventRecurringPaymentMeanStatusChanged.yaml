@@ -1,0 +1,10 @@
+type: object
+allOf:
+  - $ref: '#/definitions/Event'
+  - $ref: '#/definitions/RecurringPaymentMeanStatus'
+  - type: object
+    required:
+      - recMeanID
+    properties:
+      recMeanID:
+        type: string

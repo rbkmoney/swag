@@ -1,0 +1,6 @@
+type: object
+required:
+  - paymentMean
+properties:
+  paymentMean:
+    $ref: '#/definitions/DisposablePaymentMean'

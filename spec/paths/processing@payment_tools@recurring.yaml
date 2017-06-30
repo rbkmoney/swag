@@ -6,23 +6,16 @@ post:
   operationId: createRecPaymentToolToken
   parameters:
     - $ref: '#/parameters/requestID'
-    - name: paymentTool
+    - name: paymentMean
       description: Данные для создания рекуррентного токена
       in: body
       required: true
       schema:
-        $ref: '#/definitions/PaymentToolTokenParams'
+        $ref: '#/definitions/RecurringPaymentMeanParams'
   responses:
     '201':
       description: Рекуррентный токен создан
       schema:
-        type: object
-        required:
-          - token
-        properties:
-          token:
-            description: Созданный рекуррентный токен
-            type: string
-            maxLength: 1000
+        $ref: '#/definitions/RecurringPaymentMean'
     '400':
       $ref: '#/responses/BadRequest'

@@ -4,8 +4,13 @@ allOf:
   - type: object
     description: Рекуррентное платежное средство
     required:
+      - id
       - paymentToolToken
     properties:
+      id:
+        description: Идентификатор рекуррентного токена
+        type: string
+        maxLength: 40
       paymentToolToken:
         description: Рекуррентный токен платежного средства, предоставленного плательщиком
         type: string

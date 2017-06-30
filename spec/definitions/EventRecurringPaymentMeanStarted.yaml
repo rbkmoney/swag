@@ -1,0 +1,9 @@
+type: object
+allOf:
+  - $ref: '#/definitions/Event'
+  - type: object
+    required:
+      - recurringPaymentMean
+    properties:
+      recurringPaymentMean:
+        $ref: '#/definitions/RecurringPaymentMean'

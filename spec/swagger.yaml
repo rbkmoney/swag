@@ -135,6 +135,13 @@ parameters:
     required: true
     type: string
     maxLength: 40
+  recMeanID:
+    name: recMeanID
+    in: path
+    description: Идентификатор рекуррентного токена
+    required: true
+    type: string
+    maxLength: 40
   contractID:
     name: contractID
     in: path

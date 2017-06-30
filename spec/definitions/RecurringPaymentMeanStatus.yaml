@@ -1,0 +1,13 @@
+type: object
+required:
+  - status
+properties:
+  status:
+    description: Статус рекуррентного токена
+    type: string
+    enum:
+      - pending
+      - acquired
+      - failed
+  error:
+    $ref: '#/definitions/LogicError'
