@@ -1,16 +1,19 @@
 type: object
-required:
-  - contactInfo
-  - paymentSession
-  - paymentToolToken
-properties:
-  contactInfo:
-    $ref: '#/definitions/ContactInfo'
-  paymentSession:
-    description: Идентификатор платежной сессии
-    type: string
-    maxLength: 1000
-  paymentToolToken:
-    description: Токен платежного средства, предоставленного плательщиком
-    type: string
-    maxLength: 1000
+allOf:
+  - $ref: '#/definitions/PaymentFlow'
+  - type: object
+    required:
+      - contactInfo
+      - paymentSession
+      - paymentToolToken
+    properties:
+      contactInfo:
+        $ref: '#/definitions/ContactInfo'
+      paymentSession:
+        description: Идентификатор платежной сессии
+        type: string
+        maxLength: 1000
+      paymentToolToken:
+        description: 'Токен платежного средства, предоставленного плательщиком'
+        type: string
+        maxLength: 1000

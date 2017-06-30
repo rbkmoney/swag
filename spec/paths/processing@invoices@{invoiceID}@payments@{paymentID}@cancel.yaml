@@ -1,0 +1,22 @@
+post:
+  description: Отменить указанный платеж.
+  tags:
+    - Payments
+  operationId: cancelPayment
+  parameters:
+    - $ref: '#/parameters/requestID'
+    - $ref: '#/parameters/invoiceID'
+    - $ref: '#/parameters/paymentID'
+    - name: cancelPayment
+      in: body
+      description: Произвольная причина совершения операции
+      required: true
+      schema:
+        $ref: '#/definitions/Reason'
+  responses:
+    '204':
+      description: Платеж отменен
+    '400':
+      $ref: '#/responses/BadRequest'
+    '404':
+      $ref: '#/responses/NotFound'

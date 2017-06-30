@@ -1,6 +1,7 @@
 type: object
 allOf:
   - $ref: '#/definitions/PaymentStatus'
+  - $ref: '#/definitions/PaymentFlow'
   - type: object
     required:
       - id
@@ -62,3 +63,25 @@ allOf:
         description: Уникальный отпечаток user agent'а плательщика
         type: string
         maxLength: 1000
+      links:
+        description: Список ссылок на связанные с платежом ресурсы
+        type: array
+        items:
+          type: object
+          required:
+            - rel
+            - path
+          properties:
+            rel:
+              description: Название связи
+              type: string
+              enum:
+                - capture
+                - cancel
+            path:
+              description: Путь к ресурсу
+              type: string
+      held_until:
+        description: 'Дата и время, до которого происходит удержание денежных средств'
+        type: string
+        format: date-time

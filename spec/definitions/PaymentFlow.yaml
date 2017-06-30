@@ -1,0 +1,10 @@
+type: object
+required:
+  - flow
+properties:
+  flow:
+    description: Процесс выполнения платежа
+    type: string
+    enum:
+      - instant
+      - twoPhase
