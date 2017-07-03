@@ -13,6 +13,12 @@ get:
       required: false
       type: string
       maxLength: 40
+    - name: invoiceID
+      in: query
+      description: Идентификатор инвойса, созданного по шаблону.
+      required: false
+      type: string
+      maxLength: 40
     - name: product
       in: query
       description: Наименование предлагаемых товаров или услуг.

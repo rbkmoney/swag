@@ -27,6 +27,12 @@ get:
       required: false
       type: string
       maxLength: 40
+    - name: invoiceTemplateID
+      in: query
+      description: Идентификатор шаблона инвойса, в случае, когда инвойс создан по шаблону.
+      required: false
+      type: string
+      maxLength: 40
     - name: paymentID
       in: query
       description: Идентификатор платежа
