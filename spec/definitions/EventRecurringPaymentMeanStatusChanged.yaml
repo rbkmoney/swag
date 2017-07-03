@@ -4,7 +4,7 @@ allOf:
   - $ref: '#/definitions/RecurringPaymentMeanStatus'
   - type: object
     required:
-      - recMeanID
+      - customer
     properties:
-      recMeanID:
-        type: string
+      customer:
+        $ref: '#/definitions/Customer'

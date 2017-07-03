@@ -1,11 +1,11 @@
 get:
-  description: Получить историю рекуррентного токена.
+  description: Получить историю указанного кастомера в виде набора событий.
   tags:
-    - Tokens
-  operationId: getRecurringTokenEvents
+    - Invoices
+  operationId: getCustomerEvents
   parameters:
     - $ref: '#/parameters/requestID'
-    - $ref: '#/parameters/recMeanID'
+    - $ref: '#/parameters/customerID'
     - name: limit
       in: query
       description: Лимит выборки

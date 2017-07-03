@@ -1,0 +1,39 @@
+put:
+  description: Создать рекуррентный токен
+  tags:
+    - Customers
+  operationId: createRecurringToken
+  parameters:
+    - $ref: '#/parameters/requestID'
+    - $ref: '#/parameters/customerID'
+    - name: paymentMean
+      in: body
+      description: |
+        Токенизированная карта, по которой будет создан 
+        рекуррентный токен.
+      required: true
+      schema:
+        $ref: '#/definitions/DisposablePaymentMean'
+  responses:
+    '201':
+      description: Создание рекуррентного токена инициировано
+    '400':
+      $ref: '#/responses/BadRequest'
+    '404':
+      $ref: '#/responses/NotFound'
+delete:
+  description: Удалить рекуррентный токен
+  tags:
+    - Customers
+  operationId: removeRecurringToken
+  parameters:
+    - $ref: '#/parameters/requestID'
+    - $ref: '#/parameters/customerID'
+  responses:
+    '204':
+      description: Платежное средство удалено
+    '400':
+      $ref: '#/responses/BadRequest'
+    '404':
+      $ref: '#/responses/NotFound'
+

@@ -1,0 +1,20 @@
+put:
+  description: Создать нового кастомера.
+  tags:
+    - Customers
+  operationId: createCustomer
+  parameters:
+    - $ref: '#/parameters/requestID'
+    - name: customerParams
+      description: Параметры создаваемого кастомера
+      in: body
+      required: true
+      schema:
+        $ref: '#/definitions/CustomerParams'
+  responses:
+    '201':
+      description: Плательщик создан
+      schema:
+        $ref: '#/definitions/Customer'
+    '400':
+      $ref: '#/responses/BadRequest'

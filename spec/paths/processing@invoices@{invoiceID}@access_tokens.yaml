@@ -21,6 +21,6 @@ post:
     '201':
       description: Токен для доступа создан
       schema:
-        $ref: '#/definitions/InvoiceAccessToken'
+        $ref: '#/definitions/AccessToken'
     '404':
       $ref: '#/responses/NotFound'

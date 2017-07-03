@@ -3,7 +3,7 @@ allOf:
   - $ref: '#/definitions/Event'
   - type: object
     required:
-      - recurringPaymentMean
+      - customer
     properties:
-      recurringPaymentMean:
-        $ref: '#/definitions/RecurringPaymentMean'
+      customer:
+        $ref: '#/definitions/Customer'
