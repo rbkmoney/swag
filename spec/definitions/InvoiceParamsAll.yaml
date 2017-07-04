@@ -1,33 +1,21 @@
 type: object
 allOf:
-  - $ref: '#/definitions/InvoiceStatus'
+  - $ref: '#/definitions/InvoiceParams'
   - type: object
     required:
-      - id
       - shopID
-      - createdAt
-      - dueDate
       - amount
       - currency
       - metadata
+      - dueDate
       - product
     properties:
-      id:
-        description: Идентификатор инвойса
-        type: string
       shopID:
         description: Идентификатор магазина
         type: string
-      createdAt:
-        description: Дата и время создания
-        type: string
-        format: date-time
-      dueDate:
-        description: Дата и время окончания действия
-        type: string
-        format: date-time
+        maxLength: 40
       amount:
-        description: >
+        description: |
           Стоимость предлагаемых товаров или услуг, в минорных денежных единицах,
           например в копейках в случае указания российских рублей в качестве валюты.
         type: integer
@@ -40,8 +28,14 @@ allOf:
         type: string
         pattern: '^[A-Z]{3}$'
       metadata:
-        description: Связанные с инвойсом метаданные
+        description: 'Метаданные, которые необходимо связать с инвойсом'
         type: object
+      dueDate:
+        description: |
+          Дата и время окончания действия инвойса, после наступления которых его
+          уже невозможно будет оплатить
+        type: string
+        format: date-time
       product:
         description: Наименование предлагаемых товаров или услуг
         type: string

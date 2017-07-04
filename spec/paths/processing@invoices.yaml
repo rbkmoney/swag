@@ -10,7 +10,7 @@ post:
       in: body
       required: true
       schema:
-        $ref: '#/definitions/InvoiceParams'
+          $ref: '#/definitions/InvoiceParams'
   responses:
     '201':
       description: Инвойс создан
