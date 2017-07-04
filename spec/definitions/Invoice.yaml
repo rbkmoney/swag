@@ -51,3 +51,6 @@ allOf:
         description: Описание предлагаемых товаров или услуг
         type: string
         maxLength: 1000
+      invoiceTemplateID:
+        description: Идентификатор шаблона (для инвойсов, созданных по шаблону).
+        type: string

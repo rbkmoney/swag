@@ -1,0 +1,17 @@
+type: object
+discriminator: invoiceTemplateCostType
+description: >-
+  Ограничения на стоимость товаров и услуг для инвойсов, генерируемых по
+  шаблону.
+required:
+  - currency
+  - invoiceTemplateCostType
+properties:
+  currency:
+    description: |
+      Валюта, символьный код согласно
+      [ISO 4217](http://www.iso.org/iso/home/standards/currency_codes.htm).
+    type: string
+    pattern: '^[A-Z]{3}$'
+  invoiceTemplateCostType:
+    type: string

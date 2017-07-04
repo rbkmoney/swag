@@ -38,6 +38,12 @@ get:
       required: false
       type: string
       maxLength: 40
+    - name: invoiceTemplateID
+      in: query
+      description: Идентификатор шаблона (для инвойсов, созданных по шаблону).
+      required: false
+      type: string
+      maxLength: 40
     - name: paymentID
       in: query
       description: Идентификатор платежа
@@ -95,7 +101,7 @@ get:
           result:
             type: array
             items:
-              $ref: '#/definitions/InvoiceSearchResult'
+              $ref: '#/definitions/Invoice'
     '400':
       $ref: '#/responses/BadRequest'
     '404':
