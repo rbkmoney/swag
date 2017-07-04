@@ -1,3 +1,20 @@
+get:
+  description: Получить шаблон инвойса по его идентификатору.
+  tags:
+    - InvoiceTemplates
+  operationId: getInvoiceTemplateByID
+  parameters:
+    - $ref: '#/parameters/requestID'
+    - $ref: '#/parameters/invoiceTemplateID'
+  responses:
+    '200':
+      description: Шаблон инвойса
+      schema:
+        $ref: '#/definitions/InvoiceTemplate'
+    '400':
+      $ref: '#/responses/BadRequest'
+    '404':
+      $ref: '#/responses/NotFound'
 put:
   description: Модифицировать шаблон инвойса.
   tags:

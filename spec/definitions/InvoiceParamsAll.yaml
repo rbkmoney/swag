@@ -3,12 +3,17 @@ allOf:
   - $ref: '#/definitions/InvoiceParams'
   - type: object
     required:
+      - shopID
       - amount
       - currency
       - metadata
       - dueDate
       - product
     properties:
+      shopID:
+        description: Идентификатор магазина
+        type: integer
+        format: int32
       amount:
         description: |
           Стоимость предлагаемых товаров или услуг, в минорных денежных единицах,

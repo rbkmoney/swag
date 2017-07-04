@@ -1,12 +1,7 @@
 type: object
 discriminator: invoiceParamsType
 required:
-  - shopID
   - invoiceParamsType
 properties:
-  shopID:
-    description: Идентификатор магазина
-    type: integer
-    format: int32
   invoiceParamsType:
     type: string
