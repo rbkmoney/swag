@@ -7,6 +7,6 @@ allOf:
       - customerID
     properties:
       customerID:
-        description: Идентификатор кастомера
+        description: Идентификатор customer'а
         type: integer
         format: int32

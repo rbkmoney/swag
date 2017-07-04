@@ -1,12 +1,12 @@
 put:
-  description: Создать нового кастомера.
+  description: Создать нового customer'а.
   tags:
     - Customers
   operationId: createCustomer
   parameters:
     - $ref: '#/parameters/requestID'
     - name: customerParams
-      description: Параметры создаваемого кастомера
+      description: Параметры создаваемого customer'а
       in: body
       required: true
       schema:

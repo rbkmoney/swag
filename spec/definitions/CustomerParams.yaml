@@ -3,5 +3,5 @@ required:
   - metadata
 properties:
   metadata:
-    description: Связанные с кастомером метаданные
+    description: Связанные с customer'ом метаданные
     type: object

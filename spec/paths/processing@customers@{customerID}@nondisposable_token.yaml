@@ -2,14 +2,14 @@ put:
   description: Создать рекуррентный токен
   tags:
     - Customers
-  operationId: createRecurringToken
+  operationId: createNondisposableToken
   parameters:
     - $ref: '#/parameters/requestID'
     - $ref: '#/parameters/customerID'
     - name: paymentMean
       in: body
       description: |
-        Токенизированная карта, по которой будет создан 
+        Токенизированное средство оплаты, по которой будет создан 
         рекуррентный токен.
       required: true
       schema:
@@ -25,7 +25,7 @@ delete:
   description: Удалить рекуррентный токен
   tags:
     - Customers
-  operationId: removeRecurringToken
+  operationId: removeNondisposableToken
   parameters:
     - $ref: '#/parameters/requestID'
     - $ref: '#/parameters/customerID'

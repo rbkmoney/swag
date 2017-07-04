@@ -4,9 +4,8 @@ required:
   - metadata
 properties:
   id:
-    description: Идентификатор кастомера
-    type: integer
-    format: int32
+    description: Идентификатор customer'а
+    type: string
   metadata:
-    description: Связанные с кастомером метаданные
+    description: Связанные с customer'ом метаданные
     type: object

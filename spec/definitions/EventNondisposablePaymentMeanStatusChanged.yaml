@@ -1,7 +1,7 @@
 type: object
 allOf:
   - $ref: '#/definitions/Event'
-  - $ref: '#/definitions/RecurringPaymentMeanStatus'
+  - $ref: '#/definitions/NondisposablePaymentMeanStatus'
   - type: object
     required:
       - customer
