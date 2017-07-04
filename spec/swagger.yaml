@@ -147,8 +147,8 @@ parameters:
     in: path
     description: Идентификатор кастомера
     required: true
-    type: integer
-    format: int32
+    type: string
+    maxLength: 40
   webhookID:
     name: webhookID
     in: path
