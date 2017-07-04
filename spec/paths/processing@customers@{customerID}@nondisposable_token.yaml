@@ -1,5 +1,5 @@
 put:
-  description: Создать рекуррентный токен
+  description: Создать многоразовый токен
   tags:
     - Customers
   operationId: createNondisposableToken
@@ -10,19 +10,19 @@ put:
       in: body
       description: |
         Токенизированное средство оплаты, по которой будет создан 
-        рекуррентный токен.
+        многоразовый токен.
       required: true
       schema:
         $ref: '#/definitions/DisposablePaymentMean'
   responses:
     '201':
-      description: Создание рекуррентного токена инициировано
+      description: Создание многоразового токена инициировано
     '400':
       $ref: '#/responses/BadRequest'
     '404':
       $ref: '#/responses/NotFound'
 delete:
-  description: Удалить рекуррентный токен
+  description: Удалить многоразовый токен
   tags:
     - Customers
   operationId: removeNondisposableToken
@@ -31,7 +31,7 @@ delete:
     - $ref: '#/parameters/customerID'
   responses:
     '204':
-      description: Платежное средство удалено
+      description: Многоразовый токен удален
     '400':
       $ref: '#/responses/BadRequest'
     '404':

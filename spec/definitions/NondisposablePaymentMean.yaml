@@ -2,7 +2,7 @@ type: object
 allOf:
   - $ref: '#/definitions/PaymentMean'
   - type: object
-    description: Рекуррентное платежное средство
+    description: Многоразовое платежное средство
     required:
       - customerID
     properties:

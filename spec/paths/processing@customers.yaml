@@ -13,7 +13,7 @@ put:
         $ref: '#/definitions/CustomerParams'
   responses:
     '201':
-      description: Плательщик создан
+      description: Customer создан
       schema:
         $ref: '#/definitions/Customer'
     '400':

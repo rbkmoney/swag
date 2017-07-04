@@ -12,6 +12,6 @@ allOf:
         type: string
         maxLength: 1000
       paymentToolToken:
-        description: Токен платежного средства, предоставленного плательщиком
+        description: Токен платежного средства, предоставленного customer'ом
         type: string
         maxLength: 1000

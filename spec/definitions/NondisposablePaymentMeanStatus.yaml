@@ -3,7 +3,7 @@ required:
   - status
 properties:
   status:
-    description: Статус рекуррентного токена
+    description: Статус многоразового платежного средства
     type: string
     enum:
       - pending
