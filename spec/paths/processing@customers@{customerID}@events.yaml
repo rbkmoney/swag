@@ -1,7 +1,7 @@
 get:
   description: Получить историю указанного customer'а в виде набора событий.
   tags:
-    - Invoices
+    - Customers
   operationId: getCustomerEvents
   parameters:
     - $ref: '#/parameters/requestID'
