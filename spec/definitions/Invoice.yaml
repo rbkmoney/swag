@@ -52,5 +52,5 @@ allOf:
         type: string
         maxLength: 1000
       invoiceTemplateID:
-        description: Идентификатор шаблона инвойса, в случае, когда инвойс создан по шаблону.
+        description: Идентификатор шаблона (для инвойсов, созданных по шаблону).
         type: string

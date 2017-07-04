@@ -4,9 +4,6 @@ required:
   - product
   - lifetime
 properties:
-  id:
-    description: Идентификатор шаблона инвойса
-    type: string
   shopID:
     description: Идентификатор магазина
     type: integer
