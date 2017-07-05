@@ -1,0 +1,10 @@
+type: object
+allOf:
+  - $ref: '#/definitions/Event'
+  - $ref: '#/definitions/NondisposablePaymentMeanStatus'
+  - type: object
+    required:
+      - customer
+    properties:
+      customer:
+        $ref: '#/definitions/Customer'

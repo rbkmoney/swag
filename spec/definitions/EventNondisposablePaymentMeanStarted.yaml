@@ -1,0 +1,9 @@
+type: object
+allOf:
+  - $ref: '#/definitions/Event'
+  - type: object
+    required:
+      - customer
+    properties:
+      customer:
+        $ref: '#/definitions/Customer'

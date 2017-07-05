@@ -1,0 +1,7 @@
+type: object
+required:
+  - metadata
+properties:
+  metadata:
+    description: Связанные с customer'ом метаданные
+    type: object

@@ -1,6 +1,6 @@
 post:
   description: |
-    Создать новый токен платежного средства, предоставленного плательщиком, а
+    Создать новый одноразовый токен платежного средства, предоставленного плательщиком, а
     также новую уникальную платежную сессию.
     Токен платежного средства и идентификатор сессии необходим для создания
     платежа по инвойсу.
@@ -19,18 +19,6 @@ post:
     '201':
       description: Токен и сессия созданы
       schema:
-        type: object
-        required:
-          - token
-          - session
-        properties:
-          token:
-            description: Созданный токен
-            type: string
-            maxLength: 1000
-          session:
-            description: Идентификатор созданной платежной сессии
-            type: string
-            maxLength: 1000
+        $ref: '#/definitions/DisposablePaymentMean'
     '400':
       $ref: '#/responses/BadRequest'

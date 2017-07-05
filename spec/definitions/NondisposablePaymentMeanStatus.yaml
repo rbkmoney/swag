@@ -1,0 +1,14 @@
+type: object
+required:
+  - status
+properties:
+  status:
+    description: Статус многоразового платежного средства
+    type: string
+    enum:
+      - pending
+      - acquired
+      - failed
+      - suspended
+  error:
+    $ref: '#/definitions/LogicError'

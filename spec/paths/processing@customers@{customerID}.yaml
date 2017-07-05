@@ -1,0 +1,32 @@
+get:
+  description: Получить данные customer'а по его идентификатору.
+  operationId: getCustomerById
+  tags:
+    - Customers
+  parameters:
+    - $ref: '#/parameters/requestID'
+    - $ref: '#/parameters/customerID'
+  responses:
+    '200':
+      description: Данные customer'а
+      schema:
+        $ref: '#/definitions/Customer'
+    '400':
+      $ref: '#/responses/BadRequest'
+    '404':
+      $ref: '#/responses/NotFound'
+delete:
+  description: Удалить customer'а по его идентификатору
+  operationId: deleteCustomer
+  tags:
+    - Customers
+  parameters:
+    - $ref: '#/parameters/requestID'
+    - $ref: '#/parameters/customerID'
+  responses:
+    '204':
+      description: Customer удален
+    '400':
+      $ref: '#/responses/BadRequest'
+    '404':
+      $ref: '#/responses/NotFound'

@@ -1,0 +1,39 @@
+put:
+  description: Создать многоразовый токен
+  tags:
+    - Customers
+  operationId: createNondisposableToken
+  parameters:
+    - $ref: '#/parameters/requestID'
+    - $ref: '#/parameters/customerID'
+    - name: paymentMean
+      in: body
+      description: |
+        Токенизированное средство оплаты, по которому будет создан 
+        многоразовый токен.
+      required: true
+      schema:
+        $ref: '#/definitions/DisposablePaymentMean'
+  responses:
+    '201':
+      description: Создание многоразового токена инициировано
+    '400':
+      $ref: '#/responses/BadRequest'
+    '404':
+      $ref: '#/responses/NotFound'
+delete:
+  description: Удалить многоразовый токен
+  tags:
+    - Customers
+  operationId: removeNondisposableToken
+  parameters:
+    - $ref: '#/parameters/requestID'
+    - $ref: '#/parameters/customerID'
+  responses:
+    '204':
+      description: Многоразовый токен удален
+    '400':
+      $ref: '#/responses/BadRequest'
+    '404':
+      $ref: '#/responses/NotFound'
+

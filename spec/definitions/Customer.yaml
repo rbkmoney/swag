@@ -1,0 +1,11 @@
+type: object
+required:
+  - id
+  - metadata
+properties:
+  id:
+    description: Идентификатор customer'а
+    type: string
+  metadata:
+    description: Связанные с customer'ом метаданные
+    type: object

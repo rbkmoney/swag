@@ -150,6 +150,13 @@ parameters:
     in: path
     description: Идентификатор договора
     required: true
+    type: integer
+    format: int32
+  customerID:
+    name: customerID
+    in: path
+    description: Идентификатор кастомера
+    required: true
     type: string
     maxLength: 40
   webhookID:

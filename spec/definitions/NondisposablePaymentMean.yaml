@@ -1,0 +1,12 @@
+type: object
+allOf:
+  - $ref: '#/definitions/PaymentMean'
+  - type: object
+    description: Многоразовое платежное средство
+    required:
+      - customerID
+    properties:
+      customerID:
+        description: Идентификатор customer'а
+        type: integer
+        format: int32
