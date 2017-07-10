@@ -1,0 +1,12 @@
+type: object
+discriminator: type
+required:
+  - type
+properties:
+  type:
+    description: Тип процесса выполнения платежа
+    type: string
+    default: PaymentFlowInstant
+    enum:
+      - PaymentFlowInstant
+      - PaymentFlowHold
