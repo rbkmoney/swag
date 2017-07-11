@@ -1,14 +1,15 @@
 type: object
-discriminator: eventType
 required:
   - id
   - createdAt
-  - eventType
+  - changes
 properties:
   id:
     type: integer
   createdAt:
     type: string
     format: date-time
-  eventType:
-    type: string
+  changes:
+    type: array
+    items:
+      $ref: '#/definitions/InvoiceChange'
