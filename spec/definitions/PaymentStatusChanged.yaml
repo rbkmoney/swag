@@ -1,6 +1,7 @@
 type: object
 allOf:
-  - $ref: '#/definitions/Event'
+  - $ref: '#/definitions/InvoiceChange'
+  - $ref: '#/definitions/PaymentStatus'
   - type: object
     required:
       - paymentID
