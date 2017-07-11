@@ -23,7 +23,6 @@ post:
           invoice:
             $ref: '#/definitions/Invoice'
           invoiceAccessToken:
-            description: Содержимое токена для доступа к инвойсу.
-            type: string
+            $ref: '#/definitions/InvoiceAccessToken'
     '400':
       $ref: '#/responses/BadRequest'
