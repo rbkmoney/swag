@@ -1,13 +1,5 @@
 type: object
-required:
-  - id
-  - shopID
-  - product
-  - lifetime
 properties:
-  id:
-    description: Идентификатор шаблона инвойса
-    type: string
   shopID:
     description: Идентификатор магазина
     type: integer
