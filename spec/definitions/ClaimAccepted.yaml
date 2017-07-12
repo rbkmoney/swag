@@ -1,11 +1,3 @@
 type: object
 allOf:
   - $ref: '#/definitions/Claim'
-  - type: object
-    required:
-      - acceptedAt
-    properties:
-      acceptedAt:
-        description: Дата и время одобрения заявки
-        type: string
-        format: date-time

@@ -12,6 +12,7 @@ allOf:
       - representativePosition
       - representativeFullName
       - representativeDocument
+      - bankAccount
     properties:
       registeredName:
         description: |
