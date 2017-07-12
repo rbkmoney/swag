@@ -7,14 +7,8 @@ allOf:
       - heldUntil
     properties:
       onHoldExpiration:
-        description: Политика управления удержанием денежных средств
-        type: string
-        default: cancel
-        enum:
-          - cancel
-          - capture
+        $ref: '#/definitions/OnHoldExpiration'
       heldUntil:
         description: 'Дата и время, до которого происходит удержание денежных средств'
         type: string
         format: date-time
-        readOnly: true

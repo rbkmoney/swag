@@ -1,0 +1,9 @@
+type: object
+allOf:
+  - $ref: '#/definitions/PaymentParamsFlow'
+  - type: object
+    required:
+      - onHoldExpiration
+    properties:
+      onHoldExpiration:
+        $ref: '#/definitions/OnHoldExpiration'
