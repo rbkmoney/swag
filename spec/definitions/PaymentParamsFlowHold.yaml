@@ -6,4 +6,9 @@ allOf:
       - onHoldExpiration
     properties:
       onHoldExpiration:
-        $ref: '#/definitions/OnHoldExpiration'
+        description: Политика управления удержанием денежных средств
+        type: string
+        default: cancel
+        enum:
+          - cancel
+          - capture
