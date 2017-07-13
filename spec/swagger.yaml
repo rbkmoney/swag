@@ -140,8 +140,8 @@ parameters:
     in: path
     description: Идентификатор договора
     required: true
-    type: integer
-    format: int32
+    type: string
+    maxLength: 40
   webhookID:
     name: webhookID
     in: path
@@ -155,12 +155,14 @@ parameters:
     description: Идентификатор поправки к договору
     required: true
     type: string
+    maxLength: 40
   payoutToolID:
     name: payoutToolID
     in: path
     description: Идентификатор средства вывода
     required: true
     type: string
+    maxLength: 40
   invoiceID:
     name: invoiceID
     in: path
