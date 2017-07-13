@@ -9,8 +9,8 @@ required:
 properties:
   shopID:
     description: Идентификатор магазина
-    type: integer
-    format: int32
+    type: string
+    maxLength: 40
   amount:
     description: |
       Стоимость предлагаемых товаров или услуг, в минорных денежных единицах,

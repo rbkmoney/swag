@@ -11,6 +11,7 @@ allOf:
       contractID:
         description: Идентификатор договора
         type: string
+        maxLength: 40
       contractModificationType:
         type: string
         enum:

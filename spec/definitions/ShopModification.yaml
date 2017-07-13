@@ -10,6 +10,7 @@ allOf:
       shopID:
         description: Идентификатор магазина
         type: string
+        maxLength: 40
       shopModificationType:
         type: string
         enum:
