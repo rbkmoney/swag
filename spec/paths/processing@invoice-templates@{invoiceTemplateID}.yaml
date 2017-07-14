@@ -23,12 +23,12 @@ put:
   parameters:
     - $ref: '#/parameters/requestID'
     - $ref: '#/parameters/invoiceTemplateID'
-    - name: invoiceTemplateParams
+    - name: invoiceTemplateUpdateParams
       description: Параметры модифицируемого инвойса.
       in: body
       required: true
       schema:
-        $ref: '#/definitions/InvoiceTemplateParams'
+        $ref: '#/definitions/InvoiceTemplateUpdateParams'
   responses:
     '200':
       description: Шаблон инвойса модифицирован.

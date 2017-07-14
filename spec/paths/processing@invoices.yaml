@@ -15,6 +15,14 @@ post:
     '201':
       description: Инвойс создан
       schema:
-        $ref: '#/definitions/Invoice'
+        type: object
+        required:
+          - invoice
+          - invoiceAccessToken
+        properties:
+          invoice:
+            $ref: '#/definitions/Invoice'
+          invoiceAccessToken:
+            $ref: '#/definitions/InvoiceAccessToken'
     '400':
       $ref: '#/responses/BadRequest'
