@@ -1,29 +1,46 @@
+description: Данные магазина
 type: object
 required:
   - id
+  - createdAt
   - isBlocked
   - isSuspended
+  - location
   - categoryID
   - details
   - contractID
 properties:
   id:
-    type: integer
-    format: int32
+    description: Идентификатор магазина
+    type: string
+  createdAt:
+    description: Дата и время создания
+    type: string
+    format: date-time
   isBlocked:
+    description: Заблокирован ли магазин?
     type: boolean
   isSuspended:
+    description: Приостановлены ли операции в рамках магазина?
     type: boolean
   categoryID:
+    description: |
+      Идентификатор категории товаров и услуг, предлагаемых в этом магазине
     type: integer
     format: int32
+  location:
+    $ref: '#/definitions/ShopLocation'
   details:
     $ref: '#/definitions/ShopDetails'
   contractID:
-    type: integer
-    format: int32
+    description: |
+      Идентификатор договора, на основании которого производится обслуживание
+      магазина
+    type: string
   payoutToolID:
-    type: integer
-    format: int32
+    description: |
+      Идентификатор средства вывода в рамках контракта, используемое в процессе
+      вывода по магазину
+    type: string
   account:
     $ref: '#/definitions/ShopAccount'

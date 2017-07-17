@@ -21,8 +21,7 @@ allOf:
         type: string
       shopID:
         description: 'Идентификатор магазина, в рамках которого был создан платеж'
-        type: integer
-        format: int32
+        type: string
       createdAt:
         description: Дата и время создания
         type: string

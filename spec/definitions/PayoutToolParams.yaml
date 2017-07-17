@@ -1,10 +1,10 @@
 type: object
-discriminator: payoutToolType
 required:
   - currency
-  - payoutToolType
+  - details
 properties:
   currency:
+    description: Валюта, в которой производится вывод
     type: string
-  payoutToolType:
-    type: string
+  details:
+    $ref: '#/definitions/PayoutToolDetails'

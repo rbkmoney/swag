@@ -1,3 +1,6 @@
+description: |
+  Данные расчётного счёта в банковской организации, ведущей деятельность под
+  юрисдикцией РФ.
 type: object
 required:
   - account
@@ -6,14 +9,17 @@ required:
   - bankBik
 properties:
   account:
+    description: Номер счёта
     type: string
     pattern: '^\d{20}$'
   bankName:
+    description: Наименование юридического лица банковской организации
     type: string
     maxLength: 100
   bankPostAccount:
     type: string
     pattern: '^\d{20}$'
   bankBik:
+    description: БИК банковской организации
     type: string
     pattern: '^\d{9}$'

@@ -4,11 +4,19 @@ allOf:
   - type: object
     discriminator: shopModificationType
     required:
-      - shopModificationType
       - shopID
+      - shopModificationType
     properties:
       shopID:
-        type: integer
-        format: int32
+        description: Идентификатор магазина
+        type: string
+        maxLength: 40
       shopModificationType:
         type: string
+        enum:
+          - ShopCreation
+          - ShopAccountCreation
+          - ShopCategoryChange
+          - ShopLocationChange
+          - ShopDetailsChange
+          - ShopContractBinding

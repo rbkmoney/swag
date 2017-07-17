@@ -1,6 +1,6 @@
 type: object
 allOf:
-  - $ref: '#/definitions/Event'
+  - $ref: '#/definitions/InvoiceChange'
   - type: object
     required:
       - invoice

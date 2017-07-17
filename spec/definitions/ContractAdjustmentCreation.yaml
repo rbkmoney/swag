@@ -1,0 +1,8 @@
+description: Создание поправки к договору
+type: object
+allOf:
+  - $ref: '#/definitions/ContractModification'
+  - type: object
+    properties:
+      adjustmentID:
+        type: string

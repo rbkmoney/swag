@@ -1,0 +1,10 @@
+description: Зарегистрированный пользователь системы
+allOf:
+  - $ref: '#/definitions/Contractor'
+  - type: object
+    required:
+      - email
+    properties:
+      email:
+        description: Электронная почта, идентифицирующая пользователя
+        type: string

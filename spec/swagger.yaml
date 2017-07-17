@@ -114,17 +114,17 @@ parameters:
     required: true
     type: integer
     format: int64
+  claimRevision:
+    name: claimRevision
+    in: query
+    description: Версия заявки
+    required: true
+    type: integer
+    format: int32
   shopID:
     name: shopID
     in: path
     description: Идентификатор магазина
-    required: true
-    type: integer
-    format: int32
-  invoiceID:
-    name: invoiceID
-    in: path
-    description: Идентификатор инвойса
     required: true
     type: string
     maxLength: 40
@@ -140,8 +140,8 @@ parameters:
     in: path
     description: Идентификатор договора
     required: true
-    type: integer
-    format: int32
+    type: string
+    maxLength: 40
   webhookID:
     name: webhookID
     in: path
@@ -149,6 +149,26 @@ parameters:
     required: true
     type: string
     maxLength: 40
+  adjustmentID:
+    name: adjustmentID
+    in: path
+    description: Идентификатор поправки к договору
+    required: true
+    type: string
+    maxLength: 40
+  payoutToolID:
+    name: payoutToolID
+    in: path
+    description: Идентификатор средства вывода
+    required: true
+    type: string
+    maxLength: 40
+  invoiceID:
+    name: invoiceID
+    in: path
+    description: Идентификатор инвойса
+    required: true
+    type: string
   fromTime:
     name: fromTime
     in: query

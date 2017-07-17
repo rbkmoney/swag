@@ -17,8 +17,7 @@ allOf:
         type: string
       shopID:
         description: Идентификатор магазина
-        type: integer
-        format: int32
+        type: string
       createdAt:
         description: Дата и время создания
         type: string

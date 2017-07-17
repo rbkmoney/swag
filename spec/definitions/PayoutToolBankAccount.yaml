@@ -1,6 +1,6 @@
 type: object
 allOf:
-  - $ref: '#/definitions/PayoutToolParams'
+  - $ref: '#/definitions/PayoutToolDetails'
   - type: object
     required:
       - bankAccount

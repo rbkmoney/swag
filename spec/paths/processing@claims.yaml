@@ -1,22 +1,46 @@
 get:
-  description: Get claims by status
-  operationId: getClaimsByStatus
+  description: |
+    Получить список заявок участника, при желании отфильтрованный по значению
+    статуса.
+  operationId: getClaims
   tags:
     - Claims
   parameters:
     - $ref: '#/parameters/requestID'
     - name: claimStatus
+      description: Значение статуса для фильтрации
       in: query
       type: string
       enum:
         - pending
-      required: true
+        - accepted
+        - denied
+        - revoked
   responses:
     '200':
-      description: Claims found
+      description: Список найденных заявок
       schema:
         type: array
         items:
           $ref: '#/definitions/Claim'
+post:
+  description: |
+    Создать новую заявку с заданным набором изменений и отправить её на
+    премодерацию.
+  operationId: createClaim
+  tags:
+    - Claims
+  parameters:
+    - $ref: '#/parameters/requestID'
+    - name: claimChangeset
+      in: body
+      required: true
+      schema:
+        $ref: '#/definitions/ClaimChangeset'
+  responses:
+    '201':
+      description: Заявка создана
+      schema:
+        $ref: '#/definitions/Claim'
     '400':
       $ref: '#/responses/BadRequest'

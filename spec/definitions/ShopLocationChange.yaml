@@ -1,0 +1,10 @@
+description: Изменение местоположения магазина
+type: object
+allOf:
+  - $ref: '#/definitions/ShopModification'
+  - type: object
+    required:
+      - location
+    properties:
+      location:
+        $ref: '#/definitions/ShopLocation'
