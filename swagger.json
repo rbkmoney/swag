@@ -74,18 +74,18 @@
       "type": "integer",
       "format": "int64"
     },
-    "shopID": {
-      "name": "shopID",
-      "in": "path",
-      "description": "Идентификатор магазина",
+    "claimRevision": {
+      "name": "claimRevision",
+      "in": "query",
+      "description": "Версия заявки",
       "required": true,
       "type": "integer",
       "format": "int32"
     },
-    "invoiceID": {
-      "name": "invoiceID",
+    "shopID": {
+      "name": "shopID",
       "in": "path",
-      "description": "Идентификатор инвойса",
+      "description": "Идентификатор магазина",
       "required": true,
       "type": "string",
       "maxLength": 40
@@ -103,8 +103,8 @@
       "in": "path",
       "description": "Идентификатор договора",
       "required": true,
-      "type": "integer",
-      "format": "int32"
+      "type": "string",
+      "maxLength": 40
     },
     "webhookID": {
       "name": "webhookID",
@@ -113,6 +113,29 @@
       "required": true,
       "type": "string",
       "maxLength": 40
+    },
+    "adjustmentID": {
+      "name": "adjustmentID",
+      "in": "path",
+      "description": "Идентификатор поправки к договору",
+      "required": true,
+      "type": "string",
+      "maxLength": 40
+    },
+    "payoutToolID": {
+      "name": "payoutToolID",
+      "in": "path",
+      "description": "Идентификатор средства вывода",
+      "required": true,
+      "type": "string",
+      "maxLength": 40
+    },
+    "invoiceID": {
+      "name": "invoiceID",
+      "in": "path",
+      "description": "Идентификатор инвойса",
+      "required": true,
+      "type": "string"
     },
     "fromTime": {
       "name": "fromTime",
@@ -850,8 +873,8 @@
     },
     "/processing/claims": {
       "get": {
-        "description": "Get claims by status",
-        "operationId": "getClaimsByStatus",
+        "description": "Получить список заявок участника, при желании отфильтрованный по значению\nстатуса.\n",
+        "operationId": "getClaims",
         "tags": [
           "Claims"
         ],
@@ -861,22 +884,53 @@
           },
           {
             "name": "claimStatus",
+            "description": "Значение статуса для фильтрации",
             "in": "query",
             "type": "string",
             "enum": [
-              "pending"
-            ],
-            "required": true
+              "pending",
+              "accepted",
+              "denied",
+              "revoked"
+            ]
           }
         ],
         "responses": {
           "200": {
-            "description": "Claims found",
+            "description": "Список найденных заявок",
             "schema": {
               "type": "array",
               "items": {
                 "$ref": "#/definitions/Claim"
               }
+            }
+          }
+        }
+      },
+      "post": {
+        "description": "Создать новую заявку с заданным набором изменений и отправить её на\nпремодерацию.\n",
+        "operationId": "createClaim",
+        "tags": [
+          "Claims"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/parameters/requestID"
+          },
+          {
+            "name": "claimChangeset",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/ClaimChangeset"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Заявка создана",
+            "schema": {
+              "$ref": "#/definitions/Claim"
             }
           },
           "400": {
@@ -887,7 +941,7 @@
     },
     "/processing/claims/{claimID}": {
       "get": {
-        "description": "Get claim by ID",
+        "description": "Получить заявку по её идентификатору.\n",
         "operationId": "getClaimByID",
         "tags": [
           "Claims"
@@ -902,7 +956,7 @@
         ],
         "responses": {
           "200": {
-            "description": "Claim found",
+            "description": "Данные заявки",
             "schema": {
               "$ref": "#/definitions/Claim"
             }
@@ -915,7 +969,7 @@
     },
     "/processing/claims/{claimID}/revoke": {
       "put": {
-        "description": "Revoke claim by ID",
+        "description": "Отозвать заявку по её идентификатору.",
         "operationId": "revokeClaimByID",
         "tags": [
           "Claims"
@@ -928,10 +982,11 @@
             "$ref": "#/parameters/claimID"
           },
           {
-            "name": "revokeClaim",
+            "$ref": "#/parameters/claimRevision"
+          },
+          {
+            "name": "reason",
             "in": "body",
-            "description": "Revoke claim params",
-            "required": true,
             "schema": {
               "$ref": "#/definitions/Reason"
             }
@@ -939,7 +994,46 @@
         ],
         "responses": {
           "204": {
-            "description": "Claim revoked"
+            "description": "Заявка отозвана"
+          },
+          "400": {
+            "$ref": "#/responses/BadRequest"
+          },
+          "404": {
+            "$ref": "#/responses/NotFound"
+          }
+        }
+      }
+    },
+    "/processing/claims/{claimID}/update": {
+      "post": {
+        "description": "Обновить набор изменений заявки, новые изменения будут добавлены\nк существующей заявке.\n",
+        "operationId": "updateClaimByID",
+        "tags": [
+          "Claims"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/parameters/requestID"
+          },
+          {
+            "$ref": "#/parameters/claimID"
+          },
+          {
+            "$ref": "#/parameters/claimRevision"
+          },
+          {
+            "name": "claimChangeset",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/ClaimChangeset"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Claim updated"
           },
           "400": {
             "$ref": "#/responses/BadRequest"
@@ -973,38 +1067,6 @@
             }
           }
         }
-      },
-      "post": {
-        "description": "Создать заявку на регистрацию договора",
-        "tags": [
-          "Contracts"
-        ],
-        "operationId": "createContract",
-        "parameters": [
-          {
-            "$ref": "#/parameters/requestID"
-          },
-          {
-            "name": "contractParams",
-            "description": "New contract params",
-            "in": "body",
-            "required": true,
-            "schema": {
-              "$ref": "#/definitions/ContractParams"
-            }
-          }
-        ],
-        "responses": {
-          "202": {
-            "description": "Claim registered",
-            "schema": {
-              "$ref": "#/definitions/ClaimRegistrationResult"
-            }
-          },
-          "400": {
-            "$ref": "#/responses/BadRequest"
-          }
-        }
       }
     },
     "/processing/contracts/{contractID}": {
@@ -1035,6 +1097,68 @@
         }
       }
     },
+    "/processing/contracts/{contractID}/adjustments": {
+      "get": {
+        "description": "Получить данные всех поправок к указанному договору",
+        "operationId": "getContractAdjustments",
+        "tags": [
+          "Contracts"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/parameters/requestID"
+          },
+          {
+            "$ref": "#/parameters/contractID"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Набор поправок к договору",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/ContractAdjustment"
+              }
+            }
+          },
+          "404": {
+            "$ref": "#/responses/NotFound"
+          }
+        }
+      }
+    },
+    "/processing/contracts/{contractID}/adjustments/{adjustmentID}": {
+      "get": {
+        "description": "Получить данные поправки к договору по её идентификатору",
+        "operationId": "getContractAdjustmentByID",
+        "tags": [
+          "Contracts"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/parameters/requestID"
+          },
+          {
+            "$ref": "#/parameters/contractID"
+          },
+          {
+            "$ref": "#/parameters/adjustmentID"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Данные поправки к договору",
+            "schema": {
+              "$ref": "#/definitions/ContractAdjustment"
+            }
+          },
+          "404": {
+            "$ref": "#/responses/NotFound"
+          }
+        }
+      }
+    },
     "/processing/contracts/{contractID}/payout_tools": {
       "get": {
         "description": "Получить данные всех средств вывода",
@@ -1052,7 +1176,7 @@
         ],
         "responses": {
           "200": {
-            "description": "List of payout tools",
+            "description": "Набор средств вывода",
             "schema": {
               "type": "array",
               "items": {
@@ -1064,13 +1188,15 @@
             "$ref": "#/responses/NotFound"
           }
         }
-      },
-      "post": {
-        "description": "Создать заявку на внесение новых данных по выводу средств",
+      }
+    },
+    "/processing/contracts/{contractID}/payout_tools/{payoutToolID}": {
+      "get": {
+        "description": "Получить данные средства вывода по его идентификатору",
+        "operationId": "getPayoutToolByID",
         "tags": [
           "Payouts"
         ],
-        "operationId": "createPayoutTool",
         "parameters": [
           {
             "$ref": "#/parameters/requestID"
@@ -1079,24 +1205,15 @@
             "$ref": "#/parameters/contractID"
           },
           {
-            "name": "PayoutToolParams",
-            "description": "New payout tool params",
-            "in": "body",
-            "required": true,
-            "schema": {
-              "$ref": "#/definitions/PayoutToolParams"
-            }
+            "$ref": "#/parameters/payoutToolID"
           }
         ],
         "responses": {
-          "202": {
-            "description": "Claim registered",
+          "200": {
+            "description": "Данные средства вывода",
             "schema": {
-              "$ref": "#/definitions/ClaimRegistrationResult"
+              "$ref": "#/definitions/PayoutTool"
             }
-          },
-          "400": {
-            "$ref": "#/responses/BadRequest"
           },
           "404": {
             "$ref": "#/responses/NotFound"
@@ -1640,41 +1757,6 @@
             }
           }
         }
-      },
-      "post": {
-        "description": "Claim for creating a shop",
-        "operationId": "createShop",
-        "tags": [
-          "Shops"
-        ],
-        "parameters": [
-          {
-            "$ref": "#/parameters/requestID"
-          },
-          {
-            "name": "shopParams",
-            "in": "body",
-            "description": "New shop params",
-            "required": true,
-            "schema": {
-              "$ref": "#/definitions/ShopParams"
-            }
-          }
-        ],
-        "responses": {
-          "202": {
-            "description": "Claim registered",
-            "schema": {
-              "$ref": "#/definitions/ClaimRegistrationResult"
-            }
-          },
-          "400": {
-            "$ref": "#/responses/BadRequest"
-          },
-          "404": {
-            "$ref": "#/responses/NotFound"
-          }
-        }
       }
     },
     "/processing/shops/{shopID}": {
@@ -1698,44 +1780,6 @@
             "schema": {
               "$ref": "#/definitions/Shop"
             }
-          },
-          "404": {
-            "$ref": "#/responses/NotFound"
-          }
-        }
-      },
-      "post": {
-        "description": "Claim for updating the shop",
-        "operationId": "updateShop",
-        "tags": [
-          "Shops"
-        ],
-        "parameters": [
-          {
-            "$ref": "#/parameters/requestID"
-          },
-          {
-            "$ref": "#/parameters/shopID"
-          },
-          {
-            "name": "updateShopParams",
-            "in": "body",
-            "description": "Shop params for an update",
-            "required": true,
-            "schema": {
-              "$ref": "#/definitions/UpdateShopParams"
-            }
-          }
-        ],
-        "responses": {
-          "202": {
-            "description": "Claim registered",
-            "schema": {
-              "$ref": "#/definitions/ClaimRegistrationResult"
-            }
-          },
-          "400": {
-            "$ref": "#/responses/BadRequest"
           },
           "404": {
             "$ref": "#/responses/NotFound"
@@ -1975,6 +2019,7 @@
       }
     },
     "BankAccount": {
+      "description": "Данные расчётного счёта в банковской организации, ведущей деятельность под\nюрисдикцией РФ.\n",
       "type": "object",
       "required": [
         "account",
@@ -1984,10 +2029,12 @@
       ],
       "properties": {
         "account": {
+          "description": "Номер счёта",
           "type": "string",
           "pattern": "^\\d{20}$"
         },
         "bankName": {
+          "description": "Наименование юридического лица банковской организации",
           "type": "string",
           "maxLength": 100
         },
@@ -1996,6 +2043,7 @@
           "pattern": "^\\d{20}$"
         },
         "bankBik": {
+          "description": "БИК банковской организации",
           "type": "string",
           "pattern": "^\\d{9}$"
         }
@@ -2120,21 +2168,41 @@
     },
     "Claim": {
       "type": "object",
+      "discriminator": "status",
       "required": [
         "id",
+        "revision",
+        "createdAt",
         "status",
         "changeset"
       ],
       "properties": {
         "id": {
+          "description": "Идентификатор заявки",
           "type": "integer",
           "format": "int64"
         },
+        "revision": {
+          "description": "Версия заявки",
+          "type": "integer",
+          "format": "int32"
+        },
+        "createdAt": {
+          "description": "Дата создания",
+          "type": "string",
+          "format": "date-time"
+        },
+        "updatedAt": {
+          "description": "Дата изменения",
+          "type": "string",
+          "format": "date-time"
+        },
         "status": {
-          "$ref": "#/definitions/ClaimStatus"
+          "description": "Статус заявки",
+          "type": "string"
         },
         "changeset": {
-          "$ref": "#/definitions/PartyChangeset"
+          "$ref": "#/definitions/ClaimChangeset"
         }
       }
     },
@@ -2142,27 +2210,22 @@
       "type": "object",
       "allOf": [
         {
-          "$ref": "#/definitions/ClaimStatus"
-        },
-        {
-          "type": "object",
-          "required": [
-            "acceptedAt"
-          ],
-          "properties": {
-            "acceptedAt": {
-              "type": "string",
-              "format": "date-time"
-            }
-          }
+          "$ref": "#/definitions/Claim"
         }
       ]
+    },
+    "ClaimChangeset": {
+      "description": "Набор изменений данных участника",
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/PartyModification"
+      }
     },
     "ClaimDenied": {
       "type": "object",
       "allOf": [
         {
-          "$ref": "#/definitions/ClaimStatus"
+          "$ref": "#/definitions/Claim"
         },
         {
           "type": "object",
@@ -2171,6 +2234,7 @@
           ],
           "properties": {
             "reason": {
+              "description": "Причина отклонения заявки",
               "type": "string",
               "maxLength": 1000
             }
@@ -2182,41 +2246,30 @@
       "type": "object",
       "allOf": [
         {
-          "$ref": "#/definitions/ClaimStatus"
+          "$ref": "#/definitions/Claim"
         }
       ]
-    },
-    "ClaimRegistrationResult": {
-      "type": "object",
-      "required": [
-        "claimID"
-      ],
-      "properties": {
-        "claimID": {
-          "type": "integer",
-          "format": "int64"
-        }
-      }
     },
     "ClaimRevoked": {
       "type": "object",
       "allOf": [
         {
-          "$ref": "#/definitions/ClaimStatus"
+          "$ref": "#/definitions/Claim"
+        },
+        {
+          "type": "object",
+          "required": [
+            "reason"
+          ],
+          "properties": {
+            "reason": {
+              "description": "Причина отзыва заявки",
+              "type": "string",
+              "maxLength": 1000
+            }
+          }
         }
       ]
-    },
-    "ClaimStatus": {
-      "type": "object",
-      "discriminator": "status",
-      "required": [
-        "status"
-      ],
-      "properties": {
-        "status": {
-          "type": "string"
-        }
-      }
     },
     "ClientInfo": {
       "description": "Данные клиентского устройства плательщика",
@@ -2250,60 +2303,143 @@
       }
     },
     "Contract": {
+      "description": "Данные договора с участником",
       "type": "object",
       "required": [
         "id",
-        "status"
+        "createdAt",
+        "status",
+        "contractor"
       ],
       "properties": {
         "id": {
-          "type": "integer",
-          "format": "int32"
+          "description": "Идентификатор договора",
+          "type": "string"
         },
-        "contractor": {
-          "$ref": "#/definitions/Contractor"
-        },
-        "validSince": {
-          "type": "string",
-          "format": "date-time"
-        },
-        "validUntil": {
+        "createdAt": {
+          "description": "Дата и время создания договора",
           "type": "string",
           "format": "date-time"
         },
         "status": {
+          "description": "Статус договора",
           "type": "string",
           "enum": [
             "active",
             "terminated"
           ]
         },
+        "validSince": {
+          "description": "Дата и время вступления договора в силу",
+          "type": "string",
+          "format": "date-time"
+        },
+        "validUntil": {
+          "description": "Дата и время прекращения силы договора",
+          "type": "string",
+          "format": "date-time"
+        },
         "terminatedAt": {
+          "description": "Дата и время расторжения договора",
+          "type": "string",
+          "format": "date-time"
+        },
+        "contractor": {
+          "$ref": "#/definitions/Contractor"
+        },
+        "legalAgreement": {
+          "$ref": "#/definitions/LegalAgreement"
+        }
+      }
+    },
+    "ContractAdjustment": {
+      "description": "Данные поправки к договору",
+      "type": "object",
+      "required": [
+        "id",
+        "createdAt"
+      ],
+      "properties": {
+        "id": {
+          "description": "Идентификатор поправки",
+          "type": "string"
+        },
+        "createdAt": {
+          "description": "Дата и время создания поправки",
+          "type": "string",
+          "format": "date-time"
+        },
+        "validSince": {
+          "description": "Дата и время вступления поправки в силу",
+          "type": "string",
+          "format": "date-time"
+        },
+        "validUntil": {
+          "description": "Дата и время прекращения силы поправки",
           "type": "string",
           "format": "date-time"
         }
       }
     },
-    "ContractCreation": {
+    "ContractAdjustmentCreation": {
+      "description": "Создание поправки к договору",
       "type": "object",
       "allOf": [
         {
-          "$ref": "#/definitions/PartyModification"
+          "$ref": "#/definitions/ContractModification"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "adjustmentID": {
+              "type": "string"
+            }
+          }
+        }
+      ]
+    },
+    "ContractCreation": {
+      "description": "Создание нового договора",
+      "type": "object",
+      "allOf": [
+        {
+          "$ref": "#/definitions/ContractModification"
         },
         {
           "type": "object",
           "required": [
-            "contract"
+            "contractor"
           ],
           "properties": {
-            "contract": {
-              "$ref": "#/definitions/Contract"
+            "contractor": {
+              "$ref": "#/definitions/Contractor"
+            }
+          }
+        }
+      ]
+    },
+    "ContractLegalAgreementBinding": {
+      "description": "Привязка юридического соглашения",
+      "type": "object",
+      "allOf": [
+        {
+          "$ref": "#/definitions/ContractModification"
+        },
+        {
+          "type": "object",
+          "required": [
+            "legalAgreement"
+          ],
+          "properties": {
+            "legalAgreement": {
+              "$ref": "#/definitions/LegalAgreement"
             }
           }
         }
       ]
     },
     "ContractModification": {
+      "description": "Изменение или создание договора",
       "type": "object",
       "allOf": [
         {
@@ -2313,71 +2449,78 @@
           "type": "object",
           "discriminator": "contractModificationType",
           "required": [
-            "contractModificationType",
-            "contractID"
+            "contractID",
+            "contractModificationType"
           ],
           "properties": {
-            "contractModificationType": {
-              "type": "string"
-            },
             "contractID": {
-              "type": "integer",
-              "format": "int32"
+              "description": "Идентификатор договора",
+              "type": "string",
+              "maxLength": 40
+            },
+            "contractModificationType": {
+              "type": "string",
+              "enum": [
+                "ContractCreation",
+                "ContractTermination",
+                "ContractLegalAgreementBinding",
+                "ContractAdjustmentCreation",
+                "ContractPayoutToolCreation"
+              ]
             }
           }
         }
       ]
     },
     "Contractor": {
+      "description": "Данные лица, выступающего стороной договора",
       "type": "object",
+      "discriminator": "contractorType",
       "required": [
-        "bankAccount",
-        "legalEntity"
+        "contractorType"
       ],
       "properties": {
-        "bankAccount": {
-          "$ref": "#/definitions/BankAccount"
-        },
-        "legalEntity": {
-          "$ref": "#/definitions/LegalEntity"
-        }
-      }
-    },
-    "ContractParams": {
-      "type": "object",
-      "required": [
-        "contractor",
-        "payoutToolParams"
-      ],
-      "properties": {
-        "contractor": {
-          "$ref": "#/definitions/Contractor"
-        },
-        "payoutToolParams": {
-          "$ref": "#/definitions/PayoutToolParams"
+        "contractorType": {
+          "description": "Тип лица, выступающего стороной договора",
+          "type": "string",
+          "enum": [
+            "LegalEntity",
+            "RegisteredUser"
+          ]
         }
       }
     },
     "ContractPayoutToolCreation": {
+      "description": "Создание инструмента вывода в рамках договора",
       "type": "object",
       "allOf": [
         {
           "$ref": "#/definitions/ContractModification"
         },
         {
-          "type": "object",
-          "required": [
-            "payoutTool"
-          ],
-          "properties": {
-            "payoutTool": {
-              "$ref": "#/definitions/PayoutTool"
+          "allOf": [
+            {
+              "type": "object",
+              "required": [
+                "payoutToolID"
+              ],
+              "properties": {
+                "payoutToolID": {
+                  "description": "Идентификатор средства вывода",
+                  "type": "string",
+                  "maxLength": 40
+                }
+              }
+            },
+            {
+              "$ref": "#/definitions/PayoutToolParams"
             }
-          }
+          ]
         }
       ]
     },
     "ContractTermination": {
+      "description": "Расторжение договора",
       "type": "object",
       "allOf": [
         {
@@ -2385,15 +2528,9 @@
         },
         {
           "type": "object",
-          "required": [
-            "terminatedAt"
-          ],
           "properties": {
-            "terminatedAt": {
-              "type": "string",
-              "format": "date-time"
-            },
             "reason": {
+              "description": "Причина расторжения",
               "type": "string",
               "maxLength": 1000
             }
@@ -2403,11 +2540,10 @@
     },
     "Event": {
       "type": "object",
-      "discriminator": "eventType",
       "required": [
         "id",
         "createdAt",
-        "eventType"
+        "changes"
       ],
       "properties": {
         "id": {
@@ -2417,125 +2553,13 @@
           "type": "string",
           "format": "date-time"
         },
-        "eventType": {
-          "type": "string"
+        "changes": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/InvoiceChange"
+          }
         }
       }
-    },
-    "EventInvoiceCreated": {
-      "type": "object",
-      "allOf": [
-        {
-          "$ref": "#/definitions/Event"
-        },
-        {
-          "type": "object",
-          "required": [
-            "invoice"
-          ],
-          "properties": {
-            "invoice": {
-              "$ref": "#/definitions/Invoice"
-            }
-          }
-        }
-      ]
-    },
-    "EventInvoicePaymentInteractionRequested": {
-      "type": "object",
-      "allOf": [
-        {
-          "$ref": "#/definitions/Event"
-        },
-        {
-          "type": "object",
-          "description": "Требование провести взаимодействие с плательщиком для продолжения процесса\nплатежа\n",
-          "required": [
-            "paymentID",
-            "userInteraction"
-          ],
-          "properties": {
-            "paymentID": {
-              "description": "Идентификатор платежа",
-              "type": "string"
-            },
-            "userInteraction": {
-              "$ref": "#/definitions/UserInteraction"
-            }
-          }
-        }
-      ]
-    },
-    "EventInvoiceStatusChanged": {
-      "type": "object",
-      "allOf": [
-        {
-          "$ref": "#/definitions/Event"
-        },
-        {
-          "$ref": "#/definitions/InvoiceStatus"
-        }
-      ]
-    },
-    "EventPaymentBound": {
-      "type": "object",
-      "allOf": [
-        {
-          "$ref": "#/definitions/Event"
-        },
-        {
-          "type": "object",
-          "required": [
-            "paymentID"
-          ],
-          "properties": {
-            "paymentID": {
-              "type": "string"
-            }
-          }
-        }
-      ]
-    },
-    "EventPaymentStarted": {
-      "type": "object",
-      "allOf": [
-        {
-          "$ref": "#/definitions/Event"
-        },
-        {
-          "type": "object",
-          "required": [
-            "payment"
-          ],
-          "properties": {
-            "payment": {
-              "$ref": "#/definitions/Payment"
-            }
-          }
-        }
-      ]
-    },
-    "EventPaymentStatusChanged": {
-      "type": "object",
-      "allOf": [
-        {
-          "$ref": "#/definitions/Event"
-        },
-        {
-          "$ref": "#/definitions/PaymentStatus"
-        },
-        {
-          "type": "object",
-          "required": [
-            "paymentID"
-          ],
-          "properties": {
-            "paymentID": {
-              "type": "string"
-            }
-          }
-        }
-      ]
     },
     "GeneralError": {
       "type": "object",
@@ -2591,8 +2615,7 @@
             },
             "shopID": {
               "description": "Идентификатор магазина",
-              "type": "integer",
-              "format": "int32"
+              "type": "string"
             },
             "createdAt": {
               "description": "Дата и время создания",
@@ -2645,6 +2668,44 @@
         }
       }
     },
+    "InvoiceChange": {
+      "type": "object",
+      "discriminator": "changeType",
+      "required": [
+        "changeType"
+      ],
+      "properties": {
+        "changeType": {
+          "type": "string",
+          "enum": [
+            "InvoiceCreated",
+            "InvoiceStatusChanged",
+            "PaymentStarted",
+            "PaymentStatusChanged",
+            "PaymentInteractionRequested"
+          ]
+        }
+      }
+    },
+    "InvoiceCreated": {
+      "type": "object",
+      "allOf": [
+        {
+          "$ref": "#/definitions/InvoiceChange"
+        },
+        {
+          "type": "object",
+          "required": [
+            "invoice"
+          ],
+          "properties": {
+            "invoice": {
+              "$ref": "#/definitions/Invoice"
+            }
+          }
+        }
+      ]
+    },
     "InvoiceParams": {
       "type": "object",
       "required": [
@@ -2658,8 +2719,8 @@
       "properties": {
         "shopID": {
           "description": "Идентификатор магазина",
-          "type": "integer",
-          "format": "int32"
+          "type": "string",
+          "maxLength": 40
         },
         "amount": {
           "description": "Стоимость предлагаемых товаров или услуг, в минорных денежных единицах,\nнапример в копейках в случае указания российских рублей в качестве валюты.\n",
@@ -2718,8 +2779,7 @@
             },
             "shopID": {
               "description": "Идентификатор магазина",
-              "type": "integer",
-              "format": "int32"
+              "type": "string"
             },
             "createdAt": {
               "description": "Дата и время создания",
@@ -2784,6 +2844,17 @@
         }
       }
     },
+    "InvoiceStatusChanged": {
+      "type": "object",
+      "allOf": [
+        {
+          "$ref": "#/definitions/InvoiceChange"
+        },
+        {
+          "$ref": "#/definitions/InvoiceStatus"
+        }
+      ]
+    },
     "InvoicesTopic": {
       "description": "Область охвата, включающая события по инвойсам в рамках определённого\nмагазина\n",
       "allOf": [
@@ -2799,8 +2870,8 @@
           "properties": {
             "shopID": {
               "description": "Идентификатор магазина",
-              "type": "integer",
-              "format": "int32"
+              "type": "string",
+              "maxLength": 40
             },
             "eventTypes": {
               "description": "Набор типов событий инвойсов, о которых следует оповещать",
@@ -2824,17 +2895,48 @@
         }
       ]
     },
-    "LegalEntity": {
+    "LegalAgreement": {
+      "description": "Ключевые данные юридического соглашения",
       "type": "object",
-      "discriminator": "entityType",
       "required": [
-        "entityType"
+        "id",
+        "signedAt"
       ],
       "properties": {
-        "entityType": {
+        "id": {
+          "description": "Идентификатор юридического соглашения, например номер договора",
           "type": "string"
+        },
+        "signedAt": {
+          "description": "Дата и время заключения юридического соглашения",
+          "type": "string",
+          "format": "date-time"
         }
       }
+    },
+    "LegalEntity": {
+      "description": "Юридическое лицо",
+      "allOf": [
+        {
+          "$ref": "#/definitions/Contractor"
+        },
+        {
+          "type": "object",
+          "discriminator": "entityType",
+          "required": [
+            "entityType"
+          ],
+          "properties": {
+            "entityType": {
+              "description": "Тип юридического лица",
+              "type": "string",
+              "enum": [
+                "RussianLegalEntity"
+              ]
+            }
+          }
+        }
+      ]
     },
     "LocationName": {
       "type": "object",
@@ -2887,13 +2989,8 @@
         }
       }
     },
-    "PartyChangeset": {
-      "type": "array",
-      "items": {
-        "$ref": "#/definitions/PartyModification"
-      }
-    },
     "PartyModification": {
+      "description": "Единичное изменение данных участника",
       "type": "object",
       "discriminator": "partyModificationType",
       "required": [
@@ -2901,28 +2998,13 @@
       ],
       "properties": {
         "partyModificationType": {
-          "type": "string"
+          "type": "string",
+          "enum": [
+            "ContractModification",
+            "ShopModification"
+          ]
         }
       }
-    },
-    "PartySuspension": {
-      "type": "object",
-      "allOf": [
-        {
-          "$ref": "#/definitions/PartyModification"
-        },
-        {
-          "type": "object",
-          "required": [
-            "details"
-          ],
-          "properties": {
-            "details": {
-              "$ref": "#/definitions/Suspension"
-            }
-          }
-        }
-      ]
     },
     "Payment": {
       "type": "object",
@@ -3126,6 +3208,31 @@
         }
       }
     },
+    "PaymentInteractionRequested": {
+      "type": "object",
+      "allOf": [
+        {
+          "$ref": "#/definitions/InvoiceChange"
+        },
+        {
+          "type": "object",
+          "description": "Требование провести взаимодействие с плательщиком для продолжения процесса\nплатежа\n",
+          "required": [
+            "paymentID",
+            "userInteraction"
+          ],
+          "properties": {
+            "paymentID": {
+              "description": "Идентификатор платежа",
+              "type": "string"
+            },
+            "userInteraction": {
+              "$ref": "#/definitions/UserInteraction"
+            }
+          }
+        }
+      ]
+    },
     "PaymentMethodBankCardStat": {
       "type": "object",
       "allOf": [
@@ -3326,8 +3433,7 @@
             },
             "shopID": {
               "description": "Идентификатор магазина, в рамках которого был создан платеж",
-              "type": "integer",
-              "format": "int32"
+              "type": "string"
             },
             "createdAt": {
               "description": "Дата и время создания",
@@ -3394,6 +3500,25 @@
         }
       ]
     },
+    "PaymentStarted": {
+      "type": "object",
+      "allOf": [
+        {
+          "$ref": "#/definitions/InvoiceChange"
+        },
+        {
+          "type": "object",
+          "required": [
+            "payment"
+          ],
+          "properties": {
+            "payment": {
+              "$ref": "#/definitions/Payment"
+            }
+          }
+        }
+      ]
+    },
     "PaymentStatus": {
       "type": "object",
       "required": [
@@ -3415,6 +3540,28 @@
           "$ref": "#/definitions/LogicError"
         }
       }
+    },
+    "PaymentStatusChanged": {
+      "type": "object",
+      "allOf": [
+        {
+          "$ref": "#/definitions/InvoiceChange"
+        },
+        {
+          "$ref": "#/definitions/PaymentStatus"
+        },
+        {
+          "type": "object",
+          "required": [
+            "paymentID"
+          ],
+          "properties": {
+            "paymentID": {
+              "type": "string"
+            }
+          }
+        }
+      ]
     },
     "PaymentTool": {
       "type": "object",
@@ -3486,26 +3633,30 @@
       }
     },
     "PayoutTool": {
-      "type": "object",
-      "required": [
-        "id",
-        "params"
-      ],
-      "properties": {
-        "id": {
-          "type": "integer",
-          "format": "int32"
+      "description": "Средство вывода",
+      "allOf": [
+        {
+          "type": "object",
+          "required": [
+            "id"
+          ],
+          "properties": {
+            "id": {
+              "description": "Идентификатор средства вывода",
+              "type": "string"
+            }
+          }
         },
-        "params": {
+        {
           "$ref": "#/definitions/PayoutToolParams"
         }
-      }
+      ]
     },
     "PayoutToolBankAccount": {
       "type": "object",
       "allOf": [
         {
-          "$ref": "#/definitions/PayoutToolParams"
+          "$ref": "#/definitions/PayoutToolDetails"
         },
         {
           "type": "object",
@@ -3520,19 +3671,33 @@
         }
       ]
     },
+    "PayoutToolDetails": {
+      "description": "Данные средства вывода",
+      "type": "object",
+      "discriminator": "type",
+      "properties": {
+        "type": {
+          "description": "Тип средства вывода",
+          "type": "string",
+          "enum": [
+            "PayoutToolBankAccount"
+          ]
+        }
+      }
+    },
     "PayoutToolParams": {
       "type": "object",
-      "discriminator": "payoutToolType",
       "required": [
         "currency",
-        "payoutToolType"
+        "details"
       ],
       "properties": {
         "currency": {
+          "description": "Валюта, в которой производится вывод",
           "type": "string"
         },
-        "payoutToolType": {
-          "type": "string"
+        "details": {
+          "$ref": "#/definitions/PayoutToolDetails"
         }
       }
     },
@@ -3568,7 +3733,28 @@
         }
       ]
     },
+    "RegisteredUser": {
+      "description": "Зарегистрированный пользователь системы",
+      "allOf": [
+        {
+          "$ref": "#/definitions/Contractor"
+        },
+        {
+          "type": "object",
+          "required": [
+            "email"
+          ],
+          "properties": {
+            "email": {
+              "description": "Электронная почта, идентифицирующая пользователя",
+              "type": "string"
+            }
+          }
+        }
+      ]
+    },
     "RussianLegalEntity": {
+      "description": "Юридическое лицо, ведущее деятельность под юрисдикцией РФ",
       "type": "object",
       "allOf": [
         {
@@ -3584,80 +3770,106 @@
             "postAddress",
             "representativePosition",
             "representativeFullName",
-            "representativeDocument"
+            "representativeDocument",
+            "bankAccount"
           ],
           "properties": {
             "registeredName": {
+              "description": "Зарегистрированное наименование юридического лица\n",
               "type": "string",
               "maxLength": 100
             },
             "registeredNumber": {
+              "description": "Регистрационный номер,\n[ОГРН](https://ru.wikipedia.org/wiki/Основной_государственный_регистрационный_номер) или\n[ОГРНИП](https://ru.wikipedia.org/wiki/Основной_государственный_регистрационный_номер_индивидуального_предпринимателя)\n",
               "type": "string",
               "pattern": "^(\\d{13}|\\d{15})$"
             },
             "inn": {
+              "description": "[ИНН](https://ru.wikipedia.org/wiki/Идентификационный_номер_налогоплательщика)\n",
               "type": "string",
               "pattern": "^\\d{10}$"
             },
             "actualAddress": {
+              "description": "Почтовый адрес места нахождения\n",
               "type": "string",
               "maxLength": 1000
             },
             "postAddress": {
+              "description": "Почтовый адрес для отправки корреспонденции\n",
               "type": "string",
               "maxLength": 1000
             },
             "representativePosition": {
+              "description": "Наименование должности\n[ЕИО](https://ru.wikipedia.org/wiki/Исполнительный_орган_общества) или его представителя\n",
               "type": "string",
               "maxLength": 100
             },
             "representativeFullName": {
+              "description": "ФИО [ЕИО](https://ru.wikipedia.org/wiki/Исполнительный_орган_общества) или его представителя\n",
               "type": "string",
               "maxLength": 100
             },
             "representativeDocument": {
+              "description": "Идентификационные данные документа, на основании которого действует\n[ЕИО](https://ru.wikipedia.org/wiki/Исполнительный_орган_общества) или его представитель\n",
               "type": "string",
               "maxLength": 1000
+            },
+            "bankAccount": {
+              "$ref": "#/definitions/BankAccount"
             }
           }
         }
       ]
     },
     "Shop": {
+      "description": "Данные магазина",
       "type": "object",
       "required": [
         "id",
+        "createdAt",
         "isBlocked",
         "isSuspended",
+        "location",
         "categoryID",
         "details",
         "contractID"
       ],
       "properties": {
         "id": {
-          "type": "integer",
-          "format": "int32"
+          "description": "Идентификатор магазина",
+          "type": "string"
+        },
+        "createdAt": {
+          "description": "Дата и время создания",
+          "type": "string",
+          "format": "date-time"
         },
         "isBlocked": {
+          "description": "Заблокирован ли магазин?",
           "type": "boolean"
         },
         "isSuspended": {
+          "description": "Приостановлены ли операции в рамках магазина?",
           "type": "boolean"
         },
         "categoryID": {
+          "description": "Идентификатор категории товаров и услуг, предлагаемых в этом магазине\n",
           "type": "integer",
           "format": "int32"
+        },
+        "location": {
+          "$ref": "#/definitions/ShopLocation"
         },
         "details": {
           "$ref": "#/definitions/ShopDetails"
         },
         "contractID": {
-          "type": "integer",
-          "format": "int32"
+          "description": "Идентификатор договора, на основании которого производится обслуживание\nмагазина\n",
+          "type": "string"
         },
         "payoutToolID": {
-          "type": "integer",
-          "format": "int32"
+          "description": "Идентификатор средства вывода в рамках контракта, используемое в процессе\nвывода по магазину\n",
+          "type": "string"
         },
         "account": {
           "$ref": "#/definitions/ShopAccount"
@@ -3665,13 +3877,19 @@
       }
     },
     "ShopAccount": {
+      "description": "Счета магазина",
       "type": "object",
       "required": [
+        "currency",
         "guaranteeID",
-        "settlementID",
-        "currency"
+        "settlementID"
       ],
       "properties": {
+        "currency": {
+          "description": "Валюта счетов",
+          "type": "string",
+          "format": "^[A-Z]{3}$"
+        },
         "guaranteeID": {
           "type": "integer",
           "format": "int64"
@@ -3679,14 +3897,11 @@
         "settlementID": {
           "type": "integer",
           "format": "int64"
-        },
-        "currency": {
-          "type": "string",
-          "format": "^[A-Z]{3}$"
         }
       }
     },
     "ShopAccountCreation": {
+      "description": "Создание новых счетов в магазине",
       "type": "object",
       "allOf": [
         {
@@ -3695,30 +3910,94 @@
         {
           "type": "object",
           "required": [
-            "account"
+            "currency"
           ],
           "properties": {
-            "account": {
-              "$ref": "#/definitions/ShopAccount"
+            "currency": {
+              "description": "Валюта создаваемых счетов",
+              "type": "string"
+            }
+          }
+        }
+      ]
+    },
+    "ShopCategoryChange": {
+      "description": "Изменение категории магазина",
+      "type": "object",
+      "allOf": [
+        {
+          "$ref": "#/definitions/ShopModification"
+        },
+        {
+          "type": "object",
+          "required": [
+            "categoryID"
+          ],
+          "properties": {
+            "categoryID": {
+              "description": "Идентификатор категории товаров и услуг, предлагаемых в этом магазине\n",
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        }
+      ]
+    },
+    "ShopContractBinding": {
+      "description": "Привязка магазина к указанному договору",
+      "type": "object",
+      "allOf": [
+        {
+          "$ref": "#/definitions/ShopModification"
+        },
+        {
+          "type": "object",
+          "required": [
+            "contractID",
+            "payoutToolID"
+          ],
+          "properties": {
+            "contractID": {
+              "description": "Идентификатор договора, на основании которого следует производить\nобслуживание магазина\n",
+              "type": "string"
+            },
+            "payoutToolID": {
+              "description": "Идентификатор средства вывода в рамках указанного контракта\n",
+              "type": "string"
             }
           }
         }
       ]
     },
     "ShopCreation": {
+      "description": "Создание нового магазина",
       "type": "object",
       "allOf": [
         {
-          "$ref": "#/definitions/PartyModification"
+          "$ref": "#/definitions/ShopModification"
         },
         {
           "type": "object",
           "required": [
-            "shop"
+            "location",
+            "details",
+            "contractID",
+            "payoutToolID"
           ],
           "properties": {
-            "shop": {
-              "$ref": "#/definitions/Shop"
+            "location": {
+              "$ref": "#/definitions/ShopLocation"
+            },
+            "details": {
+              "$ref": "#/definitions/ShopDetails"
+            },
+            "contractID": {
+              "description": "Идентификатор договора, на основании которого следует производить\nобслуживание создаваемого магазина\n",
+              "type": "string"
+            },
+            "payoutToolID": {
+              "description": "Идентификатор средства вывода для создаваемого магазина в рамках\nуказанного контракта\n",
+              "type": "string"
             }
           }
         }
@@ -3731,19 +4010,39 @@
       ],
       "properties": {
         "name": {
+          "description": "Название магазина",
           "type": "string",
           "maxLength": 100
         },
         "description": {
+          "description": "Краткое описание",
           "type": "string",
           "maxLength": 1000
-        },
-        "location": {
-          "$ref": "#/definitions/ShopLocation"
         }
       }
     },
+    "ShopDetailsChange": {
+      "description": "Изменение деталей магазина",
+      "type": "object",
+      "allOf": [
+        {
+          "$ref": "#/definitions/ShopModification"
+        },
+        {
+          "type": "object",
+          "required": [
+            "details"
+          ],
+          "properties": {
+            "details": {
+              "$ref": "#/definitions/ShopDetails"
+            }
+          }
+        }
+      ]
+    },
     "ShopLocation": {
+      "description": "Местоположение магазина, по которому можно его найти",
       "type": "object",
       "discriminator": "locationType",
       "required": [
@@ -3751,11 +4050,33 @@
       ],
       "properties": {
         "locationType": {
+          "description": "Тип местоположения",
           "type": "string"
         }
       }
     },
+    "ShopLocationChange": {
+      "description": "Изменение местоположения магазина",
+      "type": "object",
+      "allOf": [
+        {
+          "$ref": "#/definitions/ShopModification"
+        },
+        {
+          "type": "object",
+          "required": [
+            "location"
+          ],
+          "properties": {
+            "location": {
+              "$ref": "#/definitions/ShopLocation"
+            }
+          }
+        }
+      ]
+    },
     "ShopLocationUrl": {
+      "description": "Местоположение в Интернете",
       "type": "object",
       "allOf": [
         {
@@ -3768,6 +4089,7 @@
           ],
           "properties": {
             "url": {
+              "description": "URL сайта магазина",
               "type": "string",
               "format": "uri",
               "maxLength": 1000
@@ -3786,118 +4108,29 @@
           "type": "object",
           "discriminator": "shopModificationType",
           "required": [
-            "shopModificationType",
-            "shopID"
+            "shopID",
+            "shopModificationType"
           ],
           "properties": {
             "shopID": {
-              "type": "integer",
-              "format": "int32"
+              "description": "Идентификатор магазина",
+              "type": "string",
+              "maxLength": 40
             },
             "shopModificationType": {
-              "type": "string"
+              "type": "string",
+              "enum": [
+                "ShopCreation",
+                "ShopAccountCreation",
+                "ShopCategoryChange",
+                "ShopLocationChange",
+                "ShopDetailsChange",
+                "ShopContractBinding"
+              ]
             }
           }
         }
       ]
-    },
-    "ShopParams": {
-      "type": "object",
-      "required": [
-        "details",
-        "contractID",
-        "payoutToolID"
-      ],
-      "properties": {
-        "categoryID": {
-          "type": "integer",
-          "format": "int32"
-        },
-        "details": {
-          "$ref": "#/definitions/ShopDetails"
-        },
-        "contractID": {
-          "type": "integer",
-          "format": "int32"
-        },
-        "payoutToolID": {
-          "type": "integer",
-          "format": "int32"
-        }
-      }
-    },
-    "ShopSuspension": {
-      "type": "object",
-      "allOf": [
-        {
-          "$ref": "#/definitions/ShopModification"
-        },
-        {
-          "type": "object",
-          "required": [
-            "details"
-          ],
-          "properties": {
-            "details": {
-              "$ref": "#/definitions/Suspension"
-            }
-          }
-        }
-      ]
-    },
-    "ShopUpdate": {
-      "type": "object",
-      "allOf": [
-        {
-          "$ref": "#/definitions/ShopModification"
-        },
-        {
-          "type": "object",
-          "required": [
-            "details"
-          ],
-          "properties": {
-            "details": {
-              "$ref": "#/definitions/UpdateShopParams"
-            }
-          }
-        }
-      ]
-    },
-    "Suspension": {
-      "type": "object",
-      "required": [
-        "suspensionType"
-      ],
-      "properties": {
-        "suspensionType": {
-          "type": "string",
-          "enum": [
-            "active",
-            "suspended"
-          ]
-        }
-      }
-    },
-    "UpdateShopParams": {
-      "type": "object",
-      "properties": {
-        "categoryID": {
-          "type": "integer",
-          "format": "int32"
-        },
-        "details": {
-          "$ref": "#/definitions/ShopDetails"
-        },
-        "contractID": {
-          "type": "integer",
-          "format": "int32"
-        },
-        "payoutToolID": {
-          "type": "integer",
-          "format": "int32"
-        }
-      }
     },
     "UserInteraction": {
       "type": "object",

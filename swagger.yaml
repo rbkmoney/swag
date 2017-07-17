@@ -81,17 +81,17 @@ parameters:
     required: true
     type: integer
     format: int64
+  claimRevision:
+    name: claimRevision
+    in: query
+    description: Версия заявки
+    required: true
+    type: integer
+    format: int32
   shopID:
     name: shopID
     in: path
     description: Идентификатор магазина
-    required: true
-    type: integer
-    format: int32
-  invoiceID:
-    name: invoiceID
-    in: path
-    description: Идентификатор инвойса
     required: true
     type: string
     maxLength: 40
@@ -107,8 +107,8 @@ parameters:
     in: path
     description: Идентификатор договора
     required: true
-    type: integer
-    format: int32
+    type: string
+    maxLength: 40
   webhookID:
     name: webhookID
     in: path
@@ -116,6 +116,26 @@ parameters:
     required: true
     type: string
     maxLength: 40
+  adjustmentID:
+    name: adjustmentID
+    in: path
+    description: Идентификатор поправки к договору
+    required: true
+    type: string
+    maxLength: 40
+  payoutToolID:
+    name: payoutToolID
+    in: path
+    description: Идентификатор средства вывода
+    required: true
+    type: string
+    maxLength: 40
+  invoiceID:
+    name: invoiceID
+    in: path
+    description: Идентификатор инвойса
+    required: true
+    type: string
   fromTime:
     name: fromTime
     in: query
@@ -676,30 +696,55 @@ paths:
           $ref: '#/responses/NotFound'
   /processing/claims:
     get:
-      description: Get claims by status
-      operationId: getClaimsByStatus
+      description: |
+        Получить список заявок участника, при желании отфильтрованный по значению
+        статуса.
+      operationId: getClaims
       tags:
         - Claims
       parameters:
         - $ref: '#/parameters/requestID'
         - name: claimStatus
+          description: Значение статуса для фильтрации
           in: query
           type: string
           enum:
             - pending
-          required: true
+            - accepted
+            - denied
+            - revoked
       responses:
         '200':
-          description: Claims found
+          description: Список найденных заявок
           schema:
             type: array
             items:
               $ref: '#/definitions/Claim'
+    post:
+      description: |
+        Создать новую заявку с заданным набором изменений и отправить её на
+        премодерацию.
+      operationId: createClaim
+      tags:
+        - Claims
+      parameters:
+        - $ref: '#/parameters/requestID'
+        - name: claimChangeset
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/ClaimChangeset'
+      responses:
+        '201':
+          description: Заявка создана
+          schema:
+            $ref: '#/definitions/Claim'
         '400':
           $ref: '#/responses/BadRequest'
   '/processing/claims/{claimID}':
     get:
-      description: Get claim by ID
+      description: |
+        Получить заявку по её идентификатору.
       operationId: getClaimByID
       tags:
         - Claims
@@ -708,29 +753,52 @@ paths:
         - $ref: '#/parameters/claimID'
       responses:
         '200':
-          description: Claim found
+          description: Данные заявки
           schema:
             $ref: '#/definitions/Claim'
         '404':
           $ref: '#/responses/NotFound'
   '/processing/claims/{claimID}/revoke':
     put:
-      description: Revoke claim by ID
+      description: Отозвать заявку по её идентификатору.
       operationId: revokeClaimByID
       tags:
         - Claims
       parameters:
         - $ref: '#/parameters/requestID'
         - $ref: '#/parameters/claimID'
-        - name: revokeClaim
+        - $ref: '#/parameters/claimRevision'
+        - name: reason
           in: body
-          description: Revoke claim params
-          required: true
           schema:
             $ref: '#/definitions/Reason'
       responses:
         '204':
-          description: Claim revoked
+          description: Заявка отозвана
+        '400':
+          $ref: '#/responses/BadRequest'
+        '404':
+          $ref: '#/responses/NotFound'
+  '/processing/claims/{claimID}/update':
+    post:
+      description: |
+        Обновить набор изменений заявки, новые изменения будут добавлены
+        к существующей заявке.
+      operationId: updateClaimByID
+      tags:
+        - Claims
+      parameters:
+        - $ref: '#/parameters/requestID'
+        - $ref: '#/parameters/claimID'
+        - $ref: '#/parameters/claimRevision'
+        - name: claimChangeset
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/ClaimChangeset'
+      responses:
+        '200':
+          description: Claim updated
         '400':
           $ref: '#/responses/BadRequest'
         '404':
@@ -750,26 +818,6 @@ paths:
             type: array
             items:
               $ref: '#/definitions/Contract'
-    post:
-      description: Создать заявку на регистрацию договора
-      tags:
-        - Contracts
-      operationId: createContract
-      parameters:
-        - $ref: '#/parameters/requestID'
-        - name: contractParams
-          description: New contract params
-          in: body
-          required: true
-          schema:
-            $ref: '#/definitions/ContractParams'
-      responses:
-        '202':
-          description: Claim registered
-          schema:
-            $ref: '#/definitions/ClaimRegistrationResult'
-        '400':
-          $ref: '#/responses/BadRequest'
   '/processing/contracts/{contractID}':
     get:
       description: Получить данные договора по его ID
@@ -786,6 +834,41 @@ paths:
             $ref: '#/definitions/Contract'
         '404':
           $ref: '#/responses/NotFound'
+  '/processing/contracts/{contractID}/adjustments':
+    get:
+      description: Получить данные всех поправок к указанному договору
+      operationId: getContractAdjustments
+      tags:
+        - Contracts
+      parameters:
+        - $ref: '#/parameters/requestID'
+        - $ref: '#/parameters/contractID'
+      responses:
+        '200':
+          description: Набор поправок к договору
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/ContractAdjustment'
+        '404':
+          $ref: '#/responses/NotFound'
+  '/processing/contracts/{contractID}/adjustments/{adjustmentID}':
+    get:
+      description: Получить данные поправки к договору по её идентификатору
+      operationId: getContractAdjustmentByID
+      tags:
+        - Contracts
+      parameters:
+        - $ref: '#/parameters/requestID'
+        - $ref: '#/parameters/contractID'
+        - $ref: '#/parameters/adjustmentID'
+      responses:
+        '200':
+          description: Данные поправки к договору
+          schema:
+            $ref: '#/definitions/ContractAdjustment'
+        '404':
+          $ref: '#/responses/NotFound'
   '/processing/contracts/{contractID}/payout_tools':
     get:
       description: Получить данные всех средств вывода
@@ -797,34 +880,28 @@ paths:
         - $ref: '#/parameters/contractID'
       responses:
         '200':
-          description: List of payout tools
+          description: Набор средств вывода
           schema:
             type: array
             items:
               $ref: '#/definitions/PayoutTool'
         '404':
           $ref: '#/responses/NotFound'
-    post:
-      description: Создать заявку на внесение новых данных по выводу средств
+  '/processing/contracts/{contractID}/payout_tools/{payoutToolID}':
+    get:
+      description: Получить данные средства вывода по его идентификатору
+      operationId: getPayoutToolByID
       tags:
         - Payouts
-      operationId: createPayoutTool
       parameters:
         - $ref: '#/parameters/requestID'
         - $ref: '#/parameters/contractID'
-        - name: PayoutToolParams
-          description: New payout tool params
-          in: body
-          required: true
-          schema:
-            $ref: '#/definitions/PayoutToolParams'
+        - $ref: '#/parameters/payoutToolID'
       responses:
-        '202':
-          description: Claim registered
+        '200':
+          description: Данные средства вывода
           schema:
-            $ref: '#/definitions/ClaimRegistrationResult'
-        '400':
-          $ref: '#/responses/BadRequest'
+            $ref: '#/definitions/PayoutTool'
         '404':
           $ref: '#/responses/NotFound'
   /processing/invoices:
@@ -1167,28 +1244,6 @@ paths:
             type: array
             items:
               $ref: '#/definitions/Shop'
-    post:
-      description: Claim for creating a shop
-      operationId: createShop
-      tags:
-        - Shops
-      parameters:
-        - $ref: '#/parameters/requestID'
-        - name: shopParams
-          in: body
-          description: New shop params
-          required: true
-          schema:
-            $ref: '#/definitions/ShopParams'
-      responses:
-        '202':
-          description: Claim registered
-          schema:
-            $ref: '#/definitions/ClaimRegistrationResult'
-        '400':
-          $ref: '#/responses/BadRequest'
-        '404':
-          $ref: '#/responses/NotFound'
   '/processing/shops/{shopID}':
     get:
       description: Get shop by id
@@ -1203,29 +1258,6 @@ paths:
           description: Shop found
           schema:
             $ref: '#/definitions/Shop'
-        '404':
-          $ref: '#/responses/NotFound'
-    post:
-      description: Claim for updating the shop
-      operationId: updateShop
-      tags:
-        - Shops
-      parameters:
-        - $ref: '#/parameters/requestID'
-        - $ref: '#/parameters/shopID'
-        - name: updateShopParams
-          in: body
-          description: Shop params for an update
-          required: true
-          schema:
-            $ref: '#/definitions/UpdateShopParams'
-      responses:
-        '202':
-          description: Claim registered
-          schema:
-            $ref: '#/definitions/ClaimRegistrationResult'
-        '400':
-          $ref: '#/responses/BadRequest'
         '404':
           $ref: '#/responses/NotFound'
   '/processing/shops/{shopID}/activate':
@@ -1374,6 +1406,9 @@ definitions:
       currency:
         type: string
   BankAccount:
+    description: |
+      Данные расчётного счёта в банковской организации, ведущей деятельность под
+      юрисдикцией РФ.
     type: object
     required:
       - account
@@ -1382,15 +1417,18 @@ definitions:
       - bankBik
     properties:
       account:
+        description: Номер счёта
         type: string
         pattern: '^\d{20}$'
       bankName:
+        description: Наименование юридического лица банковской организации
         type: string
         maxLength: 100
       bankPostAccount:
         type: string
         pattern: '^\d{20}$'
       bankBik:
+        description: БИК банковской организации
         type: string
         pattern: '^\d{9}$'
   BrowserGetRequest:
@@ -1479,64 +1517,72 @@ definitions:
         maxLength: 1000
   Claim:
     type: object
+    discriminator: status
     required:
       - id
+      - revision
+      - createdAt
       - status
       - changeset
     properties:
       id:
+        description: Идентификатор заявки
         type: integer
         format: int64
+      revision:
+        description: Версия заявки
+        type: integer
+        format: int32
+      createdAt:
+        description: Дата создания
+        type: string
+        format: date-time
+      updatedAt:
+        description: Дата изменения
+        type: string
+        format: date-time
       status:
-        $ref: '#/definitions/ClaimStatus'
+        description: Статус заявки
+        type: string
       changeset:
-        $ref: '#/definitions/PartyChangeset'
+        $ref: '#/definitions/ClaimChangeset'
   ClaimAccepted:
     type: object
     allOf:
-      - $ref: '#/definitions/ClaimStatus'
-      - type: object
-        required:
-          - acceptedAt
-        properties:
-          acceptedAt:
-            type: string
-            format: date-time
+      - $ref: '#/definitions/Claim'
+  ClaimChangeset:
+    description: Набор изменений данных участника
+    type: array
+    items:
+      $ref: '#/definitions/PartyModification'
   ClaimDenied:
     type: object
     allOf:
-      - $ref: '#/definitions/ClaimStatus'
+      - $ref: '#/definitions/Claim'
       - type: object
         required:
           - reason
         properties:
           reason:
+            description: Причина отклонения заявки
             type: string
             maxLength: 1000
   ClaimPending:
     type: object
     allOf:
-      - $ref: '#/definitions/ClaimStatus'
-  ClaimRegistrationResult:
-    type: object
-    required:
-      - claimID
-    properties:
-      claimID:
-        type: integer
-        format: int64
+      - $ref: '#/definitions/Claim'
   ClaimRevoked:
     type: object
     allOf:
-      - $ref: '#/definitions/ClaimStatus'
-  ClaimStatus:
-    type: object
-    discriminator: status
-    required:
-      - status
-    properties:
-      status:
-        type: string
+      - $ref: '#/definitions/Claim'
+      - type: object
+        required:
+          - reason
+        properties:
+          reason:
+            description: Причина отзыва заявки
+            type: string
+            maxLength: 1000
   ClientInfo:
     description: Данные клиентского устройства плательщика
     type: object
@@ -1563,177 +1609,174 @@ definitions:
         type: string
         format: '^\+\d{4,15}$'
   Contract:
+    description: Данные договора с участником
     type: object
     required:
       - id
+      - createdAt
       - status
+      - contractor
     properties:
       id:
-        type: integer
-        format: int32
-      contractor:
-        $ref: '#/definitions/Contractor'
-      validSince:
+        description: Идентификатор договора
         type: string
-        format: date-time
-      validUntil:
+      createdAt:
+        description: Дата и время создания договора
         type: string
         format: date-time
       status:
+        description: Статус договора
         type: string
         enum:
           - active
           - terminated
-      terminatedAt:
+      validSince:
+        description: Дата и время вступления договора в силу
         type: string
         format: date-time
-  ContractCreation:
+      validUntil:
+        description: Дата и время прекращения силы договора
+        type: string
+        format: date-time
+      terminatedAt:
+        description: Дата и время расторжения договора
+        type: string
+        format: date-time
+      contractor:
+        $ref: '#/definitions/Contractor'
+      legalAgreement:
+        $ref: '#/definitions/LegalAgreement'
+  ContractAdjustment:
+    description: Данные поправки к договору
+    type: object
+    required:
+      - id
+      - createdAt
+    properties:
+      id:
+        description: Идентификатор поправки
+        type: string
+      createdAt:
+        description: Дата и время создания поправки
+        type: string
+        format: date-time
+      validSince:
+        description: Дата и время вступления поправки в силу
+        type: string
+        format: date-time
+      validUntil:
+        description: Дата и время прекращения силы поправки
+        type: string
+        format: date-time
+  ContractAdjustmentCreation:
+    description: Создание поправки к договору
     type: object
     allOf:
-      - $ref: '#/definitions/PartyModification'
+      - $ref: '#/definitions/ContractModification'
+      - type: object
+        properties:
+          adjustmentID:
+            type: string
+  ContractCreation:
+    description: Создание нового договора
+    type: object
+    allOf:
+      - $ref: '#/definitions/ContractModification'
       - type: object
         required:
-          - contract
+          - contractor
         properties:
-          contract:
-            $ref: '#/definitions/Contract'
+          contractor:
+            $ref: '#/definitions/Contractor'
+  ContractLegalAgreementBinding:
+    description: Привязка юридического соглашения
+    type: object
+    allOf:
+      - $ref: '#/definitions/ContractModification'
+      - type: object
+        required:
+          - legalAgreement
+        properties:
+          legalAgreement:
+            $ref: '#/definitions/LegalAgreement'
   ContractModification:
+    description: Изменение или создание договора
     type: object
     allOf:
       - $ref: '#/definitions/PartyModification'
       - type: object
         discriminator: contractModificationType
         required:
-          - contractModificationType
           - contractID
+          - contractModificationType
         properties:
+          contractID:
+            description: Идентификатор договора
+            type: string
+            maxLength: 40
           contractModificationType:
             type: string
-          contractID:
-            type: integer
-            format: int32
+            enum:
+              - ContractCreation
+              - ContractTermination
+              - ContractLegalAgreementBinding
+              - ContractAdjustmentCreation
+              - ContractPayoutToolCreation
   Contractor:
+    description: 'Данные лица, выступающего стороной договора'
     type: object
+    discriminator: contractorType
     required:
-      - bankAccount
-      - legalEntity
+      - contractorType
     properties:
-      bankAccount:
-        $ref: '#/definitions/BankAccount'
-      legalEntity:
-        $ref: '#/definitions/LegalEntity'
-  ContractParams:
-    type: object
-    required:
-      - contractor
-      - payoutToolParams
-    properties:
-      contractor:
-        $ref: '#/definitions/Contractor'
-      payoutToolParams:
-        $ref: '#/definitions/PayoutToolParams'
+      contractorType:
+        description: 'Тип лица, выступающего стороной договора'
+        type: string
+        enum:
+          - LegalEntity
+          - RegisteredUser
   ContractPayoutToolCreation:
+    description: Создание инструмента вывода в рамках договора
     type: object
     allOf:
       - $ref: '#/definitions/ContractModification'
-      - type: object
-        required:
-          - payoutTool
-        properties:
-          payoutTool:
-            $ref: '#/definitions/PayoutTool'
+      - allOf:
+          - type: object
+            required:
+              - payoutToolID
+            properties:
+              payoutToolID:
+                description: Идентификатор средства вывода
+                type: string
+                maxLength: 40
+          - $ref: '#/definitions/PayoutToolParams'
   ContractTermination:
+    description: Расторжение договора
     type: object
     allOf:
       - $ref: '#/definitions/ContractModification'
       - type: object
-        required:
-          - terminatedAt
         properties:
-          terminatedAt:
-            type: string
-            format: date-time
           reason:
+            description: Причина расторжения
             type: string
             maxLength: 1000
   Event:
     type: object
-    discriminator: eventType
     required:
       - id
       - createdAt
-      - eventType
+      - changes
     properties:
       id:
         type: integer
       createdAt:
         type: string
         format: date-time
-      eventType:
-        type: string
-  EventInvoiceCreated:
-    type: object
-    allOf:
-      - $ref: '#/definitions/Event'
-      - type: object
-        required:
-          - invoice
-        properties:
-          invoice:
-            $ref: '#/definitions/Invoice'
-  EventInvoicePaymentInteractionRequested:
-    type: object
-    allOf:
-      - $ref: '#/definitions/Event'
-      - type: object
-        description: |
-          Требование провести взаимодействие с плательщиком для продолжения процесса
-          платежа
-        required:
-          - paymentID
-          - userInteraction
-        properties:
-          paymentID:
-            description: Идентификатор платежа
-            type: string
-          userInteraction:
-            $ref: '#/definitions/UserInteraction'
-  EventInvoiceStatusChanged:
-    type: object
-    allOf:
-      - $ref: '#/definitions/Event'
-      - $ref: '#/definitions/InvoiceStatus'
-  EventPaymentBound:
-    type: object
-    allOf:
-      - $ref: '#/definitions/Event'
-      - type: object
-        required:
-          - paymentID
-        properties:
-          paymentID:
-            type: string
-  EventPaymentStarted:
-    type: object
-    allOf:
-      - $ref: '#/definitions/Event'
-      - type: object
-        required:
-          - payment
-        properties:
-          payment:
-            $ref: '#/definitions/Payment'
-  EventPaymentStatusChanged:
-    type: object
-    allOf:
-      - $ref: '#/definitions/Event'
-      - $ref: '#/definitions/PaymentStatus'
-      - type: object
-        required:
-          - paymentID
-        properties:
-          paymentID:
-            type: string
+      changes:
+        type: array
+        items:
+          $ref: '#/definitions/InvoiceChange'
   GeneralError:
     type: object
     required:
@@ -1774,8 +1817,7 @@ definitions:
             type: string
           shopID:
             description: Идентификатор магазина
-            type: integer
-            format: int32
+            type: string
           createdAt:
             description: Дата и время создания
             type: string
@@ -1817,6 +1859,30 @@ definitions:
         description: |
           Содержимое токена для доступа
         type: string
+  InvoiceChange:
+    type: object
+    discriminator: changeType
+    required:
+      - changeType
+    properties:
+      changeType:
+        type: string
+        enum:
+          - InvoiceCreated
+          - InvoiceStatusChanged
+          - PaymentStarted
+          - PaymentStatusChanged
+          - PaymentInteractionRequested
+  InvoiceCreated:
+    type: object
+    allOf:
+      - $ref: '#/definitions/InvoiceChange'
+      - type: object
+        required:
+          - invoice
+        properties:
+          invoice:
+            $ref: '#/definitions/Invoice'
   InvoiceParams:
     type: object
     required:
@@ -1829,8 +1895,8 @@ definitions:
     properties:
       shopID:
         description: Идентификатор магазина
-        type: integer
-        format: int32
+        type: string
+        maxLength: 40
       amount:
         description: |
           Стоимость предлагаемых товаров или услуг, в минорных денежных единицах,
@@ -1881,8 +1947,7 @@ definitions:
             type: string
           shopID:
             description: Идентификатор магазина
-            type: integer
-            format: int32
+            type: string
           createdAt:
             description: Дата и время создания
             type: string
@@ -1933,6 +1998,11 @@ definitions:
         description: Причина отмены или погашения инвойса
         type: string
         maxLength: 1000
+  InvoiceStatusChanged:
+    type: object
+    allOf:
+      - $ref: '#/definitions/InvoiceChange'
+      - $ref: '#/definitions/InvoiceStatus'
   InvoicesTopic:
     description: |
       Область охвата, включающая события по инвойсам в рамках определённого
@@ -1946,8 +2016,8 @@ definitions:
         properties:
           shopID:
             description: Идентификатор магазина
-            type: integer
-            format: int32
+            type: string
+            maxLength: 40
           eventTypes:
             description: 'Набор типов событий инвойсов, о которых следует оповещать'
             type: array
@@ -1963,14 +2033,34 @@ definitions:
                 - PaymentCaptured
                 - PaymentCancelled
                 - PaymentFailed
-  LegalEntity:
+  LegalAgreement:
+    description: Ключевые данные юридического соглашения
     type: object
-    discriminator: entityType
     required:
-      - entityType
+      - id
+      - signedAt
     properties:
-      entityType:
+      id:
+        description: 'Идентификатор юридического соглашения, например номер договора'
         type: string
+      signedAt:
+        description: Дата и время заключения юридического соглашения
+        type: string
+        format: date-time
+  LegalEntity:
+    description: Юридическое лицо
+    allOf:
+      - $ref: '#/definitions/Contractor'
+      - type: object
+        discriminator: entityType
+        required:
+          - entityType
+        properties:
+          entityType:
+            description: Тип юридического лица
+            type: string
+            enum:
+              - RussianLegalEntity
   LocationName:
     type: object
     required:
@@ -2006,11 +2096,8 @@ definitions:
         type: boolean
       isSuspended:
         type: boolean
-  PartyChangeset:
-    type: array
-    items:
-      $ref: '#/definitions/PartyModification'
   PartyModification:
+    description: Единичное изменение данных участника
     type: object
     discriminator: partyModificationType
     required:
@@ -2018,16 +2105,9 @@ definitions:
     properties:
       partyModificationType:
         type: string
-  PartySuspension:
-    type: object
-    allOf:
-      - $ref: '#/definitions/PartyModification'
-      - type: object
-        required:
-          - details
-        properties:
-          details:
-            $ref: '#/definitions/Suspension'
+        enum:
+          - ContractModification
+          - ShopModification
   Payment:
     type: object
     allOf:
@@ -2178,6 +2258,23 @@ definitions:
       revenue:
         description: Сумма платежей в магазине
         type: integer
+  PaymentInteractionRequested:
+    type: object
+    allOf:
+      - $ref: '#/definitions/InvoiceChange'
+      - type: object
+        description: |
+          Требование провести взаимодействие с плательщиком для продолжения процесса
+          платежа
+        required:
+          - paymentID
+          - userInteraction
+        properties:
+          paymentID:
+            description: Идентификатор платежа
+            type: string
+          userInteraction:
+            $ref: '#/definitions/UserInteraction'
   PaymentMethodBankCardStat:
     type: object
     allOf:
@@ -2320,8 +2417,7 @@ definitions:
             type: string
           shopID:
             description: 'Идентификатор магазина, в рамках которого был создан платеж'
-            type: integer
-            format: int32
+            type: string
           createdAt:
             description: Дата и время создания
             type: string
@@ -2373,6 +2469,16 @@ definitions:
           metadata:
             description: Связанные с платежом метаданные
             type: object
+  PaymentStarted:
+    type: object
+    allOf:
+      - $ref: '#/definitions/InvoiceChange'
+      - type: object
+        required:
+          - payment
+        properties:
+          payment:
+            $ref: '#/definitions/Payment'
   PaymentStatus:
     type: object
     required:
@@ -2389,6 +2495,17 @@ definitions:
           - failed
       error:
         $ref: '#/definitions/LogicError'
+  PaymentStatusChanged:
+    type: object
+    allOf:
+      - $ref: '#/definitions/InvoiceChange'
+      - $ref: '#/definitions/PaymentStatus'
+      - type: object
+        required:
+          - paymentID
+        properties:
+          paymentID:
+            type: string
   PaymentTool:
     type: object
     discriminator: paymentToolType
@@ -2436,37 +2553,47 @@ definitions:
       clientInfo:
         $ref: '#/definitions/ClientInfo'
   PayoutTool:
-    type: object
-    required:
-      - id
-      - params
-    properties:
-      id:
-        type: integer
-        format: int32
-      params:
-        $ref: '#/definitions/PayoutToolParams'
+    description: Средство вывода
+    allOf:
+      - type: object
+        required:
+          - id
+        properties:
+          id:
+            description: Идентификатор средства вывода
+            type: string
+      - $ref: '#/definitions/PayoutToolParams'
   PayoutToolBankAccount:
     type: object
     allOf:
-      - $ref: '#/definitions/PayoutToolParams'
+      - $ref: '#/definitions/PayoutToolDetails'
       - type: object
         required:
           - bankAccount
         properties:
           bankAccount:
             $ref: '#/definitions/BankAccount'
+  PayoutToolDetails:
+    description: Данные средства вывода
+    type: object
+    discriminator: type
+    properties:
+      type:
+        description: Тип средства вывода
+        type: string
+        enum:
+          - PayoutToolBankAccount
   PayoutToolParams:
     type: object
-    discriminator: payoutToolType
     required:
       - currency
-      - payoutToolType
+      - details
     properties:
       currency:
+        description: 'Валюта, в которой производится вывод'
         type: string
-      payoutToolType:
-        type: string
+      details:
+        $ref: '#/definitions/PayoutToolDetails'
   Reason:
     type: object
     required:
@@ -2486,7 +2613,19 @@ definitions:
         properties:
           request:
             $ref: '#/definitions/BrowserRequest'
+  RegisteredUser:
+    description: Зарегистрированный пользователь системы
+    allOf:
+      - $ref: '#/definitions/Contractor'
+      - type: object
+        required:
+          - email
+        properties:
+          email:
+            description: 'Электронная почта, идентифицирующая пользователя'
+            type: string
   RussianLegalEntity:
+    description: 'Юридическое лицо, ведущее деятельность под юрисдикцией РФ'
     type: object
     allOf:
       - $ref: '#/definitions/LegalEntity'
@@ -2500,119 +2639,237 @@ definitions:
           - representativePosition
           - representativeFullName
           - representativeDocument
+          - bankAccount
         properties:
           registeredName:
+            description: |
+              Зарегистрированное наименование юридического лица
             type: string
             maxLength: 100
           registeredNumber:
+            description: |
+              Регистрационный номер,
+              [ОГРН](https://ru.wikipedia.org/wiki/Основной_государственный_регистрационный_номер) или
+              [ОГРНИП](https://ru.wikipedia.org/wiki/Основной_государственный_регистрационный_номер_индивидуального_предпринимателя)
             type: string
             pattern: '^(\d{13}|\d{15})$'
           inn:
+            description: |
+              [ИНН](https://ru.wikipedia.org/wiki/Идентификационный_номер_налогоплательщика)
             type: string
             pattern: '^\d{10}$'
           actualAddress:
+            description: |
+              Почтовый адрес места нахождения
             type: string
             maxLength: 1000
           postAddress:
+            description: |
+              Почтовый адрес для отправки корреспонденции
             type: string
             maxLength: 1000
           representativePosition:
+            description: |
+              Наименование должности
+              [ЕИО](https://ru.wikipedia.org/wiki/Исполнительный_орган_общества) или его представителя
             type: string
             maxLength: 100
           representativeFullName:
+            description: |
+              ФИО [ЕИО](https://ru.wikipedia.org/wiki/Исполнительный_орган_общества) или его представителя
             type: string
             maxLength: 100
           representativeDocument:
+            description: |
+              Идентификационные данные документа, на основании которого действует
+              [ЕИО](https://ru.wikipedia.org/wiki/Исполнительный_орган_общества) или его представитель
             type: string
             maxLength: 1000
+          bankAccount:
+            $ref: '#/definitions/BankAccount'
   Shop:
+    description: Данные магазина
     type: object
     required:
       - id
+      - createdAt
       - isBlocked
       - isSuspended
+      - location
       - categoryID
       - details
       - contractID
     properties:
       id:
-        type: integer
-        format: int32
+        description: Идентификатор магазина
+        type: string
+      createdAt:
+        description: Дата и время создания
+        type: string
+        format: date-time
       isBlocked:
+        description: Заблокирован ли магазин?
         type: boolean
       isSuspended:
+        description: Приостановлены ли операции в рамках магазина?
         type: boolean
       categoryID:
+        description: |
+          Идентификатор категории товаров и услуг, предлагаемых в этом магазине
         type: integer
         format: int32
+      location:
+        $ref: '#/definitions/ShopLocation'
       details:
         $ref: '#/definitions/ShopDetails'
       contractID:
-        type: integer
-        format: int32
+        description: |
+          Идентификатор договора, на основании которого производится обслуживание
+          магазина
+        type: string
       payoutToolID:
-        type: integer
-        format: int32
+        description: |
+          Идентификатор средства вывода в рамках контракта, используемое в процессе
+          вывода по магазину
+        type: string
       account:
         $ref: '#/definitions/ShopAccount'
   ShopAccount:
+    description: Счета магазина
     type: object
     required:
+      - currency
       - guaranteeID
       - settlementID
-      - currency
     properties:
+      currency:
+        description: Валюта счетов
+        type: string
+        format: '^[A-Z]{3}$'
       guaranteeID:
         type: integer
         format: int64
       settlementID:
         type: integer
         format: int64
-      currency:
-        type: string
-        format: '^[A-Z]{3}$'
   ShopAccountCreation:
+    description: Создание новых счетов в магазине
     type: object
     allOf:
       - $ref: '#/definitions/ShopModification'
       - type: object
         required:
-          - account
+          - currency
         properties:
-          account:
-            $ref: '#/definitions/ShopAccount'
-  ShopCreation:
+          currency:
+            description: Валюта создаваемых счетов
+            type: string
+  ShopCategoryChange:
+    description: Изменение категории магазина
     type: object
     allOf:
-      - $ref: '#/definitions/PartyModification'
+      - $ref: '#/definitions/ShopModification'
       - type: object
         required:
-          - shop
+          - categoryID
         properties:
-          shop:
-            $ref: '#/definitions/Shop'
+          categoryID:
+            description: |
+              Идентификатор категории товаров и услуг, предлагаемых в этом магазине
+            type: integer
+            format: int32
+  ShopContractBinding:
+    description: Привязка магазина к указанному договору
+    type: object
+    allOf:
+      - $ref: '#/definitions/ShopModification'
+      - type: object
+        required:
+          - contractID
+          - payoutToolID
+        properties:
+          contractID:
+            description: |
+              Идентификатор договора, на основании которого следует производить
+              обслуживание магазина
+            type: string
+          payoutToolID:
+            description: |
+              Идентификатор средства вывода в рамках указанного контракта
+            type: string
+  ShopCreation:
+    description: Создание нового магазина
+    type: object
+    allOf:
+      - $ref: '#/definitions/ShopModification'
+      - type: object
+        required:
+          - location
+          - details
+          - contractID
+          - payoutToolID
+        properties:
+          location:
+            $ref: '#/definitions/ShopLocation'
+          details:
+            $ref: '#/definitions/ShopDetails'
+          contractID:
+            description: |
+              Идентификатор договора, на основании которого следует производить
+              обслуживание создаваемого магазина
+            type: string
+          payoutToolID:
+            description: |
+              Идентификатор средства вывода для создаваемого магазина в рамках
+              указанного контракта
+            type: string
   ShopDetails:
     type: object
     required:
       - name
     properties:
       name:
+        description: Название магазина
         type: string
         maxLength: 100
       description:
+        description: Краткое описание
         type: string
         maxLength: 1000
-      location:
-        $ref: '#/definitions/ShopLocation'
+  ShopDetailsChange:
+    description: Изменение деталей магазина
+    type: object
+    allOf:
+      - $ref: '#/definitions/ShopModification'
+      - type: object
+        required:
+          - details
+        properties:
+          details:
+            $ref: '#/definitions/ShopDetails'
   ShopLocation:
+    description: 'Местоположение магазина, по которому можно его найти'
     type: object
     discriminator: locationType
     required:
       - locationType
     properties:
       locationType:
+        description: Тип местоположения
         type: string
+  ShopLocationChange:
+    description: Изменение местоположения магазина
+    type: object
+    allOf:
+      - $ref: '#/definitions/ShopModification'
+      - type: object
+        required:
+          - location
+        properties:
+          location:
+            $ref: '#/definitions/ShopLocation'
   ShopLocationUrl:
+    description: Местоположение в Интернете
     type: object
     allOf:
       - $ref: '#/definitions/ShopLocation'
@@ -2621,6 +2878,7 @@ definitions:
           - url
         properties:
           url:
+            description: URL сайта магазина
             type: string
             format: uri
             maxLength: 1000
@@ -2631,76 +2889,22 @@ definitions:
       - type: object
         discriminator: shopModificationType
         required:
-          - shopModificationType
           - shopID
+          - shopModificationType
         properties:
           shopID:
-            type: integer
-            format: int32
+            description: Идентификатор магазина
+            type: string
+            maxLength: 40
           shopModificationType:
             type: string
-  ShopParams:
-    type: object
-    required:
-      - details
-      - contractID
-      - payoutToolID
-    properties:
-      categoryID:
-        type: integer
-        format: int32
-      details:
-        $ref: '#/definitions/ShopDetails'
-      contractID:
-        type: integer
-        format: int32
-      payoutToolID:
-        type: integer
-        format: int32
-  ShopSuspension:
-    type: object
-    allOf:
-      - $ref: '#/definitions/ShopModification'
-      - type: object
-        required:
-          - details
-        properties:
-          details:
-            $ref: '#/definitions/Suspension'
-  ShopUpdate:
-    type: object
-    allOf:
-      - $ref: '#/definitions/ShopModification'
-      - type: object
-        required:
-          - details
-        properties:
-          details:
-            $ref: '#/definitions/UpdateShopParams'
-  Suspension:
-    type: object
-    required:
-      - suspensionType
-    properties:
-      suspensionType:
-        type: string
-        enum:
-          - active
-          - suspended
-  UpdateShopParams:
-    type: object
-    properties:
-      categoryID:
-        type: integer
-        format: int32
-      details:
-        $ref: '#/definitions/ShopDetails'
-      contractID:
-        type: integer
-        format: int32
-      payoutToolID:
-        type: integer
-        format: int32
+            enum:
+              - ShopCreation
+              - ShopAccountCreation
+              - ShopCategoryChange
+              - ShopLocationChange
+              - ShopDetailsChange
+              - ShopContractBinding
   UserInteraction:
     type: object
     discriminator: interactionType
