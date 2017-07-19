@@ -23,6 +23,6 @@ post:
           invoice:
             $ref: '#/definitions/Invoice'
           invoiceAccessToken:
-            $ref: '#/definitions/InvoiceAccessToken'
+            $ref: '#/definitions/AccessToken'
     '400':
       $ref: '#/responses/BadRequest'

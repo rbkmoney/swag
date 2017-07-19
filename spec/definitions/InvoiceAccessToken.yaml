@@ -1,7 +1,0 @@
-type: object
-required:
-  - payload
-properties:
-  payload:
-    description: Содержимое токена для доступа к инвойсу.
-    type: string

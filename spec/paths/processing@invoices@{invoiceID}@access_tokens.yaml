@@ -8,8 +8,8 @@ post:
     - $ref: '#/parameters/invoiceID'
   responses:
     '201':
-      description: Токен для доступа создан
+      description: Токен для доступа к инвойсу создан.
       schema:
-        $ref: '#/definitions/InvoiceAccessToken'
+        $ref: '#/definitions/AccessToken'
     '404':
       $ref: '#/responses/NotFound'
