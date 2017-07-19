@@ -1,16 +1,17 @@
 post:
-  description: Создать новый инвойс.
+  description: Создать новый инвойс по шаблону.
   tags:
-    - Invoices
-  operationId: createInvoice
+    - InvoiceTemplates
+  operationId: createInvoiceWithTemplate
   parameters:
     - $ref: '#/parameters/requestID'
-    - name: invoiceParams
+    - $ref: '#/parameters/invoiceTemplateID'
+    - name: invoiceParamsWithTemplate
       description: Параметры создаваемого инвойса
       in: body
       required: true
       schema:
-          $ref: '#/definitions/InvoiceParams'
+          $ref: '#/definitions/InvoiceParamsWithTemplate'
   responses:
     '201':
       description: Инвойс создан
