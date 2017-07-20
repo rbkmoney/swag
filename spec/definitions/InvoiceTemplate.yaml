@@ -10,8 +10,8 @@ properties:
     type: string
   shopID:
     description: Идентификатор магазина
-    type: integer
-    format: int32
+    type: string
+    maxLength: 40
   product:
     description: Наименование предлагаемых товаров или услуг
     type: string
