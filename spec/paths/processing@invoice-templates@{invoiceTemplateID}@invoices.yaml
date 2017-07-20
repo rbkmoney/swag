@@ -19,3 +19,5 @@ post:
         $ref: '#/definitions/InvoiceAndToken'
     '400':
       $ref: '#/responses/BadRequest'
+    '404':
+      $ref: '#/responses/NotFound'
