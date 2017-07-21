@@ -3,6 +3,7 @@ required:
   - shopID
   - product
   - lifetime
+  - cost
 properties:
   shopID:
     description: Идентификатор магазина

@@ -1,9 +1,5 @@
 type: object
 properties:
-  shopID:
-    description: Идентификатор магазина
-    type: string
-    maxLength: 40
   product:
     description: Наименование предлагаемых товаров или услуг
     type: string

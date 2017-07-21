@@ -4,6 +4,7 @@ required:
   - shopID
   - product
   - lifetime
+  - cost
 properties:
   id:
     description: Идентификатор шаблона инвойса
