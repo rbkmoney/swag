@@ -15,14 +15,6 @@ post:
     '201':
       description: Шаблон инвойса создан.
       schema:
-        type: object
-        required:
-          - invoiceTemplate
-          - invoiceTemplateAccessToken
-        properties:
-          invoiceTemplate:
-            $ref: '#/definitions/InvoiceTemplate'
-          invoiceTemplateAccessToken:
-            $ref: '#/definitions/AccessToken'
+        $ref: '#/definitions/InvoiceTemplateAndToken'
     '400':
       $ref: '#/responses/BadRequest'
