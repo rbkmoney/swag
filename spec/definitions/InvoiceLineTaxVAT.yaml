@@ -1,0 +1,14 @@
+allOf:
+  - $ref: '#/definitions/InvoiceLineTaxScheme'
+  - description: Налог на добавленную стоимость в юрисдикции РФ
+    type: object
+    required:
+      - percentageRate
+    properties:
+      percentageRate:
+        description: Процентная ставка налога
+        type: integer
+        enum:
+          - 0
+          - 10
+          - 18

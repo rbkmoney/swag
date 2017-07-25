@@ -1,0 +1,6 @@
+description: |
+  Корзина с набором позиций продаваемых товаров или услуг
+type: array
+maxItems: 100
+items:
+  $ref: '#/definitions/InvoiceLine'
