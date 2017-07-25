@@ -1,5 +1,5 @@
 allOf:
-  - $ref: '#/definitions/InvoiceLineTaxScheme'
+  - $ref: '#/definitions/InvoiceLineTaxMode'
   - description: Налог на добавленную стоимость в юрисдикции РФ
     type: object
     required:

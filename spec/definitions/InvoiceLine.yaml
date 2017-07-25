@@ -3,8 +3,8 @@ type: object
 required:
   - product
   - quantity
-  - cost
-  - taxScheme
+  - price
+  - taxMode
 properties:
   product:
     description: Описание предлагаемого товара или услуги
@@ -18,12 +18,19 @@ properties:
     format: int64
     minimum: 1
     default: 1
-  cost:
+  price:
     description: |
-      Стоимость позиции, в минорных денежных единицах, например в копейках в
-      случае указания российских рублей в качестве валюты
+      Цена предлагаемого товара или услуги, в минорных денежных единицах, например
+      в копейках в случае указания российских рублей в качестве валюты
     type: integer
     format: int64
     minimum: 1
-  taxScheme:
-    $ref: '#/definitions/InvoiceLineTaxScheme'
+  cost:
+    description: |
+      Суммарная стоимость позиции с учётом количества единиц товаров или услуг
+    type: integer
+    format: int64
+    minimum: 1
+    readOnly: true
+  taxMode:
+    $ref: '#/definitions/InvoiceLineTaxMode'
