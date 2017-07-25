@@ -4,7 +4,6 @@ required:
   - product
   - quantity
   - price
-  - taxMode
 properties:
   product:
     description: Описание предлагаемого товара или услуги
