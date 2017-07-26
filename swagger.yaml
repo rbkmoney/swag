@@ -2226,7 +2226,6 @@ definitions:
             description: 'Дата и время, до которого происходит удержание денежных средств'
             type: string
             format: date-time
-            readOnly: true
   PaymentFlowInstant:
     type: object
     allOf:
@@ -2320,7 +2319,7 @@ definitions:
       - paymentToolToken
     properties:
       flow:
-        $ref: '#/definitions/PaymentFlow'
+        $ref: '#/definitions/PaymentParamsFlow'
       contactInfo:
         $ref: '#/definitions/ContactInfo'
       paymentSession:
@@ -2331,6 +2330,38 @@ definitions:
         description: 'Токен платежного средства, предоставленного плательщиком'
         type: string
         maxLength: 1000
+  PaymentParamsFlow:
+    type: object
+    discriminator: type
+    required:
+      - type
+    properties:
+      type:
+        description: Тип процесса выполнения платежа
+        type: string
+        default: PaymentParamsFlowInstant
+        enum:
+          - PaymentParamsFlowInstant
+          - PaymentParamsFlowHold
+  PaymentParamsFlowHold:
+    type: object
+    allOf:
+      - $ref: '#/definitions/PaymentParamsFlow'
+      - type: object
+        required:
+          - onHoldExpiration
+        properties:
+          onHoldExpiration:
+            description: Политика управления удержанием денежных средств
+            type: string
+            default: cancel
+            enum:
+              - cancel
+              - capture
+  PaymentParamsFlowInstant:
+    type: object
+    allOf:
+      - $ref: '#/definitions/PaymentParamsFlow'
   PaymentRateStat:
     type: object
     required:
