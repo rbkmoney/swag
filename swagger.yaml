@@ -42,12 +42,15 @@ securityDefinitions:
     name: Authorization
     in: header
     description: |
-      Для аутентификации вызовов мы используем [JWT](https://jwt.io). Ваш приватный ключ и ключ для токенизации вы можете получить в личном кабинете. Для аутентификации запросов соответствующий ключ передается в заголовке.
+      Для аутентификации вызовов мы используем [JWT](https://jwt.io). Cоответствующий ключ передается в заголовке.
       ```shell
        Authorization: Bearer {TOKENIZATION|PRIVATE_JWT}
       ```
-      Ключи не разделяются на тестовые и боевые, ваш приватный ключ открывает доступ ко всем функциям платформы. Для тестовых транзакций используйте ID тестовых магазинов.
-      Помните, что вы никому не должны передавать ваш приватный ключ!
+      Посмотреть ваш API-ключ вы можете в [личном кабинете](https://dashboard.rbk.money/api/key).
+
+      Ключи не разделяются на тестовые и боевые, ваш API ключ открывает доступ ко всем функциям платформы. Для тестовых транзакций используйте ID тестовых магазинов.
+
+      Помните, что вы никому не должны передавать ваш API ключ!
 security:
   - bearer: []
 responses:
@@ -92,6 +95,13 @@ parameters:
     name: shopID
     in: path
     description: Идентификатор магазина
+    required: true
+    type: string
+    maxLength: 40
+  invoiceTemplateID:
+    name: invoiceTemplateID
+    in: path
+    description: Идентификатор шаблона инвойса
     required: true
     type: string
     maxLength: 40
@@ -226,6 +236,33 @@ tags:
       Платформа предоставляет вам возможность заполнить и сохранить любые необходимые метаданные в структуре инвойса. Данные описываются массивом JSON. В дальнейшем платформа предоставит вам эти данные при запросе данных инвойса по его ID либо пришлет в асинхронном режиме на webhook, установленный для соответствующего магазине, если он есть.
       ## События инвойса
       Мы используем event-based, или событийную архитектуру для любого изменения состояния данных в платформе. События, которые генерируют участники процесса привязываются к объектам системы, и таким образом позволяют узнать конечное состояние данных объекта. В системе можно получить как полный список событий, приведших к определенному состоянию данных, так и последнее событие, описывающее текущее состояние объекта. Например, для того, чтобы узнать состояние инвойса, и таким образом принять решение об отгрузке товара или предоставлении услуги плательщику, можно запросить у платформы все события, произошедшие в рамках указанного ID инвойса, либо самое последнее из них.
+      ## Authorization
+      Операции:
+      * создания инвойса,
+      * отмены ивнвойса,
+      * погашения инвойса,
+      * получения *нового* токена доступа к инвойсу (уже после создания инвойса)
+
+      авторизуются вашим API-ключем.
+      ### Токен доступа к инвойсу
+      Токен доступа к инвойсу авторизует ограниченное количество операций, необходимых для проведения [платежей](#tag/Payments) по указанному инвойсу, в частности:
+      * [токенизация](#tag/Tokens) платёжных инструментов,
+      * создание платежей по этому и только этому инвойсу,
+      * получение состояния и событий этого инвойса.
+
+      Срок действия токена составляет 1 час от момента создания, после истечения которого использовать его для авторизации операций будет более невозможно.
+  - name: InvoiceTemplates
+    x-displayName: Шаблоны инвойсов
+    description: |
+      Шаблоны инвойсов позволяют упростить выставление инвойсов. Шаблон инвойса привязан к конкретному магазину и содержит спецификацию, по которой можно создавать инвойсы, указывая только конкретнyю стоимость товаров и услуг и/или метаданные инвойса. В случае, если шаблон содержит фиксированную стоимость, её также можно опустить при создании инвойса. Если при создании инвойса по шаблону не указать метаданные инвойса, они будут взяты из значения в шаблоне (если шаблон содержит метаданные).
+
+      Cоздание, модификация и удаление шаблона инвойса не требуют верификации на стороне платформы и заявок на эти изменения.
+      ## Authorization
+      Создание, модификация и удаление шаблона инвойса авторизуются вашим API-ключем.
+      ### Токен доступа к шаблону инвойса
+      Токен доступа к шаблону инвойса создается в результате операции создания шаблона. Он авторизует:
+      * получение шаблона инвойса по его идентификатору,
+      * создание инвойса по данному шаблону.
   - name: Accounts
     x-displayName: Счета
     description: |
@@ -238,13 +275,15 @@ tags:
     description: |
       Реальное списание денег с плательщиков осуществляется вызовом метода создания платежа. Перед запуском платежей необходимо создать инвойс, в рамках которого платформа будет проводить попытки списания, а также указать токен платежного средства плательщика. Таким образом, платформа предоставляет вам интерфейс, позволяющий со стороны вашего серверного кода инициировать и контролировать процесс списания денег. Данный процесс может быть, как синхронным, когда вы ожидаете ответа системы, так и асинхронным, когда после запуска платежа вы ожидаете уведомлений на установленный для соответствующего магазина webhook.
       ## Платежная сессия
-      Платформа обеспечивает идемпотентность списания денег с платежного средства, предоставляя уникальный идентификатор платежной сессии. Данный идентификатор предоставляется в процессе создания токена платежного средства и гарантирует идемпотентность запросов на списание средств, обеспечивая защиту от ошибочных повторных списаний.
+      Платформа обеспечивает идемпотентность списания денег с платежного средства, предоставляя уникальный идентификатор платежной сессии. Данный идентификатор предоставляется в процессе создания [токена платежного средства](#tag/Tokens) и гарантирует идемпотентность запросов на списание средств, обеспечивая защиту от ошибочных повторных списаний.
+      ## Authorization
+      Запросы API платежей авторизуются либо токеном доступа к инвойсу, по которому создан платеж, либо вашим API-ключем.
   - name: Tokens
-    x-displayName: Токены
+    x-displayName: Платежные токены
     description: |
       Платформа предоставляет вам возможность самостоятельно инициировать списание денег с платежных карт плательщиков и берет на себя процессы сертификации и соответствия стандартам PCS-DSS. Стандарт декларирует запрет на обработку и хранение данных держателей карт (ДДК) на стороне мерчанта. Используемые нами подходы к реализации интерфейса подразумевают возможность верстки и отдачи HTML формы для ввода ДДК на стороне вашего серверного кода. Чтобы обеспечить соответствие стандартам мы предоставляем разработанную нами JS-библиотеку, которая после встраивания в HTML-код вашей платежной формы в асинхронном режиме собирает ДДК и отправляет на интерфейс платформы для дальнейшего шифрования и токенизации. В ответ JS-библиотека возвращает на вашу платежную форму уникальный токен платежной карты, который в дальнейшем вы можете использовать для запуска платежей.
-      ## Платежная сессия
-      Платформа обеспечивает идемпотентность списания денег с платежного средства, предоставляя уникальный идентификатор платежной сессии. Данный идентификатор предоставляется в процессе создания токена платежного средства и гарантирует идемпотентность запросов на списание средств, обеспечивая защиту от ошибочных повторных списаний.
+
+      В процессе создания токена предоставляется [платежная сессия](#tag/Payments), обеспечивающая идемпотентность списания денег с платежного средства.
   - name: Categories
     x-displayName: Категории магазинов
     description: |
@@ -273,7 +312,7 @@ tags:
   - name: Search
     x-displayName: Поиск
     description: |
-      Для получения списка всех инвойсов/платежей указанного магазина необходимо вызвать соответствующий метод платформы. Также имеется возможность отфильтровать выборку по определенным статусам инвойсов/платежей.
+      Для получения списка всех инвойсов/платежей указанного магазина необходимо вызвать соответствующий метод платформы. Имеется возможность отфильтровать выборку по определенным статусам.
   - name: Analytics
     x-displayName: Аналитика
     description: |
@@ -474,7 +513,7 @@ paths:
               result:
                 type: array
                 items:
-                  $ref: '#/definitions/InvoiceSearchResult'
+                  $ref: '#/definitions/Invoice'
         '400':
           $ref: '#/responses/BadRequest'
         '404':
@@ -904,6 +943,107 @@ paths:
             $ref: '#/definitions/PayoutTool'
         '404':
           $ref: '#/responses/NotFound'
+  /processing/invoice-templates:
+    post:
+      description: Создать новый шаблон инвойса.
+      tags:
+        - InvoiceTemplates
+      operationId: createInvoiceTemplate
+      parameters:
+        - $ref: '#/parameters/requestID'
+        - name: invoiceTemplateCreateParams
+          description: Параметры шаблона инвойса.
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/InvoiceTemplateCreateParams'
+      responses:
+        '201':
+          description: Шаблон инвойса создан.
+          schema:
+            $ref: '#/definitions/InvoiceTemplateAndToken'
+        '400':
+          $ref: '#/responses/BadRequest'
+  '/processing/invoice-templates/{invoiceTemplateID}':
+    get:
+      description: Получить шаблон инвойса по его идентификатору.
+      tags:
+        - InvoiceTemplates
+      operationId: getInvoiceTemplateByID
+      parameters:
+        - $ref: '#/parameters/requestID'
+        - $ref: '#/parameters/invoiceTemplateID'
+      responses:
+        '200':
+          description: Шаблон инвойса
+          schema:
+            $ref: '#/definitions/InvoiceTemplate'
+        '400':
+          $ref: '#/responses/BadRequest'
+        '404':
+          $ref: '#/responses/NotFound'
+    put:
+      description: Модифицировать шаблон инвойса.
+      tags:
+        - InvoiceTemplates
+      operationId: updateInvoiceTemplate
+      parameters:
+        - $ref: '#/parameters/requestID'
+        - $ref: '#/parameters/invoiceTemplateID'
+        - name: invoiceTemplateUpdateParams
+          description: Параметры модифицируемого инвойса.
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/InvoiceTemplateUpdateParams'
+      responses:
+        '200':
+          description: Шаблон инвойса модифицирован.
+          schema:
+            $ref: '#/definitions/InvoiceTemplate'
+        '400':
+          $ref: '#/responses/BadRequest'
+        '404':
+          $ref: '#/responses/NotFound'
+    delete:
+      description: Удалить шаблон инвойса.
+      tags:
+        - InvoiceTemplates
+      operationId: deleteInvoiceTemplate
+      parameters:
+        - $ref: '#/parameters/requestID'
+        - $ref: '#/parameters/invoiceTemplateID'
+      responses:
+        '204':
+          description: Шаблон инвойса удален.
+        '400':
+          $ref: '#/responses/BadRequest'
+        '404':
+          $ref: '#/responses/NotFound'
+  '/processing/invoice-templates/{invoiceTemplateID}/invoices':
+    post:
+      description: Создать новый инвойс по шаблону.
+      tags:
+        - InvoiceTemplates
+      operationId: createInvoiceWithTemplate
+      parameters:
+        - $ref: '#/parameters/requestID'
+        - $ref: '#/parameters/invoiceTemplateID'
+        - name: invoiceParamsWithTemplate
+          description: Параметры создаваемого инвойса
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/InvoiceParamsWithTemplate'
+      responses:
+        '201':
+          description: Инвойс создан
+          schema:
+            $ref: '#/definitions/InvoiceAndToken'
+        '400':
+          $ref: '#/responses/BadRequest'
+        '404':
+          $ref: '#/responses/NotFound'
   /processing/invoices:
     post:
       description: Создать новый инвойс.
@@ -922,7 +1062,7 @@ paths:
         '201':
           description: Инвойс создан
           schema:
-            $ref: '#/definitions/Invoice'
+            $ref: '#/definitions/InvoiceAndToken'
         '400':
           $ref: '#/responses/BadRequest'
   '/processing/invoices/{invoiceID}':
@@ -946,18 +1086,7 @@ paths:
   '/processing/invoices/{invoiceID}/access_tokens':
     post:
       operationId: createInvoiceAccessToken
-      description: |
-        Создать новый токен для доступа к указанному инвойсу.
-
-        С помощью этого токена можно авторизовать ограниченное количество операций,
-        необходимых для проведения платежей по указанному инвойсу, в частности:
-
-          * токенизация платёжных инструментов,
-          * создание платежей по этому и только этому инвойсу,
-          * получение состояния и событий этого инвойса.
-
-        Срок действия токена составляет 1 час от момента создания, после истечения
-        которого использовать его для авторизации операций будет более невозможно.
+      description: Создать новый токен для доступа к указанному инвойсу.
       tags:
         - Invoices
       parameters:
@@ -965,9 +1094,9 @@ paths:
         - $ref: '#/parameters/invoiceID'
       responses:
         '201':
-          description: Токен для доступа создан
+          description: Токен для доступа к инвойсу создан.
           schema:
-            $ref: '#/definitions/InvoiceAccessToken'
+            $ref: '#/definitions/AccessToken'
         '404':
           $ref: '#/responses/NotFound'
   '/processing/invoices/{invoiceID}/events':
@@ -1388,6 +1517,14 @@ paths:
         '400':
           $ref: '#/responses/BadRequest'
 definitions:
+  AccessToken:
+    type: object
+    required:
+      - payload
+    properties:
+      payload:
+        description: Содержимое токена для доступа к ресурсу.
+        type: string
   Account:
     type: object
     required:
@@ -1761,6 +1898,22 @@ definitions:
             description: Причина расторжения
             type: string
             maxLength: 1000
+  CostAmountRange:
+    type: object
+    required:
+      - upperBound
+      - lowerBound
+    properties:
+      upperBound:
+        description: Верхняя (включительная) граница стоимости товаров или услуг.
+        type: integer
+        format: int64
+        minimum: 1
+      lowerBound:
+        description: Нижняя (включительная) граница стоимости товаров или услуг.
+        type: integer
+        format: int64
+        minimum: 1
   Event:
     type: object
     required:
@@ -1850,15 +2003,19 @@ definitions:
             description: Описание предлагаемых товаров или услуг
             type: string
             maxLength: 1000
-  InvoiceAccessToken:
+          invoiceTemplateID:
+            description: 'Идентификатор шаблона (для инвойсов, созданных по шаблону).'
+            type: string
+  InvoiceAndToken:
     type: object
     required:
-      - payload
+      - invoice
+      - invoiceAccessToken
     properties:
-      payload:
-        description: |
-          Содержимое токена для доступа
-        type: string
+      invoice:
+        $ref: '#/definitions/Invoice'
+      invoiceAccessToken:
+        $ref: '#/definitions/AccessToken'
   InvoiceChange:
     type: object
     discriminator: changeType
@@ -1887,11 +2044,11 @@ definitions:
     type: object
     required:
       - shopID
-      - product
-      - dueDate
       - amount
       - currency
       - metadata
+      - dueDate
+      - product
     properties:
       shopID:
         description: Идентификатор магазина
@@ -1927,6 +2084,25 @@ definitions:
         description: Описание предлагаемых товаров или услуг
         type: string
         maxLength: 1000
+  InvoiceParamsWithTemplate:
+    type: object
+    properties:
+      amount:
+        description: |
+          Стоимость предлагаемых товаров или услуг, в минорных денежных единицах,
+          например в копейках в случае указания российских рублей в качестве валюты.
+        type: integer
+        format: int64
+        minimum: 1
+      currency:
+        description: |
+          Валюта, символьный код согласно
+          [ISO 4217](http://www.iso.org/iso/home/standards/currency_codes.htm).
+        type: string
+        pattern: '^[A-Z]{3}$'
+      metadata:
+        description: 'Метаданные, которые необходимо связать с инвойсом'
+        type: object
   InvoiceSearchResult:
     type: object
     allOf:
@@ -1958,8 +2134,7 @@ definitions:
             format: date-time
           amount:
             description: |
-              Стоимость предлагаемых товаров или услуг, в минорных денежных единицах,
-              например в копейках в случае указания российских рублей в качестве валюты.
+              Стоимость предлагаемых товаров или услуг, в минорных денежных единицах, например в копейках в случае указания российских рублей в качестве валюты.
             type: integer
             format: int64
             minimum: 1
@@ -2033,6 +2208,149 @@ definitions:
                 - PaymentCaptured
                 - PaymentCancelled
                 - PaymentFailed
+  InvoiceTemplate:
+    type: object
+    required:
+      - id
+      - shopID
+      - product
+      - lifetime
+      - cost
+    properties:
+      id:
+        description: Идентификатор шаблона инвойса
+        type: string
+      shopID:
+        description: Идентификатор магазина
+        type: string
+        maxLength: 40
+      product:
+        description: Наименование предлагаемых товаров или услуг
+        type: string
+        maxLength: 100
+      description:
+        description: Описание предлагаемых товаров или услуг
+        type: string
+        maxLength: 1000
+      lifetime:
+        $ref: '#/definitions/LifetimeInterval'
+      cost:
+        $ref: '#/definitions/InvoiceTemplateCost'
+      metadata:
+        description: |
+          Метаданные, которые будут связаны с инвойсом, созданным по шаблону, в случае, если иные метаданные не указаны в запросе на создание инвойса.
+        type: object
+  InvoiceTemplateAndToken:
+    type: object
+    required:
+      - invoiceTemplate
+      - invoiceTemplateAccessToken
+    properties:
+      invoiceTemplate:
+        $ref: '#/definitions/InvoiceTemplate'
+      invoiceTemplateAccessToken:
+        $ref: '#/definitions/AccessToken'
+  InvoiceTemplateCost:
+    type: object
+    discriminator: invoiceTemplateCostType
+    description: |
+      Ограничения на стоимость товаров и услуг для инвойсов, генерируемых по
+      шаблону.
+    required:
+      - invoiceTemplateCostType
+    properties:
+      invoiceTemplateCostType:
+        type: string
+  InvoiceTemplateCostFixed:
+    type: object
+    allOf:
+      - $ref: '#/definitions/InvoiceTemplateCost'
+      - type: object
+        required:
+          - currency
+          - amount
+        properties:
+          currency:
+            description: |
+              Валюта, символьный код согласно
+              [ISO 4217](http://www.iso.org/iso/home/standards/currency_codes.htm).
+            type: string
+            pattern: '^[A-Z]{3}$'
+          amount:
+            description: |
+              Стоимость предлагаемых товаров или услуг, в минорных денежных единицах,
+              например в копейках в случае указания российских рублей в качестве валюты.
+            type: integer
+            format: int64
+            minimum: 1
+  InvoiceTemplateCostRange:
+    type: object
+    allOf:
+      - $ref: '#/definitions/InvoiceTemplateCost'
+      - type: object
+        required:
+          - currency
+          - range
+        properties:
+          currency:
+            description: |
+              Валюта, символьный код согласно
+              [ISO 4217](http://www.iso.org/iso/home/standards/currency_codes.htm).
+            type: string
+            pattern: '^[A-Z]{3}$'
+          range:
+            $ref: '#/definitions/CostAmountRange'
+  InvoiceTemplateCostUnlim:
+    type: object
+    allOf:
+      - $ref: '#/definitions/InvoiceTemplateCost'
+  InvoiceTemplateCreateParams:
+    type: object
+    required:
+      - shopID
+      - product
+      - lifetime
+      - cost
+    properties:
+      shopID:
+        description: Идентификатор магазина
+        type: string
+        maxLength: 40
+      product:
+        description: Наименование предлагаемых товаров или услуг
+        type: string
+        maxLength: 100
+      description:
+        description: Описание предлагаемых товаров или услуг
+        type: string
+        maxLength: 1000
+      lifetime:
+        $ref: '#/definitions/LifetimeInterval'
+      cost:
+        $ref: '#/definitions/InvoiceTemplateCost'
+      metadata:
+        description: |
+          Метаданные, которые будут связаны с инвойсом, созданным по шаблону, в случае, если иные метаданные не указаны в запросе на создание инвойса.
+        type: object
+  InvoiceTemplateUpdateParams:
+    type: object
+    properties:
+      product:
+        description: Наименование предлагаемых товаров или услуг
+        type: string
+        maxLength: 100
+      description:
+        description: Описание предлагаемых товаров или услуг
+        type: string
+        maxLength: 1000
+      lifetime:
+        $ref: '#/definitions/LifetimeInterval'
+      cost:
+        $ref: '#/definitions/InvoiceTemplateCost'
+      metadata:
+        description: |
+          Метаданные, которые будут связаны с инвойсом, созданным по шаблону, в случае, если иные метаданные не указаны в запросе на создание инвойса.
+        type: object
   LegalAgreement:
     description: Ключевые данные юридического соглашения
     type: object
@@ -2061,6 +2379,26 @@ definitions:
             type: string
             enum:
               - RussianLegalEntity
+  LifetimeInterval:
+    type: object
+    description: Время жизни инвойса с момента его создания.
+    required:
+      - days
+      - months
+      - years
+    properties:
+      days:
+        type: integer
+        format: int32
+        minimum: 0
+      months:
+        type: integer
+        format: int32
+        minimum: 0
+      years:
+        type: integer
+        format: int32
+        minimum: 0
   LocationName:
     type: object
     required:
