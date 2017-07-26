@@ -1,0 +1,10 @@
+type: object
+discriminator: invoiceTemplateCostType
+description: |
+  Ограничения на стоимость товаров и услуг для инвойсов, генерируемых по
+  шаблону.
+required:
+  - invoiceTemplateCostType
+properties:
+  invoiceTemplateCostType:
+    type: string

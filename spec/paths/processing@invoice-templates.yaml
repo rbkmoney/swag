@@ -1,0 +1,20 @@
+post:
+  description: Создать новый шаблон инвойса.
+  tags:
+    - InvoiceTemplates
+  operationId: createInvoiceTemplate
+  parameters:
+    - $ref: '#/parameters/requestID'
+    - name: invoiceTemplateCreateParams
+      description: Параметры шаблона инвойса.
+      in: body
+      required: true
+      schema:
+        $ref: '#/definitions/InvoiceTemplateCreateParams'
+  responses:
+    '201':
+      description: Шаблон инвойса создан.
+      schema:
+        $ref: '#/definitions/InvoiceTemplateAndToken'
+    '400':
+      $ref: '#/responses/BadRequest'

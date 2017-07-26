@@ -95,7 +95,7 @@ get:
           result:
             type: array
             items:
-              $ref: '#/definitions/InvoiceSearchResult'
+              $ref: '#/definitions/Invoice'
     '400':
       $ref: '#/responses/BadRequest'
     '404':

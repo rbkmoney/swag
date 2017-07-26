@@ -1,0 +1,16 @@
+type: object
+allOf:
+  - $ref: '#/definitions/InvoiceTemplateCost'
+  - type: object
+    required:
+      - currency
+      - range
+    properties:
+      currency:
+        description: |
+          Валюта, символьный код согласно
+          [ISO 4217](http://www.iso.org/iso/home/standards/currency_codes.htm).
+        type: string
+        pattern: '^[A-Z]{3}$'
+      range:
+        $ref: '#/definitions/CostAmountRange'

@@ -1,0 +1,9 @@
+type: object
+required:
+  - invoiceTemplate
+  - invoiceTemplateAccessToken
+properties:
+  invoiceTemplate:
+    $ref: '#/definitions/InvoiceTemplate'
+  invoiceTemplateAccessToken:
+    $ref: '#/definitions/AccessToken'

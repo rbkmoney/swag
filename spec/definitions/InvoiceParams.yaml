@@ -1,11 +1,11 @@
 type: object
 required:
   - shopID
-  - product
-  - dueDate
   - amount
   - currency
   - metadata
+  - dueDate
+  - product
 properties:
   shopID:
     description: Идентификатор магазина

@@ -1,0 +1,18 @@
+type: object
+properties:
+  amount:
+    description: |
+      Стоимость предлагаемых товаров или услуг, в минорных денежных единицах,
+      например в копейках в случае указания российских рублей в качестве валюты.
+    type: integer
+    format: int64
+    minimum: 1
+  currency:
+    description: |
+      Валюта, символьный код согласно
+      [ISO 4217](http://www.iso.org/iso/home/standards/currency_codes.htm).
+    type: string
+    pattern: '^[A-Z]{3}$'
+  metadata:
+    description: 'Метаданные, которые необходимо связать с инвойсом'
+    type: object

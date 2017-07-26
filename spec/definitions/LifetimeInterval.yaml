@@ -1,0 +1,19 @@
+type: object
+description: Время жизни инвойса с момента его создания.
+required:
+  - days
+  - months
+  - years
+properties:
+  days:
+    type: integer
+    format: int32
+    minimum: 0
+  months:
+    type: integer
+    format: int32
+    minimum: 0
+  years:
+    type: integer
+    format: int32
+    minimum: 0
