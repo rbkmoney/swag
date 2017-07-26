@@ -1,6 +1,6 @@
 type: object
 discriminator: invoiceTemplateCostType
-description: >-
+description: |
   Ограничения на стоимость товаров и услуг для инвойсов, генерируемых по
   шаблону.
 required:

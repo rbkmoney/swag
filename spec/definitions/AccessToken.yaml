@@ -5,4 +5,3 @@ properties:
   payload:
     description: Содержимое токена для доступа к ресурсу.
     type: string
-    maxLength: 1000
