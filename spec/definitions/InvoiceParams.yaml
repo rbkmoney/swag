@@ -1,20 +1,28 @@
 type: object
 required:
   - shopID
-  - amount
-  - currency
-  - metadata
   - dueDate
+  - currency
   - product
+  - metadata
 properties:
   shopID:
     description: Идентификатор магазина
     type: string
     maxLength: 40
+  dueDate:
+    description: |
+      Дата и время окончания действия инвойса, после наступления которых его
+      уже невозможно будет оплатить
+    type: string
+    format: date-time
   amount:
     description: |
       Стоимость предлагаемых товаров или услуг, в минорных денежных единицах,
       например в копейках в случае указания российских рублей в качестве валюты.
+
+      Если стоимость не указана, то стоимостью инвойса будет считаться суммарная
+      стоимость позиций в корзине.
     type: integer
     format: int64
     minimum: 1
@@ -24,15 +32,6 @@ properties:
       [ISO 4217](http://www.iso.org/iso/home/standards/currency_codes.htm).
     type: string
     pattern: '^[A-Z]{3}$'
-  metadata:
-    description: 'Метаданные, которые необходимо связать с инвойсом'
-    type: object
-  dueDate:
-    description: |
-      Дата и время окончания действия инвойса, после наступления которых его
-      уже невозможно будет оплатить
-    type: string
-    format: date-time
   product:
     description: Наименование предлагаемых товаров или услуг
     type: string
@@ -41,3 +40,8 @@ properties:
     description: Описание предлагаемых товаров или услуг
     type: string
     maxLength: 1000
+  cart:
+    $ref: '#/definitions/InvoiceCart'
+  metadata:
+    description: 'Метаданные, которые необходимо связать с инвойсом'
+    type: object

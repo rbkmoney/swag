@@ -1,0 +1,14 @@
+description: |
+  Схема налогообложения предлагаемого товара или услуги.
+
+  Указывается, только если предлагаемый товар или услуга облагается налогом.
+type: object
+discriminator: type
+required:
+  - type
+properties:
+  type:
+    description: Тип схемы налогообложения
+    type: string
+    enum:
+      - InvoiceLineTaxVAT
