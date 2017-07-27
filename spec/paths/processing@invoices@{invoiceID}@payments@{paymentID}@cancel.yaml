@@ -15,7 +15,7 @@ post:
         $ref: '#/definitions/Reason'
   responses:
     '202':
-      description: Платеж отменен
+      description: Запрос на отмену платежа принят
     '400':
       $ref: '#/responses/BadRequest'
     '404':
