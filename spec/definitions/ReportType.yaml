@@ -6,5 +6,5 @@ properties:
     description: Тип отчета
     type: string
     enum:
-      - provision_of_service
-      - payment_registry
+      - provisionOfService
+      - paymentRegistry

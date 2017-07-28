@@ -21,7 +21,6 @@ get:
               description: URL для скачивания файла
               type: string
               format: uri
-              maxLength: 1000
     '400':
       $ref: '#/responses/BadRequest'
     '404':

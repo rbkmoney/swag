@@ -5,8 +5,8 @@ allOf:
       - id
       - shopID
       - createdAt
-      - from
-      - to
+      - fromTime
+      - toTime
     properties:
       id:
         description: Идентификатор отчета
@@ -19,11 +19,11 @@ allOf:
         description: Дата и время создания
         type: string
         format: date-time
-      from:
+      fromTime:
         description: Дата и время начала периода
         type: string
         format: date-time
-      to:
+      toTime:
         description: Дата и время конца периода
         type: string
         format: date-time

@@ -6,9 +6,12 @@ properties:
   id:
     description: Идентификатор файла
     type: string
+    maxLength: 40
   filename:
     description: Имя файла
     type: string
+    maxLength: 40
   md5:
     description: MD5 содержимого файла
     type: string
+    maxLength: 32
