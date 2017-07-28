@@ -1,0 +1,14 @@
+type: object
+required:
+  - id
+  - filename
+properties:
+  id:
+    description: Идентификатор файла
+    type: string
+  filename:
+    description: Имя файла
+    type: string
+  md5:
+    description: MD5 содержимого файла
+    type: string

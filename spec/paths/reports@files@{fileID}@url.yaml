@@ -1,0 +1,21 @@
+get:
+  description: Получить url по идентификатору файла
+  tags:
+    - Reports
+  operationId: getFileUrl
+  parameters:
+    - $ref: '#/parameters/requestID'
+    - $ref: '#/parameters/fileID'
+  responses:
+    '200':
+      description: URL на файл
+      schema:
+        type: object
+        properties:
+            url:
+              description: URL для скачивания файла
+              type: string
+              format: uri
+              maxLength: 1000
+    '400':
+      $ref: '#/responses/BadRequest'

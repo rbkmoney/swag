@@ -173,6 +173,13 @@ parameters:
     required: true
     type: string
     maxLength: 40
+  fileID:
+      name: fileID
+      in: path
+      description: Идентификатор файла
+      required: true
+      type: string
+      maxLength: 40
   invoiceID:
     name: invoiceID
     in: path
@@ -522,6 +529,10 @@ tags:
       подготовлены заранее и не подразумевают интерактивного изменения структуры
       данных. Для получения дополнительных наборов данных необходимо обратиться
       к вашему курирующему менеджеру.
+  - name: Reports
+    x-displayName: Отчеты
+    description: >
+      KEK
   - name: Error Codes
     x-displayName: Коды ошибок
     description: >
