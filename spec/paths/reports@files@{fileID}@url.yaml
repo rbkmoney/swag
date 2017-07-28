@@ -6,7 +6,7 @@ get:
   parameters:
     - $ref: '#/parameters/requestID'
     - $ref: '#/parameters/fileID'
-    - name:  expiresIn
+    - name: expiresIn
       in: query
       description: Дата истечения срока действия URL
       type: string
@@ -24,3 +24,5 @@ get:
               maxLength: 1000
     '400':
       $ref: '#/responses/BadRequest'
+    '404':
+      $ref: '#/responses/NotFound'
