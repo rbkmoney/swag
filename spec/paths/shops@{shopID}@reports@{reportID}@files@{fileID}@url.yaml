@@ -8,21 +8,9 @@ get:
     - $ref: '#/parameters/shopID'
     - $ref: '#/parameters/reportID'
     - $ref: '#/parameters/fileID'
-    - name: expiresIn
-      in: query
-      description: Дата истечения срока действия URL
-      type: string
-      format: date-time
   responses:
-    '200':
+    '303':
       description: URL на файл
-      schema:
-        type: object
-        properties:
-            url:
-              description: URL для скачивания файла
-              type: string
-              format: uri
     '400':
       $ref: '#/responses/BadRequest'
     '404':

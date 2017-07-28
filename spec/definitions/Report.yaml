@@ -9,6 +9,7 @@ allOf:
       - toTime
       - status
       - type
+      - files
     properties:
       id:
         description: Идентификатор отчета
@@ -41,10 +42,9 @@ allOf:
         enum:
           - provisionOfService
           - paymentRegistry
-      reportFileMeta:
-        description: Метаданные по файлу отчета
-        $ref: '#/definitions/FileMeta'
-      signFileMeta:
-        description: Метаданные по файлу подписи
-        $ref: '#/definitions/FileMeta'
+      files:
+        type: array
+        items:
+          $ref: '#/definitions/FileMeta'
+
 
