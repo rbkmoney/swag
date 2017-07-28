@@ -173,6 +173,13 @@ parameters:
     required: true
     type: string
     maxLength: 40
+  reportID:
+    name: reportID
+    in: path
+    description: Идентификатор отчета
+    required: true
+    type: integer
+    format: int64
   fileID:
       name: fileID
       in: path

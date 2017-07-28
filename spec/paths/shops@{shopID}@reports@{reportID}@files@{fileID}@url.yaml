@@ -5,6 +5,8 @@ get:
   operationId: getFileUrl
   parameters:
     - $ref: '#/parameters/requestID'
+    - $ref: '#/parameters/shopID'
+    - $ref: '#/parameters/reportID'
     - $ref: '#/parameters/fileID'
     - name: expiresIn
       in: query
