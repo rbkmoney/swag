@@ -11,7 +11,14 @@ properties:
     description: Имя файла
     type: string
     maxLength: 40
-  md5:
-    description: MD5 содержимого файла
-    type: string
-    maxLength: 32
+  signatures:
+    type: object
+    description: Сигнатуры файла
+    required:
+      - md5
+    properties:
+      md5:
+        description: MD5 содержимого файла
+        type: string
+        maxLength: 32
+
