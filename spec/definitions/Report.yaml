@@ -7,6 +7,8 @@ allOf:
       - createdAt
       - fromTime
       - toTime
+      - status
+      - type
     properties:
       id:
         description: Идентификатор отчета
@@ -27,11 +29,22 @@ allOf:
         description: Дата и время конца периода
         type: string
         format: date-time
+      status:
+        description: Статус отчета
+        type: string
+        enum:
+          - pending
+          - created
+      type:
+        description: Тип отчета
+        type: string
+        enum:
+          - provisionOfService
+          - paymentRegistry
       reportFileMeta:
         description: Метаданные по файлу отчета
         $ref: '#/definitions/FileMeta'
       signFileMeta:
         description: Метаданные по файлу подписи
         $ref: '#/definitions/FileMeta'
-  - $ref: '#/definitions/ReportStatus'
-  - $ref: '#/definitions/ReportType'
+
