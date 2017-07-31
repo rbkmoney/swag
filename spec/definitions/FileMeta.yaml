@@ -1,0 +1,28 @@
+type: object
+required:
+  - id
+  - filename
+properties:
+  id:
+    description: Идентификатор файла
+    type: string
+    maxLength: 40
+  filename:
+    description: Имя файла
+    type: string
+    maxLength: 40
+  signatures:
+    type: object
+    description: Сигнатуры файла
+    required:
+      - md5
+      - sha256
+    properties:
+      md5:
+        description: MD5 содержимого файла
+        type: string
+        maxLength: 32
+      sha256:
+        description: SHA256 содержимого файла
+        type: string
+        maxLength: 64
