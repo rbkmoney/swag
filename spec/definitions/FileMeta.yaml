@@ -16,6 +16,7 @@ properties:
     description: Сигнатуры файла
     required:
       - md5
+      - sha256
     properties:
       md5:
         description: MD5 содержимого файла

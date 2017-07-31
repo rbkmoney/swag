@@ -1,8 +1,8 @@
 get:
-  description: Получить url по идентификатору файла
+  description: Скачать файл
   tags:
     - Reports
-  operationId: getFileUrl
+  operationId: downloadFile
   parameters:
     - $ref: '#/parameters/requestID'
     - $ref: '#/parameters/shopID'
@@ -14,7 +14,7 @@ get:
       headers:
         Location:
           type: "string"
-          description: URL на файл
+          description: URL файла
     '400':
       $ref: '#/responses/BadRequest'
     '404':
