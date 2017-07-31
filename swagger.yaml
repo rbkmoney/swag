@@ -140,6 +140,20 @@ parameters:
     required: true
     type: string
     maxLength: 40
+  reportID:
+    name: reportID
+    in: path
+    description: Идентификатор отчета
+    required: true
+    type: integer
+    format: int64
+  fileID:
+    name: fileID
+    in: path
+    description: Идентификатор файла
+    required: true
+    type: string
+    maxLength: 40
   invoiceID:
     name: invoiceID
     in: path
@@ -316,7 +330,11 @@ tags:
   - name: Analytics
     x-displayName: Аналитика
     description: |
-      Платформа предоставляет возможность получения различных аналитических данных, полученных в рамках взаимодействия с ней. Аналитические отчеты подготовлены заранее и не подразумевают интерактивного изменения структуры данных. Для получения дополнительных наборов данных необходимо обратиться к вашему курирующему менеджеру.
+      Платформа предоставляет возможность получения различных аналитических данных, полученных в рамках взаимодействия с ней. Аналитические отчеты подготовлены заранее и не подразумевают интерактивного изменения структуры данных.
+  - name: Reports
+    x-displayName: Отчеты
+    description: |
+      Один раз в отчетный период платформа автоматически подготавливает и размещает документы в формате XLSX с разбиением по магазину активной категории. Также, каждый документ будет подписан [квалифицированной ЭЦП](http://minsvyaz.ru/ru/appeals/faq/31/). Данная подпись является юридически значимой и позволяет полностью отказаться от бумажного документооборота.
   - name: Error Codes
     x-displayName: Коды ошибок
     description: |
@@ -1516,6 +1534,51 @@ paths:
               $ref: '#/definitions/LocationName'
         '400':
           $ref: '#/responses/BadRequest'
+  '/shops/{shopID}/reports':
+    get:
+      description: Получить список отчетов по данному магазину за период
+      tags:
+        - Reports
+      operationId: getReports
+      parameters:
+        - $ref: '#/parameters/requestID'
+        - $ref: '#/parameters/shopID'
+        - $ref: '#/parameters/fromTime'
+        - $ref: '#/parameters/toTime'
+      responses:
+        '200':
+          description: Найденные отчеты
+          schema:
+            type: object
+            properties:
+              result:
+                type: array
+                items:
+                  $ref: '#/definitions/Report'
+        '400':
+          $ref: '#/responses/BadRequest'
+  '/shops/{shopID}/reports/{reportID}/files/{fileID}/download':
+    get:
+      description: Скачать файл
+      tags:
+        - Reports
+      operationId: downloadFile
+      parameters:
+        - $ref: '#/parameters/requestID'
+        - $ref: '#/parameters/shopID'
+        - $ref: '#/parameters/reportID'
+        - $ref: '#/parameters/fileID'
+      responses:
+        '303':
+          description: See Other
+          headers:
+            Location:
+              type: string
+              description: URL файла
+        '400':
+          $ref: '#/responses/BadRequest'
+        '404':
+          $ref: '#/responses/NotFound'
 definitions:
   AccessToken:
     type: object
@@ -1930,6 +1993,35 @@ definitions:
         type: array
         items:
           $ref: '#/definitions/InvoiceChange'
+  FileMeta:
+    type: object
+    required:
+      - id
+      - filename
+    properties:
+      id:
+        description: Идентификатор файла
+        type: string
+        maxLength: 40
+      filename:
+        description: Имя файла
+        type: string
+        maxLength: 40
+      signatures:
+        type: object
+        description: Сигнатуры файла
+        required:
+          - md5
+          - sha256
+        properties:
+          md5:
+            description: MD5 содержимого файла
+            type: string
+            maxLength: 32
+          sha256:
+            description: SHA256 содержимого файла
+            type: string
+            maxLength: 64
   GeneralError:
     type: object
     required:
@@ -2962,6 +3054,48 @@ definitions:
           email:
             description: 'Электронная почта, идентифицирующая пользователя'
             type: string
+  Report:
+    type: object
+    allOf:
+      - type: object
+        required:
+          - id
+          - shopID
+          - createdAt
+          - fromTime
+          - toTime
+          - type
+          - files
+        properties:
+          id:
+            description: Идентификатор отчета
+            type: integer
+            format: int64
+          shopID:
+            description: Идентификатор магазина
+            type: string
+          createdAt:
+            description: Дата и время создания
+            type: string
+            format: date-time
+          fromTime:
+            description: Дата и время начала периода
+            type: string
+            format: date-time
+          toTime:
+            description: Дата и время конца периода
+            type: string
+            format: date-time
+          type:
+            description: Тип отчета
+            type: string
+            enum:
+              - provisionOfService
+              - paymentRegistry
+          files:
+            type: array
+            items:
+              $ref: '#/definitions/FileMeta'
   RussianLegalEntity:
     description: 'Юридическое лицо, ведущее деятельность под юрисдикцией РФ'
     type: object
