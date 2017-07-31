@@ -10,7 +10,11 @@ get:
     - $ref: '#/parameters/fileID'
   responses:
     '303':
-      description: URL на файл
+      description: See Other
+      headers:
+        Location:
+          type: "string"
+          description: URL на файл
     '400':
       $ref: '#/responses/BadRequest'
     '404':
