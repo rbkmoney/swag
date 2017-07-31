@@ -7,7 +7,6 @@ allOf:
       - createdAt
       - fromTime
       - toTime
-      - status
       - type
       - files
     properties:
@@ -30,12 +29,6 @@ allOf:
         description: Дата и время конца периода
         type: string
         format: date-time
-      status:
-        description: Статус отчета
-        type: string
-        enum:
-          - pending
-          - created
       type:
         description: Тип отчета
         type: string
