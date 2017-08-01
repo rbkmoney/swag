@@ -1,0 +1,11 @@
+type: object
+discriminator: payoutType
+required:
+  - payoutType
+properties:
+  payoutType:
+    description: Тип выплаты
+    type: string
+    enum:
+      - PayoutCardType
+      - PayoutAccountType
