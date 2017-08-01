@@ -1,0 +1,23 @@
+get:
+  description: Получить список отчетов по данному магазину за период
+  tags:
+    - Reports
+  operationId: getReports
+  parameters:
+    - $ref: '#/parameters/requestID'
+    - $ref: '#/parameters/shopID'
+    - $ref: '#/parameters/fromTime'
+    - $ref: '#/parameters/toTime'
+  responses:
+    '200':
+      description: Найденные отчеты
+      schema:
+        type: object
+        properties:
+          result:
+            type: array
+            items:
+              $ref: '#/definitions/Report'
+    '400':
+      $ref: '#/responses/BadRequest'
+
