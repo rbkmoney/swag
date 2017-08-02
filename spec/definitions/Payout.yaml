@@ -1,68 +1,66 @@
 type: object
-allOf:
-  - type: object
+required:
+  - id
+  - shopID
+  - createdAt
+  - status
+  - amount
+  - fee
+  - currency
+  - type
+properties:
+  id:
+    description: Идентификатор выплаты
+    type: string
+  shopID:
+    description: Идентификатор магазина
+    type: string
+  createdAt:
+    description: Дата и время создания
+    type: string
+    format: date-time
+  status:
+    type: object
     required:
-      - id
-      - shopID
-      - createdAt
       - status
-      - amount
-      - fee
-      - currency
-      - type
     properties:
-      id:
-        description: Идентификатор выплаты
-        type: string
-      shopID:
-        description: Идентификатор магазина
-        type: string
-      createdAt:
-        description: Дата и время создания
-        type: string
-        format: date-time
       status:
-        type: object
-        required:
-          - status
-        properties:
-          status:
-            description: Статус выплаты
-            type: string
-            enum:
-              - unpaid
-              - paid
-              - cancelled
-              - confirmed
-          details:
-            description: Детали отмены выплаты
-            type: string
-            maxLength: 1000
-      amount:
-        description: |
-          Сумма выплаты в минорных денежных
-          единицах, например в копейках в случае указания российских рублей в
-          качестве валюты.
-        type: integer
-        format: int64
-        minimum: 1
-      fee:
-        description: 'Комиссия системы, в минорных денежных единицах'
-        type: integer
-        format: int64
-        minimum: 0
-      currency:
-        description: |
-          Валюта, символьный код согласно
-          [ISO 4217](http://www.iso.org/iso/home/standards/currency_codes.htm).
+        description: Статус выплаты
         type: string
-        pattern: '^[A-Z]{3}$'
-      type:
-        $ref: '#/definitions/PayoutType'
-      paidDetails:
-        description: Детали выплаты
-        type: object
-        properties:
-          maskedPan:
-            description: Маскированный номер карты
-            type: string
+        enum:
+          - unpaid
+          - paid
+          - cancelled
+          - confirmed
+      details:
+        description: Детали отмены выплаты
+        type: string
+        maxLength: 1000
+  amount:
+    description: |
+        Сумма выплаты в минорных денежных
+        единицах, например в копейках в случае указания российских рублей в
+        качестве валюты.
+    type: integer
+    format: int64
+    minimum: 1
+  fee:
+    description: 'Комиссия системы, в минорных денежных единицах'
+    type: integer
+    format: int64
+    minimum: 0
+  currency:
+    description: |
+      Валюта, символьный код согласно
+      [ISO 4217](http://www.iso.org/iso/home/standards/currency_codes.htm).
+    type: string
+    pattern: '^[A-Z]{3}$'
+  type:
+    $ref: '#/definitions/PayoutType'
+  paidDetails:
+    description: Детали выплаты
+    type: object
+    properties:
+      maskedPan:
+        description: Маскированный номер карты
+        type: string
