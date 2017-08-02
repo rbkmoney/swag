@@ -1,4 +1,4 @@
-put:
+post:
   description: Создать нового customer'а.
   tags:
     - Customers
@@ -15,6 +15,6 @@ put:
     '201':
       description: Customer создан
       schema:
-        $ref: '#/definitions/Customer'
+        $ref: '#/definitions/CustomerAndToken'
     '400':
       $ref: '#/responses/BadRequest'

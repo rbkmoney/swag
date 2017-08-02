@@ -1,0 +1,23 @@
+post:
+  description: Запустить новую привязку к customer'у.
+  tags:
+    - Customers
+  operationId: createBinding
+  parameters:
+    - $ref: '#/parameters/requestID'
+    - $ref: '#/parameters/customerID'
+    - name: bindingParams
+      description: Параметры создаваемой привязки
+      in: body
+      required: true
+      schema:
+        $ref: '#/definitions/CustomerBindingParams'
+  responses:
+    '201':
+      description: Привязка запущена
+      schema:
+        $ref: '#/definitions/CustomerBinding'
+    '400':
+      $ref: '#/responses/BadRequest'
+    '404':
+      $ref: '#/responses/NotFound'

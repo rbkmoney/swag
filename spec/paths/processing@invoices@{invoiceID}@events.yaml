@@ -28,7 +28,7 @@ get:
       schema:
         type: array
         items:
-          $ref: '#/definitions/Event'
+          $ref: '#/definitions/CustomerEvent'
     '400':
       $ref: '#/responses/BadRequest'
     '404':
