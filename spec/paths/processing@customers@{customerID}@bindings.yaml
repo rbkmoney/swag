@@ -21,20 +21,22 @@ post:
       $ref: '#/responses/BadRequest'
     '404':
       $ref: '#/responses/NotFound'
+
 get:
-  description: Получить информацию о привязке к customer'у.
+  description: Получить все привязки к customer'у.
   tags:
     - Customers
-  operationId: getBinding
+  operationId: getBindings
   parameters:
     - $ref: '#/parameters/requestID'
     - $ref: '#/parameters/customerID'
-    - $ref: '#/parameters/customerBindingID'
   responses:
     '200':
-      description: Привязка запущена
+      description: Список привязок
       schema:
-        $ref: '#/definitions/CustomerBinding'
+        type: array
+        items:
+          $ref: '#/definitions/CustomerBinding'
     '400':
       $ref: '#/responses/BadRequest'
     '404':

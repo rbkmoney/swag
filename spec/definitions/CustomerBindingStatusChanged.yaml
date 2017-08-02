@@ -4,7 +4,7 @@ allOf:
   - $ref: '#/definitions/CustomerBindingStatus'
   - type: object
     required:
-      - customerBindingID
+      - bindingID
     properties:
-      customerBindingID:
+      bindingID:
         type: string

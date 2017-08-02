@@ -10,4 +10,4 @@ allOf:
         description: Идентификатор привязки
         type: string
       paymentMean:
-        $ref: DisposablePaymentMean
+        $ref: '#/definitions/DisposablePaymentMean'
