@@ -3129,7 +3129,7 @@ definitions:
             description: |
               [ИНН](https://ru.wikipedia.org/wiki/Идентификационный_номер_налогоплательщика)
             type: string
-            pattern: '^\d{10}$'
+            pattern: '^(\d{10}|\d{12})$'
           actualAddress:
             description: |
               Почтовый адрес места нахождения
