@@ -6,6 +6,8 @@ allOf:
       paidDetails:
         description: Детали выплаты в статусе "paid"
         type: object
+        required:
+          - maskedPan
         properties:
           maskedPan:
             description: Маскированный номер карты
