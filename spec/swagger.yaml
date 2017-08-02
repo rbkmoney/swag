@@ -159,6 +159,13 @@ parameters:
     required: true
     type: string
     maxLength: 40
+  customerBindingID:
+    name: customerBindingID
+    in: path
+    description: Идентификатор привязки к кастомера
+    required: true
+    type: string
+    maxLength: 40
   webhookID:
     name: webhookID
     in: path

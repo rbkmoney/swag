@@ -4,11 +4,10 @@ allOf:
   - type: object
     required:
       - id
-      - customerID
+      - paymentMean
     properties:
       id:
         description: Идентификатор привязки
         type: string
-      customerID:
-        description: Идентификатор customer'а, в рамках которого была создана привязка
-        type: string
+      paymentMean:
+        $ref: DisposablePaymentMean
