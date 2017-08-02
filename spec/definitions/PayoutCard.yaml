@@ -1,0 +1,12 @@
+type: object
+allOf:
+  - $ref: '#/definitions/Payout'
+  - type: object
+    properties:
+      paidDetails:
+        description: Детали выплаты в статусе "paid"
+        type: object
+        properties:
+          maskedPan:
+            description: Маскированный номер карты
+            type: string

@@ -1,6 +1,6 @@
 type: object
 allOf:
-  - $ref: '#/definitions/PayoutType'
+  - $ref: '#/definitions/Payout'
   - type: object
     required:
       - account

@@ -1,4 +1,5 @@
 type: object
+discriminator: type
 required:
   - id
   - shopID
@@ -56,11 +57,5 @@ properties:
     type: string
     pattern: '^[A-Z]{3}$'
   type:
-    $ref: '#/definitions/PayoutType'
-  paidDetails:
-    description: Детали выплаты
-    type: object
-    properties:
-      maskedPan:
-        description: Маскированный номер карты
-        type: string
+    description: Тип выплаты
+    type: string
