@@ -1,3 +1,21 @@
 type: object
 allOf:
   - $ref: '#/definitions/PayoutType'
+  - type: object
+    required:
+      - account
+      - bank_corr_account
+      - bank_bik
+      - inn
+      - purpose
+    properties:
+      account:
+        type: string
+      bank_corr_account:
+        type: string
+      bank_bik:
+        type: string
+      inn:
+        type: string
+      purpose:
+        type: string
