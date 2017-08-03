@@ -1,0 +1,25 @@
+type: object
+allOf:
+  - $ref: '#/definitions/PayoutParams'
+  - type: object
+    required:
+      - cardToken
+      - amount
+      - currency
+    properties:
+      cardToken:
+        description: Токен карты
+        type: string
+      amount:
+        description: |
+          Сумма выплаты в минорных денежных единицах,
+          например в копейках в случае указания российских рублей в качестве валюты.
+        type: integer
+        format: int64
+        minimum: 1
+      currency:
+        description: |
+          Валюта, символьный код согласно
+          [ISO 4217](http://www.iso.org/iso/home/standards/currency_codes.htm).
+        type: string
+        pattern: '^[A-Z]{3}$'
