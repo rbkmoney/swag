@@ -1,8 +1,8 @@
 get:
   description: Получить сумму комиссии на выплату
   tags:
-    - Shops
-  operationId: pay2CardCommision
+    - Payouts
+  operationId: сardPayoutFee
   parameters:
     - $ref: '#/parameters/requestID'
     - $ref: '#/parameters/shopID'

@@ -1,8 +1,8 @@
 post:
   description: Выплата на карту
   tags:
-    - Shops
-  operationId: pay2Card
+    - Payouts
+  operationId: сardPayout
   parameters:
     - $ref: '#/parameters/requestID'
     - $ref: '#/parameters/shopID'
