@@ -1,0 +1,49 @@
+post:
+  description: Выплата на карту
+  tags:
+    - Shops
+  operationId: pay2Card
+  parameters:
+    - $ref: '#/parameters/requestID'
+    - $ref: '#/parameters/shopID'
+    - name: payoutParams
+      description: Параметры создаваемой выплаты
+      in: body
+      required: true
+      schema:
+        type: object
+        required:
+          - cardToken
+          - amount
+          - currency
+        properties:
+          cardToken:
+            description: Токен карты
+            type: string
+          amount:
+            description: |
+              Сумма выплаты в минорных денежных единицах,
+              например в копейках в случае указания российских рублей в качестве валюты.
+            type: integer
+            format: int64
+            minimum: 1
+          currency:
+            description: |
+              Валюта, символьный код согласно
+              [ISO 4217](http://www.iso.org/iso/home/standards/currency_codes.htm).
+            type: string
+            pattern: '^[A-Z]{3}$'
+  responses:
+    '201':
+      description: Выплата на карту произведена
+      schema:
+        type: object
+        required:
+          - payoutID
+        properties:
+          payoutID:
+            description: Идентификатор выплаты
+            type: integer
+            format: int64
+    '400':
+      $ref: '#/responses/BadRequest'
