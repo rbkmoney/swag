@@ -1,7 +1,7 @@
 type: object
-discriminator: type
+discriminator: payoutParamsType
 required:
-  - type
+  - payoutParamsType
 properties:
-  type:
+  payoutParamsType:
     type: string
