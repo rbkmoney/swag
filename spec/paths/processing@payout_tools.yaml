@@ -1,0 +1,23 @@
+post:
+  description: |
+    Создать новый токен средства вывода.
+    Токен средства вывода необходим для создания
+    выплаты.
+  tags:
+    - Tokens
+  operationId: createPayoutToolToken
+  parameters:
+    - $ref: '#/parameters/requestID'
+    - name: payoutTool
+      description: Данные для создания токена
+      in: body
+      required: true
+      schema:
+        $ref: '#/definitions/PayoutToolTokenParams'
+  responses:
+    '201':
+      description: Токен создан
+      schema:
+         $ref: '#/definitions/BankCard'
+    '400':
+      $ref: '#/responses/BadRequest'

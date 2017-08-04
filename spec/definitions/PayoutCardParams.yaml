@@ -3,13 +3,13 @@ allOf:
   - $ref: '#/definitions/PayoutParams'
   - type: object
     required:
-      - cardToken
+      - bankCard
       - amount
       - currency
     properties:
-      cardToken:
-        description: Токен карты
-        type: string
+      bankCard:
+        type: object
+        $ref: '#/definitions/BankCard'
       amount:
         description: |
           Сумма выплаты в минорных денежных единицах,
