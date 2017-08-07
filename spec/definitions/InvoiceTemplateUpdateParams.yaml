@@ -12,8 +12,6 @@ properties:
     $ref: '#/definitions/LifetimeInterval'
   cost:
     $ref: '#/definitions/InvoiceTemplateCost'
-  cart:
-    $ref: '#/definitions/InvoiceCart'
   metadata:
     description: >
       Метаданные, которые будут связаны с инвойсом, созданным по шаблону, в
