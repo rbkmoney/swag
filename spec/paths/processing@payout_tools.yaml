@@ -18,6 +18,13 @@ post:
     '201':
       description: Токен создан
       schema:
-         $ref: '#/definitions/BankCard'
+        type: object
+        required:
+          - token
+        properties:
+          token:
+            description: Созданный токен
+            type: string
+            maxLength: 1000
     '400':
       $ref: '#/responses/BadRequest'

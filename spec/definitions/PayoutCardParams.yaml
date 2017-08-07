@@ -3,13 +3,14 @@ allOf:
   - $ref: '#/definitions/PayoutParams'
   - type: object
     required:
-      - bankCard
+      - token
       - amount
       - currency
     properties:
-      bankCard:
-        type: object
-        $ref: '#/definitions/BankCard'
+      token:
+        description: Токен средства вывода
+        type: string
+        maxLength: 1000
       amount:
         description: |
           Сумма выплаты в минорных денежных единицах,

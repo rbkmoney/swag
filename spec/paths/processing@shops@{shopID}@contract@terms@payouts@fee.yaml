@@ -1,4 +1,4 @@
-post:
+get:
   description: Pассчитать сумму комиссии на выплату
   tags:
     - Payouts
@@ -6,12 +6,36 @@ post:
   parameters:
     - $ref: '#/parameters/requestID'
     - $ref: '#/parameters/shopID'
-    - name: payoutParams
-      description: Параметры создаваемой выплаты
-      in: body
+    - name: payoutType
+      description: Тип выплаты
+      in: query
+      type: string
+      enum:
+        - cardPayout
       required: true
-      schema:
-        $ref: '#/definitions/PayoutParams'
+    - name: token
+      description: Токен средства вывода
+      in: query
+      type: string
+      maxLength: 1000
+      required: true
+    - name: amount
+      description: |
+        Сумма выплаты в минорных денежных единицах,
+        например в копейках в случае указания российских рублей в качестве валюты.
+      in: query
+      type: integer
+      format: int64
+      minimum: 1
+      required: true
+    - name: currency
+      description: |
+        Валюта, символьный код согласно
+        [ISO 4217](http://www.iso.org/iso/home/standards/currency_codes.htm).
+      in: query
+      type: string
+      pattern: '^[A-Z]{3}$'
+      required: true
   responses:
     '200':
       description: Сумма комиссии на выплату
