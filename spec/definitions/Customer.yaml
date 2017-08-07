@@ -6,6 +6,8 @@ properties:
   id:
     description: Идентификатор customer'а
     type: string
+  status:
+    $ref: '#/definitions/CustomerStatus'
   metadata:
     description: Связанные с customer'ом метаданные
     type: object
