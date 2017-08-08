@@ -9,7 +9,5 @@ properties:
       - created
       - succeeded
       - failed
-  reason:
-    description: Причина провала привязки
-    type: string
-    maxLength: 1000
+  error:
+    $ref: '#/definitions/CustomerBindingError'
