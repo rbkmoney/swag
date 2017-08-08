@@ -2,4 +2,4 @@ required:
   - paymentMean
 properties:
   paymentMean:
-    $ref: '#/definitions/DisposablePaymentMean'
+    $ref: '#/definitions/DisposablePaymentMeanData'
