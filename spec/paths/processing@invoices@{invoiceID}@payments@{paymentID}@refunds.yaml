@@ -1,0 +1,20 @@
+get:
+  description: Получить все возвраты указанного платежа.
+  tags:
+    - Payments
+  operationId: getRefunds
+  parameters:
+    - $ref: '#/parameters/requestID'
+    - $ref: '#/parameters/invoiceID'
+    - $ref: '#/parameters/paymentID'
+  responses:
+    '200':
+      description: Данные возвратов по платежу
+      schema:
+        type: array
+        items:
+          $ref: '#/definitions/Refund'
+    '400':
+      $ref: '#/responses/BadRequest'
+    '404':
+      $ref: '#/responses/NotFound'
