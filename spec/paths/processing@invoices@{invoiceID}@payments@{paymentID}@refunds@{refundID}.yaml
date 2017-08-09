@@ -10,7 +10,7 @@ get:
     - $ref: '#/parameters/refundID'
   responses:
     '200':
-      description: Данные платежа
+      description: Данные возврата
       schema:
         $ref: '#/definitions/Refund'
     '400':

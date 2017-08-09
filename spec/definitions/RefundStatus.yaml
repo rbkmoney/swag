@@ -10,7 +10,9 @@ properties:
       - succeeded
       - failed
   error:
-    description: Данные ошибки, возникшей в процессе проведения возврата
+    description: |
+      Данные ошибки, возникшей в процессе проведения возврата, в случае если
+      возврат был неуспешен
     type: object
     required:
       - code
