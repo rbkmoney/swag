@@ -1,7 +1,15 @@
 type: object
 required:
+  - partyId
+  - shopId
   - metadata
 properties:
+  partyId:
+    description: Идентификатор участника
+    type: string
+  shopId:
+    description: Идентификатор магазина
+    type: string
   metadata:
     description: Связанные с customer'ом метаданные
     type: object
