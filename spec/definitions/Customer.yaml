@@ -1,13 +1,12 @@
 type: object
 required:
   - id
+  - shopId
+  - status
   - metadata
 properties:
   id:
     description: Идентификатор customer'а
-    type: string
-  partyId:
-    description: Идентификатор участника
     type: string
   shopId:
     description: Идентификатор магазина
