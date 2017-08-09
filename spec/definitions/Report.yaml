@@ -3,7 +3,6 @@ allOf:
   - type: object
     required:
       - id
-      - shopID
       - createdAt
       - fromTime
       - toTime
@@ -14,9 +13,6 @@ allOf:
         description: Идентификатор отчета
         type: integer
         format: int64
-      shopID:
-        description: Идентификатор магазина
-        type: string
       createdAt:
         description: Дата и время создания
         type: string
