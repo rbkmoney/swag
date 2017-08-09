@@ -1,0 +1,5 @@
+type: object
+description: Одноразовое платежное средство
+allOf:
+  - $ref: '#/definitions/PaymentResource'
+  - $ref: '#/definitions/DisposablePaymentResourceData'

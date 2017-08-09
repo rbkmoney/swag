@@ -1,5 +1,5 @@
 required:
-  - paymentMean
+  - paymentResource
 properties:
-  paymentMean:
-    $ref: '#/definitions/DisposablePaymentMeanData'
+  paymentResource:
+    $ref: '#/definitions/DisposablePaymentResourceData'

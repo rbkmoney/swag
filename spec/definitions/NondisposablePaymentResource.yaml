@@ -1,6 +1,6 @@
 type: object
 allOf:
-  - $ref: '#/definitions/PaymentMean'
+  - $ref: '#/definitions/PaymentResource'
   - type: object
     description: Многоразовое платежное средство
     required:

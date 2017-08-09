@@ -3,6 +3,7 @@ required:
   - id
   - shopId
   - status
+  - contactInfo
   - metadata
 properties:
   id:
@@ -13,6 +14,8 @@ properties:
     type: string
   status:
     $ref: '#/definitions/CustomerStatus'
+  contactInfo:
+    $ref: '#/definitions/ContactInfo'
   metadata:
     description: Связанные с customer'ом метаданные
     type: object

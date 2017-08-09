@@ -4,10 +4,10 @@ allOf:
   - type: object
     required:
       - id
-      - paymentMean
+      - paymentResource
     properties:
       id:
         description: Идентификатор привязки
         type: string
-      paymentMean:
-        $ref: '#/definitions/DisposablePaymentMean'
+      paymentResource:
+        $ref: '#/definitions/DisposablePaymentResource'

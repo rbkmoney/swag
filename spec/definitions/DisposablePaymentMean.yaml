@@ -1,5 +1,0 @@
-type: object
-description: Одноразовое платежное средство
-allOf:
-  - $ref: '#/definitions/PaymentMean'
-  - $ref: '#/definitions/DisposablePaymentMeanData'
