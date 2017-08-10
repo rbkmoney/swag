@@ -4,7 +4,6 @@ allOf:
     required:
       - id
       - createdAt
-      - reason
     properties:
       id:
         description: Идентификатор возврата
