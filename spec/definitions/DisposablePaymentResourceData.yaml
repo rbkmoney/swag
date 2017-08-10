@@ -3,7 +3,6 @@ description: Данные одноразового платежного сред
 required:
   - paymentSession
   - paymentToolToken
-  - contactInfo
 properties:
   paymentSession:
     description: Идентификатор платежной сессии

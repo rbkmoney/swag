@@ -4,10 +4,10 @@ allOf:
   - type: object
     required:
       - id
-      - paymentResource
+      - paymentResourceData
     properties:
       id:
         description: Идентификатор привязки
         type: string
-      paymentResource:
-        $ref: '#/definitions/DisposablePaymentResource'
+      paymentResourceData:
+        $ref: '#/definitions/DisposablePaymentResourceData'
