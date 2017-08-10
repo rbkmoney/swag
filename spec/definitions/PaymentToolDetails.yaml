@@ -1,6 +1,7 @@
 type: object
 discriminator: detailsType
 description: Детали платежного средства
+readOnly: true
 required:
   - detailsType
 properties:

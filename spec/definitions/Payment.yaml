@@ -10,7 +10,6 @@ allOf:
       - currency
       - flow
       - paymentResource
-      - paymentToolDetails
     properties:
       id:
         description: Идентификатор платежа
@@ -42,8 +41,6 @@ allOf:
         $ref: '#/definitions/PaymentFlow'
       paymentResource:
         $ref: '#/definitions/PaymentResource'
-      paymentToolDetails:
-        $ref: '#/definitions/PaymentToolDetails'
       ip:
         description: IP-адрес плательщика
         type: string

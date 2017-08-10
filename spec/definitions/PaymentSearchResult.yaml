@@ -9,7 +9,6 @@ allOf:
       - amount
       - currency
       - paymentResource
-      - paymentToolDetails
     properties:
       id:
         description: Идентификатор платежа
@@ -45,8 +44,6 @@ allOf:
         pattern: '^[A-Z]{3}$'
       paymentResource:
         $ref: '#/definitions/PaymentResource'
-      paymentToolDetails:
-        $ref: '#/definitions/PaymentToolDetails'
       ip:
         description: IP-адрес плательщика
         type: string
