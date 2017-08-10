@@ -1,19 +1,19 @@
 post:
-  description: Создать нового customer'а.
+  description: Создать нового плательщика.
   tags:
     - Customers
   operationId: createCustomer
   parameters:
     - $ref: '#/parameters/requestID'
     - name: customerParams
-      description: Параметры создаваемого customer'а
+      description: Параметры создаваемого плательщика
       in: body
       required: true
       schema:
         $ref: '#/definitions/CustomerParams'
   responses:
     '201':
-      description: Customer создан
+      description: Плательщик создан
       schema:
         $ref: '#/definitions/CustomerAndToken'
     '400':

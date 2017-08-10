@@ -7,7 +7,7 @@ required:
   - metadata
 properties:
   id:
-    description: Идентификатор customer'а
+    description: Идентификатор плательщика
     type: string
   shopId:
     description: Идентификатор магазина
@@ -17,5 +17,5 @@ properties:
   contactInfo:
     $ref: '#/definitions/ContactInfo'
   metadata:
-    description: Связанные с customer'ом метаданные
+    description: Связанные с плательщиком метаданные
     type: object

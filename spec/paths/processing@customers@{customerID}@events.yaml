@@ -1,5 +1,5 @@
 get:
-  description: Получить историю указанного customer'а в виде набора событий.
+  description: Получить историю указанного плательщика в виде набора событий.
   tags:
     - Customers
   operationId: getCustomerEvents

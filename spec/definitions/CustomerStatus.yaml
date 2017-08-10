@@ -3,7 +3,7 @@ required:
   - status
 properties:
   status:
-    description: Статус customer'а
+    description: Статус плательщика
     type: string
     enum:
       - ready

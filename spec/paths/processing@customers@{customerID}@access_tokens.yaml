@@ -1,7 +1,7 @@
 post:
   operationId: createCustomerAccessToken
   description: |
-    Создать новый токен для доступа к указанному customer'у.
+    Создать новый токен для доступа к указанному плательщику.
   tags:
     - Customers
   parameters:

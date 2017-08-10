@@ -10,5 +10,5 @@ properties:
   contactInfo:
     $ref: '#/definitions/ContactInfo'
   metadata:
-    description: Связанные с customer'ом метаданные
+    description: Связанные с плательщиком метаданные
     type: object

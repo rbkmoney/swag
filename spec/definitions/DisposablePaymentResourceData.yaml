@@ -3,12 +3,15 @@ description: Данные одноразового платежного сред
 required:
   - paymentSession
   - paymentToolToken
+  - contactInfo
 properties:
   paymentSession:
     description: Идентификатор платежной сессии
     type: string
     maxLength: 1000
   paymentToolToken:
-    description: Токен платежного средства, предоставленного customer'ом
+    description: Токен платежного средства, предоставленного плательщиком
     type: string
     maxLength: 1000
+  contactInfo:
+    $ref: '#/definitions/ContactInfo'

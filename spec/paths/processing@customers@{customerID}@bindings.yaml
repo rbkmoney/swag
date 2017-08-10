@@ -1,5 +1,5 @@
 post:
-  description: Запустить новую привязку к customer'у.
+  description: Запустить новую привязку к плательшику.
   tags:
     - Customers
   operationId: createBinding
@@ -23,7 +23,7 @@ post:
       $ref: '#/responses/NotFound'
 
 get:
-  description: Получить все привязки к customer'у.
+  description: Получить все привязки к плательщику.
   tags:
     - Customers
   operationId: getBindings

@@ -1,11 +1,8 @@
 required:
   - flow
-  - contactInfo
   - paymentResource
 properties:
   flow:
     $ref: '#/definitions/PaymentParamsFlow'
-  contactInfo:
-    $ref: '#/definitions/ContactInfo'
   paymentResource:
     $ref: '#/definitions/PaymentResource'

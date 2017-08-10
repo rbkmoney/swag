@@ -8,9 +8,7 @@ allOf:
       - createdAt
       - amount
       - currency
-      - contactInfo
-      - paymentSession
-      - paymentToolToken
+      - paymentResource
       - paymentToolDetails
     properties:
       id:
@@ -45,18 +43,8 @@ allOf:
           [ISO 4217](http://www.iso.org/iso/home/standards/currency_codes.htm).
         type: string
         pattern: '^[A-Z]{3}$'
-      contactInfo:
-        description: Контактные данные плательщика
-        allOf:
-          - $ref: '#/definitions/ContactInfo'
-      paymentSession:
-        description: Идентификатор платежной сессии
-        type: string
-        maxLength: 1000
-      paymentToolToken:
-        description: 'Токен платежного средства, предоставленного плательщиком'
-        type: string
-        maxLength: 1000
+      paymentResource:
+        $ref: '#/definitions/PaymentResource'
       paymentToolDetails:
         $ref: '#/definitions/PaymentToolDetails'
       ip:

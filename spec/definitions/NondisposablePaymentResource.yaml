@@ -7,6 +7,6 @@ allOf:
       - customerID
     properties:
       customerID:
-        description: Идентификатор customer'а
+        description: Идентификатор плательщика
         type: integer
         format: int32
