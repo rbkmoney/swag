@@ -15,5 +15,3 @@ properties:
     maxLength: 1000
   paymentToolDetails:
     $ref: '#/definitions/PaymentToolDetails'
-  contactInfo:
-    $ref: '#/definitions/ContactInfo'

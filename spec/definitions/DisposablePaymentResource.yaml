@@ -3,3 +3,9 @@ description: Одноразовое платежное средство
 allOf:
   - $ref: '#/definitions/PaymentResource'
   - $ref: '#/definitions/DisposablePaymentResourceData'
+  - type: object
+    required:
+      - contactInfo
+    properties:
+      contactInfo:
+        $ref: '#/definitions/ContactInfo'
