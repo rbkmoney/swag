@@ -1,5 +1,5 @@
 get:
-  description: Получить историю указанного customer'а в виде набора событий.
+  description: Получить историю указанного плательщика в виде набора событий.
   tags:
     - Customers
   operationId: getCustomerEvents
@@ -28,7 +28,7 @@ get:
       schema:
         type: array
         items:
-          $ref: '#/definitions/Event'
+          $ref: '#/definitions/CustomerEvent'
     '400':
       $ref: '#/responses/BadRequest'
     '404':

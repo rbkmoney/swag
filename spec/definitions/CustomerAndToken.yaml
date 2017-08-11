@@ -1,0 +1,9 @@
+type: object
+required:
+  - customer
+  - customerAccessToken
+properties:
+  customer:
+    $ref: '#/definitions/Customer'
+  customerAccessToken:
+    $ref: '#/definitions/AccessToken'

@@ -1,0 +1,13 @@
+type: object
+allOf:
+  - $ref: '#/definitions/CustomerBindingStatus'
+  - type: object
+    required:
+      - id
+      - paymentResourceData
+    properties:
+      id:
+        description: Идентификатор привязки
+        type: string
+      paymentResourceData:
+        $ref: '#/definitions/DisposablePaymentResourceData'

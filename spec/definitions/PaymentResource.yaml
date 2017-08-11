@@ -1,8 +1,8 @@
 type: object
-discriminator: paymentMeanType
+discriminator: paymentResourceType
 properties:
-  paymentMeanType:
+  paymentResourceType:
     description: Тип платежного средства
     type: string
 required:
-  - paymentMeanType
+  - paymentResourceType

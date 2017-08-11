@@ -1,0 +1,16 @@
+type: object
+allOf:
+  - $ref: '#/definitions/CustomerChange'
+  - type: object
+    description: |
+      Требование провести взаимодействие с плательщиком для продолжения процесса
+      привязки
+    required:
+      - customerBindingID
+      - userInteraction
+    properties:
+      customerBindingID:
+        description: Идентификатор привязки
+        type: string
+      userInteraction:
+        $ref: '#/definitions/UserInteraction'

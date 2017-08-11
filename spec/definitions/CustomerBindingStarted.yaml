@@ -1,0 +1,9 @@
+type: object
+allOf:
+  - $ref: '#/definitions/CustomerChange'
+  - type: object
+    required:
+      - customerBinding
+    properties:
+      customerBinding:
+        $ref: '#/definitions/CustomerBinding'

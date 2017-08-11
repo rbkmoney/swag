@@ -1,0 +1,5 @@
+required:
+  - paymentResource
+properties:
+  paymentResource:
+    $ref: '#/definitions/DisposablePaymentResourceData'
