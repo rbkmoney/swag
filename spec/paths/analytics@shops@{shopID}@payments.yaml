@@ -20,6 +20,7 @@ get:
         - processed
         - captured
         - cancelled
+        - refunded
         - failed
     - name: invoiceID
       in: query
