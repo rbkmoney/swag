@@ -9,7 +9,6 @@ properties:
       - unpaid
       - cancelled
       - paid
-      - refunded
       - fulfilled
   reason:
     description: Причина отмены или погашения инвойса

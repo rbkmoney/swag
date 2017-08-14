@@ -1,6 +1,5 @@
 type: object
 allOf:
-  - $ref: '#/definitions/InvoiceStatus'
   - type: object
     required:
       - id
@@ -53,3 +52,4 @@ allOf:
       invoiceTemplateID:
         description: Идентификатор шаблона (для инвойсов, созданных по шаблону).
         type: string
+  - $ref: '#/definitions/InvoiceStatus'

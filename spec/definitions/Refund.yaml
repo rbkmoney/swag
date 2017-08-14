@@ -1,0 +1,18 @@
+type: object
+allOf:
+  - type: object
+    required:
+      - id
+      - createdAt
+    properties:
+      id:
+        description: Идентификатор возврата
+        type: string
+      createdAt:
+        description: Дата и время осуществления
+        type: string
+        format: date-time
+      reason:
+        description: Причина осуществления возврата
+        type: string
+  - $ref: '#/definitions/RefundStatus'
