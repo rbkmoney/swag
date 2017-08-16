@@ -4164,6 +4164,29 @@
         }
       ]
     },
+    "PaymentTerminalData": {
+      "type": "object",
+      "allOf": [
+        {
+          "$ref": "#/definitions/PaymentTool"
+        },
+        {
+          "type": "object",
+          "description": "Платежный терминал",
+          "required": [
+            "provider"
+          ],
+          "properties": {
+            "provider": {
+              "type": "string",
+              "enum": [
+                "euroset"
+              ]
+            }
+          }
+        }
+      ]
+    },
     "PaymentTool": {
       "type": "object",
       "discriminator": "paymentToolType",
@@ -4213,6 +4236,28 @@
               "description": "Платежная система",
               "type": "string",
               "maxLength": 100
+            }
+          }
+        }
+      ]
+    },
+    "PaymentToolDetailsPaymentTerminalData": {
+      "type": "object",
+      "allOf": [
+        {
+          "$ref": "#/definitions/PaymentToolDetails"
+        },
+        {
+          "type": "object",
+          "required": [
+            "provider"
+          ],
+          "properties": {
+            "provider": {
+              "type": "string",
+              "enum": [
+                "euroset"
+              ]
             }
           }
         }
