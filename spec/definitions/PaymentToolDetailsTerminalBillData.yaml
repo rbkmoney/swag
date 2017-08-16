@@ -1,0 +1,11 @@
+type: object
+allOf:
+  - $ref: '#/definitions/PaymentToolDetails'
+  - type: object
+    required:
+      - terminalType
+    properties:
+      terminalType:
+        type: string
+        enum:
+          - euroset

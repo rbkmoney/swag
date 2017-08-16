@@ -1,5 +1,0 @@
-type: object
-allOf:
-  - $ref: '#/definitions/PaymentTool'
-  - type: object
-    description: Счет на оплату в банке
