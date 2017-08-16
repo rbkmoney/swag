@@ -3,9 +3,9 @@ allOf:
   - $ref: '#/definitions/PaymentToolDetails'
   - type: object
     required:
-      - terminalType
+      - provider
     properties:
-      terminalType:
+      provider:
         type: string
         enum:
           - euroset

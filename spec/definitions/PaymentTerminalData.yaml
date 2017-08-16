@@ -2,11 +2,11 @@ type: object
 allOf:
   - $ref: '#/definitions/PaymentTool'
   - type: object
-    description: Счет на оплату в терминале
+    description: Платежный терминал
     required:
-      - terminalType
+      - provider
     properties:
-      terminalType:
+      provider:
         type: string
         enum:
           - euroset
