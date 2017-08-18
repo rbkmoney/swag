@@ -32,8 +32,8 @@ get:
       required: false
       type: string
       enum:
-        - сardPayout
-        - AccountPayout
+        - PayoutCard
+        - PayoutAccount
   responses:
     '200':
       description: Найденные выплаты
