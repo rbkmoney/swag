@@ -2,13 +2,19 @@ type: object
 allOf:
   - $ref: '#/definitions/Payout'
   - type: object
+    required:
+      - maskedPan
+      - bin
+      - paymentSystem
     properties:
-      paidDetails:
-        description: Детали выплаты в статусе "paid"
-        type: object
-        required:
-          - maskedPan
-        properties:
-          maskedPan:
-            description: Маскированный номер карты
-            type: string
+      maskedPan:
+        description: Маскированный номер карты
+        type: string
+      bin:
+        description: Банковский идентификационный номер
+        type: string
+        pattern: '^\d{6}$'
+      paymentSystem:
+        description: Платежная система
+        type: string
+        maxLength: 100
