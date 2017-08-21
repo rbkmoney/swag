@@ -1,0 +1,21 @@
+get:
+  description: Скачать файл
+  tags:
+    - Reports
+  operationId: downloadFile
+  parameters:
+    - $ref: '#/parameters/requestID'
+    - $ref: '#/parameters/shopID'
+    - $ref: '#/parameters/reportID'
+    - $ref: '#/parameters/fileID'
+  responses:
+    '303':
+      description: See Other
+      headers:
+        Location:
+          type: "string"
+          description: URL файла
+    '400':
+      $ref: '#/responses/BadRequest'
+    '404':
+      $ref: '#/responses/NotFound'
