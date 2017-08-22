@@ -2962,8 +2962,8 @@
             "dueDate",
             "amount",
             "currency",
-            "metadata",
-            "product"
+            "product",
+            "metadata"
           ],
           "properties": {
             "id": {
@@ -2995,10 +2995,6 @@
               "type": "string",
               "pattern": "^[A-Z]{3}$"
             },
-            "metadata": {
-              "description": "Связанные с инвойсом метаданные",
-              "type": "object"
-            },
             "product": {
               "description": "Наименование предлагаемых товаров или услуг",
               "type": "string",
@@ -3012,6 +3008,13 @@
             "invoiceTemplateID": {
               "description": "Идентификатор шаблона (для инвойсов, созданных по шаблону).",
               "type": "string"
+            },
+            "cart": {
+              "$ref": "#/definitions/InvoiceCart"
+            },
+            "metadata": {
+              "description": "Связанные с инвойсом метаданные",
+              "type": "object"
             }
           }
         }
@@ -3030,6 +3033,15 @@
         "invoiceAccessToken": {
           "$ref": "#/definitions/AccessToken"
         }
+      }
+    },
+    "InvoiceCart": {
+      "description": "Корзина с набором позиций продаваемых товаров или услуг\n",
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 100,
+      "items": {
+        "$ref": "#/definitions/InvoiceLine"
       }
     },
     "InvoiceChange": {
@@ -3070,15 +3082,97 @@
         }
       ]
     },
+    "InvoiceLine": {
+      "description": "Позиция товара или услуги",
+      "type": "object",
+      "required": [
+        "product",
+        "quantity",
+        "price"
+      ],
+      "properties": {
+        "product": {
+          "description": "Описание предлагаемого товара или услуги",
+          "type": "string",
+          "maxLength": 1000
+        },
+        "quantity": {
+          "description": "Количество единиц товаров или услуг, предлагаемых на продажу в этой\nпозиции\n",
+          "type": "integer",
+          "format": "int64",
+          "minimum": 1,
+          "default": 1
+        },
+        "price": {
+          "description": "Цена предлагаемого товара или услуги, в минорных денежных единицах, например\nв копейках в случае указания российских рублей в качестве валюты\n",
+          "type": "integer",
+          "format": "int64",
+          "minimum": 1
+        },
+        "cost": {
+          "description": "Суммарная стоимость позиции с учётом количества единиц товаров или услуг\n",
+          "type": "integer",
+          "format": "int64",
+          "minimum": 1,
+          "readOnly": true
+        },
+        "taxMode": {
+          "$ref": "#/definitions/InvoiceLineTaxMode"
+        }
+      }
+    },
+    "InvoiceLineTaxMode": {
+      "description": "Схема налогообложения предлагаемого товара или услуги.\n\nУказывается, только если предлагаемый товар или услуга облагается налогом.\n",
+      "type": "object",
+      "discriminator": "type",
+      "required": [
+        "type"
+      ],
+      "properties": {
+        "type": {
+          "description": "Тип схемы налогообложения",
+          "type": "string",
+          "enum": [
+            "InvoiceLineTaxVAT"
+          ]
+        }
+      }
+    },
+    "InvoiceLineTaxVAT": {
+      "allOf": [
+        {
+          "$ref": "#/definitions/InvoiceLineTaxMode"
+        },
+        {
+          "description": "Налог на добавленную стоимость в юрисдикции РФ",
+          "type": "object",
+          "required": [
+            "rate"
+          ],
+          "properties": {
+            "rate": {
+              "description": "Ставка налога",
+              "type": "string",
+              "enum": [
+                "0%",
+                "10%",
+                "18%",
+                "10/110",
+                "18/118"
+              ]
+            }
+          }
+        }
+      ]
+    },
     "InvoiceParams": {
       "type": "object",
       "required": [
         "shopID",
-        "amount",
-        "currency",
-        "metadata",
         "dueDate",
-        "product"
+        "currency",
+        "product",
+        "metadata"
       ],
       "properties": {
         "shopID": {
@@ -3086,8 +3180,13 @@
           "type": "string",
           "maxLength": 40
         },
+        "dueDate": {
+          "description": "Дата и время окончания действия инвойса, после наступления которых его\nуже невозможно будет оплатить\n",
+          "type": "string",
+          "format": "date-time"
+        },
         "amount": {
-          "description": "Стоимость предлагаемых товаров или услуг, в минорных денежных единицах,\nнапример в копейках в случае указания российских рублей в качестве валюты.\n",
+          "description": "Стоимость предлагаемых товаров или услуг, в минорных денежных единицах,\nнапример в копейках в случае указания российских рублей в качестве валюты.\n\nЕсли стоимость не указана, то стоимостью инвойса будет считаться суммарная\nстоимость позиций в корзине.\n",
           "type": "integer",
           "format": "int64",
           "minimum": 1
@@ -3096,15 +3195,6 @@
           "description": "Валюта, символьный код согласно\n[ISO 4217](http://www.iso.org/iso/home/standards/currency_codes.htm).\n",
           "type": "string",
           "pattern": "^[A-Z]{3}$"
-        },
-        "metadata": {
-          "description": "Метаданные, которые необходимо связать с инвойсом",
-          "type": "object"
-        },
-        "dueDate": {
-          "description": "Дата и время окончания действия инвойса, после наступления которых его\nуже невозможно будет оплатить\n",
-          "type": "string",
-          "format": "date-time"
         },
         "product": {
           "description": "Наименование предлагаемых товаров или услуг",
@@ -3115,6 +3205,13 @@
           "description": "Описание предлагаемых товаров или услуг",
           "type": "string",
           "maxLength": 1000
+        },
+        "cart": {
+          "$ref": "#/definitions/InvoiceCart"
+        },
+        "metadata": {
+          "description": "Метаданные, которые необходимо связать с инвойсом",
+          "type": "object"
         }
       }
     },
@@ -3153,8 +3250,8 @@
             "dueDate",
             "amount",
             "currency",
-            "metadata",
-            "product"
+            "product",
+            "metadata"
           ],
           "properties": {
             "id": {
@@ -3186,10 +3283,6 @@
               "type": "string",
               "pattern": "^[A-Z]{3}$"
             },
-            "metadata": {
-              "description": "Связанные с инвойсом метаданные",
-              "type": "object"
-            },
             "product": {
               "description": "Наименование предлагаемых товаров или услуг",
               "type": "string",
@@ -3199,6 +3292,13 @@
               "description": "Описание предлагаемых товаров или услуг",
               "type": "string",
               "maxLength": 1000
+            },
+            "cart": {
+              "$ref": "#/definitions/InvoiceCart"
+            },
+            "metadata": {
+              "description": "Связанные с инвойсом метаданные",
+              "type": "object"
             }
           }
         }

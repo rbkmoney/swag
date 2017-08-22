@@ -2054,8 +2054,8 @@ definitions:
           - dueDate
           - amount
           - currency
-          - metadata
           - product
+          - metadata
         properties:
           id:
             description: Идентификатор инвойса
@@ -2084,9 +2084,6 @@ definitions:
               [ISO 4217](http://www.iso.org/iso/home/standards/currency_codes.htm).
             type: string
             pattern: '^[A-Z]{3}$'
-          metadata:
-            description: Связанные с инвойсом метаданные
-            type: object
           product:
             description: Наименование предлагаемых товаров или услуг
             type: string
@@ -2098,6 +2095,11 @@ definitions:
           invoiceTemplateID:
             description: 'Идентификатор шаблона (для инвойсов, созданных по шаблону).'
             type: string
+          cart:
+            $ref: '#/definitions/InvoiceCart'
+          metadata:
+            description: Связанные с инвойсом метаданные
+            type: object
   InvoiceAndToken:
     type: object
     required:
@@ -2108,6 +2110,14 @@ definitions:
         $ref: '#/definitions/Invoice'
       invoiceAccessToken:
         $ref: '#/definitions/AccessToken'
+  InvoiceCart:
+    description: |
+      Корзина с набором позиций продаваемых товаров или услуг
+    type: array
+    minItems: 1
+    maxItems: 100
+    items:
+      $ref: '#/definitions/InvoiceLine'
   InvoiceChange:
     type: object
     discriminator: changeType
@@ -2132,24 +2142,100 @@ definitions:
         properties:
           invoice:
             $ref: '#/definitions/Invoice'
+  InvoiceLine:
+    description: Позиция товара или услуги
+    type: object
+    required:
+      - product
+      - quantity
+      - price
+    properties:
+      product:
+        description: Описание предлагаемого товара или услуги
+        type: string
+        maxLength: 1000
+      quantity:
+        description: |
+          Количество единиц товаров или услуг, предлагаемых на продажу в этой
+          позиции
+        type: integer
+        format: int64
+        minimum: 1
+        default: 1
+      price:
+        description: |
+          Цена предлагаемого товара или услуги, в минорных денежных единицах, например
+          в копейках в случае указания российских рублей в качестве валюты
+        type: integer
+        format: int64
+        minimum: 1
+      cost:
+        description: |
+          Суммарная стоимость позиции с учётом количества единиц товаров или услуг
+        type: integer
+        format: int64
+        minimum: 1
+        readOnly: true
+      taxMode:
+        $ref: '#/definitions/InvoiceLineTaxMode'
+  InvoiceLineTaxMode:
+    description: |
+      Схема налогообложения предлагаемого товара или услуги.
+
+      Указывается, только если предлагаемый товар или услуга облагается налогом.
+    type: object
+    discriminator: type
+    required:
+      - type
+    properties:
+      type:
+        description: Тип схемы налогообложения
+        type: string
+        enum:
+          - InvoiceLineTaxVAT
+  InvoiceLineTaxVAT:
+    allOf:
+      - $ref: '#/definitions/InvoiceLineTaxMode'
+      - description: Налог на добавленную стоимость в юрисдикции РФ
+        type: object
+        required:
+          - rate
+        properties:
+          rate:
+            description: Ставка налога
+            type: string
+            enum:
+              - 0%
+              - 10%
+              - 18%
+              - 10/110
+              - 18/118
   InvoiceParams:
     type: object
     required:
       - shopID
-      - amount
-      - currency
-      - metadata
       - dueDate
+      - currency
       - product
+      - metadata
     properties:
       shopID:
         description: Идентификатор магазина
         type: string
         maxLength: 40
+      dueDate:
+        description: |
+          Дата и время окончания действия инвойса, после наступления которых его
+          уже невозможно будет оплатить
+        type: string
+        format: date-time
       amount:
         description: |
           Стоимость предлагаемых товаров или услуг, в минорных денежных единицах,
           например в копейках в случае указания российских рублей в качестве валюты.
+
+          Если стоимость не указана, то стоимостью инвойса будет считаться суммарная
+          стоимость позиций в корзине.
         type: integer
         format: int64
         minimum: 1
@@ -2159,15 +2245,6 @@ definitions:
           [ISO 4217](http://www.iso.org/iso/home/standards/currency_codes.htm).
         type: string
         pattern: '^[A-Z]{3}$'
-      metadata:
-        description: 'Метаданные, которые необходимо связать с инвойсом'
-        type: object
-      dueDate:
-        description: |
-          Дата и время окончания действия инвойса, после наступления которых его
-          уже невозможно будет оплатить
-        type: string
-        format: date-time
       product:
         description: Наименование предлагаемых товаров или услуг
         type: string
@@ -2176,6 +2253,11 @@ definitions:
         description: Описание предлагаемых товаров или услуг
         type: string
         maxLength: 1000
+      cart:
+        $ref: '#/definitions/InvoiceCart'
+      metadata:
+        description: 'Метаданные, которые необходимо связать с инвойсом'
+        type: object
   InvoiceParamsWithTemplate:
     type: object
     properties:
@@ -2207,8 +2289,8 @@ definitions:
           - dueDate
           - amount
           - currency
-          - metadata
           - product
+          - metadata
         properties:
           id:
             description: Идентификатор инвойса
@@ -2236,9 +2318,6 @@ definitions:
               [ISO 4217](http://www.iso.org/iso/home/standards/currency_codes.htm).
             type: string
             pattern: '^[A-Z]{3}$'
-          metadata:
-            description: Связанные с инвойсом метаданные
-            type: object
           product:
             description: Наименование предлагаемых товаров или услуг
             type: string
@@ -2247,6 +2326,11 @@ definitions:
             description: Описание предлагаемых товаров или услуг
             type: string
             maxLength: 1000
+          cart:
+            $ref: '#/definitions/InvoiceCart'
+          metadata:
+            description: Связанные с инвойсом метаданные
+            type: object
   InvoiceStatus:
     type: object
     required:
