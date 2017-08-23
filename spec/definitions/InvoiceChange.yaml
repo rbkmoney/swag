@@ -11,4 +11,5 @@ properties:
       - PaymentStarted
       - PaymentStatusChanged
       - PaymentInteractionRequested
+      - RefundStarted
       - RefundStatusChanged

@@ -4,10 +4,9 @@ allOf:
   - type: object
     required:
       - paymentID
-      - refundID
+      - refund
     properties:
       paymentID:
         type: string
-      refundID:
-        type: string
-  - $ref: '#/definitions/RefundStatus'
+      refund:
+        $ref: '#/definitions/Refund'

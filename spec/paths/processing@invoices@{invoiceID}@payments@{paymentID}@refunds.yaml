@@ -30,7 +30,7 @@ post:
     - name: reason
       in: body
       description: Причина совершения возврата
-      required: true
+      required: false
       schema:
         $ref: '#/definitions/Reason'
   responses:
