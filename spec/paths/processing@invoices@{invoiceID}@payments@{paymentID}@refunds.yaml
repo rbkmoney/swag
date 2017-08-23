@@ -18,3 +18,27 @@ get:
       $ref: '#/responses/BadRequest'
     '404':
       $ref: '#/responses/NotFound'
+post:
+  description: Создать возврат указанного платежа
+  tags:
+    - Payments
+  operationId: createRefund
+  parameters:
+    - $ref: '#/parameters/requestID'
+    - $ref: '#/parameters/invoiceID'
+    - $ref: '#/parameters/paymentID'
+    - name: reason
+      in: body
+      description: Причина совершения возврата
+      required: true
+      schema:
+        $ref: '#/definitions/Reason'
+  responses:
+    '201':
+      description: Возврат создан
+      schema:
+        $ref: '#/definitions/Refund'
+    '400':
+      $ref: '#/responses/BadRequest'
+    '404':
+      $ref: '#/responses/NotFound'
