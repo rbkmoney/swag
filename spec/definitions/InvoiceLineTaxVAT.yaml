@@ -1,0 +1,16 @@
+allOf:
+  - $ref: '#/definitions/InvoiceLineTaxMode'
+  - description: Налог на добавленную стоимость в юрисдикции РФ
+    type: object
+    required:
+      - rate
+    properties:
+      rate:
+        description: Ставка налога
+        type: string
+        enum:
+          - 0%
+          - 10%
+          - 18%
+          - 10/110
+          - 18/118
