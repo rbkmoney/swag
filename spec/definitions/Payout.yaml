@@ -1,5 +1,4 @@
 type: object
-discriminator: payoutType
 required:
   - id
   - shopID
@@ -8,7 +7,7 @@ required:
   - amount
   - fee
   - currency
-  - payoutType
+  - payoutToolDetails
 properties:
   id:
     description: Идентификатор выплаты
@@ -56,6 +55,5 @@ properties:
       [ISO 4217](http://www.iso.org/iso/home/standards/currency_codes.htm).
     type: string
     pattern: '^[A-Z]{3}$'
-  payoutType:
-    description: Тип выплаты
-    type: string
+  payoutToolDetails:
+    $ref: '#/definitions/PayoutToolDetails'
