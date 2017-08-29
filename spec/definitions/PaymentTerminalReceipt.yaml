@@ -7,9 +7,9 @@ allOf:
       - dueDate
     properties:
       shortPaymentID:
-        description: Идентификатор платежа в системе провайдера
+        description: Номер счета для оплаты через платежный терминал
         type: string
       dueDate:
-        description: Дата и время окончания действия
+        description: Дата и время окончания действия счета
         type: string
 
