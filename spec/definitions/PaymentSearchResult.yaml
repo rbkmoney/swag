@@ -8,6 +8,7 @@ allOf:
       - createdAt
       - amount
       - currency
+      - flow
       - contactInfo
       - paymentSession
       - paymentToolToken
@@ -45,6 +46,8 @@ allOf:
           [ISO 4217](http://www.iso.org/iso/home/standards/currency_codes.htm).
         type: string
         pattern: '^[A-Z]{3}$'
+      flow:
+        $ref: '#/definitions/PaymentFlow'
       contactInfo:
         description: Контактные данные плательщика
         allOf:
