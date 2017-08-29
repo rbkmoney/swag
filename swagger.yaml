@@ -468,6 +468,14 @@ paths:
             - captured
             - cancelled
             - failed
+        - name: paymentFlow
+          in: query
+          description: Flow платежа
+          required: false
+          type: string
+          enum:
+            - instant
+            - hold
         - name: invoiceID
           in: query
           description: Идентификатор инвойса
@@ -560,6 +568,14 @@ paths:
             - captured
             - cancelled
             - failed
+        - name: paymentFlow
+          in: query
+          description: Flow платежа
+          required: false
+          type: string
+          enum:
+            - instant
+            - hold
         - name: invoiceID
           in: query
           description: Идентификатор инвойса
@@ -1254,8 +1270,8 @@ paths:
           schema:
             $ref: '#/definitions/Reason'
       responses:
-        '204':
-          description: Платеж отменен
+        '202':
+          description: Запрос на отмену платежа принят
         '400':
           $ref: '#/responses/BadRequest'
         '404':
@@ -1277,8 +1293,8 @@ paths:
           schema:
             $ref: '#/definitions/Reason'
       responses:
-        '204':
-          description: Платеж подтвержден
+        '202':
+          description: Запрос на подтверждение платежа принят
         '400':
           $ref: '#/responses/BadRequest'
         '404':
@@ -2710,13 +2726,14 @@ definitions:
   PaymentFlow:
     type: object
     discriminator: type
+    default:
+      type: PaymentFlowInstant
     required:
       - type
     properties:
       type:
         description: Тип процесса выполнения платежа
         type: string
-        default: PaymentFlowInstant
         enum:
           - PaymentFlowInstant
           - PaymentFlowHold
@@ -2727,7 +2744,6 @@ definitions:
       - type: object
         required:
           - onHoldExpiration
-          - heldUntil
         properties:
           onHoldExpiration:
             description: Политика управления удержанием денежных средств
@@ -2740,6 +2756,7 @@ definitions:
             description: 'Дата и время, до которого происходит удержание денежных средств'
             type: string
             format: date-time
+            readOnly: true
   PaymentFlowInstant:
     type: object
     allOf:
@@ -2833,7 +2850,7 @@ definitions:
       - paymentToolToken
     properties:
       flow:
-        $ref: '#/definitions/PaymentParamsFlow'
+        $ref: '#/definitions/PaymentFlow'
       contactInfo:
         $ref: '#/definitions/ContactInfo'
       paymentSession:
@@ -2844,38 +2861,6 @@ definitions:
         description: 'Токен платежного средства, предоставленного плательщиком'
         type: string
         maxLength: 1000
-  PaymentParamsFlow:
-    type: object
-    discriminator: type
-    required:
-      - type
-    properties:
-      type:
-        description: Тип процесса выполнения платежа
-        type: string
-        default: PaymentParamsFlowInstant
-        enum:
-          - PaymentParamsFlowInstant
-          - PaymentParamsFlowHold
-  PaymentParamsFlowHold:
-    type: object
-    allOf:
-      - $ref: '#/definitions/PaymentParamsFlow'
-      - type: object
-        required:
-          - onHoldExpiration
-        properties:
-          onHoldExpiration:
-            description: Политика управления удержанием денежных средств
-            type: string
-            default: cancel
-            enum:
-              - cancel
-              - capture
-  PaymentParamsFlowInstant:
-    type: object
-    allOf:
-      - $ref: '#/definitions/PaymentParamsFlow'
   PaymentRateStat:
     type: object
     required:
@@ -2918,6 +2903,7 @@ definitions:
           - createdAt
           - amount
           - currency
+          - flow
           - contactInfo
           - paymentSession
           - paymentToolToken
@@ -2955,6 +2941,8 @@ definitions:
               [ISO 4217](http://www.iso.org/iso/home/standards/currency_codes.htm).
             type: string
             pattern: '^[A-Z]{3}$'
+          flow:
+            $ref: '#/definitions/PaymentFlow'
           contactInfo:
             description: Контактные данные плательщика
             allOf:

@@ -456,6 +456,17 @@
             ]
           },
           {
+            "name": "paymentFlow",
+            "in": "query",
+            "description": "Flow платежа",
+            "required": false,
+            "type": "string",
+            "enum": [
+              "instant",
+              "hold"
+            ]
+          },
+          {
             "name": "invoiceID",
             "in": "query",
             "description": "Идентификатор инвойса",
@@ -589,6 +600,17 @@
               "captured",
               "cancelled",
               "failed"
+            ]
+          },
+          {
+            "name": "paymentFlow",
+            "in": "query",
+            "description": "Flow платежа",
+            "required": false,
+            "type": "string",
+            "enum": [
+              "instant",
+              "hold"
             ]
           },
           {
@@ -1739,8 +1761,8 @@
           }
         ],
         "responses": {
-          "204": {
-            "description": "Платеж отменен"
+          "202": {
+            "description": "Запрос на отмену платежа принят"
           },
           "400": {
             "$ref": "#/responses/BadRequest"
@@ -1779,8 +1801,8 @@
           }
         ],
         "responses": {
-          "204": {
-            "description": "Платеж подтвержден"
+          "202": {
+            "description": "Запрос на подтверждение платежа принят"
           },
           "400": {
             "$ref": "#/responses/BadRequest"
@@ -3821,6 +3843,9 @@
     "PaymentFlow": {
       "type": "object",
       "discriminator": "type",
+      "default": {
+        "type": "PaymentFlowInstant"
+      },
       "required": [
         "type"
       ],
@@ -3828,7 +3853,6 @@
         "type": {
           "description": "Тип процесса выполнения платежа",
           "type": "string",
-          "default": "PaymentFlowInstant",
           "enum": [
             "PaymentFlowInstant",
             "PaymentFlowHold"
@@ -3845,8 +3869,7 @@
         {
           "type": "object",
           "required": [
-            "onHoldExpiration",
-            "heldUntil"
+            "onHoldExpiration"
           ],
           "properties": {
             "onHoldExpiration": {
@@ -3861,7 +3884,8 @@
             "heldUntil": {
               "description": "Дата и время, до которого происходит удержание денежных средств",
               "type": "string",
-              "format": "date-time"
+              "format": "date-time",
+              "readOnly": true
             }
           }
         }
@@ -3996,7 +4020,7 @@
       ],
       "properties": {
         "flow": {
-          "$ref": "#/definitions/PaymentParamsFlow"
+          "$ref": "#/definitions/PaymentFlow"
         },
         "contactInfo": {
           "$ref": "#/definitions/ContactInfo"
@@ -4012,57 +4036,6 @@
           "maxLength": 1000
         }
       }
-    },
-    "PaymentParamsFlow": {
-      "type": "object",
-      "discriminator": "type",
-      "required": [
-        "type"
-      ],
-      "properties": {
-        "type": {
-          "description": "Тип процесса выполнения платежа",
-          "type": "string",
-          "default": "PaymentParamsFlowInstant",
-          "enum": [
-            "PaymentParamsFlowInstant",
-            "PaymentParamsFlowHold"
-          ]
-        }
-      }
-    },
-    "PaymentParamsFlowHold": {
-      "type": "object",
-      "allOf": [
-        {
-          "$ref": "#/definitions/PaymentParamsFlow"
-        },
-        {
-          "type": "object",
-          "required": [
-            "onHoldExpiration"
-          ],
-          "properties": {
-            "onHoldExpiration": {
-              "description": "Политика управления удержанием денежных средств",
-              "type": "string",
-              "default": "cancel",
-              "enum": [
-                "cancel",
-                "capture"
-              ]
-            }
-          }
-        }
-      ]
-    },
-    "PaymentParamsFlowInstant": {
-      "type": "object",
-      "allOf": [
-        {
-          "$ref": "#/definitions/PaymentParamsFlow"
-        }
-      ]
     },
     "PaymentRateStat": {
       "type": "object",
@@ -4118,6 +4091,7 @@
             "createdAt",
             "amount",
             "currency",
+            "flow",
             "contactInfo",
             "paymentSession",
             "paymentToolToken",
@@ -4157,6 +4131,9 @@
               "description": "Валюта, символьный код согласно\n[ISO 4217](http://www.iso.org/iso/home/standards/currency_codes.htm).\n",
               "type": "string",
               "pattern": "^[A-Z]{3}$"
+            },
+            "flow": {
+              "$ref": "#/definitions/PaymentFlow"
             },
             "contactInfo": {
               "description": "Контактные данные плательщика",
