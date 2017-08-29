@@ -3033,6 +3033,21 @@ definitions:
             type: string
             enum:
               - euroset
+  PaymentTerminalReceipt:
+    type: object
+    allOf:
+      - $ref: '#/definitions/UserInteraction'
+      - type: object
+        required:
+          - shortPaymentID
+          - dueDate
+        properties:
+          shortPaymentID:
+            description: Номер счета для оплаты через платежный терминал
+            type: string
+          dueDate:
+            description: Дата и время окончания действия счета
+            type: string
   PaymentTool:
     type: object
     discriminator: paymentToolType
