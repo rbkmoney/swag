@@ -20,3 +20,4 @@ allOf:
           - ShopLocationChange
           - ShopDetailsChange
           - ShopContractBinding
+          - ShopPayoutToolChange
