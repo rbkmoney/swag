@@ -1,7 +1,7 @@
 description: Данные средства вывода
 type: object
-discriminator: type
+discriminator: detailsType
 properties:
-  type:
+   detailsType:
     description: Тип средства вывода
     type: string
