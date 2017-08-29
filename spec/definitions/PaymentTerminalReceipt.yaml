@@ -1,0 +1,15 @@
+type: object
+allOf:
+  - $ref: '#/definitions/UserInteraction'
+  - type: object
+    required:
+      - shortPaymentID
+      - dueDate
+    properties:
+      shortPaymentID:
+        description: Идентификатор платежа в системе провайдера
+        type: string
+      dueDate:
+        description: Дата и время окончания действия
+        type: string
+
