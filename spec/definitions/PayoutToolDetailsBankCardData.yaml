@@ -3,19 +3,14 @@ allOf:
   - $ref: '#/definitions/PayoutToolDetails'
   - type: object
     required:
-      - bankCard
+      - cardNumberMask
+      - paymentSystem
     properties:
-      bankCard:
-        type: object
-        required:
-          - cardNumberMask
-          - paymentSystem
-        properties:
-          cardNumberMask:
-            description: Маскированый номер карты
-            type: string
-            pattern: '^\d{4}$'
-          paymentSystem:
-            description: Платежная система
-            type: string
-            maxLength: 100
+      cardNumberMask:
+        description: Маскированый номер карты
+        type: string
+        pattern: '^\d{4}$'
+      paymentSystem:
+        description: Платежная система
+        type: string
+        maxLength: 100

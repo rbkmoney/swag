@@ -1,9 +1,4 @@
 type: object
 allOf:
   - $ref: '#/definitions/PayoutToolDetails'
-  - type: object
-    required:
-      - bankAccount
-    properties:
-      bankAccount:
-        $ref: '#/definitions/BankAccount'
+  - $ref: '#/definitions/BankAccount'
