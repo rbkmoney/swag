@@ -4,7 +4,6 @@ allOf:
   - type: object
     required:
       - onHoldExpiration
-      - heldUntil
     properties:
       onHoldExpiration:
         description: Политика управления удержанием денежных средств
@@ -17,3 +16,4 @@ allOf:
         description: 'Дата и время, до которого происходит удержание денежных средств'
         type: string
         format: date-time
+        readOnly: true

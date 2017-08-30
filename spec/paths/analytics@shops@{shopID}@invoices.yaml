@@ -32,6 +32,14 @@ get:
         - cancelled
         - refunded
         - failed
+    - name: paymentFlow
+      in: query
+      description: Flow платежа
+      required: false
+      type: string
+      enum:
+        - instant
+        - hold
     - name: invoiceID
       in: query
       description: Идентификатор инвойса

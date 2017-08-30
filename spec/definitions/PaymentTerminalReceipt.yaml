@@ -1,0 +1,15 @@
+type: object
+allOf:
+  - $ref: '#/definitions/UserInteraction'
+  - type: object
+    required:
+      - shortPaymentID
+      - dueDate
+    properties:
+      shortPaymentID:
+        description: Номер счета для оплаты через платежный терминал
+        type: string
+      dueDate:
+        description: Дата и время окончания действия счета
+        type: string
+
