@@ -5,7 +5,7 @@ required:
   - paymentToolToken
 properties:
   flow:
-    $ref: '#/definitions/PaymentParamsFlow'
+    $ref: '#/definitions/PaymentFlow'
   contactInfo:
     $ref: '#/definitions/ContactInfo'
   paymentSession:

@@ -1,0 +1,12 @@
+type: object
+allOf:
+  - $ref: '#/definitions/PaymentTool'
+  - type: object
+    description: Платежный терминал
+    required:
+      - provider
+    properties:
+      provider:
+        type: string
+        enum:
+          - euroset
