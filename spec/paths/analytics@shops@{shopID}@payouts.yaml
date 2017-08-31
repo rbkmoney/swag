@@ -1,0 +1,52 @@
+get:
+  description: Поиск выплат
+  tags:
+    - Search
+  operationId: searchPayouts
+  parameters:
+    - $ref: '#/parameters/requestID'
+    - $ref: '#/parameters/shopID'
+    - $ref: '#/parameters/fromTime'
+    - $ref: '#/parameters/toTime'
+    - $ref: '#/parameters/limit'
+    - $ref: '#/parameters/offset'
+    - name: payoutStatus
+      in: query
+      description: Статус выплаты для поиска
+      required: false
+      type: string
+      enum:
+        - unpaid
+        - paid
+        - cancelled
+        - confirmed
+    - name: payoutID
+      in: query
+      description: Идентификатор выплаты
+      required: false
+      type: string
+      maxLength: 40
+    - name: payoutType
+      in: query
+      description: тип выплаты для поиска
+      required: false
+      type: string
+      enum:
+        - PayoutCard
+        - PayoutAccount
+  responses:
+    '200':
+      description: Найденные выплаты
+      schema:
+        type: object
+        properties:
+          totalCount:
+            type: integer
+          result:
+            type: array
+            items:
+              $ref: '#/definitions/Payout'
+    '400':
+      $ref: '#/responses/BadRequest'
+    '404':
+      $ref: '#/responses/NotFound'
