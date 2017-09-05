@@ -1,0 +1,11 @@
+type: object
+allOf:
+  - $ref: '#/definitions/InvoiceTemplateDetails'
+  - type: object
+    required:
+      - price
+    properties:
+      price:
+        $ref: '#/definitions/InvoiceTemplateLineCost'
+      taxMode:
+        $ref: '#/definitions/InvoiceLineTaxMode'

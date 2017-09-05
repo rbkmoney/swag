@@ -1,0 +1,9 @@
+type: object
+allOf:
+  - $ref: '#/definitions/InvoiceTemplateDetails'
+  - type: object
+    required:
+      - cart
+    properties:
+      cart:
+        $ref: '#/definitions/InvoiceCart'

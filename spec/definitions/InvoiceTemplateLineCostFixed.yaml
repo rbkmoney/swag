@@ -1,6 +1,6 @@
 type: object
 allOf:
-  - $ref: '#/definitions/InvoiceTemplateCost'
+  - $ref: '#/definitions/InvoiceTemplateLineCost'
   - type: object
     required:
       - currency

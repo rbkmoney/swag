@@ -3,7 +3,7 @@ required:
   - shopID
   - product
   - lifetime
-  - cost
+  - details
 properties:
   shopID:
     description: Идентификатор магазина
@@ -19,8 +19,8 @@ properties:
     maxLength: 1000
   lifetime:
     $ref: '#/definitions/LifetimeInterval'
-  cost:
-    $ref: '#/definitions/InvoiceTemplateCost'
+  details:
+    $ref: '#/definitions/InvoiceTemplateDetails'
   metadata:
     description: >
       Метаданные, которые будут связаны с инвойсом, созданным по шаблону, в
