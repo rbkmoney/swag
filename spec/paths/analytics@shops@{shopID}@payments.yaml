@@ -29,6 +29,21 @@ get:
       enum:
         - instant
         - hold
+    - name: PaymentTool
+      in: query
+      description: Тип платежного инструмента
+      required: false
+      type: string
+      enum:
+        - bankCard
+        - paymentTerminal
+    - name: PaymentTerminalType
+      in: query
+      description: Тип платежного терминала
+      required: false
+      type: string
+      enum:
+        - euroset
     - name: invoiceID
       in: query
       description: Идентификатор инвойса
