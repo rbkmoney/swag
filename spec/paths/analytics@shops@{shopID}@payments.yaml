@@ -29,17 +29,17 @@ get:
       enum:
         - instant
         - hold
-    - name: PaymentTool
+    - name: paymentMethod
       in: query
-      description: Тип платежного инструмента
+      description: Метод оплаты
       required: false
       type: string
       enum:
         - bankCard
         - paymentTerminal
-    - name: PaymentTerminalType
+    - name: paymentTerminalProvider
       in: query
-      description: Тип платежного терминала
+      description: Провайдер платежного терминала
       required: false
       type: string
       enum:
