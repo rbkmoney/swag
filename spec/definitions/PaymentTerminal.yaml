@@ -1,0 +1,14 @@
+type: object
+allOf:
+  - $ref: '#/definitions/PaymentMethod'
+  - type: object
+    required:
+      - providers
+    properties:
+      providers:
+        description: Список провайдеров
+        type: array
+        items:
+          type: string
+          enum:
+            - euroset
