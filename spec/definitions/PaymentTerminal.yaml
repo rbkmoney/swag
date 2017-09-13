@@ -9,6 +9,5 @@ allOf:
         description: Список провайдеров
         type: array
         items:
-          type: string
-          enum:
-            - euroset
+          x-rebillyMerge:
+            - $ref: '#/definitions/TerminalPaymentProvider'

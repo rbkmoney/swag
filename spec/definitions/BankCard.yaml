@@ -9,17 +9,5 @@ allOf:
         description: Список платежных систем
         type: array
         items:
-          type: string
-          enum:
-            - visa
-            - mastercard
-            - visaelectron
-            - maestro
-            - forbrugsforeningen
-            - dankort
-            - amex
-            - dinersclub
-            - discover
-            - unionpay
-            - jcb
-            - nspkmir
+          x-rebillyMerge:
+            - $ref: '#/definitions/BankCardPaymentSystem'
