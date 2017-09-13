@@ -1,4 +1,4 @@
-description: Вид платежного терминала
+description: Провайдер терминальной сети
 type: string
 enum:
   - euroset
