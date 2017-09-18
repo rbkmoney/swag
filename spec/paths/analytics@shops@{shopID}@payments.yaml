@@ -20,6 +20,7 @@ get:
         - processed
         - captured
         - cancelled
+        - refunded
         - failed
     - name: paymentFlow
       in: query

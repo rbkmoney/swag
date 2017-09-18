@@ -19,7 +19,6 @@ get:
         - unpaid
         - cancelled
         - paid
-        - refunded
         - fulfilled
     - name: paymentStatus
       in: query
@@ -31,6 +30,7 @@ get:
         - processed
         - captured
         - cancelled
+        - refunded
         - failed
     - name: paymentFlow
       in: query

@@ -26,4 +26,5 @@ allOf:
             - PaymentProcessed
             - PaymentCaptured
             - PaymentCancelled
+            - PaymentRefunded
             - PaymentFailed
