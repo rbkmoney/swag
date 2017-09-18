@@ -5,6 +5,7 @@ allOf:
     description: Банковская карта
     required:
       - cardNumber
+      - cardHolder
       - expDate
       - cvv
     properties:
