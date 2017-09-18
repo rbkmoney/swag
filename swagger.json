@@ -106,6 +106,14 @@
       "type": "string",
       "maxLength": 40
     },
+    "refundID": {
+      "name": "refundID",
+      "in": "path",
+      "description": "Идентификатор возврата в рамках платежа",
+      "required": true,
+      "type": "string",
+      "maxLength": 40
+    },
     "contractID": {
       "name": "contractID",
       "in": "path",
@@ -437,7 +445,6 @@
               "unpaid",
               "cancelled",
               "paid",
-              "refunded",
               "fulfilled"
             ]
           },
@@ -452,6 +459,7 @@
               "processed",
               "captured",
               "cancelled",
+              "refunded",
               "failed"
             ]
           },
@@ -599,6 +607,7 @@
               "processed",
               "captured",
               "cancelled",
+              "refunded",
               "failed"
             ]
           },
@@ -1813,6 +1822,121 @@
         }
       }
     },
+    "/processing/invoices/{invoiceID}/payments/{paymentID}/refunds": {
+      "get": {
+        "description": "Получить все возвраты указанного платежа.",
+        "tags": [
+          "Payments"
+        ],
+        "operationId": "getRefunds",
+        "parameters": [
+          {
+            "$ref": "#/parameters/requestID"
+          },
+          {
+            "$ref": "#/parameters/invoiceID"
+          },
+          {
+            "$ref": "#/parameters/paymentID"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Данные возвратов по платежу",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Refund"
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/responses/BadRequest"
+          },
+          "404": {
+            "$ref": "#/responses/NotFound"
+          }
+        }
+      },
+      "post": {
+        "description": "Создать возврат указанного платежа",
+        "tags": [
+          "Payments"
+        ],
+        "operationId": "createRefund",
+        "parameters": [
+          {
+            "$ref": "#/parameters/requestID"
+          },
+          {
+            "$ref": "#/parameters/invoiceID"
+          },
+          {
+            "$ref": "#/parameters/paymentID"
+          },
+          {
+            "name": "reason",
+            "in": "body",
+            "description": "Причина совершения возврата",
+            "required": false,
+            "schema": {
+              "$ref": "#/definitions/Reason"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Возврат создан",
+            "schema": {
+              "$ref": "#/definitions/Refund"
+            }
+          },
+          "400": {
+            "$ref": "#/responses/BadRequest"
+          },
+          "404": {
+            "$ref": "#/responses/NotFound"
+          }
+        }
+      }
+    },
+    "/processing/invoices/{invoiceID}/payments/{paymentID}/refunds/{refundID}": {
+      "get": {
+        "description": "Получить данные определённого возврата указанного платежа.",
+        "tags": [
+          "Payments"
+        ],
+        "operationId": "getRefundByID",
+        "parameters": [
+          {
+            "$ref": "#/parameters/requestID"
+          },
+          {
+            "$ref": "#/parameters/invoiceID"
+          },
+          {
+            "$ref": "#/parameters/paymentID"
+          },
+          {
+            "$ref": "#/parameters/refundID"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Данные возврата",
+            "schema": {
+              "$ref": "#/definitions/Refund"
+            }
+          },
+          "400": {
+            "$ref": "#/responses/BadRequest"
+          },
+          "404": {
+            "$ref": "#/responses/NotFound"
+          }
+        }
+      }
+    },
     "/processing/invoices/{invoiceID}/rescind": {
       "post": {
         "description": "Перевести инвойс в состояние \"Отменен\" со статусом \"Аннулирован\".",
@@ -2973,9 +3097,6 @@
       "type": "object",
       "allOf": [
         {
-          "$ref": "#/definitions/InvoiceStatus"
-        },
-        {
           "type": "object",
           "required": [
             "id",
@@ -3039,6 +3160,9 @@
               "type": "object"
             }
           }
+        },
+        {
+          "$ref": "#/definitions/InvoiceStatus"
         }
       ]
     },
@@ -3080,7 +3204,9 @@
             "InvoiceStatusChanged",
             "PaymentStarted",
             "PaymentStatusChanged",
-            "PaymentInteractionRequested"
+            "PaymentInteractionRequested",
+            "RefundStarted",
+            "RefundStatusChanged"
           ]
         }
       }
@@ -3339,7 +3465,6 @@
             "unpaid",
             "cancelled",
             "paid",
-            "refunded",
             "fulfilled"
           ]
         },
@@ -3393,6 +3518,7 @@
                   "PaymentProcessed",
                   "PaymentCaptured",
                   "PaymentCancelled",
+                  "PaymentRefunded",
                   "PaymentFailed"
                 ]
               }
@@ -3733,9 +3859,6 @@
       "type": "object",
       "allOf": [
         {
-          "$ref": "#/definitions/PaymentStatus"
-        },
-        {
           "type": "object",
           "required": [
             "id",
@@ -3810,6 +3933,9 @@
               "maxLength": 1000
             }
           }
+        },
+        {
+          "$ref": "#/definitions/PaymentStatus"
         }
       ]
     },
@@ -4211,6 +4337,7 @@
             "processed",
             "captured",
             "cancelled",
+            "refunded",
             "failed"
           ]
         },
@@ -4478,6 +4605,120 @@
               "$ref": "#/definitions/BrowserRequest"
             }
           }
+        }
+      ]
+    },
+    "Refund": {
+      "type": "object",
+      "allOf": [
+        {
+          "type": "object",
+          "required": [
+            "id",
+            "createdAt"
+          ],
+          "properties": {
+            "id": {
+              "description": "Идентификатор возврата",
+              "type": "string"
+            },
+            "createdAt": {
+              "description": "Дата и время осуществления",
+              "type": "string",
+              "format": "date-time"
+            },
+            "reason": {
+              "description": "Причина осуществления возврата",
+              "type": "string"
+            }
+          }
+        },
+        {
+          "$ref": "#/definitions/RefundStatus"
+        }
+      ]
+    },
+    "RefundStarted": {
+      "type": "object",
+      "allOf": [
+        {
+          "$ref": "#/definitions/InvoiceChange"
+        },
+        {
+          "type": "object",
+          "required": [
+            "paymentID",
+            "refund"
+          ],
+          "properties": {
+            "paymentID": {
+              "type": "string"
+            },
+            "refund": {
+              "$ref": "#/definitions/Refund"
+            }
+          }
+        }
+      ]
+    },
+    "RefundStatus": {
+      "type": "object",
+      "required": [
+        "status"
+      ],
+      "properties": {
+        "status": {
+          "description": "Статус возврата",
+          "type": "string",
+          "enum": [
+            "pending",
+            "succeeded",
+            "failed"
+          ]
+        },
+        "error": {
+          "description": "Данные ошибки, возникшей в процессе проведения возврата, в случае если\nвозврат был неуспешен\n",
+          "type": "object",
+          "required": [
+            "code",
+            "message"
+          ],
+          "properties": {
+            "code": {
+              "description": "Код ошибки, пригодный для обработки автоматическими системами",
+              "type": "string"
+            },
+            "message": {
+              "description": "Описание ошибки, пригодное для восприятия человеком",
+              "type": "string"
+            }
+          }
+        }
+      }
+    },
+    "RefundStatusChanged": {
+      "type": "object",
+      "allOf": [
+        {
+          "$ref": "#/definitions/InvoiceChange"
+        },
+        {
+          "type": "object",
+          "required": [
+            "paymentID",
+            "refundID"
+          ],
+          "properties": {
+            "paymentID": {
+              "type": "string"
+            },
+            "refundID": {
+              "type": "string"
+            }
+          }
+        },
+        {
+          "$ref": "#/definitions/RefundStatus"
         }
       ]
     },
