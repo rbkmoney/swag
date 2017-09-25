@@ -2582,6 +2582,7 @@
             "cardHolder": {
               "description": "Имя держателя карты",
               "type": "string",
+              "minLength": 1,
               "maxLength": 100
             }
           }
