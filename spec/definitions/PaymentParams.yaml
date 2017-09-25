@@ -3,6 +3,6 @@ required:
   - paymentResource
 properties:
   flow:
-    $ref: '#/definitions/PaymentParamsFlow'
+    $ref: '#/definitions/PaymentFlow'
   paymentResource:
     $ref: '#/definitions/PaymentResource'

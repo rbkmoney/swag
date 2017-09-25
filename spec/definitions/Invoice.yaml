@@ -1,6 +1,5 @@
 type: object
 allOf:
-  - $ref: '#/definitions/InvoiceStatus'
   - type: object
     required:
       - id
@@ -9,8 +8,8 @@ allOf:
       - dueDate
       - amount
       - currency
-      - metadata
       - product
+      - metadata
     properties:
       id:
         description: Идентификатор инвойса
@@ -39,9 +38,6 @@ allOf:
           [ISO 4217](http://www.iso.org/iso/home/standards/currency_codes.htm).
         type: string
         pattern: '^[A-Z]{3}$'
-      metadata:
-        description: Связанные с инвойсом метаданные
-        type: object
       product:
         description: Наименование предлагаемых товаров или услуг
         type: string
@@ -53,3 +49,9 @@ allOf:
       invoiceTemplateID:
         description: Идентификатор шаблона (для инвойсов, созданных по шаблону).
         type: string
+      cart:
+        $ref: '#/definitions/InvoiceCart'
+      metadata:
+        description: Связанные с инвойсом метаданные
+        type: object
+  - $ref: '#/definitions/InvoiceStatus'

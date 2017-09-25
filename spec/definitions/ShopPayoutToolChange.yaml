@@ -1,0 +1,12 @@
+description: Изменение средства вывода магазина
+type: object
+allOf:
+  - $ref: '#/definitions/ShopModification'
+  - type: object
+    required:
+      - payoutToolID
+    properties:
+      payoutToolID:
+        description: |
+          Идентификатор средства вывода в рамках текущего контракта магазина
+        type: string

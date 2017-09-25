@@ -145,6 +145,13 @@ parameters:
     required: true
     type: string
     maxLength: 40
+  refundID:
+    name: refundID
+    in: path
+    description: Идентификатор возврата в рамках платежа
+    required: true
+    type: string
+    maxLength: 40
   contractID:
     name: contractID
     in: path

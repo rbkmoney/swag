@@ -1,6 +1,5 @@
 type: object
 allOf:
-  - $ref: '#/definitions/PaymentStatus'
   - type: object
     required:
       - id
@@ -50,3 +49,4 @@ allOf:
         description: Уникальный отпечаток user agent'а плательщика
         type: string
         maxLength: 1000
+  - $ref: '#/definitions/PaymentStatus'
