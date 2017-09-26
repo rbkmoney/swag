@@ -1,0 +1,12 @@
+type: object
+allOf:
+  - $ref: '#/definitions/InvoiceChange'
+  - type: object
+    required:
+      - paymentID
+      - refund
+    properties:
+      paymentID:
+        type: string
+      refund:
+        $ref: '#/definitions/Refund'
