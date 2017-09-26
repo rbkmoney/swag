@@ -9,3 +9,7 @@ allOf:
     properties:
       contactInfo:
         $ref: '#/definitions/ContactInfo'
+      clientInfo:
+        allOf:
+          - $ref: '#/definitions/ClientInfo'
+          - readOnly: true

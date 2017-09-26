@@ -40,13 +40,4 @@ allOf:
         $ref: '#/definitions/PaymentFlow'
       paymentResource:
         $ref: '#/definitions/PaymentResource'
-      ip:
-        description: IP-адрес плательщика
-        type: string
-        format: ip-address
-        maxLength: 45
-      fingerprint:
-        description: Уникальный отпечаток user agent'а плательщика
-        type: string
-        maxLength: 1000
   - $ref: '#/definitions/PaymentStatus'
