@@ -8,7 +8,7 @@ allOf:
       - amount
       - currency
       - flow
-      - paymentResource
+      - payer
     properties:
       id:
         description: Идентификатор платежа
@@ -38,6 +38,6 @@ allOf:
         pattern: '^[A-Z]{3}$'
       flow:
         $ref: '#/definitions/PaymentFlow'
-      paymentResource:
-        $ref: '#/definitions/PaymentResource'
+      payer:
+        $ref: '#/definitions/Payer'
   - $ref: '#/definitions/PaymentStatus'

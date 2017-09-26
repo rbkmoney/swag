@@ -1,6 +1,6 @@
 type: object
 allOf:
-  - $ref: '#/definitions/PaymentResource'
+  - $ref: '#/definitions/Payer'
   - type: object
     description: Многоразовое платежное средство
     required:
