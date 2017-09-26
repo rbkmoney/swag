@@ -20,22 +20,17 @@ properties:
     type: string
     format: date-time
   status:
-    type: object
-    required:
-      - status
-    properties:
-      status:
-        description: Статус выплаты
-        type: string
-        enum:
-          - unpaid
-          - paid
-          - cancelled
-          - confirmed
-      details:
-        description: Детали отмены выплаты
-        type: string
-        maxLength: 1000
+    description: Статус выплаты
+    type: string
+    enum:
+      - unpaid
+      - paid
+      - cancelled
+      - confirmed
+  cancellationDetails:
+    description: Детали отмены выплаты
+    type: string
+    maxLength: 1000
   amount:
     description: |
         Сумма выплаты в минорных денежных

@@ -26,9 +26,9 @@ get:
       required: false
       type: string
       maxLength: 40
-    - name: payoutType
+    - name: payoutToolType
       in: query
-      description: тип выплаты для поиска
+      description: Тип выплаты для поиска
       required: false
       type: string
       enum:
