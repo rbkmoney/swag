@@ -6,19 +6,19 @@ post:
     платежа по инвойсу.
   tags:
     - Tokens
-  operationId: createPaymentToolToken
+  operationId: createPaymentResource
   parameters:
     - $ref: '#/parameters/requestID'
-    - name: paymentTool
-      description: Данные для создания токена
+    - name: paymentResource
+      description: Данные для создания платежного средства
       in: body
       required: true
       schema:
-        $ref: '#/definitions/PaymentToolTokenParams'
+        $ref: '#/definitions/PaymentResourceParams'
   responses:
     '201':
       description: Токен и сессия созданы
       schema:
-        $ref: '#/definitions/DisposablePaymentResource'
+        $ref: '#/definitions/PaymentResource'
     '400':
       $ref: '#/responses/BadRequest'
