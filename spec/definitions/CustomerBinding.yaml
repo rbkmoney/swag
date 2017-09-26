@@ -9,5 +9,5 @@ allOf:
         description: Идентификатор привязки
         type: string
       paymentResource:
-        $ref: '#/definitions/DisposablePaymentResource'
+        $ref: '#/definitions/PaymentResource'
   - $ref: '#/definitions/CustomerBindingStatus'

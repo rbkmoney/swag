@@ -3,4 +3,4 @@ required:
   - paymentResource
 properties:
   paymentResource:
-    $ref: '#/definitions/DisposablePaymentResource'
+    $ref: '#/definitions/PaymentResource'
