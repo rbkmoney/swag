@@ -8,7 +8,7 @@ allOf:
       - createdAt
       - amount
       - currency
-      - paymentResource
+      - payer
       - flow
     properties:
       id:
@@ -43,8 +43,8 @@ allOf:
           [ISO 4217](http://www.iso.org/iso/home/standards/currency_codes.htm).
         type: string
         pattern: '^[A-Z]{3}$'
-      paymentResource:
-        $ref: '#/definitions/PaymentResource'
+      payer:
+        $ref: '#/definitions/Payer'
       flow:
         $ref: '#/definitions/PaymentFlow'
       geoLocationInfo:

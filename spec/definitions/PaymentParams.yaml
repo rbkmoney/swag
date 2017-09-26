@@ -1,8 +1,9 @@
+type: object
 required:
   - flow
-  - paymentResource
+  - payer
 properties:
   flow:
     $ref: '#/definitions/PaymentFlow'
-  paymentResource:
-    $ref: '#/definitions/PaymentResource'
+  payer:
+    $ref: '#/definitions/Payer'

@@ -1,5 +1,6 @@
+type: object
 required:
   - paymentResource
 properties:
   paymentResource:
-    $ref: '#/definitions/DisposablePaymentResourceData'
+    $ref: '#/definitions/DisposablePaymentResource'
