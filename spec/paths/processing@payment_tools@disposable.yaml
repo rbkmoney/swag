@@ -19,6 +19,6 @@ post:
     '201':
       description: Токен и сессия созданы
       schema:
-        $ref: '#/definitions/DisposablePaymentResource'
+        $ref: '#/definitions/DisposablePaymentResourceData'
     '400':
       $ref: '#/responses/BadRequest'
