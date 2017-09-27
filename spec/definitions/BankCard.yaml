@@ -1,0 +1,13 @@
+type: object
+allOf:
+  - $ref: '#/definitions/PaymentMethod'
+  - type: object
+    required:
+      - paymentSystems
+    properties:
+      paymentSystems:
+        description: Список платежных систем
+        type: array
+        items:
+          x-rebillyMerge:
+            - $ref: '#/definitions/BankCardPaymentSystem'
