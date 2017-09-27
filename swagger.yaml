@@ -1199,6 +1199,26 @@ paths:
           $ref: '#/responses/BadRequest'
         '404':
           $ref: '#/responses/NotFound'
+  '/processing/invoices/{invoiceID}/payment-methods':
+    get:
+      description: Получить доступные для инвойса методы оплаты.
+      tags:
+        - Invoices
+      operationId: getInvoicePaymentMethods
+      parameters:
+        - $ref: '#/parameters/requestID'
+        - $ref: '#/parameters/invoiceID'
+      responses:
+        '200':
+          description: Список методов оплаты
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/PaymentMethod'
+        '400':
+          $ref: '#/responses/BadRequest'
+        '404':
+          $ref: '#/responses/NotFound'
   '/processing/invoices/{invoiceID}/payments':
     get:
       description: Получить все платежи по указанному инвойсу.
@@ -1720,6 +1740,49 @@ definitions:
         description: БИК банковской организации
         type: string
         pattern: '^\d{9}$'
+  BankCard:
+    type: object
+    allOf:
+      - $ref: '#/definitions/PaymentMethod'
+      - type: object
+        required:
+          - paymentSystems
+        properties:
+          paymentSystems:
+            description: Список платежных систем
+            type: array
+            items:
+              description: Платежная система
+              type: string
+              enum:
+                - visa
+                - mastercard
+                - visaelectron
+                - maestro
+                - forbrugsforeningen
+                - dankort
+                - amex
+                - dinersclub
+                - discover
+                - unionpay
+                - jcb
+                - nspkmir
+  BankCardPaymentSystem:
+    description: Платежная система
+    type: string
+    enum:
+      - visa
+      - mastercard
+      - visaelectron
+      - maestro
+      - forbrugsforeningen
+      - dankort
+      - amex
+      - dinersclub
+      - discover
+      - unionpay
+      - jcb
+      - nspkmir
   BrowserGetRequest:
     type: object
     allOf:
@@ -2882,6 +2945,16 @@ definitions:
             type: string
           userInteraction:
             $ref: '#/definitions/UserInteraction'
+  PaymentMethod:
+    type: object
+    discriminator: method
+    properties:
+      method:
+        description: Метод оплаты
+        type: string
+        enum:
+          - BankCard
+          - PaymentTerminal
   PaymentMethodBankCardStat:
     type: object
     allOf:
@@ -2901,8 +2974,21 @@ definitions:
             description: Общее количество плательщиков
             type: integer
           paymentSystem:
-            description: Тип платежной системы
+            description: Платежная система
             type: string
+            enum:
+              - visa
+              - mastercard
+              - visaelectron
+              - maestro
+              - forbrugsforeningen
+              - dankort
+              - amex
+              - dinersclub
+              - discover
+              - unionpay
+              - jcb
+              - nspkmir
           profit:
             description: Прибыль магазина
             type: integer
@@ -3085,6 +3171,22 @@ definitions:
         properties:
           paymentID:
             type: string
+  PaymentTerminal:
+    type: object
+    allOf:
+      - $ref: '#/definitions/PaymentMethod'
+      - type: object
+        required:
+          - providers
+        properties:
+          providers:
+            description: Список провайдеров
+            type: array
+            items:
+              description: Провайдер терминальной сети
+              type: string
+              enum:
+                - euroset
   PaymentTerminalData:
     type: object
     allOf:
@@ -3095,6 +3197,7 @@ definitions:
           - provider
         properties:
           provider:
+            description: Провайдер терминальной сети
             type: string
             enum:
               - euroset
@@ -3148,7 +3251,19 @@ definitions:
           paymentSystem:
             description: Платежная система
             type: string
-            maxLength: 100
+            enum:
+              - visa
+              - mastercard
+              - visaelectron
+              - maestro
+              - forbrugsforeningen
+              - dankort
+              - amex
+              - dinersclub
+              - discover
+              - unionpay
+              - jcb
+              - nspkmir
   PaymentToolDetailsPaymentTerminalData:
     type: object
     allOf:
@@ -3158,6 +3273,7 @@ definitions:
           - provider
         properties:
           provider:
+            description: Провайдер терминальной сети
             type: string
             enum:
               - euroset
@@ -3649,6 +3765,11 @@ definitions:
             description: |
               Идентификатор средства вывода в рамках текущего контракта магазина
             type: string
+  TerminalPaymentProvider:
+    description: Провайдер терминальной сети
+    type: string
+    enum:
+      - euroset
   UserInteraction:
     type: object
     discriminator: interactionType

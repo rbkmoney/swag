@@ -1636,6 +1636,40 @@
         }
       }
     },
+    "/processing/invoices/{invoiceID}/payment-methods": {
+      "get": {
+        "description": "Получить доступные для инвойса методы оплаты.",
+        "tags": [
+          "Invoices"
+        ],
+        "operationId": "getInvoicePaymentMethods",
+        "parameters": [
+          {
+            "$ref": "#/parameters/requestID"
+          },
+          {
+            "$ref": "#/parameters/invoiceID"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Список методов оплаты",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/PaymentMethod"
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/responses/BadRequest"
+          },
+          "404": {
+            "$ref": "#/responses/NotFound"
+          }
+        }
+      }
+    },
     "/processing/invoices/{invoiceID}/payments": {
       "get": {
         "description": "Получить все платежи по указанному инвойсу.",
@@ -2491,6 +2525,62 @@
           "pattern": "^\\d{9}$"
         }
       }
+    },
+    "BankCard": {
+      "type": "object",
+      "allOf": [
+        {
+          "$ref": "#/definitions/PaymentMethod"
+        },
+        {
+          "type": "object",
+          "required": [
+            "paymentSystems"
+          ],
+          "properties": {
+            "paymentSystems": {
+              "description": "Список платежных систем",
+              "type": "array",
+              "items": {
+                "description": "Платежная система",
+                "type": "string",
+                "enum": [
+                  "visa",
+                  "mastercard",
+                  "visaelectron",
+                  "maestro",
+                  "forbrugsforeningen",
+                  "dankort",
+                  "amex",
+                  "dinersclub",
+                  "discover",
+                  "unionpay",
+                  "jcb",
+                  "nspkmir"
+                ]
+              }
+            }
+          }
+        }
+      ]
+    },
+    "BankCardPaymentSystem": {
+      "description": "Платежная система",
+      "type": "string",
+      "enum": [
+        "visa",
+        "mastercard",
+        "visaelectron",
+        "maestro",
+        "forbrugsforeningen",
+        "dankort",
+        "amex",
+        "dinersclub",
+        "discover",
+        "unionpay",
+        "jcb",
+        "nspkmir"
+      ]
     },
     "BrowserGetRequest": {
       "type": "object",
@@ -4085,6 +4175,20 @@
         }
       ]
     },
+    "PaymentMethod": {
+      "type": "object",
+      "discriminator": "method",
+      "properties": {
+        "method": {
+          "description": "Метод оплаты",
+          "type": "string",
+          "enum": [
+            "BankCard",
+            "PaymentTerminal"
+          ]
+        }
+      }
+    },
     "PaymentMethodBankCardStat": {
       "type": "object",
       "allOf": [
@@ -4110,8 +4214,22 @@
               "type": "integer"
             },
             "paymentSystem": {
-              "description": "Тип платежной системы",
-              "type": "string"
+              "description": "Платежная система",
+              "type": "string",
+              "enum": [
+                "visa",
+                "mastercard",
+                "visaelectron",
+                "maestro",
+                "forbrugsforeningen",
+                "dankort",
+                "amex",
+                "dinersclub",
+                "discover",
+                "unionpay",
+                "jcb",
+                "nspkmir"
+              ]
             },
             "profit": {
               "description": "Прибыль магазина",
@@ -4369,6 +4487,33 @@
         }
       ]
     },
+    "PaymentTerminal": {
+      "type": "object",
+      "allOf": [
+        {
+          "$ref": "#/definitions/PaymentMethod"
+        },
+        {
+          "type": "object",
+          "required": [
+            "providers"
+          ],
+          "properties": {
+            "providers": {
+              "description": "Список провайдеров",
+              "type": "array",
+              "items": {
+                "description": "Провайдер терминальной сети",
+                "type": "string",
+                "enum": [
+                  "euroset"
+                ]
+              }
+            }
+          }
+        }
+      ]
+    },
     "PaymentTerminalData": {
       "type": "object",
       "allOf": [
@@ -4383,6 +4528,7 @@
           ],
           "properties": {
             "provider": {
+              "description": "Провайдер терминальной сети",
               "type": "string",
               "enum": [
                 "euroset"
@@ -4465,7 +4611,20 @@
             "paymentSystem": {
               "description": "Платежная система",
               "type": "string",
-              "maxLength": 100
+              "enum": [
+                "visa",
+                "mastercard",
+                "visaelectron",
+                "maestro",
+                "forbrugsforeningen",
+                "dankort",
+                "amex",
+                "dinersclub",
+                "discover",
+                "unionpay",
+                "jcb",
+                "nspkmir"
+              ]
             }
           }
         }
@@ -4484,6 +4643,7 @@
           ],
           "properties": {
             "provider": {
+              "description": "Провайдер терминальной сети",
               "type": "string",
               "enum": [
                 "euroset"
@@ -5194,6 +5354,13 @@
             }
           }
         }
+      ]
+    },
+    "TerminalPaymentProvider": {
+      "description": "Провайдер терминальной сети",
+      "type": "string",
+      "enum": [
+        "euroset"
       ]
     },
     "UserInteraction": {
