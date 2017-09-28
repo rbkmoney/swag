@@ -12,7 +12,8 @@
     "portfinder": "^1.0.3",
     "shelljs": "^0.7.0",
     "swagger-repo": "^1.0.0",
-    "swagger-ui": "^2.1.4"
+    "swagger-ui": "^2.1.4",
+    "json-merge-patch": "^0.2.3"
   },
   "private": true,
   "scripts": {

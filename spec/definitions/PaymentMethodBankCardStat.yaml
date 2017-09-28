@@ -16,8 +16,8 @@ allOf:
         description: Общее количество плательщиков
         type: integer
       paymentSystem:
-        description: Тип платежной системы
-        type: string
+        x-rebillyMerge:
+          - $ref: '#/definitions/BankCardPaymentSystem'
       profit:
         description: Прибыль магазина
         type: integer
