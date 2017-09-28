@@ -475,6 +475,27 @@
             ]
           },
           {
+            "name": "paymentMethod",
+            "in": "query",
+            "description": "Метод оплаты",
+            "required": false,
+            "type": "string",
+            "enum": [
+              "bankCard",
+              "paymentTerminal"
+            ]
+          },
+          {
+            "name": "paymentTerminalProvider",
+            "in": "query",
+            "description": "Провайдер платежного терминала",
+            "required": false,
+            "type": "string",
+            "enum": [
+              "euroset"
+            ]
+          },
+          {
             "name": "invoiceID",
             "in": "query",
             "description": "Идентификатор инвойса",
@@ -620,6 +641,27 @@
             "enum": [
               "instant",
               "hold"
+            ]
+          },
+          {
+            "name": "paymentMethod",
+            "in": "query",
+            "description": "Метод оплаты",
+            "required": false,
+            "type": "string",
+            "enum": [
+              "bankCard",
+              "paymentTerminal"
+            ]
+          },
+          {
+            "name": "paymentTerminalProvider",
+            "in": "query",
+            "description": "Провайдер платежного терминала",
+            "required": false,
+            "type": "string",
+            "enum": [
+              "euroset"
             ]
           },
           {
