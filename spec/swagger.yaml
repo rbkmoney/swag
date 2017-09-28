@@ -157,8 +157,8 @@ parameters:
     in: path
     description: Идентификатор договора
     required: true
-    type: integer
-    format: int32
+    type: string
+    maxLength: 40
   customerID:
     name: customerID
     in: path
