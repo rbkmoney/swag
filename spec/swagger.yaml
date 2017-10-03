@@ -251,6 +251,13 @@ parameters:
     required: false
     type: integer
     minimum: 0
+  createdAt:
+    name: createdAt
+    in: query
+    description: Дата и время создания инвойса
+    required: true
+    type: string
+    format: date-time
 tags:
   - name: Parties
     x-displayName: Участники
