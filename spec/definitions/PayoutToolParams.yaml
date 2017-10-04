@@ -2,7 +2,6 @@ type: object
 discriminator: paramsType
 required:
   - currency
-  - paramsType
 properties:
   currency:
     description: Валюта, в которой производится вывод
