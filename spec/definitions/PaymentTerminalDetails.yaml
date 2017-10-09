@@ -1,7 +1,0 @@
-required:
-  - provider
-properties:
-  provider:
-    type: string
-    enum:
-      - euroset
