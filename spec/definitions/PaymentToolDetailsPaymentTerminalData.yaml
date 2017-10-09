@@ -1,0 +1,10 @@
+type: object
+allOf:
+  - $ref: '#/definitions/PaymentToolDetails'
+  - type: object
+    required:
+      - provider
+    properties:
+      provider:
+        x-rebillyMerge:
+          - $ref: '#/definitions/TerminalPaymentProvider'
