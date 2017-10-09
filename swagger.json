@@ -889,92 +889,6 @@
         }
       }
     },
-    "/analytics/shops/{shopID}/payouts": {
-      "get": {
-        "description": "Поиск выплат",
-        "tags": [
-          "Search"
-        ],
-        "operationId": "searchPayouts",
-        "parameters": [
-          {
-            "$ref": "#/parameters/requestID"
-          },
-          {
-            "$ref": "#/parameters/shopID"
-          },
-          {
-            "$ref": "#/parameters/fromTime"
-          },
-          {
-            "$ref": "#/parameters/toTime"
-          },
-          {
-            "$ref": "#/parameters/limit"
-          },
-          {
-            "$ref": "#/parameters/offset"
-          },
-          {
-            "name": "payoutStatus",
-            "in": "query",
-            "description": "Статус выплаты для поиска",
-            "required": false,
-            "type": "string",
-            "enum": [
-              "unpaid",
-              "paid",
-              "cancelled",
-              "confirmed"
-            ]
-          },
-          {
-            "name": "payoutID",
-            "in": "query",
-            "description": "Идентификатор выплаты",
-            "required": false,
-            "type": "string",
-            "maxLength": 40
-          },
-          {
-            "name": "payoutToolType",
-            "in": "query",
-            "description": "Тип выплаты для поиска",
-            "required": false,
-            "type": "string",
-            "enum": [
-              "PayoutCard",
-              "PayoutAccount"
-            ]
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Найденные выплаты",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "totalCount": {
-                  "type": "integer"
-                },
-                "result": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/definitions/Payout"
-                  }
-                }
-              }
-            }
-          },
-          "400": {
-            "$ref": "#/responses/BadRequest"
-          },
-          "404": {
-            "$ref": "#/responses/NotFound"
-          }
-        }
-      }
-    },
     "/processing/accounts/{accountID}": {
       "get": {
         "description": "Get account by ID",
@@ -2725,24 +2639,6 @@
           }
         }
       ]
-    },
-    "BankCardDetails": {
-      "required": [
-        "cardNumberMask",
-        "paymentSystem"
-      ],
-      "properties": {
-        "cardNumberMask": {
-          "description": "Маскированый номер карты",
-          "type": "string",
-          "pattern": "^\\d{4}$"
-        },
-        "paymentSystem": {
-          "description": "Платежная система",
-          "type": "string",
-          "maxLength": 100
-        }
-      }
     },
     "BankCardPaymentSystem": {
       "description": "Платежная система",
@@ -4718,19 +4614,6 @@
         }
       ]
     },
-    "PaymentTerminalDetails": {
-      "required": [
-        "provider"
-      ],
-      "properties": {
-        "provider": {
-          "type": "string",
-          "enum": [
-            "euroset"
-          ]
-        }
-      }
-    },
     "PaymentTerminalReceipt": {
       "type": "object",
       "allOf": [
@@ -4783,25 +4666,66 @@
         }
       }
     },
-    "PaymentToolDetailsBankCard": {
+    "PaymentToolDetailsCardData": {
       "type": "object",
       "allOf": [
         {
           "$ref": "#/definitions/PaymentToolDetails"
         },
         {
-          "$ref": "#/definitions/BankCardDetails"
+          "type": "object",
+          "required": [
+            "cardNumberMask",
+            "paymentSystem"
+          ],
+          "properties": {
+            "cardNumberMask": {
+              "description": "Маскированый номер карты",
+              "type": "string",
+              "pattern": "^\\d{4}$"
+            },
+            "paymentSystem": {
+              "description": "Платежная система",
+              "type": "string",
+              "enum": [
+                "visa",
+                "mastercard",
+                "visaelectron",
+                "maestro",
+                "forbrugsforeningen",
+                "dankort",
+                "amex",
+                "dinersclub",
+                "discover",
+                "unionpay",
+                "jcb",
+                "nspkmir"
+              ]
+            }
+          }
         }
       ]
     },
-    "PaymentToolDetailsPaymentTerminal": {
+    "PaymentToolDetailsPaymentTerminalData": {
       "type": "object",
       "allOf": [
         {
           "$ref": "#/definitions/PaymentToolDetails"
         },
         {
-          "$ref": "#/definitions/PaymentTerminalDetails"
+          "type": "object",
+          "required": [
+            "provider"
+          ],
+          "properties": {
+            "provider": {
+              "description": "Провайдер терминальной сети",
+              "type": "string",
+              "enum": [
+                "euroset"
+              ]
+            }
+          }
         }
       ]
     },
@@ -4817,69 +4741,6 @@
         },
         "clientInfo": {
           "$ref": "#/definitions/ClientInfo"
-        }
-      }
-    },
-    "Payout": {
-      "type": "object",
-      "required": [
-        "id",
-        "shopID",
-        "createdAt",
-        "status",
-        "amount",
-        "fee",
-        "currency",
-        "payoutToolDetails"
-      ],
-      "properties": {
-        "id": {
-          "description": "Идентификатор выплаты",
-          "type": "string"
-        },
-        "shopID": {
-          "description": "Идентификатор магазина",
-          "type": "string"
-        },
-        "createdAt": {
-          "description": "Дата и время создания",
-          "type": "string",
-          "format": "date-time"
-        },
-        "status": {
-          "description": "Статус выплаты",
-          "type": "string",
-          "enum": [
-            "unpaid",
-            "paid",
-            "cancelled",
-            "confirmed"
-          ]
-        },
-        "cancellationDetails": {
-          "description": "Детали отмены выплаты",
-          "type": "string",
-          "maxLength": 1000
-        },
-        "amount": {
-          "description": "Сумма выплаты в минорных денежных\nединицах, например в копейках в случае указания российских рублей в\nкачестве валюты.\n",
-          "type": "integer",
-          "format": "int64",
-          "minimum": 1
-        },
-        "fee": {
-          "description": "Комиссия системы, в минорных денежных единицах",
-          "type": "integer",
-          "format": "int64",
-          "minimum": 0
-        },
-        "currency": {
-          "description": "Валюта, символьный код согласно\n[ISO 4217](http://www.iso.org/iso/home/standards/currency_codes.htm).\n",
-          "type": "string",
-          "pattern": "^[A-Z]{3}$"
-        },
-        "payoutToolDetails": {
-          "$ref": "#/definitions/PayoutToolDetails"
         }
       }
     },
@@ -4903,38 +4764,38 @@
         }
       ]
     },
+    "PayoutToolBankAccount": {
+      "type": "object",
+      "allOf": [
+        {
+          "$ref": "#/definitions/PayoutToolDetails"
+        },
+        {
+          "type": "object",
+          "required": [
+            "bankAccount"
+          ],
+          "properties": {
+            "bankAccount": {
+              "$ref": "#/definitions/BankAccount"
+            }
+          }
+        }
+      ]
+    },
     "PayoutToolDetails": {
       "description": "Данные средства вывода",
       "type": "object",
-      "discriminator": "detailsType",
+      "discriminator": "type",
       "properties": {
-        "detailsType": {
+        "type": {
           "description": "Тип средства вывода",
-          "type": "string"
+          "type": "string",
+          "enum": [
+            "PayoutToolBankAccount"
+          ]
         }
       }
-    },
-    "PayoutToolDetailsBankAccount": {
-      "type": "object",
-      "allOf": [
-        {
-          "$ref": "#/definitions/PayoutToolDetails"
-        },
-        {
-          "$ref": "#/definitions/BankAccount"
-        }
-      ]
-    },
-    "PayoutToolDetailsBankCard": {
-      "type": "object",
-      "allOf": [
-        {
-          "$ref": "#/definitions/PayoutToolDetails"
-        },
-        {
-          "$ref": "#/definitions/BankCardDetails"
-        }
-      ]
     },
     "PayoutToolParams": {
       "type": "object",
