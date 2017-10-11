@@ -20,7 +20,7 @@ allOf:
           enum:
             - CustomerCreated
             - CustomerDeleted
-            - CustomerStatusReady
+            - CustomerReady
             - CustomerBindingStarted
             - CustomerBindingSucceeded
             - CustomerBindingFailed
