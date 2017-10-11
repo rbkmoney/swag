@@ -10,10 +10,12 @@ properties:
     description: |
       Идентификатор webhook'а
     type: string
+    readOnly: true
   active:
     description: |
       Включена ли в данный момент доставка оповещений?
     type: boolean
+    readOnly: true
   scope:
     $ref: '#/definitions/WebhookScope'
   url:
@@ -28,3 +30,8 @@ properties:
       приходящих на `url` оповещений
     type: string
     format: hexadecimal
+    readOnly: true
+    example: "\
+      MIGJAoGBAM1fmNUvezts3yglTdhXuqG7OhHxQtDFA+Ss//YuUGjw5ossDbEMoS+S\
+      IFuYZ/UL9Xg0rEHNRSbmf48OK+mz0FobEtbji8MADayzGfFopXsfRFa7MVy3Uhu5\
+      jBDpLsN3DyJapAkK0TAYINlZXxVjDwxRNheTvC+xub5WNdiwc28fAgMBAAE="

@@ -10,7 +10,7 @@ post:
       in: body
       required: true
       schema:
-        $ref: '#/definitions/WebhookParams'
+        $ref: '#/definitions/Webhook'
   responses:
     '201':
       description: Webhook установлен
