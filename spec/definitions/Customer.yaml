@@ -1,15 +1,14 @@
 type: object
 required:
-  - id
-  - shopId
-  - status
+  - shopID
   - contactInfo
   - metadata
 properties:
   id:
     description: Идентификатор плательщика
     type: string
-  shopId:
+    readOnly: true
+  shopID:
     description: Идентификатор магазина
     type: string
   status:
