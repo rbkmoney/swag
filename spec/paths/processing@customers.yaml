@@ -10,7 +10,7 @@ post:
       in: body
       required: true
       schema:
-        $ref: '#/definitions/CustomerParams'
+        $ref: '#/definitions/Customer'
   responses:
     '201':
       description: Плательщик создан
