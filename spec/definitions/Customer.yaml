@@ -11,10 +11,15 @@ properties:
   shopID:
     description: Идентификатор магазина
     type: string
-  status:
-    $ref: '#/definitions/CustomerStatus'
   contactInfo:
     $ref: '#/definitions/ContactInfo'
+  status:
+    description: Статус плательщика
+    type: string
+    readOnly: true
+    enum:
+      - ready
+      - unready
   metadata:
     description: Связанные с плательщиком метаданные
     type: object
