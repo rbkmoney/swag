@@ -8,5 +8,5 @@ allOf:
     properties:
       customerID:
         description: Идентификатор плательщика
-        type: integer
-        format: int32
+        type: string
+        maxLength: 40
