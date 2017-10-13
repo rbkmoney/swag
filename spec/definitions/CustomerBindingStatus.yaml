@@ -6,7 +6,7 @@ properties:
     description: Статус привязки
     type: string
     enum:
-      - created
+      - pending
       - succeeded
       - failed
   error:
