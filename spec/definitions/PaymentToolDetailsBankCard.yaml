@@ -1,0 +1,4 @@
+type: object
+allOf:
+  - $ref: '#/definitions/PaymentToolDetails'
+  - $ref: '#/definitions/BankCardDetails'

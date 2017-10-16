@@ -19,7 +19,6 @@ get:
         - unpaid
         - cancelled
         - paid
-        - refunded
         - fulfilled
     - name: paymentStatus
       in: query
@@ -31,6 +30,7 @@ get:
         - processed
         - captured
         - cancelled
+        - refunded
         - failed
     - name: paymentFlow
       in: query
@@ -40,6 +40,21 @@ get:
       enum:
         - instant
         - hold
+    - name: paymentMethod
+      in: query
+      description: Метод оплаты
+      required: false
+      type: string
+      enum:
+        - bankCard
+        - paymentTerminal
+    - name: paymentTerminalProvider
+      in: query
+      description: Провайдер платежного терминала
+      required: false
+      type: string
+      enum:
+        - euroset
     - name: invoiceID
       in: query
       description: Идентификатор инвойса

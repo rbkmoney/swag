@@ -1,0 +1,19 @@
+get:
+  description: Получить доступные для инвойса методы оплаты по шаблону инвойса.
+  tags:
+    - InvoiceTemplates
+  operationId: getInvoicePaymentMethodsByTemplateID
+  parameters:
+    - $ref: '#/parameters/requestID'
+    - $ref: '#/parameters/invoiceTemplateID'
+  responses:
+    '200':
+      description: Список методов оплаты
+      schema:
+        type: array
+        items:
+          $ref: '#/definitions/PaymentMethod'
+    '400':
+      $ref: '#/responses/BadRequest'
+    '404':
+      $ref: '#/responses/NotFound'

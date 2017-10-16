@@ -145,6 +145,13 @@ parameters:
     required: true
     type: string
     maxLength: 40
+  refundID:
+    name: refundID
+    in: path
+    description: Идентификатор возврата в рамках платежа
+    required: true
+    type: string
+    maxLength: 40
   contractID:
     name: contractID
     in: path
@@ -374,7 +381,7 @@ tags:
       * получение состояния и событий этого инвойса.
 
 
-      Срок действия токена составляет 1 час от момента создания, после истечения
+      Срок действия токена составляет 3 суток от момента создания, после истечения
       которого использовать его для авторизации операций будет более невозможно.
   - name: InvoiceTemplates
     x-displayName: Шаблоны инвойсов

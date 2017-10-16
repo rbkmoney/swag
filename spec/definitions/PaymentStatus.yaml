@@ -10,6 +10,7 @@ properties:
       - processed
       - captured
       - cancelled
+      - refunded
       - failed
   error:
     $ref: '#/definitions/LogicError'
