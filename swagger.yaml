@@ -1880,7 +1880,21 @@ definitions:
         type: string
         pattern: '^\d{4}$'
       paymentSystem:
-        $ref: '#/definitions/BankCardPaymentSystem'
+        description: Платежная система
+        type: string
+        enum:
+          - visa
+          - mastercard
+          - visaelectron
+          - maestro
+          - forbrugsforeningen
+          - dankort
+          - amex
+          - dinersclub
+          - discover
+          - unionpay
+          - jcb
+          - nspkmir
   BankCardPaymentSystem:
     description: Платежная система
     type: string
