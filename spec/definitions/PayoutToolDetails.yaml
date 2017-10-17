@@ -5,3 +5,5 @@ properties:
    detailsType:
     description: Тип средства вывода
     type: string
+required:
+  - detailsType

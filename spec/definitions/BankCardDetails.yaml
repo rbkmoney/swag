@@ -7,6 +7,4 @@ properties:
     type: string
     pattern: '^\d{4}$'
   paymentSystem:
-    description: Платежная система
-    type: string
-    maxLength: 100
+    $ref: '#/definitions/BankCardPaymentSystem'
