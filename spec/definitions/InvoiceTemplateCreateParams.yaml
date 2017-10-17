@@ -1,7 +1,6 @@
 type: object
 required:
   - shopID
-  - product
   - lifetime
   - details
 properties:
@@ -9,10 +8,6 @@ properties:
     description: Идентификатор магазина
     type: string
     maxLength: 40
-  product:
-    description: Наименование предлагаемых товаров или услуг
-    type: string
-    maxLength: 100
   description:
     description: Описание предлагаемых товаров или услуг
     type: string
