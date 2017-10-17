@@ -7,4 +7,5 @@ properties:
     type: string
     pattern: '^\d{4}$'
   paymentSystem:
-    $ref: '#/definitions/BankCardPaymentSystem'
+    x-rebillyMerge:
+      - $ref: '#/definitions/BankCardPaymentSystem'
