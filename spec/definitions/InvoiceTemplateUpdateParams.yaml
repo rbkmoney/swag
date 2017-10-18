@@ -1,9 +1,5 @@
 type: object
 properties:
-  product:
-    description: Наименование предлагаемых товаров или услуг
-    type: string
-    maxLength: 100
   description:
     description: Описание предлагаемых товаров или услуг
     type: string
