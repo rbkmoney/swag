@@ -87,6 +87,12 @@ get:
       required: false
       type: string
       maxLength: 1000
+    - name: customerID
+      in: query
+      description: Идентификатор плательщика
+      required: false
+      type: string
+      maxLength: 40
     - name: cardNumberMask
       in: query
       description: Маскированый номер карты

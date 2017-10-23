@@ -1,0 +1,18 @@
+get:
+  description: Получить информацию о привязке к плательщику.
+  tags:
+    - Customers
+  operationId: getBinding
+  parameters:
+    - $ref: '#/parameters/requestID'
+    - $ref: '#/parameters/customerID'
+    - $ref: '#/parameters/customerBindingID'
+  responses:
+    '200':
+      description: Данные привязки
+      schema:
+        $ref: '#/definitions/CustomerBinding'
+    '400':
+      $ref: '#/responses/BadRequest'
+    '404':
+      $ref: '#/responses/NotFound'

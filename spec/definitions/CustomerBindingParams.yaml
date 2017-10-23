@@ -1,0 +1,6 @@
+type: object
+required:
+  - paymentResource
+properties:
+  paymentResource:
+    $ref: '#/definitions/PaymentResource'

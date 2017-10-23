@@ -1,0 +1,20 @@
+type: object
+description: Данные одноразового платежного средства
+required:
+  - paymentSession
+  - paymentToolToken
+properties:
+  paymentToolToken:
+    description: Токен платежного средства, предоставленного плательщиком
+    type: string
+    maxLength: 1000
+  paymentSession:
+    description: Идентификатор платежной сессии
+    type: string
+    maxLength: 1000
+  paymentToolDetails:
+    $ref: '#/definitions/PaymentToolDetails'
+  clientInfo:
+    allOf:
+      - $ref: '#/definitions/ClientInfo'
+      - readOnly: true
