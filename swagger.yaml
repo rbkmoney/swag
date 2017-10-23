@@ -126,6 +126,20 @@ parameters:
     required: true
     type: string
     maxLength: 40
+  customerID:
+    name: customerID
+    in: path
+    description: Идентификатор кастомера
+    required: true
+    type: string
+    maxLength: 40
+  customerBindingID:
+    name: customerBindingID
+    in: path
+    description: Идентификатор привязки к кастомера
+    required: true
+    type: string
+    maxLength: 40
   webhookID:
     name: webhookID
     in: path
@@ -530,6 +544,12 @@ paths:
           required: false
           type: string
           maxLength: 1000
+        - name: customerID
+          in: query
+          description: Идентификатор плательщика
+          required: false
+          type: string
+          maxLength: 40
         - name: cardNumberMask
           in: query
           description: Маскированый номер карты
@@ -646,6 +666,12 @@ paths:
           required: false
           type: string
           maxLength: 1000
+        - name: customerID
+          in: query
+          description: Идентификатор плательщика
+          required: false
+          type: string
+          maxLength: 40
         - name: cardNumberMask
           in: query
           description: Маскированый номер карты
@@ -1068,6 +1094,175 @@ paths:
             $ref: '#/definitions/PayoutTool'
         '404':
           $ref: '#/responses/NotFound'
+  /processing/customers:
+    post:
+      description: Создать нового плательщика.
+      tags:
+        - Customers
+      operationId: createCustomer
+      parameters:
+        - $ref: '#/parameters/requestID'
+        - name: customerParams
+          description: Параметры создаваемого плательщика
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/Customer'
+      responses:
+        '201':
+          description: Плательщик создан
+          schema:
+            $ref: '#/definitions/CustomerAndToken'
+        '400':
+          $ref: '#/responses/BadRequest'
+  '/processing/customers/{customerID}':
+    get:
+      description: Получить данные плательщика по его идентификатору.
+      operationId: getCustomerById
+      tags:
+        - Customers
+      parameters:
+        - $ref: '#/parameters/requestID'
+        - $ref: '#/parameters/customerID'
+      responses:
+        '200':
+          description: Данные плательщика
+          schema:
+            $ref: '#/definitions/Customer'
+        '400':
+          $ref: '#/responses/BadRequest'
+        '404':
+          $ref: '#/responses/NotFound'
+    delete:
+      description: Удалить плательщика по его идентификатору
+      operationId: deleteCustomer
+      tags:
+        - Customers
+      parameters:
+        - $ref: '#/parameters/requestID'
+        - $ref: '#/parameters/customerID'
+      responses:
+        '204':
+          description: Плательщик удален
+        '400':
+          $ref: '#/responses/BadRequest'
+        '404':
+          $ref: '#/responses/NotFound'
+  '/processing/customers/{customerID}/access-tokens':
+    post:
+      operationId: createCustomerAccessToken
+      description: |
+        Создать новый токен для доступа к указанному плательщику.
+      tags:
+        - Customers
+      parameters:
+        - $ref: '#/parameters/requestID'
+        - $ref: '#/parameters/customerID'
+      responses:
+        '201':
+          description: Токен для доступа создан
+          schema:
+            $ref: '#/definitions/AccessToken'
+        '404':
+          $ref: '#/responses/NotFound'
+  '/processing/customers/{customerID}/bindings':
+    post:
+      description: Запустить новую привязку к плательшику.
+      tags:
+        - Customers
+      operationId: createBinding
+      parameters:
+        - $ref: '#/parameters/requestID'
+        - $ref: '#/parameters/customerID'
+        - name: bindingParams
+          description: Параметры создаваемой привязки
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/CustomerBindingParams'
+      responses:
+        '201':
+          description: Привязка запущена
+          schema:
+            $ref: '#/definitions/CustomerBinding'
+        '400':
+          $ref: '#/responses/BadRequest'
+        '404':
+          $ref: '#/responses/NotFound'
+    get:
+      description: Получить все привязки к плательщику.
+      tags:
+        - Customers
+      operationId: getBindings
+      parameters:
+        - $ref: '#/parameters/requestID'
+        - $ref: '#/parameters/customerID'
+      responses:
+        '200':
+          description: Список привязок
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/CustomerBinding'
+        '400':
+          $ref: '#/responses/BadRequest'
+        '404':
+          $ref: '#/responses/NotFound'
+  '/processing/customers/{customerID}/bindings/{customerBindingID}':
+    get:
+      description: Получить информацию о привязке к плательщику.
+      tags:
+        - Customers
+      operationId: getBinding
+      parameters:
+        - $ref: '#/parameters/requestID'
+        - $ref: '#/parameters/customerID'
+        - $ref: '#/parameters/customerBindingID'
+      responses:
+        '200':
+          description: Данные привязки
+          schema:
+            $ref: '#/definitions/CustomerBinding'
+        '400':
+          $ref: '#/responses/BadRequest'
+        '404':
+          $ref: '#/responses/NotFound'
+  '/processing/customers/{customerID}/events':
+    get:
+      description: Получить историю указанного плательщика в виде набора событий.
+      tags:
+        - Customers
+      operationId: getCustomerEvents
+      parameters:
+        - $ref: '#/parameters/requestID'
+        - $ref: '#/parameters/customerID'
+        - name: limit
+          in: query
+          description: Лимит выборки
+          required: true
+          type: integer
+          format: int32
+          minimum: 1
+        - name: eventID
+          in: query
+          description: |
+            Идентификатор события.
+
+            Все события, возникшие в системе _после_ указанного, попадут в выборку.
+          required: false
+          type: integer
+          format: int32
+      responses:
+        '200':
+          description: Набор событий
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/CustomerEvent'
+        '400':
+          $ref: '#/responses/BadRequest'
+        '404':
+          $ref: '#/responses/NotFound'
   /processing/invoice-templates:
     post:
       description: Создать новый шаблон инвойса.
@@ -1228,7 +1423,7 @@ paths:
           $ref: '#/responses/BadRequest'
         '404':
           $ref: '#/responses/NotFound'
-  '/processing/invoices/{invoiceID}/access_tokens':
+  '/processing/invoices/{invoiceID}/access-tokens':
     post:
       operationId: createInvoiceAccessToken
       description: Создать новый токен для доступа к указанному инвойсу.
@@ -1275,7 +1470,7 @@ paths:
           schema:
             type: array
             items:
-              $ref: '#/definitions/Event'
+              $ref: '#/definitions/InvoiceEvent'
         '400':
           $ref: '#/responses/BadRequest'
         '404':
@@ -1551,41 +1746,29 @@ paths:
       responses:
         '204':
           description: Party suspended
-  /processing/payment_tools:
+  /processing/payment-resources:
     post:
       description: |
-        Создать новый токен платежного средства, предоставленного плательщиком, а
+        Создать новый одноразовый токен платежного средства, предоставленного плательщиком, а
         также новую уникальную платежную сессию.
         Токен платежного средства и идентификатор сессии необходим для создания
         платежа по инвойсу.
       tags:
         - Tokens
-      operationId: createPaymentToolToken
+      operationId: createPaymentResource
       parameters:
         - $ref: '#/parameters/requestID'
-        - name: paymentTool
-          description: Данные для создания токена
+        - name: paymentResource
+          description: Данные для создания платежного средства
           in: body
           required: true
           schema:
-            $ref: '#/definitions/PaymentToolTokenParams'
+            $ref: '#/definitions/PaymentResourceParams'
       responses:
         '201':
           description: Токен и сессия созданы
           schema:
-            type: object
-            required:
-              - token
-              - session
-            properties:
-              token:
-                description: Созданный токен
-                type: string
-                maxLength: 1000
-              session:
-                description: Идентификатор созданной платежной сессии
-                type: string
-                maxLength: 1000
+            $ref: '#/definitions/PaymentResource'
         '400':
           $ref: '#/responses/BadRequest'
   /processing/shops:
@@ -1662,7 +1845,7 @@ paths:
           in: body
           required: true
           schema:
-            $ref: '#/definitions/WebhookParams'
+            $ref: '#/definitions/Webhook'
       responses:
         '201':
           description: Webhook установлен
@@ -1798,7 +1981,8 @@ definitions:
       - payload
     properties:
       payload:
-        description: Содержимое токена для доступа к ресурсу.
+        description: |
+          Содержимое токена для доступа
         type: string
   Account:
     type: object
@@ -2070,6 +2254,12 @@ definitions:
     required:
       - fingerprint
     properties:
+      ip:
+        description: IP-адрес плательщика
+        type: string
+        format: ip-address
+        maxLength: 45
+        readOnly: true
       fingerprint:
         description: Уникальный отпечаток user agent'а плательщика
         type: string
@@ -2258,7 +2448,139 @@ definitions:
         type: integer
         format: int64
         minimum: 1
-  Event:
+  Customer:
+    type: object
+    required:
+      - shopID
+      - contactInfo
+      - metadata
+    properties:
+      id:
+        description: Идентификатор плательщика
+        type: string
+        readOnly: true
+      shopID:
+        description: Идентификатор магазина
+        type: string
+      contactInfo:
+        $ref: '#/definitions/ContactInfo'
+      status:
+        description: Статус плательщика
+        type: string
+        readOnly: true
+        enum:
+          - ready
+          - unready
+      metadata:
+        description: Связанные с плательщиком метаданные
+        type: object
+  CustomerAndToken:
+    type: object
+    required:
+      - customer
+      - customerAccessToken
+    properties:
+      customer:
+        $ref: '#/definitions/Customer'
+      customerAccessToken:
+        $ref: '#/definitions/AccessToken'
+  CustomerBinding:
+    type: object
+    allOf:
+      - type: object
+        required:
+          - id
+          - paymentResource
+        properties:
+          id:
+            description: Идентификатор привязки
+            type: string
+          paymentResource:
+            $ref: '#/definitions/PaymentResource'
+      - $ref: '#/definitions/CustomerBindingStatus'
+  CustomerBindingError:
+    description: 'Описание ошибки, возникшей в процессе привязки'
+    type: object
+    required:
+      - code
+      - message
+    properties:
+      code:
+        type: string
+      message:
+        type: string
+  CustomerBindingInteractionRequested:
+    type: object
+    allOf:
+      - $ref: '#/definitions/CustomerChange'
+      - type: object
+        description: |
+          Требование провести взаимодействие с плательщиком для продолжения процесса
+          привязки
+        required:
+          - customerBindingID
+          - userInteraction
+        properties:
+          customerBindingID:
+            description: Идентификатор привязки
+            type: string
+          userInteraction:
+            $ref: '#/definitions/UserInteraction'
+  CustomerBindingParams:
+    type: object
+    required:
+      - paymentResource
+    properties:
+      paymentResource:
+        $ref: '#/definitions/PaymentResource'
+  CustomerBindingStarted:
+    type: object
+    allOf:
+      - $ref: '#/definitions/CustomerChange'
+      - type: object
+        required:
+          - customerBinding
+        properties:
+          customerBinding:
+            $ref: '#/definitions/CustomerBinding'
+  CustomerBindingStatus:
+    type: object
+    required:
+      - status
+    properties:
+      status:
+        description: Статус привязки
+        type: string
+        enum:
+          - pending
+          - succeeded
+          - failed
+      error:
+        $ref: '#/definitions/CustomerBindingError'
+  CustomerBindingStatusChanged:
+    type: object
+    allOf:
+      - $ref: '#/definitions/CustomerChange'
+      - $ref: '#/definitions/CustomerBindingStatus'
+      - type: object
+        required:
+          - customerBindingID
+        properties:
+          customerBindingID:
+            type: string
+  CustomerChange:
+    type: object
+    discriminator: changeType
+    required:
+      - changeType
+    properties:
+      changeType:
+        type: string
+        enum:
+          - CustomerBindingStarted
+          - CustomerBindingStatusChanged
+          - CustomerBindingInteractionRequested
+  CustomerEvent:
     type: object
     required:
       - id
@@ -2273,7 +2595,47 @@ definitions:
       changes:
         type: array
         items:
-          $ref: '#/definitions/InvoiceChange'
+          $ref: '#/definitions/CustomerChange'
+  CustomerPayer:
+    type: object
+    allOf:
+      - $ref: '#/definitions/Payer'
+      - type: object
+        description: Многоразовое платежное средство
+        required:
+          - customerID
+        properties:
+          customerID:
+            description: Идентификатор плательщика
+            type: string
+            maxLength: 40
+  CustomersTopic:
+    description: |
+      Область охвата, включающая события по плательщикам в рамках определённого
+      магазина
+    allOf:
+      - $ref: '#/definitions/WebhookScope'
+      - type: object
+        required:
+          - shopID
+          - eventTypes
+        properties:
+          shopID:
+            description: Идентификатор магазина
+            type: string
+            maxLength: 40
+          eventTypes:
+            description: 'Набор типов событий плательщиков, о которых следует оповещать'
+            type: array
+            items:
+              type: string
+              enum:
+                - CustomerCreated
+                - CustomerDeleted
+                - CustomerReady
+                - CustomerBindingStarted
+                - CustomerBindingSucceeded
+                - CustomerBindingFailed
   FileMeta:
     type: object
     required:
@@ -2425,6 +2787,22 @@ definitions:
         properties:
           invoice:
             $ref: '#/definitions/Invoice'
+  InvoiceEvent:
+    type: object
+    required:
+      - id
+      - createdAt
+      - changes
+    properties:
+      id:
+        type: integer
+      createdAt:
+        type: string
+        format: date-time
+      changes:
+        type: array
+        items:
+          $ref: '#/definitions/InvoiceChange'
   InvoiceLine:
     description: Позиция товара или услуги
     type: object
@@ -2905,6 +3283,15 @@ definitions:
         enum:
           - ContractModification
           - ShopModification
+  Payer:
+    type: object
+    discriminator: payerType
+    properties:
+      payerType:
+        description: Тип платежного средства
+        type: string
+    required:
+      - payerType
   Payment:
     type: object
     allOf:
@@ -2916,10 +3303,7 @@ definitions:
           - amount
           - currency
           - flow
-          - contactInfo
-          - paymentSession
-          - paymentToolToken
-          - paymentToolDetails
+          - payer
         properties:
           id:
             description: Идентификатор платежа
@@ -2946,29 +3330,8 @@ definitions:
             pattern: '^[A-Z]{3}$'
           flow:
             $ref: '#/definitions/PaymentFlow'
-          contactInfo:
-            description: Контактные данные плательщика
-            allOf:
-              - $ref: '#/definitions/ContactInfo'
-          paymentSession:
-            description: Идентификатор платежной сессии
-            type: string
-            maxLength: 1000
-          paymentToolToken:
-            description: 'Токен платежного средства, предоставленного плательщиком'
-            type: string
-            maxLength: 1000
-          paymentToolDetails:
-            $ref: '#/definitions/PaymentToolDetails'
-          ip:
-            description: IP-адрес плательщика
-            type: string
-            format: ip-address
-            maxLength: 45
-          fingerprint:
-            description: Уникальный отпечаток user agent'а плательщика
-            type: string
-            maxLength: 1000
+          payer:
+            $ref: '#/definitions/Payer'
       - $ref: '#/definitions/PaymentStatus'
   PaymentConversionStat:
     type: object
@@ -3133,24 +3496,15 @@ definitions:
         description: Тип статистики по методу оплаты
         type: string
   PaymentParams:
+    type: object
     required:
       - flow
-      - contactInfo
-      - paymentSession
-      - paymentToolToken
+      - payer
     properties:
       flow:
         $ref: '#/definitions/PaymentFlow'
-      contactInfo:
-        $ref: '#/definitions/ContactInfo'
-      paymentSession:
-        description: Идентификатор платежной сессии
-        type: string
-        maxLength: 1000
-      paymentToolToken:
-        description: 'Токен платежного средства, предоставленного плательщиком'
-        type: string
-        maxLength: 1000
+      payer:
+        $ref: '#/definitions/Payer'
   PaymentRateStat:
     type: object
     required:
@@ -3159,6 +3513,49 @@ definitions:
       uniqueCount:
         description: Количество уникальных плательщиков
         type: integer
+  PaymentResource:
+    type: object
+    description: Данные одноразового платежного средства
+    required:
+      - paymentSession
+      - paymentToolToken
+    properties:
+      paymentToolToken:
+        description: 'Токен платежного средства, предоставленного плательщиком'
+        type: string
+        maxLength: 1000
+      paymentSession:
+        description: Идентификатор платежной сессии
+        type: string
+        maxLength: 1000
+      paymentToolDetails:
+        $ref: '#/definitions/PaymentToolDetails'
+      clientInfo:
+        allOf:
+          - $ref: '#/definitions/ClientInfo'
+          - readOnly: true
+  PaymentResourceParams:
+    type: object
+    required:
+      - paymentTool
+      - clientInfo
+    properties:
+      paymentTool:
+        $ref: '#/definitions/PaymentTool'
+      clientInfo:
+        $ref: '#/definitions/ClientInfo'
+  PaymentResourcePayer:
+    type: object
+    description: Одноразовое платежное средство
+    allOf:
+      - $ref: '#/definitions/Payer'
+      - $ref: '#/definitions/PaymentResource'
+      - type: object
+        required:
+          - contactInfo
+        properties:
+          contactInfo:
+            $ref: '#/definitions/ContactInfo'
   PaymentRevenueStat:
     type: object
     required:
@@ -3193,11 +3590,8 @@ definitions:
           - createdAt
           - amount
           - currency
+          - payer
           - flow
-          - contactInfo
-          - paymentSession
-          - paymentToolToken
-          - paymentToolDetails
         properties:
           id:
             description: Идентификатор платежа
@@ -3231,33 +3625,12 @@ definitions:
               [ISO 4217](http://www.iso.org/iso/home/standards/currency_codes.htm).
             type: string
             pattern: '^[A-Z]{3}$'
+          payer:
+            $ref: '#/definitions/Payer'
           flow:
             $ref: '#/definitions/PaymentFlow'
-          contactInfo:
-            description: Контактные данные плательщика
-            allOf:
-              - $ref: '#/definitions/ContactInfo'
-          paymentSession:
-            description: Идентификатор платежной сессии
-            type: string
-            maxLength: 1000
-          paymentToolToken:
-            description: 'Токен платежного средства, предоставленного плательщиком'
-            type: string
-            maxLength: 1000
-          paymentToolDetails:
-            $ref: '#/definitions/PaymentToolDetails'
-          ip:
-            description: IP-адрес плательщика
-            type: string
-            format: ip-address
-            maxLength: 45
           geoLocationInfo:
             $ref: '#/definitions/GeoLocationInfo'
-          fingerprint:
-            description: Уникальный отпечаток user agent'а плательщика
-            type: string
-            maxLength: 1000
           metadata:
             description: Связанные с платежом метаданные
             type: object
@@ -3365,6 +3738,7 @@ definitions:
     type: object
     discriminator: detailsType
     description: Детали платежного средства
+    readOnly: true
     required:
       - detailsType
     properties:
@@ -3381,16 +3755,6 @@ definitions:
     allOf:
       - $ref: '#/definitions/PaymentToolDetails'
       - $ref: '#/definitions/PaymentTerminalDetails'
-  PaymentToolTokenParams:
-    type: object
-    required:
-      - paymentTool
-      - clientInfo
-    properties:
-      paymentTool:
-        $ref: '#/definitions/PaymentTool'
-      clientInfo:
-        $ref: '#/definitions/ClientInfo'
   Payout:
     type: object
     required:
@@ -3961,20 +4325,19 @@ definitions:
   Webhook:
     type: object
     required:
-      - id
-      - active
       - scope
       - url
-      - publicKey
     properties:
       id:
         description: |
           Идентификатор webhook'а
         type: string
+        readOnly: true
       active:
         description: |
           Включена ли в данный момент доставка оповещений?
         type: boolean
+        readOnly: true
       scope:
         $ref: '#/definitions/WebhookScope'
       url:
@@ -3989,21 +4352,8 @@ definitions:
           приходящих на `url` оповещений
         type: string
         format: hexadecimal
-  WebhookParams:
-    description: Данные для установки нового webhook'а
-    type: object
-    required:
-      - scope
-      - url
-    properties:
-      scope:
-        $ref: '#/definitions/WebhookScope'
-      url:
-        description: |
-          URL, на который будут поступать оповещения о произошедших событиях
-        type: string
-        format: uri
-        maxLength: 1000
+        readOnly: true
+        example: MIGJAoGBAM1fmNUvezts3yglTdhXuqG7OhHxQtDFA+Ss//YuUGjw5ossDbEMoS+SIFuYZ/UL9Xg0rEHNRSbmf48OK+mz0FobEtbji8MADayzGfFopXsfRFa7MVy3Uhu5jBDpLsN3DyJapAkK0TAYINlZXxVjDwxRNheTvC+xub5WNdiwc28fAgMBAAE=
   WebhookScope:
     description: |
       Область охвата webhook'а, ограничивающая набор типов событий, по которым
@@ -4018,3 +4368,4 @@ definitions:
         type: string
         enum:
           - InvoicesTopic
+          - CustomersTopic
