@@ -1,11 +1,11 @@
 get:
-  description: Получить историю указанного инвойса в виде набора событий.
+  description: Получить историю указанного плательщика в виде набора событий.
   tags:
-    - Invoices
-  operationId: getInvoiceEvents
+    - Customers
+  operationId: getCustomerEvents
   parameters:
     - $ref: '#/parameters/requestID'
-    - $ref: '#/parameters/invoiceID'
+    - $ref: '#/parameters/customerID'
     - name: limit
       in: query
       description: Лимит выборки
@@ -28,7 +28,7 @@ get:
       schema:
         type: array
         items:
-          $ref: '#/definitions/InvoiceEvent'
+          $ref: '#/definitions/CustomerEvent'
     '400':
       $ref: '#/responses/BadRequest'
     '404':

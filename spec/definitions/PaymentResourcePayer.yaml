@@ -1,0 +1,11 @@
+type: object
+description: Одноразовое платежное средство
+allOf:
+  - $ref: '#/definitions/Payer'
+  - $ref: '#/definitions/PaymentResource'
+  - type: object
+    required:
+      - contactInfo
+    properties:
+      contactInfo:
+        $ref: '#/definitions/ContactInfo'

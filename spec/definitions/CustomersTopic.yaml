@@ -1,0 +1,26 @@
+description: |
+  Область охвата, включающая события по плательщикам в рамках определённого
+  магазина
+allOf:
+  - $ref: '#/definitions/WebhookScope'
+  - type: object
+    required:
+      - shopID
+      - eventTypes
+    properties:
+      shopID:
+        description: Идентификатор магазина
+        type: string
+        maxLength: 40
+      eventTypes:
+        description: Набор типов событий плательщиков, о которых следует оповещать
+        type: array
+        items:
+          type: string
+          enum:
+            - CustomerCreated
+            - CustomerDeleted
+            - CustomerReady
+            - CustomerBindingStarted
+            - CustomerBindingSucceeded
+            - CustomerBindingFailed
