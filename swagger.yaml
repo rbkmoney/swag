@@ -3050,9 +3050,8 @@ definitions:
     required:
       - id
       - shopID
-      - product
       - lifetime
-      - cost
+      - details
     properties:
       id:
         description: Идентификатор шаблона инвойса
@@ -3061,18 +3060,14 @@ definitions:
         description: Идентификатор магазина
         type: string
         maxLength: 40
-      product:
-        description: Наименование предлагаемых товаров или услуг
-        type: string
-        maxLength: 100
       description:
         description: Описание предлагаемых товаров или услуг
         type: string
         maxLength: 1000
       lifetime:
         $ref: '#/definitions/LifetimeInterval'
-      cost:
-        $ref: '#/definitions/InvoiceTemplateCost'
+      details:
+        $ref: '#/definitions/InvoiceTemplateDetails'
       metadata:
         description: |
           Метаданные, которые будут связаны с инвойсом, созданным по шаблону, в случае, если иные метаданные не указаны в запросе на создание инвойса.
@@ -3087,21 +3082,52 @@ definitions:
         $ref: '#/definitions/InvoiceTemplate'
       invoiceTemplateAccessToken:
         $ref: '#/definitions/AccessToken'
-  InvoiceTemplateCost:
+  InvoiceTemplateCreateParams:
     type: object
-    discriminator: invoiceTemplateCostType
+    required:
+      - shopID
+      - lifetime
+      - details
+    properties:
+      shopID:
+        description: Идентификатор магазина
+        type: string
+        maxLength: 40
+      description:
+        description: Описание предлагаемых товаров или услуг
+        type: string
+        maxLength: 1000
+      lifetime:
+        $ref: '#/definitions/LifetimeInterval'
+      details:
+        $ref: '#/definitions/InvoiceTemplateDetails'
+      metadata:
+        description: |
+          Метаданные, которые будут связаны с инвойсом, созданным по шаблону, в случае, если иные метаданные не указаны в запросе на создание инвойса.
+        type: object
+  InvoiceTemplateDetails:
+    type: object
+    discriminator: templateType
+    required:
+      - templateType
+    properties:
+      templateType:
+        type: string
+  InvoiceTemplateLineCost:
+    type: object
+    discriminator: costType
     description: |
-      Ограничения на стоимость товаров и услуг для инвойсов, генерируемых по
+      Ограничения на стоимость товара и услуги для инвойсов, генерируемых по
       шаблону.
     required:
-      - invoiceTemplateCostType
+      - costType
     properties:
-      invoiceTemplateCostType:
+      costType:
         type: string
-  InvoiceTemplateCostFixed:
+  InvoiceTemplateLineCostFixed:
     type: object
     allOf:
-      - $ref: '#/definitions/InvoiceTemplateCost'
+      - $ref: '#/definitions/InvoiceTemplateLineCost'
       - type: object
         required:
           - currency
@@ -3120,10 +3146,10 @@ definitions:
             type: integer
             format: int64
             minimum: 1
-  InvoiceTemplateCostRange:
+  InvoiceTemplateLineCostRange:
     type: object
     allOf:
-      - $ref: '#/definitions/InvoiceTemplateCost'
+      - $ref: '#/definitions/InvoiceTemplateLineCost'
       - type: object
         required:
           - currency
@@ -3137,53 +3163,55 @@ definitions:
             pattern: '^[A-Z]{3}$'
           range:
             $ref: '#/definitions/CostAmountRange'
-  InvoiceTemplateCostUnlim:
+  InvoiceTemplateLineCostUnlim:
     type: object
     allOf:
-      - $ref: '#/definitions/InvoiceTemplateCost'
-  InvoiceTemplateCreateParams:
+      - $ref: '#/definitions/InvoiceTemplateLineCost'
+  InvoiceTemplateMultiLine:
     type: object
-    required:
-      - shopID
-      - product
-      - lifetime
-      - cost
-    properties:
-      shopID:
-        description: Идентификатор магазина
-        type: string
-        maxLength: 40
-      product:
-        description: Наименование предлагаемых товаров или услуг
-        type: string
-        maxLength: 100
-      description:
-        description: Описание предлагаемых товаров или услуг
-        type: string
-        maxLength: 1000
-      lifetime:
-        $ref: '#/definitions/LifetimeInterval'
-      cost:
-        $ref: '#/definitions/InvoiceTemplateCost'
-      metadata:
-        description: |
-          Метаданные, которые будут связаны с инвойсом, созданным по шаблону, в случае, если иные метаданные не указаны в запросе на создание инвойса.
-        type: object
+    allOf:
+      - $ref: '#/definitions/InvoiceTemplateDetails'
+      - type: object
+        required:
+          - cart
+          - currency
+        properties:
+          cart:
+            $ref: '#/definitions/InvoiceCart'
+          currency:
+            description: |
+              Валюта, символьный код согласно
+              [ISO 4217](http://www.iso.org/iso/home/standards/currency_codes.htm).
+            type: string
+            pattern: '^[A-Z]{3}$'
+  InvoiceTemplateSingleLine:
+    type: object
+    allOf:
+      - $ref: '#/definitions/InvoiceTemplateDetails'
+      - type: object
+        required:
+          - product
+          - price
+        properties:
+          product:
+            description: Наименование предлагаемых товаров или услуг
+            type: string
+            maxLength: 100
+          price:
+            $ref: '#/definitions/InvoiceTemplateLineCost'
+          taxMode:
+            $ref: '#/definitions/InvoiceLineTaxMode'
   InvoiceTemplateUpdateParams:
     type: object
     properties:
-      product:
-        description: Наименование предлагаемых товаров или услуг
-        type: string
-        maxLength: 100
       description:
         description: Описание предлагаемых товаров или услуг
         type: string
         maxLength: 1000
       lifetime:
         $ref: '#/definitions/LifetimeInterval'
-      cost:
-        $ref: '#/definitions/InvoiceTemplateCost'
+      details:
+        $ref: '#/definitions/InvoiceTemplateDetails'
       metadata:
         description: |
           Метаданные, которые будут связаны с инвойсом, созданным по шаблону, в случае, если иные метаданные не указаны в запросе на создание инвойса.

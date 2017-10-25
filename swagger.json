@@ -4401,9 +4401,8 @@
       "required": [
         "id",
         "shopID",
-        "product",
         "lifetime",
-        "cost"
+        "details"
       ],
       "properties": {
         "id": {
@@ -4415,11 +4414,6 @@
           "type": "string",
           "maxLength": 40
         },
-        "product": {
-          "description": "Наименование предлагаемых товаров или услуг",
-          "type": "string",
-          "maxLength": 100
-        },
         "description": {
           "description": "Описание предлагаемых товаров или услуг",
           "type": "string",
@@ -4428,8 +4422,8 @@
         "lifetime": {
           "$ref": "#/definitions/LifetimeInterval"
         },
-        "cost": {
-          "$ref": "#/definitions/InvoiceTemplateCost"
+        "details": {
+          "$ref": "#/definitions/InvoiceTemplateDetails"
         },
         "metadata": {
           "description": "Метаданные, которые будут связаны с инвойсом, созданным по шаблону, в случае, если иные метаданные не указаны в запросе на создание инвойса.\n",
@@ -4452,24 +4446,66 @@
         }
       }
     },
-    "InvoiceTemplateCost": {
+    "InvoiceTemplateCreateParams": {
       "type": "object",
-      "discriminator": "invoiceTemplateCostType",
-      "description": "Ограничения на стоимость товаров и услуг для инвойсов, генерируемых по\nшаблону.\n",
       "required": [
-        "invoiceTemplateCostType"
+        "shopID",
+        "lifetime",
+        "details"
       ],
       "properties": {
-        "invoiceTemplateCostType": {
+        "shopID": {
+          "description": "Идентификатор магазина",
+          "type": "string",
+          "maxLength": 40
+        },
+        "description": {
+          "description": "Описание предлагаемых товаров или услуг",
+          "type": "string",
+          "maxLength": 1000
+        },
+        "lifetime": {
+          "$ref": "#/definitions/LifetimeInterval"
+        },
+        "details": {
+          "$ref": "#/definitions/InvoiceTemplateDetails"
+        },
+        "metadata": {
+          "description": "Метаданные, которые будут связаны с инвойсом, созданным по шаблону, в случае, если иные метаданные не указаны в запросе на создание инвойса.\n",
+          "type": "object"
+        }
+      }
+    },
+    "InvoiceTemplateDetails": {
+      "type": "object",
+      "discriminator": "templateType",
+      "required": [
+        "templateType"
+      ],
+      "properties": {
+        "templateType": {
           "type": "string"
         }
       }
     },
-    "InvoiceTemplateCostFixed": {
+    "InvoiceTemplateLineCost": {
+      "type": "object",
+      "discriminator": "costType",
+      "description": "Ограничения на стоимость товара и услуги для инвойсов, генерируемых по\nшаблону.\n",
+      "required": [
+        "costType"
+      ],
+      "properties": {
+        "costType": {
+          "type": "string"
+        }
+      }
+    },
+    "InvoiceTemplateLineCostFixed": {
       "type": "object",
       "allOf": [
         {
-          "$ref": "#/definitions/InvoiceTemplateCost"
+          "$ref": "#/definitions/InvoiceTemplateLineCost"
         },
         {
           "type": "object",
@@ -4493,11 +4529,11 @@
         }
       ]
     },
-    "InvoiceTemplateCostRange": {
+    "InvoiceTemplateLineCostRange": {
       "type": "object",
       "allOf": [
         {
-          "$ref": "#/definitions/InvoiceTemplateCost"
+          "$ref": "#/definitions/InvoiceTemplateLineCost"
         },
         {
           "type": "object",
@@ -4518,58 +4554,70 @@
         }
       ]
     },
-    "InvoiceTemplateCostUnlim": {
+    "InvoiceTemplateLineCostUnlim": {
       "type": "object",
       "allOf": [
         {
-          "$ref": "#/definitions/InvoiceTemplateCost"
+          "$ref": "#/definitions/InvoiceTemplateLineCost"
         }
       ]
     },
-    "InvoiceTemplateCreateParams": {
+    "InvoiceTemplateMultiLine": {
       "type": "object",
-      "required": [
-        "shopID",
-        "product",
-        "lifetime",
-        "cost"
-      ],
-      "properties": {
-        "shopID": {
-          "description": "Идентификатор магазина",
-          "type": "string",
-          "maxLength": 40
+      "allOf": [
+        {
+          "$ref": "#/definitions/InvoiceTemplateDetails"
         },
-        "product": {
-          "description": "Наименование предлагаемых товаров или услуг",
-          "type": "string",
-          "maxLength": 100
-        },
-        "description": {
-          "description": "Описание предлагаемых товаров или услуг",
-          "type": "string",
-          "maxLength": 1000
-        },
-        "lifetime": {
-          "$ref": "#/definitions/LifetimeInterval"
-        },
-        "cost": {
-          "$ref": "#/definitions/InvoiceTemplateCost"
-        },
-        "metadata": {
-          "description": "Метаданные, которые будут связаны с инвойсом, созданным по шаблону, в случае, если иные метаданные не указаны в запросе на создание инвойса.\n",
-          "type": "object"
+        {
+          "type": "object",
+          "required": [
+            "cart",
+            "currency"
+          ],
+          "properties": {
+            "cart": {
+              "$ref": "#/definitions/InvoiceCart"
+            },
+            "currency": {
+              "description": "Валюта, символьный код согласно\n[ISO 4217](http://www.iso.org/iso/home/standards/currency_codes.htm).\n",
+              "type": "string",
+              "pattern": "^[A-Z]{3}$"
+            }
+          }
         }
-      }
+      ]
+    },
+    "InvoiceTemplateSingleLine": {
+      "type": "object",
+      "allOf": [
+        {
+          "$ref": "#/definitions/InvoiceTemplateDetails"
+        },
+        {
+          "type": "object",
+          "required": [
+            "product",
+            "price"
+          ],
+          "properties": {
+            "product": {
+              "description": "Наименование предлагаемых товаров или услуг",
+              "type": "string",
+              "maxLength": 100
+            },
+            "price": {
+              "$ref": "#/definitions/InvoiceTemplateLineCost"
+            },
+            "taxMode": {
+              "$ref": "#/definitions/InvoiceLineTaxMode"
+            }
+          }
+        }
+      ]
     },
     "InvoiceTemplateUpdateParams": {
       "type": "object",
       "properties": {
-        "product": {
-          "description": "Наименование предлагаемых товаров или услуг",
-          "type": "string",
-          "maxLength": 100
-        },
         "description": {
           "description": "Описание предлагаемых товаров или услуг",
           "type": "string",
@@ -4578,8 +4626,8 @@
         "lifetime": {
           "$ref": "#/definitions/LifetimeInterval"
         },
-        "cost": {
-          "$ref": "#/definitions/InvoiceTemplateCost"
+        "details": {
+          "$ref": "#/definitions/InvoiceTemplateDetails"
         },
         "metadata": {
           "description": "Метаданные, которые будут связаны с инвойсом, созданным по шаблону, в случае, если иные метаданные не указаны в запросе на создание инвойса.\n",
