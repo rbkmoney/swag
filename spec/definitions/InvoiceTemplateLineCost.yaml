@@ -1,0 +1,10 @@
+type: object
+discriminator: costType
+description: |
+  Ограничения на стоимость товара и услуги для инвойсов, генерируемых по
+  шаблону.
+required:
+  - costType
+properties:
+  costType:
+    type: string

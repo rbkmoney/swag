@@ -1,0 +1,16 @@
+type: object
+allOf:
+  - $ref: '#/definitions/InvoiceTemplateDetails'
+  - type: object
+    required:
+      - product
+      - price
+    properties:
+      product:
+        description: Наименование предлагаемых товаров или услуг
+        type: string
+        maxLength: 100
+      price:
+        $ref: '#/definitions/InvoiceTemplateLineCost'
+      taxMode:
+        $ref: '#/definitions/InvoiceLineTaxMode'
