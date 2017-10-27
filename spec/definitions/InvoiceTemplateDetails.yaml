@@ -1,7 +1,0 @@
-type: object
-discriminator: templateType
-required:
-  - templateType
-properties:
-  templateType:
-    type: string

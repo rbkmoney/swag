@@ -1,13 +1,17 @@
 type: object
 properties:
+  product:
+    description: Наименование предлагаемых товаров или услуг
+    type: string
+    maxLength: 100
   description:
     description: Описание предлагаемых товаров или услуг
     type: string
     maxLength: 1000
   lifetime:
     $ref: '#/definitions/LifetimeInterval'
-  details:
-    $ref: '#/definitions/InvoiceTemplateDetails'
+  cost:
+    $ref: '#/definitions/InvoiceTemplateCost'
   metadata:
     description: >
       Метаданные, которые будут связаны с инвойсом, созданным по шаблону, в
