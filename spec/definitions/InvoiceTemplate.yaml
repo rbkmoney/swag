@@ -13,6 +13,7 @@ properties:
     description: Идентификатор магазина
     type: string
     maxLength: 40
+    minLength: 1
   product:
     description: Наименование предлагаемых товаров или услуг
     type: string

@@ -10,6 +10,7 @@ properties:
     description: Идентификатор магазина
     type: string
     maxLength: 40
+    minLength: 1
   dueDate:
     description: |
       Дата и время окончания действия инвойса, после наступления которых его

@@ -61,12 +61,14 @@ get:
       required: false
       type: string
       maxLength: 40
+      minLength: 1
     - name: paymentID
       in: query
       description: Идентификатор платежа
       required: false
       type: string
       maxLength: 40
+      minLength: 1
     - name: payerEmail
       in: query
       description: 'Email, указанный при оплате'
@@ -93,6 +95,7 @@ get:
       required: false
       type: string
       maxLength: 40
+      minLength: 1
     - name: cardNumberMask
       in: query
       description: Маскированый номер карты
