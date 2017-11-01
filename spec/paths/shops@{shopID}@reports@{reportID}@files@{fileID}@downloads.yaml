@@ -1,0 +1,32 @@
+post:
+  description: Сформировать URL на скачивание файла
+  tags:
+    - Reports
+  operationId: issueDownloadURL
+  parameters:
+    - $ref: '#/parameters/requestID'
+    - $ref: '#/parameters/shopID'
+    - $ref: '#/parameters/reportID'
+    - $ref: '#/parameters/fileID'
+  responses:
+    '201':
+      description: URL сформирован
+      schema:
+        type: object
+        required:
+          - url
+          - lifetime
+        properties:
+          url:
+            description: Сформированный URL
+            type: string
+            format: uri
+          lifetime:
+            description: Время жизни URL в секундах
+            type: integer
+            format: int32
+            minimum: 1
+    '400':
+      $ref: '#/responses/BadRequest'
+    '404':
+      $ref: '#/responses/NotFound'
