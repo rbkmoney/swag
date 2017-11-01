@@ -15,17 +15,16 @@ post:
         type: object
         required:
           - url
-          - lifetime
+          - expiresAt
         properties:
           url:
             description: Сформированный URL
             type: string
             format: uri
-          lifetime:
-            description: Время жизни URL в секундах
-            type: integer
-            format: int32
-            minimum: 1
+          expiresAt:
+            description: Дата и время, при наступлении которого URL станет невалидна
+            type: string
+            format: date-time
     '400':
       $ref: '#/responses/BadRequest'
     '404':
