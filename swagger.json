@@ -64,7 +64,8 @@
       "description": "Уникальный идентификатор запроса к системе",
       "required": true,
       "type": "string",
-      "maxLength": 32
+      "maxLength": 32,
+      "minLength": 1
     },
     "claimID": {
       "name": "claimID",
@@ -88,7 +89,8 @@
       "description": "Идентификатор магазина",
       "required": true,
       "type": "string",
-      "maxLength": 40
+      "maxLength": 40,
+      "minLength": 1
     },
     "invoiceTemplateID": {
       "name": "invoiceTemplateID",
@@ -96,7 +98,8 @@
       "description": "Идентификатор шаблона инвойса",
       "required": true,
       "type": "string",
-      "maxLength": 40
+      "maxLength": 40,
+      "minLength": 1
     },
     "paymentID": {
       "name": "paymentID",
@@ -104,7 +107,8 @@
       "description": "Идентификатор платежа в рамках инвойса",
       "required": true,
       "type": "string",
-      "maxLength": 40
+      "maxLength": 40,
+      "minLength": 1
     },
     "refundID": {
       "name": "refundID",
@@ -112,7 +116,8 @@
       "description": "Идентификатор возврата в рамках платежа",
       "required": true,
       "type": "string",
-      "maxLength": 40
+      "maxLength": 40,
+      "minLength": 1
     },
     "contractID": {
       "name": "contractID",
@@ -120,7 +125,8 @@
       "description": "Идентификатор договора",
       "required": true,
       "type": "string",
-      "maxLength": 40
+      "maxLength": 40,
+      "minLength": 1
     },
     "customerID": {
       "name": "customerID",
@@ -128,7 +134,8 @@
       "description": "Идентификатор кастомера",
       "required": true,
       "type": "string",
-      "maxLength": 40
+      "maxLength": 40,
+      "minLength": 1
     },
     "customerBindingID": {
       "name": "customerBindingID",
@@ -136,7 +143,8 @@
       "description": "Идентификатор привязки к кастомера",
       "required": true,
       "type": "string",
-      "maxLength": 40
+      "maxLength": 40,
+      "minLength": 1
     },
     "webhookID": {
       "name": "webhookID",
@@ -144,7 +152,8 @@
       "description": "Идентификатор webhook'а",
       "required": true,
       "type": "string",
-      "maxLength": 40
+      "maxLength": 40,
+      "minLength": 1
     },
     "adjustmentID": {
       "name": "adjustmentID",
@@ -152,7 +161,8 @@
       "description": "Идентификатор поправки к договору",
       "required": true,
       "type": "string",
-      "maxLength": 40
+      "maxLength": 40,
+      "minLength": 1
     },
     "payoutToolID": {
       "name": "payoutToolID",
@@ -160,7 +170,8 @@
       "description": "Идентификатор средства вывода",
       "required": true,
       "type": "string",
-      "maxLength": 40
+      "maxLength": 40,
+      "minLength": 1
     },
     "reportID": {
       "name": "reportID",
@@ -176,14 +187,17 @@
       "description": "Идентификатор файла",
       "required": true,
       "type": "string",
-      "maxLength": 40
+      "maxLength": 40,
+      "minLength": 1
     },
     "invoiceID": {
       "name": "invoiceID",
       "in": "path",
       "description": "Идентификатор инвойса",
       "required": true,
-      "type": "string"
+      "type": "string",
+      "maxLength": 40,
+      "minLength": 1
     },
     "fromTime": {
       "name": "fromTime",
@@ -517,7 +531,8 @@
             "description": "Идентификатор инвойса",
             "required": false,
             "type": "string",
-            "maxLength": 40
+            "maxLength": 40,
+            "minLength": 1
           },
           {
             "name": "paymentID",
@@ -525,7 +540,8 @@
             "description": "Идентификатор платежа",
             "required": false,
             "type": "string",
-            "maxLength": 40
+            "maxLength": 40,
+            "minLength": 1
           },
           {
             "name": "payerEmail",
@@ -559,7 +575,8 @@
             "description": "Идентификатор плательщика",
             "required": false,
             "type": "string",
-            "maxLength": 40
+            "maxLength": 40,
+            "minLength": 1
           },
           {
             "name": "cardNumberMask",
@@ -694,7 +711,8 @@
             "description": "Идентификатор инвойса",
             "required": false,
             "type": "string",
-            "maxLength": 40
+            "maxLength": 40,
+            "minLength": 1
           },
           {
             "name": "paymentID",
@@ -702,7 +720,8 @@
             "description": "Идентификатор платежа",
             "required": false,
             "type": "string",
-            "maxLength": 40
+            "maxLength": 40,
+            "minLength": 1
           },
           {
             "name": "payerEmail",
@@ -736,7 +755,8 @@
             "description": "Идентификатор плательщика",
             "required": false,
             "type": "string",
-            "maxLength": 40
+            "maxLength": 40,
+            "minLength": 1
           },
           {
             "name": "cardNumberMask",
@@ -966,7 +986,8 @@
             "description": "Идентификатор выплаты",
             "required": false,
             "type": "string",
-            "maxLength": 40
+            "maxLength": 40,
+            "minLength": 1
           },
           {
             "name": "payoutToolType",
@@ -3482,7 +3503,8 @@
             "contractID": {
               "description": "Идентификатор договора",
               "type": "string",
-              "maxLength": 40
+              "maxLength": 40,
+              "minLength": 1
             },
             "contractModificationType": {
               "type": "string",
@@ -3534,7 +3556,8 @@
                 "payoutToolID": {
                   "description": "Идентификатор средства вывода",
                   "type": "string",
-                  "maxLength": 40
+                  "maxLength": 40,
+                  "minLength": 1
                 }
               }
             },
@@ -3828,7 +3851,8 @@
             "customerID": {
               "description": "Идентификатор плательщика",
               "type": "string",
-              "maxLength": 40
+              "maxLength": 40,
+              "minLength": 1
             }
           }
         }
@@ -3850,7 +3874,8 @@
             "shopID": {
               "description": "Идентификатор магазина",
               "type": "string",
-              "maxLength": 40
+              "maxLength": 40,
+              "minLength": 1
             },
             "eventTypes": {
               "description": "Набор типов событий плательщиков, о которых следует оповещать",
@@ -3881,12 +3906,14 @@
         "id": {
           "description": "Идентификатор файла",
           "type": "string",
-          "maxLength": 40
+          "maxLength": 40,
+          "minLength": 1
         },
         "filename": {
           "description": "Имя файла",
           "type": "string",
-          "maxLength": 40
+          "maxLength": 40,
+          "minLength": 1
         },
         "signatures": {
           "type": "object",
@@ -3899,12 +3926,14 @@
             "md5": {
               "description": "MD5 содержимого файла",
               "type": "string",
-              "maxLength": 32
+              "maxLength": 32,
+              "minLength": 32
             },
             "sha256": {
               "description": "SHA256 содержимого файла",
               "type": "string",
-              "maxLength": 64
+              "maxLength": 64,
+              "minLength": 64
             }
           }
         }
@@ -4195,7 +4224,8 @@
         "shopID": {
           "description": "Идентификатор магазина",
           "type": "string",
-          "maxLength": 40
+          "maxLength": 40,
+          "minLength": 1
         },
         "dueDate": {
           "description": "Дата и время окончания действия инвойса, после наступления которых его\nуже невозможно будет оплатить\n",
@@ -4371,7 +4401,8 @@
             "shopID": {
               "description": "Идентификатор магазина",
               "type": "string",
-              "maxLength": 40
+              "maxLength": 40,
+              "minLength": 1
             },
             "eventTypes": {
               "description": "Набор типов событий инвойсов, о которых следует оповещать",
@@ -4413,7 +4444,8 @@
         "shopID": {
           "description": "Идентификатор магазина",
           "type": "string",
-          "maxLength": 40
+          "maxLength": 40,
+          "minLength": 1
         },
         "product": {
           "description": "Наименование предлагаемых товаров или услуг",
@@ -4538,7 +4570,8 @@
         "shopID": {
           "description": "Идентификатор магазина",
           "type": "string",
-          "maxLength": 40
+          "maxLength": 40,
+          "minLength": 1
         },
         "product": {
           "description": "Наименование предлагаемых товаров или услуг",
@@ -6128,7 +6161,8 @@
             "shopID": {
               "description": "Идентификатор магазина",
               "type": "string",
-              "maxLength": 40
+              "maxLength": 40,
+              "minLength": 1
             },
             "shopModificationType": {
               "type": "string",

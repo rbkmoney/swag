@@ -77,6 +77,7 @@ parameters:
     required: true
     type: string
     maxLength: 32
+    minLength: 1
   claimID:
     name: claimID
     in: path
@@ -98,6 +99,7 @@ parameters:
     required: true
     type: string
     maxLength: 40
+    minLength: 1
   invoiceTemplateID:
     name: invoiceTemplateID
     in: path
@@ -105,6 +107,7 @@ parameters:
     required: true
     type: string
     maxLength: 40
+    minLength: 1
   paymentID:
     name: paymentID
     in: path
@@ -112,6 +115,7 @@ parameters:
     required: true
     type: string
     maxLength: 40
+    minLength: 1
   refundID:
     name: refundID
     in: path
@@ -119,6 +123,7 @@ parameters:
     required: true
     type: string
     maxLength: 40
+    minLength: 1
   contractID:
     name: contractID
     in: path
@@ -126,6 +131,7 @@ parameters:
     required: true
     type: string
     maxLength: 40
+    minLength: 1
   customerID:
     name: customerID
     in: path
@@ -133,6 +139,7 @@ parameters:
     required: true
     type: string
     maxLength: 40
+    minLength: 1
   customerBindingID:
     name: customerBindingID
     in: path
@@ -140,6 +147,7 @@ parameters:
     required: true
     type: string
     maxLength: 40
+    minLength: 1
   webhookID:
     name: webhookID
     in: path
@@ -147,6 +155,7 @@ parameters:
     required: true
     type: string
     maxLength: 40
+    minLength: 1
   adjustmentID:
     name: adjustmentID
     in: path
@@ -154,6 +163,7 @@ parameters:
     required: true
     type: string
     maxLength: 40
+    minLength: 1
   payoutToolID:
     name: payoutToolID
     in: path
@@ -161,6 +171,7 @@ parameters:
     required: true
     type: string
     maxLength: 40
+    minLength: 1
   reportID:
     name: reportID
     in: path
@@ -175,12 +186,15 @@ parameters:
     required: true
     type: string
     maxLength: 40
+    minLength: 1
   invoiceID:
     name: invoiceID
     in: path
     description: Идентификатор инвойса
     required: true
     type: string
+    maxLength: 40
+    minLength: 1
   fromTime:
     name: fromTime
     in: query
@@ -518,12 +532,14 @@ paths:
           required: false
           type: string
           maxLength: 40
+          minLength: 1
         - name: paymentID
           in: query
           description: Идентификатор платежа
           required: false
           type: string
           maxLength: 40
+          minLength: 1
         - name: payerEmail
           in: query
           description: 'Email, указанный при оплате'
@@ -550,6 +566,7 @@ paths:
           required: false
           type: string
           maxLength: 40
+          minLength: 1
         - name: cardNumberMask
           in: query
           description: Маскированый номер карты
@@ -640,12 +657,14 @@ paths:
           required: false
           type: string
           maxLength: 40
+          minLength: 1
         - name: paymentID
           in: query
           description: Идентификатор платежа
           required: false
           type: string
           maxLength: 40
+          minLength: 1
         - name: payerEmail
           in: query
           description: 'Email, указанный при оплате'
@@ -672,6 +691,7 @@ paths:
           required: false
           type: string
           maxLength: 40
+          minLength: 1
         - name: cardNumberMask
           in: query
           description: Маскированый номер карты
@@ -806,6 +826,7 @@ paths:
           required: false
           type: string
           maxLength: 40
+          minLength: 1
         - name: payoutToolType
           in: query
           description: Тип выплаты для поиска
@@ -2385,6 +2406,7 @@ definitions:
             description: Идентификатор договора
             type: string
             maxLength: 40
+            minLength: 1
           contractModificationType:
             type: string
             enum:
@@ -2420,6 +2442,7 @@ definitions:
                 description: Идентификатор средства вывода
                 type: string
                 maxLength: 40
+                minLength: 1
           - $ref: '#/definitions/PayoutToolParams'
   ContractTermination:
     description: Расторжение договора
@@ -2609,6 +2632,7 @@ definitions:
             description: Идентификатор плательщика
             type: string
             maxLength: 40
+            minLength: 1
   CustomersTopic:
     description: |
       Область охвата, включающая события по плательщикам в рамках определённого
@@ -2624,6 +2648,7 @@ definitions:
             description: Идентификатор магазина
             type: string
             maxLength: 40
+            minLength: 1
           eventTypes:
             description: 'Набор типов событий плательщиков, о которых следует оповещать'
             type: array
@@ -2646,10 +2671,12 @@ definitions:
         description: Идентификатор файла
         type: string
         maxLength: 40
+        minLength: 1
       filename:
         description: Имя файла
         type: string
         maxLength: 40
+        minLength: 1
       signatures:
         type: object
         description: Сигнатуры файла
@@ -2661,10 +2688,12 @@ definitions:
             description: MD5 содержимого файла
             type: string
             maxLength: 32
+            minLength: 32
           sha256:
             description: SHA256 содержимого файла
             type: string
             maxLength: 64
+            minLength: 64
   GeneralError:
     type: object
     required:
@@ -2884,6 +2913,7 @@ definitions:
         description: Идентификатор магазина
         type: string
         maxLength: 40
+        minLength: 1
       dueDate:
         description: |
           Дата и время окончания действия инвойса, после наступления которых его
@@ -3029,6 +3059,7 @@ definitions:
             description: Идентификатор магазина
             type: string
             maxLength: 40
+            minLength: 1
           eventTypes:
             description: 'Набор типов событий инвойсов, о которых следует оповещать'
             type: array
@@ -3061,6 +3092,7 @@ definitions:
         description: Идентификатор магазина
         type: string
         maxLength: 40
+        minLength: 1
       product:
         description: Наименование предлагаемых товаров или услуг
         type: string
@@ -3153,6 +3185,7 @@ definitions:
         description: Идентификатор магазина
         type: string
         maxLength: 40
+        minLength: 1
       product:
         description: Наименование предлагаемых товаров или услуг
         type: string
@@ -4265,6 +4298,7 @@ definitions:
             description: Идентификатор магазина
             type: string
             maxLength: 40
+            minLength: 1
           shopModificationType:
             type: string
             enum:
