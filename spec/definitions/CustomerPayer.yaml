@@ -10,3 +10,4 @@ allOf:
         description: Идентификатор плательщика
         type: string
         maxLength: 40
+        minLength: 1

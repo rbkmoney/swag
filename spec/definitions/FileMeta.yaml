@@ -7,10 +7,12 @@ properties:
     description: Идентификатор файла
     type: string
     maxLength: 40
+    minLength: 1
   filename:
     description: Имя файла
     type: string
     maxLength: 40
+    minLength: 1
   signatures:
     type: object
     description: Сигнатуры файла
@@ -22,7 +24,9 @@ properties:
         description: MD5 содержимого файла
         type: string
         maxLength: 32
+        minLength: 32
       sha256:
         description: SHA256 содержимого файла
         type: string
         maxLength: 64
+        minLength: 64

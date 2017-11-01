@@ -12,6 +12,7 @@ allOf:
         description: Идентификатор магазина
         type: string
         maxLength: 40
+        minLength: 1
       eventTypes:
         description: Набор типов событий плательщиков, о которых следует оповещать
         type: array

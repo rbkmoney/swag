@@ -11,4 +11,5 @@ allOf:
           description: Идентификатор средства вывода
           type: string
           maxLength: 40
+          minLength: 1
     - $ref: '#/definitions/PayoutToolParams'

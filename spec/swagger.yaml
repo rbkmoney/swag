@@ -110,6 +110,7 @@ parameters:
     required: true
     type: string
     maxLength: 32
+    minLength: 1
   claimID:
     name: claimID
     in: path
@@ -131,6 +132,7 @@ parameters:
     required: true
     type: string
     maxLength: 40
+    minLength: 1
   invoiceTemplateID:
     name: invoiceTemplateID
     in: path
@@ -138,6 +140,7 @@ parameters:
     required: true
     type: string
     maxLength: 40
+    minLength: 1
   paymentID:
     name: paymentID
     in: path
@@ -145,6 +148,7 @@ parameters:
     required: true
     type: string
     maxLength: 40
+    minLength: 1
   refundID:
     name: refundID
     in: path
@@ -152,6 +156,7 @@ parameters:
     required: true
     type: string
     maxLength: 40
+    minLength: 1
   contractID:
     name: contractID
     in: path
@@ -159,6 +164,7 @@ parameters:
     required: true
     type: string
     maxLength: 40
+    minLength: 1
   customerID:
     name: customerID
     in: path
@@ -166,6 +172,7 @@ parameters:
     required: true
     type: string
     maxLength: 40
+    minLength: 1
   customerBindingID:
     name: customerBindingID
     in: path
@@ -173,6 +180,7 @@ parameters:
     required: true
     type: string
     maxLength: 40
+    minLength: 1
   webhookID:
     name: webhookID
     in: path
@@ -180,6 +188,7 @@ parameters:
     required: true
     type: string
     maxLength: 40
+    minLength: 1
   adjustmentID:
     name: adjustmentID
     in: path
@@ -187,6 +196,7 @@ parameters:
     required: true
     type: string
     maxLength: 40
+    minLength: 1
   payoutToolID:
     name: payoutToolID
     in: path
@@ -194,6 +204,7 @@ parameters:
     required: true
     type: string
     maxLength: 40
+    minLength: 1
   reportID:
     name: reportID
     in: path
@@ -208,12 +219,15 @@ parameters:
     required: true
     type: string
     maxLength: 40
+    minLength: 1
   invoiceID:
     name: invoiceID
     in: path
     description: Идентификатор инвойса
     required: true
     type: string
+    maxLength: 40
+    minLength: 1
   fromTime:
     name: fromTime
     in: query
