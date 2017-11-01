@@ -22,7 +22,7 @@ post:
             type: string
             format: uri
           expiresAt:
-            description: Дата и время, при наступлении которого URL станет невалидна
+            description: Дата и время, при наступлении которого URL станет невалиден
             type: string
             format: date-time
     '400':
