@@ -16,3 +16,4 @@
 **TIP:** you can open `swagger-editor`, documentation and `swagger-ui` in parallel
 5. Once you finish with the changes you can run tests using: `npm test`
 6. Share you changes with the rest of the world by pushing to GitHub :smile:
+
