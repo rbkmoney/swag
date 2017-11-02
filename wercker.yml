@@ -42,6 +42,21 @@ release-epic:
       url: ${SLACK_WEBHOOK_URL}
       username: "wercker"
 
+release-v:
+  steps:
+    - script:
+      name: prepare release artifacts for branch v1, v2, etc.
+      code: mkdir -p out && cp ./swagger.{yaml,json} out/
+    - lordlothar99/git-push:
+      gh_oauth: ${GITHUB_API_TOKEN}
+      branch: release-${WERCKER_GIT_BRANCH}
+      basedir: out
+      message: Release ${WERCKER_GIT_OWNER}/${WERCKER_GIT_REPOSITORY}@${WERCKER_GIT_COMMIT}
+  after-steps:
+    - slack-notifier:
+      url: ${SLACK_WEBHOOK_URL}
+      username: "wercker"
+
 deploy:
   steps:
     - lukevivier/gh-pages:
