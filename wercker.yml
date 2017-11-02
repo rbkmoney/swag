@@ -34,7 +34,7 @@ release-epic:
       code: mkdir -p out && cp ./swagger.{yaml,json} out/
     - lordlothar99/git-push:
       gh_oauth: ${GITHUB_API_TOKEN}
-      branch: release-${WERCKER_GIT_BRANCH}
+      branch: "release/${WERCKER_GIT_BRANCH}"
       basedir: out
       message: Epic release ${WERCKER_GIT_OWNER}/${WERCKER_GIT_REPOSITORY}@${WERCKER_GIT_COMMIT}
   after-steps:
