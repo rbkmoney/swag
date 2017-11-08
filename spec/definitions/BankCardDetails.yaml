@@ -5,7 +5,7 @@ properties:
   cardNumberMask:
     description: Маскированый номер карты
     type: string
-    pattern: '^\d{4}$'
+    pattern: '^\d{2,4}$'
   paymentSystem:
     x-rebillyMerge:
       - $ref: '#/definitions/BankCardPaymentSystem'
