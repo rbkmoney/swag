@@ -584,7 +584,7 @@
             "description": "Маскированый номер карты",
             "required": false,
             "type": "string",
-            "pattern": "^\\d{4}$"
+            "pattern": "^\\d{2,4}$"
           },
           {
             "name": "paymentAmount",
@@ -764,7 +764,7 @@
             "description": "Маскированый номер карты",
             "required": false,
             "type": "string",
-            "pattern": "^\\d{4}$"
+            "pattern": "^\\d{2,4}$"
           },
           {
             "name": "paymentAmount",
@@ -3048,7 +3048,7 @@
         "cardNumberMask": {
           "description": "Маскированый номер карты",
           "type": "string",
-          "pattern": "^\\d{4}$"
+          "pattern": "^\\d{2,4}$"
         },
         "paymentSystem": {
           "description": "Платежная система",
