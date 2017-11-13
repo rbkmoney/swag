@@ -1,6 +1,6 @@
 swagger: '2.0'
 info:
-  version: 1.0.0
+  version: 2.0.0
   title: RBKmoney Platform API
   description: |
     ## Описание
@@ -29,7 +29,7 @@ info:
     email: support@rbk.money
     url: 'https://api.rbk.money'
 host: api.rbk.money
-basePath: /v1
+basePath: /v2
 schemes:
   - https
 consumes:
