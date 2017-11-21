@@ -10,16 +10,6 @@ get:
     - $ref: '#/parameters/toTime'
     - $ref: '#/parameters/limit'
     - $ref: '#/parameters/offset'
-    - name: payoutStatus
-      in: query
-      description: Статус выплаты для поиска
-      required: false
-      type: string
-      enum:
-        - unpaid
-        - paid
-        - cancelled
-        - confirmed
     - name: payoutID
       in: query
       description: Идентификатор выплаты
