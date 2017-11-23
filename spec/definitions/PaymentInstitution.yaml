@@ -1,0 +1,20 @@
+type: object
+required:
+  - name
+  - paymentInstitutionID
+  - realm
+properties:
+  name:
+    type: string
+    maxLength: 200
+  paymentInstitutionID:
+    type: integer
+    format: int32
+  description:
+    type: string
+    maxLength: 1000
+  realm:
+    type: string
+    enum:
+      - test
+      - live
