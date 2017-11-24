@@ -5,6 +5,7 @@ allOf:
   - type: object
     required:
       - contractor
+      - paymentInstitutionID
     properties:
       contractor:
         $ref: '#/definitions/Contractor'

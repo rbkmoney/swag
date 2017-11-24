@@ -12,6 +12,13 @@ get:
       type: string
       maxLength: 3
       minLength: 3
+    - name: realm
+      in: query
+      required: false
+      type: string
+      enum:
+        - test
+        - live
   responses:
     '200':
       description: List of payment institutions
