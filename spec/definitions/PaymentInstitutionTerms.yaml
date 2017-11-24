@@ -1,0 +1,11 @@
+type: object
+properties:
+  currencies:
+    type: array
+    items:
+      x-rebillyMerge:
+        - $ref: '#/definitions/Currency'
+  categories:
+    type: array
+    items:
+      $ref: '#/definitions/Category'
