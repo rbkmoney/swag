@@ -8,4 +8,6 @@ properties:
   categories:
     type: array
     items:
-      $ref: '#/definitions/Category'
+      description: Идентификаторы доступных категорий
+      type: integer
+      format: int32
