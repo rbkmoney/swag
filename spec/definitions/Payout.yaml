@@ -3,7 +3,6 @@ required:
   - id
   - shopID
   - createdAt
-  - status
   - amount
   - fee
   - currency
@@ -19,14 +18,6 @@ properties:
     description: Дата и время создания
     type: string
     format: date-time
-  status:
-    description: Статус выплаты
-    type: string
-    enum:
-      - unpaid
-      - paid
-      - cancelled
-      - confirmed
   cancellationDetails:
     description: Детали отмены выплаты
     type: string
