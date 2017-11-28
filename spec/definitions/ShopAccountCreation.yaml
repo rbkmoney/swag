@@ -7,5 +7,5 @@ allOf:
       - currency
     properties:
       currency:
-        description: Валюта создаваемых счетов
-        type: string
+        x-rebillyMerge:
+          - $ref: '#/definitions/Currency'

@@ -5,6 +5,10 @@ allOf:
   - type: object
     required:
       - contractor
+      - paymentInstitutionID
     properties:
       contractor:
         $ref: '#/definitions/Contractor'
+      paymentInstitutionID:
+        type: integer
+        format: int32
