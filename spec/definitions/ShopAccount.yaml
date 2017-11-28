@@ -6,9 +6,8 @@ required:
   - settlementID
 properties:
   currency:
-    description: Валюта счетов
-    type: string
-    format: '^[A-Z]{3}$'
+    x-rebillyMerge:
+      - $ref: '#/definitions/Currency'
   guaranteeID:
     type: integer
     format: int64

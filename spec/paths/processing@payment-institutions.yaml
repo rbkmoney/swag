@@ -1,0 +1,28 @@
+get:
+  description: Получить список платёжных организаций
+  tags:
+    - PaymentInstitutions
+  operationId: getPaymentInstitutions
+  parameters:
+    - $ref: '#/parameters/requestID'
+    - name: residence
+      in: query
+      description: 'Резиденция, alpha-3 код по стандарту ISO_3166-1'
+      required: false
+      type: string
+      maxLength: 3
+      minLength: 3
+    - name: realm
+      in: query
+      required: false
+      type: string
+      enum:
+        - test
+        - live
+  responses:
+    '200':
+      description: List of payment institutions
+      schema:
+        type: array
+        items:
+          $ref: '#/definitions/PaymentInstitution'
