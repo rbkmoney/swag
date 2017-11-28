@@ -821,16 +821,6 @@ paths:
         - $ref: '#/parameters/toTime'
         - $ref: '#/parameters/limit'
         - $ref: '#/parameters/offset'
-        - name: payoutStatus
-          in: query
-          description: Статус выплаты для поиска
-          required: false
-          type: string
-          enum:
-            - unpaid
-            - paid
-            - cancelled
-            - confirmed
         - name: payoutID
           in: query
           description: Идентификатор выплаты
@@ -3833,7 +3823,6 @@ definitions:
       - id
       - shopID
       - createdAt
-      - status
       - amount
       - fee
       - currency
@@ -3849,14 +3838,6 @@ definitions:
         description: Дата и время создания
         type: string
         format: date-time
-      status:
-        description: Статус выплаты
-        type: string
-        enum:
-          - unpaid
-          - paid
-          - cancelled
-          - confirmed
       cancellationDetails:
         description: Детали отмены выплаты
         type: string

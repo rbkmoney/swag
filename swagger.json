@@ -968,19 +968,6 @@
             "$ref": "#/parameters/offset"
           },
           {
-            "name": "payoutStatus",
-            "in": "query",
-            "description": "Статус выплаты для поиска",
-            "required": false,
-            "type": "string",
-            "enum": [
-              "unpaid",
-              "paid",
-              "cancelled",
-              "confirmed"
-            ]
-          },
-          {
             "name": "payoutID",
             "in": "query",
             "description": "Идентификатор выплаты",
@@ -5500,7 +5487,6 @@
         "id",
         "shopID",
         "createdAt",
-        "status",
         "amount",
         "fee",
         "currency",
@@ -5519,16 +5505,6 @@
           "description": "Дата и время создания",
           "type": "string",
           "format": "date-time"
-        },
-        "status": {
-          "description": "Статус выплаты",
-          "type": "string",
-          "enum": [
-            "unpaid",
-            "paid",
-            "cancelled",
-            "confirmed"
-          ]
         },
         "cancellationDetails": {
           "description": "Детали отмены выплаты",
