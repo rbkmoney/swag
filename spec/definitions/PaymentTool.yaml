@@ -4,5 +4,9 @@ properties:
   paymentToolType:
     description: Тип платежного средства
     type: string
+    enum:
+      - CardData
+      - PaymentTerminalData
+      - DigitalWalletData
 required:
   - paymentToolType
