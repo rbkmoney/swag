@@ -1,0 +1,18 @@
+allOf:
+ - $ref: '#/definitions/DigitalWalletDetails'
+ - type: object
+   required:
+     - phoneNumberMask
+   properties:
+      provider:
+        description: Провайдер электронных денежных средств
+        type: string
+        enum:
+          - qiwi
+      phoneNumberMask:
+        type: string
+        description: |
+          Маскированный номер телефона плательщика в международном формате, выступающий
+          в роли идентификатора кошелька Visa QIWI Wallet.
+        pattern: '^\+\d\*{1,10}\d{2,4}$'
+        example: '+7******3210'

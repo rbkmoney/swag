@@ -1,0 +1,11 @@
+type: object
+allOf:
+  - $ref: '#/definitions/PaymentTool'
+  - type: object
+    description: Электронный кошелёк
+    discriminator: digitalWalletType
+    properties:
+      digitalWalletType:
+        type: string
+        enum:
+          - DigitalWalletQIWI
