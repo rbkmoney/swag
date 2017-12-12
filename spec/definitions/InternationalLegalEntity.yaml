@@ -1,0 +1,22 @@
+description: 'Юридическое лицо, ведущее деятельность под юрисдикцией отличной от РФ'
+type: object
+required:
+  - legalName
+  - registeredAddress
+  - residence
+properties:
+  legalName:
+    description: Наименование
+    type: string
+  tradingName:
+    description: Торговое наименование (если применимо)
+    type: string
+  registeredAddress:
+    description: Адрес места регистрации
+    type: string
+  actualAddress:
+    description: Адрес места нахождения (если отличается от регистрации)
+    type: string
+  residence:
+    x-rebillyMerge:
+      - $ref: '#/definitions/Residence'

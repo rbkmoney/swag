@@ -1,0 +1,4 @@
+description: 'Резиденция, alpha-3 код по стандарту ISO_3166-1'
+type: string
+maxLength: 3
+minLength: 3
