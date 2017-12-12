@@ -4,11 +4,6 @@ allOf:
    required:
      - phoneNumberMask
    properties:
-      provider:
-        description: Провайдер электронных денежных средств
-        type: string
-        enum:
-          - qiwi
       phoneNumberMask:
         type: string
         description: |
