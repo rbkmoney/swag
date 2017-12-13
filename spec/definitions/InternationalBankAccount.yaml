@@ -16,13 +16,14 @@ properties:
     type: string
     maxLength: 100
   bankAddress:
+    description: Адрес юридического лица банковской организации
     type: string
     maxLength: 150
   iban:
     description: |
       International Bank Account Number [ISO 13616](https://en.wikipedia.org/wiki/International_Bank_Account_Number)
     type: string
-    maxLength: 34
+    pattern: '^[A-Z0-9]{3,34}$'
   bic:
     description: |
       Business Identifier Code [ISO 9362](https://en.wikipedia.org/wiki/ISO_9362)
