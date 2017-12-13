@@ -5,7 +5,6 @@ get:
   operationId: getPaymentInstitutionPaymentTerms
   parameters:
     - $ref: '#/parameters/requestID'
-    - $ref: '#/parameters/residence'
     - name: paymentInstitutionID
       in: path
       description: Payment institution reference

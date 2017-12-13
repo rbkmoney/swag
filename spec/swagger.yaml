@@ -168,7 +168,7 @@ parameters:
   residence:
     name: residence
     in: query
-    description: 'Резиденция, alpha-3 код по стандарту ISO_3166-1'
+    description: 'Резиденция, alpha-3 код по стандарту [ISO 3166-1](https://en.wikipedia.org/wiki/ISO_3166-1)'
     required: false
     type: string
     maxLength: 3
