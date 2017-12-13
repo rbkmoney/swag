@@ -165,6 +165,14 @@ parameters:
     type: string
     maxLength: 40
     minLength: 1
+  residence:
+    name: residence
+    in: query
+    description: 'Резиденция, alpha-3 код по стандарту ISO_3166-1'
+    required: false
+    type: string
+    maxLength: 3
+    minLength: 3
   customerID:
     name: customerID
     in: path
