@@ -24,8 +24,10 @@ properties:
       International Bank Account Number [ISO 13616](https://en.wikipedia.org/wiki/International_Bank_Account_Number)
     type: string
     pattern: '^[A-Z0-9]{3,34}$'
+    example: "GR1601101250000000012300695"
   bic:
     description: |
       Business Identifier Code [ISO 9362](https://en.wikipedia.org/wiki/ISO_9362)
     type: string
     pattern: '^(\w{8}|\w{11})$'
+    example: "DEUTDEFF500"
