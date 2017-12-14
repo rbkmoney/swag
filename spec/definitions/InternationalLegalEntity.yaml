@@ -1,18 +1,20 @@
 description: 'Международное юридическое лицо'
 type: object
-required:
-  - legalName
-  - registeredOffice
-properties:
-  legalName:
-    description: Наименование
-    type: string
-  tradingName:
-    description: Торговое наименование (если применимо)
-    type: string
-  registeredOffice:
-    description: Адрес места регистрации
-    type: string
-  principalPlaceOfBusiness:
-    description: Адрес места нахождения (если отличается от регистрации)
-    type: string
+allOf:
+  - $ref: '#/definitions/LegalEntity'
+  required:
+    - legalName
+    - registeredOffice
+  properties:
+    legalName:
+      description: Наименование
+      type: string
+    tradingName:
+      description: Торговое наименование (если применимо)
+      type: string
+    registeredOffice:
+      description: Адрес места регистрации
+      type: string
+    principalPlaceOfBusiness:
+      description: Адрес места нахождения (если отличается от регистрации)
+      type: string
