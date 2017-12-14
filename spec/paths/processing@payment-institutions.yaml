@@ -5,13 +5,7 @@ get:
   operationId: getPaymentInstitutions
   parameters:
     - $ref: '#/parameters/requestID'
-    - name: residence
-      in: query
-      description: 'Резиденция, alpha-3 код по стандарту ISO_3166-1'
-      required: false
-      type: string
-      maxLength: 3
-      minLength: 3
+    - $ref: '#/parameters/residence'
     - name: realm
       in: query
       required: false

@@ -3,6 +3,7 @@ required:
   - id
   - name
   - realm
+  - residences
 properties:
   id:
     type: integer
@@ -13,6 +14,11 @@ properties:
   description:
     type: string
     maxLength: 1000
+  residences:
+    type: array
+    items:
+      x-rebillyMerge:
+        - $ref: '#/definitions/Residence'
   realm:
     type: string
     enum:
