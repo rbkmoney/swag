@@ -29,5 +29,5 @@ properties:
     description: |
       Business Identifier Code [ISO 9362](https://en.wikipedia.org/wiki/ISO_9362)
     type: string
-    pattern: '^(\w{8}|\w{11})$'
+    pattern: '^([A-Z0-9]{8}|[A-Z0-9]{11})$'
     example: "DEUTDEFF500"
