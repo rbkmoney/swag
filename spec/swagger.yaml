@@ -165,6 +165,13 @@ parameters:
     type: string
     maxLength: 40
     minLength: 1
+  residence:
+    name: residence
+    in: query
+    description: 'Резиденция, alpha-3 код по стандарту [ISO 3166-1](https://en.wikipedia.org/wiki/ISO_3166-1)'
+    required: false
+    type: string
+    pattern: '^[A-Z]{3}$'
   customerID:
     name: customerID
     in: path
@@ -569,6 +576,12 @@ tags:
       данных, полученных в рамках взаимодействия с ней. Аналитические отчеты
       подготовлены заранее и не подразумевают интерактивного изменения структуры
       данных.
+  - name: PaymentInstitutions
+    x-displayName: Платёжные организации
+    description: >
+      Платёжная организация - организация, осуществляющая услуги по обслуживанию
+      финансовых операций, которые возникают в результате осуществления
+      бизнес-процессов системой.
   - name: Reports
     x-displayName: Отчеты
     description: >

@@ -8,3 +8,6 @@ allOf:
     properties:
       contractor:
         $ref: '#/definitions/Contractor'
+      paymentInstitutionID:
+        type: integer
+        format: int32
