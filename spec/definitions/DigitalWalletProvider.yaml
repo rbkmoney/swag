@@ -1,0 +1,4 @@
+description: Провайдер электронных денежных средств
+type: string
+enum:
+  - qiwi
