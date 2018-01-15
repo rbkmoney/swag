@@ -2672,6 +2672,76 @@ definitions:
                 - CustomerBindingStarted
                 - CustomerBindingSucceeded
                 - CustomerBindingFailed
+  DigitalWallet:
+    type: object
+    allOf:
+      - $ref: '#/definitions/PaymentMethod'
+      - type: object
+        required:
+          - providers
+        properties:
+          providers:
+            description: Список провайдеров электронных денежных средств
+            type: array
+            items:
+              description: Провайдер электронных денежных средств
+              type: string
+              enum:
+                - qiwi
+  DigitalWalletData:
+    type: object
+    allOf:
+      - $ref: '#/definitions/PaymentTool'
+      - type: object
+        description: Электронный кошелёк
+        discriminator: digitalWalletType
+        properties:
+          digitalWalletType:
+            type: string
+            enum:
+              - DigitalWalletQIWI
+  DigitalWalletDetails:
+    discriminator: digitalWalletDetailsType
+    required:
+      - digitalWalletDetailsType
+    properties:
+      digitalWalletDetailsType:
+        type: string
+        enum:
+          - DigitalWalletDetailsQIWI
+  DigitalWalletDetailsQIWI:
+    allOf:
+      - $ref: '#/definitions/DigitalWalletDetails'
+      - type: object
+        required:
+          - phoneNumberMask
+        properties:
+          phoneNumberMask:
+            type: string
+            description: |
+              Маскированный номер телефона плательщика в международном формате, выступающий
+              в роли идентификатора кошелька Visa QIWI Wallet.
+            pattern: '^\+\d\*{1,10}\d{2,4}$'
+            example: +7******3210
+  DigitalWalletProvider:
+    description: Провайдер электронных денежных средств
+    type: string
+    enum:
+      - qiwi
+  DigitalWalletQIWI:
+    allOf:
+      - $ref: '#/definitions/DigitalWalletData'
+      - type: object
+        required:
+          - phoneNumber
+        properties:
+          phoneNumber:
+            type: string
+            description: |
+              Номер телефона плательщика в международном формате, выступающий в роли
+              идентификатора кошелька Visa QIWI Wallet.
+            pattern: '^\+\d{4,15}$'
+            example: '+79876543210'
   FileMeta:
     type: object
     required:
@@ -3490,6 +3560,7 @@ definitions:
         enum:
           - BankCard
           - PaymentTerminal
+          - DigitalWallet
   PaymentMethodBankCardStat:
     type: object
     allOf:
@@ -3751,9 +3822,15 @@ definitions:
       - provider
     properties:
       provider:
+        description: Провайдер терминальной сети
         type: string
         enum:
           - euroset
+  PaymentTerminalProvider:
+    description: Провайдер терминальной сети
+    type: string
+    enum:
+      - euroset
   PaymentTerminalReceipt:
     type: object
     allOf:
@@ -3776,6 +3853,10 @@ definitions:
       paymentToolType:
         description: Тип платежного средства
         type: string
+        enum:
+          - CardData
+          - PaymentTerminalData
+          - DigitalWalletData
     required:
       - paymentToolType
   PaymentToolDetails:
@@ -3794,6 +3875,11 @@ definitions:
     allOf:
       - $ref: '#/definitions/PaymentToolDetails'
       - $ref: '#/definitions/BankCardDetails'
+  PaymentToolDetailsDigitalWallet:
+    type: object
+    allOf:
+      - $ref: '#/definitions/PaymentToolDetails'
+      - $ref: '#/definitions/DigitalWalletDetails'
   PaymentToolDetailsPaymentTerminal:
     type: object
     allOf:
@@ -4333,11 +4419,6 @@ definitions:
             description: |
               Идентификатор средства вывода в рамках текущего контракта магазина
             type: string
-  TerminalPaymentProvider:
-    description: Провайдер терминальной сети
-    type: string
-    enum:
-      - euroset
   UserInteraction:
     type: object
     discriminator: interactionType
