@@ -14,11 +14,8 @@ properties:
     type: integer
     format: int32
   currency:
-    description: |
-      Валюта платежей, символьный код согласно
-      [ISO 4217](http://www.iso.org/iso/home/standards/currency_codes.htm).
-    type: string
-    pattern: '^[A-Z]{3}$'
+    x-rebillyMerge:
+      - $ref: '#/definitions/Currency'
   profit:
     description: Прибыль магазина
     type: integer
