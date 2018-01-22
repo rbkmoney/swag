@@ -33,11 +33,8 @@ allOf:
         format: int64
         minimum: 1
       currency:
-        description: |
-          Валюта, символьный код согласно
-          [ISO 4217](http://www.iso.org/iso/home/standards/currency_codes.htm).
-        type: string
-        pattern: '^[A-Z]{3}$'
+        x-rebillyMerge:
+          - $ref: '#/definitions/Currency'
       product:
         description: Наименование предлагаемых товаров или услуг
         type: string
