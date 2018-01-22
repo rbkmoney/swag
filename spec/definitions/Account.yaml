@@ -13,4 +13,5 @@ properties:
   availableAmount:
     type: integer
   currency:
-    type: string
+    x-rebillyMerge:
+      - $ref: '#/definitions/Currency'
