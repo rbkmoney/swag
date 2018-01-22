@@ -5,6 +5,7 @@ required:
   - createdAt
   - status
   - contractor
+  - paymentInstitutionID
 properties:
   id:
     description: Идентификатор договора
@@ -35,3 +36,6 @@ properties:
     $ref: '#/definitions/Contractor'
   legalAgreement:
     $ref: '#/definitions/LegalAgreement'
+  paymentInstitutionID:
+    type: integer
+    format: int32

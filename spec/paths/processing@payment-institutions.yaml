@@ -1,0 +1,22 @@
+get:
+  description: Получить список платёжных организаций
+  tags:
+    - PaymentInstitutions
+  operationId: getPaymentInstitutions
+  parameters:
+    - $ref: '#/parameters/requestID'
+    - $ref: '#/parameters/residence'
+    - name: realm
+      in: query
+      required: false
+      type: string
+      enum:
+        - test
+        - live
+  responses:
+    '200':
+      description: List of payment institutions
+      schema:
+        type: array
+        items:
+          $ref: '#/definitions/PaymentInstitution'
