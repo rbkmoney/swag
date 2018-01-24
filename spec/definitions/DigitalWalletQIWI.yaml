@@ -1,0 +1,13 @@
+allOf:
+ - $ref: '#/definitions/DigitalWalletData'
+ - type: object
+   required:
+     - phoneNumber
+   properties:
+      phoneNumber:
+        type: string
+        description: |
+          Номер телефона плательщика в международном формате, выступающий в роли
+          идентификатора кошелька Visa QIWI Wallet.
+        pattern: '^\+\d{4,15}$'
+        example: '+79876543210'

@@ -6,8 +6,8 @@ allOf:
       - providers
     properties:
       providers:
-        description: Список провайдеров
+        description: Список провайдеров электронных денежных средств
         type: array
         items:
           x-rebillyMerge:
-            - $ref: '#/definitions/PaymentTerminalProvider'
+            - $ref: '#/definitions/DigitalWalletProvider'

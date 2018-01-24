@@ -8,4 +8,4 @@ allOf:
     properties:
       provider:
         x-rebillyMerge:
-          - $ref: '#/definitions/TerminalPaymentProvider'
+          - $ref: '#/definitions/PaymentTerminalProvider'
