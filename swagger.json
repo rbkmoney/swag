@@ -4023,6 +4023,117 @@
         }
       ]
     },
+    "DigitalWallet": {
+      "type": "object",
+      "allOf": [
+        {
+          "$ref": "#/definitions/PaymentMethod"
+        },
+        {
+          "type": "object",
+          "required": [
+            "providers"
+          ],
+          "properties": {
+            "providers": {
+              "description": "Список провайдеров электронных денежных средств",
+              "type": "array",
+              "items": {
+                "description": "Провайдер электронных денежных средств",
+                "type": "string",
+                "enum": [
+                  "qiwi"
+                ]
+              }
+            }
+          }
+        }
+      ]
+    },
+    "DigitalWalletData": {
+      "type": "object",
+      "allOf": [
+        {
+          "$ref": "#/definitions/PaymentTool"
+        },
+        {
+          "type": "object",
+          "description": "Электронный кошелёк",
+          "discriminator": "digitalWalletType",
+          "properties": {
+            "digitalWalletType": {
+              "type": "string",
+              "enum": [
+                "DigitalWalletQIWI"
+              ]
+            }
+          }
+        }
+      ]
+    },
+    "DigitalWalletDetails": {
+      "discriminator": "digitalWalletDetailsType",
+      "required": [
+        "digitalWalletDetailsType"
+      ],
+      "properties": {
+        "digitalWalletDetailsType": {
+          "type": "string",
+          "enum": [
+            "DigitalWalletDetailsQIWI"
+          ]
+        }
+      }
+    },
+    "DigitalWalletDetailsQIWI": {
+      "allOf": [
+        {
+          "$ref": "#/definitions/DigitalWalletDetails"
+        },
+        {
+          "type": "object",
+          "required": [
+            "phoneNumberMask"
+          ],
+          "properties": {
+            "phoneNumberMask": {
+              "type": "string",
+              "description": "Маскированный номер телефона плательщика в международном формате, выступающий\nв роли идентификатора кошелька Visa QIWI Wallet.\n",
+              "pattern": "^\\+\\d\\*{1,10}\\d{2,4}$",
+              "example": "+7******3210"
+            }
+          }
+        }
+      ]
+    },
+    "DigitalWalletProvider": {
+      "description": "Провайдер электронных денежных средств",
+      "type": "string",
+      "enum": [
+        "qiwi"
+      ]
+    },
+    "DigitalWalletQIWI": {
+      "allOf": [
+        {
+          "$ref": "#/definitions/DigitalWalletData"
+        },
+        {
+          "type": "object",
+          "required": [
+            "phoneNumber"
+          ],
+          "properties": {
+            "phoneNumber": {
+              "type": "string",
+              "description": "Номер телефона плательщика в международном формате, выступающий в роли\nидентификатора кошелька Visa QIWI Wallet.\n",
+              "pattern": "^\\+\\d{4,15}$",
+              "example": "+79876543210"
+            }
+          }
+        }
+      ]
+    },
     "FileMeta": {
       "type": "object",
       "required": [
@@ -5265,7 +5376,8 @@
           "type": "string",
           "enum": [
             "BankCard",
-            "PaymentTerminal"
+            "PaymentTerminal",
+            "DigitalWallet"
           ]
         }
       }
@@ -5653,12 +5765,20 @@
       ],
       "properties": {
         "provider": {
+          "description": "Провайдер терминальной сети",
           "type": "string",
           "enum": [
             "euroset"
           ]
         }
       }
+    },
+    "PaymentTerminalProvider": {
+      "description": "Провайдер терминальной сети",
+      "type": "string",
+      "enum": [
+        "euroset"
+      ]
     },
     "PaymentTerminalReceipt": {
       "type": "object",
@@ -5712,7 +5832,12 @@
       "properties": {
         "paymentToolType": {
           "description": "Тип платежного средства",
-          "type": "string"
+          "type": "string",
+          "enum": [
+            "CardData",
+            "PaymentTerminalData",
+            "DigitalWalletData"
+          ]
         }
       },
       "required": [
@@ -5742,6 +5867,17 @@
         },
         {
           "$ref": "#/definitions/BankCardDetails"
+        }
+      ]
+    },
+    "PaymentToolDetailsDigitalWallet": {
+      "type": "object",
+      "allOf": [
+        {
+          "$ref": "#/definitions/PaymentToolDetails"
+        },
+        {
+          "$ref": "#/definitions/DigitalWalletDetails"
         }
       ]
     },
@@ -6516,13 +6652,6 @@
             }
           }
         }
-      ]
-    },
-    "TerminalPaymentProvider": {
-      "description": "Провайдер терминальной сети",
-      "type": "string",
-      "enum": [
-        "euroset"
       ]
     },
     "UserInteraction": {
