@@ -2,6 +2,5 @@ required:
   - provider
 properties:
   provider:
-    type: string
-    enum:
-      - euroset
+    x-rebillyMerge:
+      - $ref: '#/definitions/PaymentTerminalProvider'
