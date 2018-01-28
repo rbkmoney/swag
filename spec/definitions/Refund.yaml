@@ -12,6 +12,17 @@ allOf:
         description: Дата и время осуществления
         type: string
         format: date-time
+      amount:
+        description: >
+          Сумма возврата, в минорных денежных единицах,
+          например в копейках в случае указания российских рублей в качестве
+          валюты.
+        type: integer
+        format: int64
+        minimum: 1
+      currency:
+        x-rebillyMerge:
+          - $ref: '#/definitions/Currency'
       reason:
         description: Причина осуществления возврата
         type: string
