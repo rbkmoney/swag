@@ -1,6 +1,4 @@
 type: object
-required:
-  - reason
 properties:
   amount:
     description: |
