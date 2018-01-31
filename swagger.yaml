@@ -4133,8 +4133,6 @@ definitions:
       - $ref: '#/definitions/RefundStatus'
   RefundParams:
     type: object
-    required:
-      - reason
     properties:
       amount:
         description: |
