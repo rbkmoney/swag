@@ -4,6 +4,8 @@ allOf:
     required:
       - id
       - createdAt
+      - amount
+      - currency
     properties:
       id:
         description: Идентификатор возврата
