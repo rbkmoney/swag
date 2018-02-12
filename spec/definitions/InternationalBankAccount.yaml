@@ -31,3 +31,7 @@ properties:
     type: string
     pattern: '^([A-Z0-9]{8}|[A-Z0-9]{11})$'
     example: "DEUTDEFF500"
+  localBankCode:
+    description: Национальный код банка (если имеется)
+    type: string
+    maxLength: 100
