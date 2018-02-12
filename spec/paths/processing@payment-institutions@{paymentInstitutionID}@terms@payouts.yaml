@@ -1,11 +1,27 @@
 get:
-  description: Получить условия проведения платежей по-умолчанию для платёжной организации
+  description: Получить условия вывода средств для платёжной организации
   tags:
     - PaymentInstitutions
   operationId: getPaymentInstitutionPayoutTerms
   parameters:
     - $ref: '#/parameters/requestID'
     - $ref: '#/parameters/paymentInstitutionID'
+    - name: currency
+      in: query
+      required: false
+      description: >-
+        Валюта, символьный код согласно [ISO
+        4217](http://www.iso.org/iso/home/standards/currency_codes.htm).
+      type: string
+      pattern: '^[A-Z]{3}$'
+    - name: payoutMethod
+      in: query
+      required: false
+      description: Способ вывода средств
+      type: string
+      enum:
+        - BankAccount
+        - InternationalBankAccount
   responses:
     '200':
       description: Payment institution terms calculated

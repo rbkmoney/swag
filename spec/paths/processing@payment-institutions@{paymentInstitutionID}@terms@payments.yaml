@@ -1,5 +1,5 @@
 get:
-  description: Получить условия проведения платежей по-умолчанию для платёжной организации
+  description: Получить условия проведения платежей для платёжной организации
   tags:
     - PaymentInstitutions
   operationId: getPaymentInstitutionPaymentTerms
