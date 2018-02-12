@@ -2,7 +2,7 @@ get:
   description: Получить условия проведения платежей по-умолчанию для платёжной организации
   tags:
     - PaymentInstitutions
-  operationId: getPaymentInstitutionPaymentTerms
+  operationId: getPaymentInstitutionPayoutTerms
   parameters:
     - $ref: '#/parameters/requestID'
     - $ref: '#/parameters/paymentInstitutionID'
@@ -10,7 +10,7 @@ get:
     '200':
       description: Payment institution terms calculated
       schema:
-        $ref: '#/definitions/PaymentTerms'
+        $ref: '#/definitions/PayoutTerms'
     '400':
       $ref: '#/responses/BadRequest'
     '404':
