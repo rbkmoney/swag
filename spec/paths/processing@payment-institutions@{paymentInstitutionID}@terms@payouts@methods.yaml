@@ -1,8 +1,8 @@
 get:
-  description: Получить условия вывода средств для платёжной организации
+  description: Получить cпособы вывода средств для платёжной организации
   tags:
     - PaymentInstitutions
-  operationId: getPaymentInstitutionPayoutTerms
+  operationId: getPaymentInstitutionPayoutMethods
   parameters:
     - $ref: '#/parameters/requestID'
     - $ref: '#/parameters/paymentInstitutionID'
@@ -14,19 +14,16 @@ get:
         4217](http://www.iso.org/iso/home/standards/currency_codes.htm).
       type: string
       pattern: '^[A-Z]{3}$'
-    - name: payoutMethod
-      in: query
-      required: false
-      description: Способ вывода средств
-      type: string
-      enum:
-        - BankAccount
-        - InternationalBankAccount
   responses:
     '200':
-      description: Payment institution terms calculated
+      description: Способ вывода средств
       schema:
-        $ref: '#/definitions/PayoutTerms'
+        type: array
+        items:
+          type: string
+          enum:
+            - BankAccount
+            - InternationalBankAccount
     '400':
       $ref: '#/responses/BadRequest'
     '404':
