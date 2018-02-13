@@ -24,11 +24,12 @@ get:
         - InternationalBankAccount
   responses:
     '200':
-      description: Расписания выводов
+      description: Идентификаторы расписаний выводов
       schema:
         type: array
         items:
-          - $ref: '#/definitions/Schedule'
+          type: integer
+          format: int32
     '400':
       $ref: '#/responses/BadRequest'
     '404':
