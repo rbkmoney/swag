@@ -1,0 +1,10 @@
+description: Изменение расписания выводов магазина
+type: object
+allOf:
+  - $ref: '#/definitions/ShopModification'
+  - type: object
+    properties:
+      scheduleID:
+        description: Идентификатор расписания выводов
+        type: integer
+        format: int32
