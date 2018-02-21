@@ -12,6 +12,12 @@ build:
       url: ${SLACK_WEBHOOK_URL}
       username: "wercker"
 
+dev:
+  steps:
+    - npm-install
+    - npm-test
+    - internal/shell
+
 release-epic:
   steps:
     - script:
