@@ -13,4 +13,4 @@ properties:
       - refunded
       - failed
   error:
-    $ref: '#/definitions/LogicError'
+    $ref: '#/definitions/PaymentError'
