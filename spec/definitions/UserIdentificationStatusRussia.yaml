@@ -1,0 +1,13 @@
+allOf:
+  - $ref: '#/definitions/UserIdentificationStatus'
+  - type: object
+    required:
+      - status
+    properties:
+      status:
+        description: Статус идентификации пользователя-физ.лица согласно законодательству РФ
+        type: string
+        enum:
+          - unindetified
+          - simpleIdentification
+          - fullIdentification

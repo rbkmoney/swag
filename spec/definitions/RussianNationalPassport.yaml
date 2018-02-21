@@ -1,0 +1,64 @@
+description: Паспорт гражданина РФ
+allOf:
+  - $ref: '#/definitions/UserIdentificationDocument'
+  - type: object
+    required:
+      - firstName
+      - secondName
+      - middleName
+      - series
+      - number
+    properties:
+      series:
+        description: Серия
+        type: string
+        maxLength: 4
+      number:
+        description: Номер
+        type: string
+        maxLength: 6
+      issuerName:
+        description: Номер
+        type: string
+        maxLength: 500
+      issuerCode:
+        description: Номер
+        type: string
+        maxLength: 10
+      issueDate:
+        description: Дата выдачи
+        type: string
+        format: date
+      expiryDate:
+        description: Дата окончания действия
+        type: string
+        format: date
+      firstName:
+        description: Имя
+        type: string
+        maxLength: 100
+      secondName:
+        description: Фамилия
+        type: string
+        maxLength: 100
+      middleName:
+        description: Отчество
+        type: string
+        maxLength: 100
+      sex:
+        description: Пол
+        type: string
+        enum:
+          - male
+          - female
+      birthDate:
+        description: Дата рождения
+        type: string
+        format: date
+      birthPlace:
+        description: Место рождения
+        type: string
+        maxLength: 100
+      metadata:
+        description: Другие данные в паспорте, либо
+        type: object

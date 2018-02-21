@@ -1,0 +1,12 @@
+description: Идентификационный номер налогоплательщика РФ
+allOf:
+  - $ref: '#/definitions/UserIdentificationDocument'
+  - type: object
+    required:
+      - value
+    properties:
+      value:
+        description: ИНН
+        type: string
+        minLength: 9
+        maxLength: 9

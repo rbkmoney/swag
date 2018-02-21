@@ -1,0 +1,19 @@
+description: Пользователь системы - физ. лицо
+allOf:
+  - $ref: '#/definitions/Contractor'
+  - type: object
+    required:
+      - email
+      - identificationDocuments
+    properties:
+      email:
+        description: Электронная почта, идентифицирующая пользователя
+        x-rebillyMerge:
+          - $ref: '#/definitions/Email'
+      phoneNumber:
+        x-rebillyMerge:
+          - $ref: '#/definitions/PhoneNumber'
+      identificationDocuments:
+        type: array
+        items:
+          $ref: '#/definitions/UserIdentificationDocument'

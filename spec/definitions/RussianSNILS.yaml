@@ -1,0 +1,12 @@
+description: Страховой номер индивидуального лицевого счёта РФ
+allOf:
+  - $ref: '#/definitions/UserIdentificationDocument'
+  - type: object
+    required:
+      - value
+    properties:
+      value:
+        description: СНИЛС
+        type: string
+        minLength: 11
+        maxLength: 11

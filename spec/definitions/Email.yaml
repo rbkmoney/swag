@@ -1,0 +1,4 @@
+description: Адрес электронной почты
+type: string
+format: email
+maxLength: 100
