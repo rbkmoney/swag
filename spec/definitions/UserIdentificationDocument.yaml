@@ -1,0 +1,9 @@
+description: Документ, идентифицирующий пользователя
+type: object
+discriminator: userIdentificationDocumentType
+required:
+  - userIdentificationDocumentType
+properties:
+  userIdentificationDocumentType:
+    description: тип документа для идентифиции пользователя
+    type: string

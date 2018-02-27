@@ -1,0 +1,37 @@
+type: object
+allOf:
+  - type: object
+    required:
+      - id
+      - createdAt
+      - isBlocked
+      - isSuspended
+      - contractID
+      - account
+    properties:
+      id:
+        description: Идентификатор кошелька
+        type: string
+      createdAt:
+        description: Дата и время создания
+        type: string
+        format: date-time
+      isBlocked:
+        description: Заблокирован ли кошелек?
+        type: boolean
+      isSuspended:
+        description: Приостановлены ли операции в рамках кошелька?
+        type: boolean
+      lastUsed:
+        description: Дата и время последней финансовой операции
+        type: string
+        format: date-time
+      contractID:
+        description: |
+          Идентификатор договора, на основании которого производится обслуживание
+          кошелька
+        type: string
+      account:
+        $ref: '#/definitions/Account'
+      identificationStatus:
+        $ref: '#/definitions/UserIdentificationStatus'

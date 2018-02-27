@@ -1,0 +1,11 @@
+description: Статус идентификации пользователя
+type: object
+discriminator: userIdentificationStatusType
+required:
+  - userIdentificationStatusType
+properties:
+  userIdentificationStatusType:
+    description: |
+      Набор статусов идентификации пользователя в контексте конкретного
+      резидентства (государства?)
+    type: string

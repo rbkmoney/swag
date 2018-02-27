@@ -7,6 +7,3 @@ properties:
   contractorType:
     description: Тип лица, выступающего стороной договора
     type: string
-    enum:
-      - LegalEntity
-      - RegisteredUser
