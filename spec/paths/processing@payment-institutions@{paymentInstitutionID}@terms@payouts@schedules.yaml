@@ -1,0 +1,36 @@
+get:
+  description: Получить доступные расписания вывода средств для платёжной организации
+  tags:
+    - PaymentInstitutions
+  operationId: getPaymentInstitutionPayoutSchedules
+  parameters:
+    - $ref: '#/parameters/requestID'
+    - $ref: '#/parameters/paymentInstitutionID'
+    - name: currency
+      in: query
+      required: false
+      description: >-
+        Валюта, символьный код согласно [ISO
+        4217](http://www.iso.org/iso/home/standards/currency_codes.htm).
+      type: string
+      pattern: '^[A-Z]{3}$'
+    - name: payoutMethod
+      in: query
+      required: false
+      description: Способ вывода средств
+      type: string
+      enum:
+        - BankAccount
+        - InternationalBankAccount
+  responses:
+    '200':
+      description: Идентификаторы расписаний выводов
+      schema:
+        type: array
+        items:
+          type: integer
+          format: int32
+    '400':
+      $ref: '#/responses/BadRequest'
+    '404':
+      $ref: '#/responses/NotFound'

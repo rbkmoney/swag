@@ -42,5 +42,9 @@ properties:
       Идентификатор средства вывода в рамках контракта, используемое в процессе
       вывода по магазину
     type: string
+  scheduleID:
+    description: Идентификатор расписания выводов
+    type: integer
+    format: int32
   account:
     $ref: '#/definitions/ShopAccount'
