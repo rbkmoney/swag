@@ -1,0 +1,15 @@
+description: Расписание
+type: object
+required:
+  - name
+  - scheduleID
+properties:
+  scheduleID:
+    type: integer
+    format: int32
+  name:
+    type: string
+    maxLength: 100
+  description:
+    type: string
+    maxLength: 1000

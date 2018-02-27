@@ -5,12 +5,7 @@ get:
   operationId: getPaymentInstitutionByRef
   parameters:
     - $ref: '#/parameters/requestID'
-    - name: paymentInstitutionID
-      in: path
-      description: Payment institution reference
-      required: true
-      type: integer
-      format: int32
+    - $ref: '#/parameters/paymentInstitutionID'
   responses:
     '200':
       description: Payment institution found

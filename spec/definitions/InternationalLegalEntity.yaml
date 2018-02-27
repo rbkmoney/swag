@@ -19,3 +19,7 @@ allOf:
       principalPlaceOfBusiness:
         description: Адрес места нахождения (если отличается от регистрации)
         type: string
+      registeredNumber:
+        description: Регистрационный номер
+        type: string
+        maxLength: 100
