@@ -235,6 +235,22 @@ parameters:
     type: string
     maxLength: 40
     minLength: 1
+  identificationDocID:
+    name: identificationDocID
+    in: path
+    description: Идентификатор документа, идентифицирующего участника.
+    required: true
+    type: string
+    maxLength: 40
+    minLength: 1
+  walletID:
+    name: walletID
+    in: path
+    description: Идентификатор кошелька
+    required: true
+    type: string
+    maxLength: 40
+    minLength: 1
   fromTime:
     name: fromTime
     in: query

@@ -2,8 +2,16 @@ description: Документ, идентифицирующий пользова
 type: object
 discriminator: userIdentificationDocumentType
 required:
+  - id
   - userIdentificationDocumentType
 properties:
+  id:
+    description: Идентификатор документа
+    type: string
+  isVerified:
+    description: Верифицирован ли документ?
+    type: boolean
+    readOnly: true
   userIdentificationDocumentType:
     description: тип документа для идентифиции пользователя
     type: string

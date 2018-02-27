@@ -1,0 +1,35 @@
+post:
+  description: Добавить идентификационный документ.
+  tags:
+    - IdentificationDocs
+  operationId: createIdentificationDoc
+  parameters:
+    - $ref: '#/parameters/requestID'
+    - name: document
+      description: Новый документ
+      in: body
+      required: true
+      schema:
+        $ref: '#/definitions/UserIdentificationDocument'
+  responses:
+    '201':
+      description: Документ создан
+      schema:
+        $ref: '#/definitions/UserIdentificationDocument'
+    '400':
+      $ref: '#/responses/BadRequest'
+
+get:
+  description: Получить все идентификационные документы.
+  tags:
+    - IdentificationDocs
+  operationId: getIdentificationDocs
+  parameters:
+    - $ref: '#/parameters/requestID'
+  responses:
+    '200':
+      description: Список идентификационных документов участника
+      schema:
+        type: array
+        items:
+          $ref: '#/definitions/UserIdentificationDocument'

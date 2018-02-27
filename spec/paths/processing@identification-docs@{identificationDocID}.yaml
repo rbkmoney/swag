@@ -1,0 +1,58 @@
+get:
+  description: Получить идентификационные данные по идентификатору.
+  tags:
+    - IdentificationDocs
+  operationId: getIdentificationDocByID
+  parameters:
+    - $ref: '#/parameters/requestID'
+    - $ref: '#/parameters/identificationDocID'
+  responses:
+    '200':
+      description: Идентификационный документ участника
+      schema:
+        $ref: '#/definitions/UserIdentificationDocument'
+    '400':
+      $ref: '#/responses/BadRequest'
+    '404':
+      $ref: '#/responses/NotFound'
+
+put:
+  description: Обновить идентификационный документ.
+  tags:
+    - IdentificationDocs
+  operationId: updateIdentificationDoc
+  parameters:
+    - $ref: '#/parameters/requestID'
+    - $ref: '#/parameters/identificationDocID'
+    - name: document
+      description: Обновленный документ
+      in: body
+      required: true
+      schema:
+        $ref: '#/definitions/UserIdentificationDocument'
+  responses:
+    '200':
+      description: Документ модифицирован.
+      schema:
+        $ref: '#/definitions/UserIdentificationDocument'
+    '400':
+      $ref: '#/responses/BadRequest'
+    '404':
+      $ref: '#/responses/NotFound'
+
+delete:
+  description: Удалить идентификационный документ
+  tags:
+    - IdentificationDocs
+  operationId: deleteIdentificationDoc
+  parameters:
+    - $ref: '#/parameters/requestID'
+    - $ref: '#/parameters/identificationDocID'
+  responses:
+    '204':
+      description: Документ удален.
+    '400':
+      $ref: '#/responses/BadRequest'
+    '404':
+      $ref: '#/responses/NotFound'
+

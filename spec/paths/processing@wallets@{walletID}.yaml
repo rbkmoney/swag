@@ -1,0 +1,17 @@
+get:
+  description: Получить все кошелек участника по идентификатору.
+  operationId: getWalletByID
+  tags:
+    - Wallets
+  parameters:
+    - $ref: '#/parameters/requestID'
+    - $ref: '#/parameters/walletID'
+  responses:
+    '200':
+      description: Кошелек участника
+      schema:
+        $ref: '#/definitions/Wallet'
+    '400':
+      $ref: '#/responses/BadRequest'
+    '404':
+      $ref: '#/responses/NotFound'

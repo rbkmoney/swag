@@ -1,0 +1,15 @@
+post:
+  description: Верифицировать документ.
+  tags:
+    - IdentificationDocs
+  operationId: verifyIdentificationDoc
+  parameters:
+    - $ref: '#/parameters/requestID'
+    - $ref: '#/parameters/identificationDocID'
+  responses:
+    '204':
+      description: Документ верифицирован.
+    '400':
+      $ref: '#/responses/BadRequest'
+    '404':
+      $ref: '#/responses/NotFound'

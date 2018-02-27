@@ -1,0 +1,52 @@
+post:
+  description: Создать новый кошелек участника.
+  tags:
+    - Wallets
+  operationId: createWallet
+  parameters:
+    - $ref: '#/parameters/requestID'
+    - name: email
+      description: Адрес email, идентифицирующий владельца кошелька
+      in: body
+      required: true
+      schema:
+        type: object
+        required:
+          - email
+          - currency
+          - paymentInstitutionID
+        properties:
+          email:
+            $ref: '#/definitions/Email'
+          currency:
+            description: >-
+              Валюта, символьный код согласно [ISO
+              4217](http://www.iso.org/iso/home/standards/currency_codes.htm).
+            type: string
+            pattern: '^[A-Z]{3}$'
+          paymentInstitutionID:
+            description: Идентификатор платежного учреждения для заведения кошелька
+            type: integer
+            format: int32
+  responses:
+    '201':
+      description: Кошелек создан
+      schema:
+        $ref: '#/definitions/Wallet'
+    '400':
+      $ref: '#/responses/BadRequest'
+
+get:
+  description: Получить все кошельки участника.
+  operationId: getWallets
+  tags:
+    - Wallets
+  parameters:
+    - $ref: '#/parameters/requestID'
+  responses:
+    '200':
+      description: Список кошельков
+      schema:
+        type: array
+        items:
+          $ref: '#/definitions/Wallet'

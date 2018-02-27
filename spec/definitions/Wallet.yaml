@@ -12,6 +12,8 @@ allOf:
       id:
         description: Идентификатор кошелька
         type: string
+        maxLength: 40
+        minLength: 1
       createdAt:
         description: Дата и время создания
         type: string
