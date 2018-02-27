@@ -207,6 +207,14 @@
       "maxLength": 40,
       "minLength": 1
     },
+    "paymentInstitutionID": {
+      "name": "paymentInstitutionID",
+      "in": "path",
+      "description": "Payment institution reference",
+      "required": true,
+      "type": "integer",
+      "format": "int32"
+    },
     "fromTime": {
       "name": "fromTime",
       "in": "query",
@@ -2621,12 +2629,7 @@
             "$ref": "#/parameters/requestID"
           },
           {
-            "name": "paymentInstitutionID",
-            "in": "path",
-            "description": "Payment institution reference",
-            "required": true,
-            "type": "integer",
-            "format": "int32"
+            "$ref": "#/parameters/paymentInstitutionID"
           }
         ],
         "responses": {
@@ -2647,7 +2650,7 @@
     },
     "/processing/payment-institutions/{paymentInstitutionID}/terms/payments": {
       "get": {
-        "description": "Получить условия проведения платежей по-умолчанию для платёжной организации",
+        "description": "Получить условия проведения платежей для платёжной организации",
         "tags": [
           "PaymentInstitutions"
         ],
@@ -2657,12 +2660,7 @@
             "$ref": "#/parameters/requestID"
           },
           {
-            "name": "paymentInstitutionID",
-            "in": "path",
-            "description": "Payment institution reference",
-            "required": true,
-            "type": "integer",
-            "format": "int32"
+            "$ref": "#/parameters/paymentInstitutionID"
           }
         ],
         "responses": {
@@ -2670,6 +2668,106 @@
             "description": "Payment institution terms calculated",
             "schema": {
               "$ref": "#/definitions/PaymentTerms"
+            }
+          },
+          "400": {
+            "$ref": "#/responses/BadRequest"
+          },
+          "404": {
+            "$ref": "#/responses/NotFound"
+          }
+        }
+      }
+    },
+    "/processing/payment-institutions/{paymentInstitutionID}/terms/payouts/methods": {
+      "get": {
+        "description": "Получить cпособы вывода средств для платёжной организации",
+        "tags": [
+          "PaymentInstitutions"
+        ],
+        "operationId": "getPaymentInstitutionPayoutMethods",
+        "parameters": [
+          {
+            "$ref": "#/parameters/requestID"
+          },
+          {
+            "$ref": "#/parameters/paymentInstitutionID"
+          },
+          {
+            "name": "currency",
+            "in": "query",
+            "required": false,
+            "description": "Валюта, символьный код согласно [ISO 4217](http://www.iso.org/iso/home/standards/currency_codes.htm).",
+            "type": "string",
+            "pattern": "^[A-Z]{3}$"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Способ вывода средств",
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "enum": [
+                  "BankAccount",
+                  "InternationalBankAccount"
+                ]
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/responses/BadRequest"
+          },
+          "404": {
+            "$ref": "#/responses/NotFound"
+          }
+        }
+      }
+    },
+    "/processing/payment-institutions/{paymentInstitutionID}/terms/payouts/schedules": {
+      "get": {
+        "description": "Получить доступные расписания вывода средств для платёжной организации",
+        "tags": [
+          "PaymentInstitutions"
+        ],
+        "operationId": "getPaymentInstitutionPayoutSchedules",
+        "parameters": [
+          {
+            "$ref": "#/parameters/requestID"
+          },
+          {
+            "$ref": "#/parameters/paymentInstitutionID"
+          },
+          {
+            "name": "currency",
+            "in": "query",
+            "required": false,
+            "description": "Валюта, символьный код согласно [ISO 4217](http://www.iso.org/iso/home/standards/currency_codes.htm).",
+            "type": "string",
+            "pattern": "^[A-Z]{3}$"
+          },
+          {
+            "name": "payoutMethod",
+            "in": "query",
+            "required": false,
+            "description": "Способ вывода средств",
+            "type": "string",
+            "enum": [
+              "BankAccount",
+              "InternationalBankAccount"
+            ]
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Идентификаторы расписаний выводов",
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "integer",
+                "format": "int32"
+              }
             }
           },
           "400": {
@@ -2711,6 +2809,42 @@
           },
           "400": {
             "$ref": "#/responses/BadRequest"
+          }
+        }
+      }
+    },
+    "/processing/schedules/{scheduleID}": {
+      "get": {
+        "description": "Получить данные расписания выводов по ее ID",
+        "tags": [
+          "Payouts"
+        ],
+        "operationId": "getScheduleByRef",
+        "parameters": [
+          {
+            "$ref": "#/parameters/requestID"
+          },
+          {
+            "name": "scheduleID",
+            "in": "path",
+            "description": "Schedule reference",
+            "required": true,
+            "type": "integer",
+            "format": "int32"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Schedule found",
+            "schema": {
+              "$ref": "#/definitions/Schedule"
+            }
+          },
+          "400": {
+            "$ref": "#/responses/BadRequest"
+          },
+          "404": {
+            "$ref": "#/responses/NotFound"
           }
         }
       }
@@ -4255,6 +4389,11 @@
           "type": "string",
           "pattern": "^([A-Z0-9]{8}|[A-Z0-9]{11})$",
           "example": "DEUTDEFF500"
+        },
+        "localBankCode": {
+          "description": "Национальный код банка",
+          "type": "string",
+          "maxLength": 100
         }
       }
     },
@@ -4287,6 +4426,11 @@
             "principalPlaceOfBusiness": {
               "description": "Адрес места нахождения (если отличается от регистрации)",
               "type": "string"
+            },
+            "registeredNumber": {
+              "description": "Регистрационный номер",
+              "type": "string",
+              "maxLength": 100
             }
           }
         }
@@ -6294,6 +6438,28 @@
         }
       ]
     },
+    "Schedule": {
+      "description": "Расписание",
+      "type": "object",
+      "required": [
+        "name",
+        "scheduleID"
+      ],
+      "properties": {
+        "scheduleID": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "name": {
+          "type": "string",
+          "maxLength": 100
+        },
+        "description": {
+          "type": "string",
+          "maxLength": 1000
+        }
+      }
+    },
     "Shop": {
       "description": "Данные магазина",
       "type": "object",
@@ -6343,6 +6509,11 @@
         "payoutToolID": {
           "description": "Идентификатор средства вывода в рамках контракта, используемое в процессе\nвывода по магазину\n",
           "type": "string"
+        },
+        "scheduleID": {
+          "description": "Идентификатор расписания выводов",
+          "type": "integer",
+          "format": "int32"
         },
         "account": {
           "$ref": "#/definitions/ShopAccount"
@@ -6601,8 +6772,28 @@
                 "ShopLocationChange",
                 "ShopDetailsChange",
                 "ShopContractBinding",
-                "ShopPayoutToolChange"
+                "ShopPayoutToolChange",
+                "ShopPayoutScheduleChange"
               ]
+            }
+          }
+        }
+      ]
+    },
+    "ShopPayoutScheduleChange": {
+      "description": "Изменение расписания выводов магазина",
+      "type": "object",
+      "allOf": [
+        {
+          "$ref": "#/definitions/ShopModification"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "scheduleID": {
+              "description": "Идентификатор расписания выводов",
+              "type": "integer",
+              "format": "int32"
             }
           }
         }
