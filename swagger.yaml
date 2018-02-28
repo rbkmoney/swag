@@ -1695,12 +1695,12 @@ paths:
         - $ref: '#/parameters/requestID'
         - $ref: '#/parameters/invoiceID'
         - $ref: '#/parameters/paymentID'
-        - name: reason
+        - name: refundParams
+          description: Параметры создаваемого возврата платежа
           in: body
-          description: Причина совершения возврата
-          required: false
+          required: true
           schema:
-            $ref: '#/definitions/Reason'
+            $ref: '#/definitions/RefundParams'
       responses:
         '201':
           description: Возврат создан
@@ -4285,6 +4285,8 @@ definitions:
         required:
           - id
           - createdAt
+          - amount
+          - currency
         properties:
           id:
             description: Идентификатор возврата
@@ -4293,10 +4295,39 @@ definitions:
             description: Дата и время осуществления
             type: string
             format: date-time
+          amount:
+            description: |
+              Сумма возврата, в минорных денежных единицах, например в копейках в случае указания российских рублей в качестве валюты.
+            type: integer
+            format: int64
+            minimum: 1
+          currency:
+            description: 'Валюта, символьный код согласно [ISO 4217](http://www.iso.org/iso/home/standards/currency_codes.htm).'
+            type: string
+            pattern: '^[A-Z]{3}$'
           reason:
             description: Причина осуществления возврата
             type: string
       - $ref: '#/definitions/RefundStatus'
+  RefundParams:
+    type: object
+    properties:
+      amount:
+        description: |
+          Сумма возврата, в минорных денежных единицах,
+          например в копейках в случае указания российских рублей в качестве
+          валюты.
+        type: integer
+        format: int64
+        minimum: 1
+      currency:
+        description: 'Валюта, символьный код согласно [ISO 4217](http://www.iso.org/iso/home/standards/currency_codes.htm).'
+        type: string
+        pattern: '^[A-Z]{3}$'
+      reason:
+        description: Причина совершения возврата
+        type: string
+        maxLength: 1000
   RefundStarted:
     type: object
     allOf:

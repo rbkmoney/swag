@@ -2408,12 +2408,12 @@
             "$ref": "#/parameters/paymentID"
           },
           {
-            "name": "reason",
+            "name": "refundParams",
+            "description": "Параметры создаваемого возврата платежа",
             "in": "body",
-            "description": "Причина совершения возврата",
-            "required": false,
+            "required": true,
             "schema": {
-              "$ref": "#/definitions/Reason"
+              "$ref": "#/definitions/RefundParams"
             }
           }
         ],
@@ -6210,7 +6210,9 @@
           "type": "object",
           "required": [
             "id",
-            "createdAt"
+            "createdAt",
+            "amount",
+            "currency"
           ],
           "properties": {
             "id": {
@@ -6222,6 +6224,17 @@
               "type": "string",
               "format": "date-time"
             },
+            "amount": {
+              "description": "Сумма возврата, в минорных денежных единицах, например в копейках в случае указания российских рублей в качестве валюты.\n",
+              "type": "integer",
+              "format": "int64",
+              "minimum": 1
+            },
+            "currency": {
+              "description": "Валюта, символьный код согласно [ISO 4217](http://www.iso.org/iso/home/standards/currency_codes.htm).",
+              "type": "string",
+              "pattern": "^[A-Z]{3}$"
+            },
             "reason": {
               "description": "Причина осуществления возврата",
               "type": "string"
@@ -6232,6 +6245,27 @@
           "$ref": "#/definitions/RefundStatus"
         }
       ]
+    },
+    "RefundParams": {
+      "type": "object",
+      "properties": {
+        "amount": {
+          "description": "Сумма возврата, в минорных денежных единицах,\nнапример в копейках в случае указания российских рублей в качестве\nвалюты.\n",
+          "type": "integer",
+          "format": "int64",
+          "minimum": 1
+        },
+        "currency": {
+          "description": "Валюта, символьный код согласно [ISO 4217](http://www.iso.org/iso/home/standards/currency_codes.htm).",
+          "type": "string",
+          "pattern": "^[A-Z]{3}$"
+        },
+        "reason": {
+          "description": "Причина совершения возврата",
+          "type": "string",
+          "maxLength": 1000
+        }
+      }
     },
     "RefundStarted": {
       "type": "object",
