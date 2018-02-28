@@ -51,3 +51,13 @@ deploy:
     - slack-notifier:
       url: ${SLACK_WEBHOOK_URL}
       username: "wercker"
+
+deploy-next:
+  steps:
+    - lukevivier/gh-pages:
+      repo: rbkmoney/api-v2
+      token: ${GITHUB_API_TOKEN}
+  after-steps:
+    - slack-notifier:
+      url: ${SLACK_WEBHOOK_URL}
+      username: "wercker"
