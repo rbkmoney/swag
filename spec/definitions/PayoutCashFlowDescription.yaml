@@ -42,4 +42,4 @@ properties:
     enum:
       - payment
       - refund
-      - adjustment
+
