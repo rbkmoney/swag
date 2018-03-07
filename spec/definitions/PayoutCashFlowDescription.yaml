@@ -26,7 +26,7 @@ properties:
     x-rebillyMerge:
       - $ref: '#/definitions/Currency'
   count:
-    description: 'Общее количество по данному типу операций над денежными средствами по данному типу'
+    description: 'Общее количество операций над денежными средствами по данному типу'
     type: integer
     format: int32
     minimum: 0
