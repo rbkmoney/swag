@@ -4263,7 +4263,6 @@ definitions:
         enum:
           - payment
           - refund
-          - adjustment
   PayoutTool:
     description: Средство вывода
     allOf:
