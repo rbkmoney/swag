@@ -45,3 +45,4 @@ properties:
     type: array
     items:
       $ref: '#/definitions/PayoutCashFlowDescription'
+
