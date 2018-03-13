@@ -1,0 +1,45 @@
+type: object
+description: Описание суммы вывода по типу операций
+required:
+  - amount
+  - fee
+  - currency
+  - count
+  - fromTime
+  - toTime
+  - type
+properties:
+  amount:
+    description: |
+      Общая сумма по данному типу операций над денежными средствами в минорных денежных
+      единицах, например в копейках в случае указания российских рублей в
+      качестве валюты.
+    type: integer
+    format: int64
+    minimum: 0
+  fee:
+    description: 'Общая комиссия по данному типу операций над денежными средствами в минорных денежных единицах'
+    type: integer
+    format: int64
+    minimum: 0
+  currency:
+    x-rebillyMerge:
+      - $ref: '#/definitions/Currency'
+  count:
+    description: 'Общее количество операций над денежными средствами по данному типу'
+    type: integer
+    format: int32
+    minimum: 0
+  fromTime:
+    description: Дата и время создания первой операции над денежными средствами
+    type: string
+  toTime:
+    description: Дата и время создания последней операции над денежными средствами
+    type: string
+  type:
+    description: Тип операций над денежными средствами
+    type: string
+    enum:
+      - payment
+      - refund
+
