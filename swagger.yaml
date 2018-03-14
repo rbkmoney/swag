@@ -4208,8 +4208,8 @@ definitions:
         description: 'Описание части суммы вывода, сгруппированное по типу операций над денежными средствами'
         type: array
         items:
-          $ref: '#/definitions/PayoutSummary'
-  PayoutSummary:
+          $ref: '#/definitions/PayoutSummaryItem'
+  PayoutSummaryItem:
     type: object
     description: Описание суммы вывода по типу операций
     required:

@@ -6065,12 +6065,12 @@
           "description": "Описание части суммы вывода, сгруппированное по типу операций над денежными средствами",
           "type": "array",
           "items": {
-            "$ref": "#/definitions/PayoutSummary"
+            "$ref": "#/definitions/PayoutSummaryItem"
           }
         }
       }
     },
-    "PayoutSummary": {
+    "PayoutSummaryItem": {
       "type": "object",
       "description": "Описание суммы вывода по типу операций",
       "required": [
