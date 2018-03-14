@@ -4204,12 +4204,12 @@ definitions:
         pattern: '^[A-Z]{3}$'
       payoutToolDetails:
         $ref: '#/definitions/PayoutToolDetails'
-      payoutCashFlowDescriptions:
+      payoutSummary:
         description: 'Описание части суммы вывода, сгруппированное по типу операций над денежными средствами'
         type: array
         items:
-          $ref: '#/definitions/PayoutCashFlowDescription'
-  PayoutCashFlowDescription:
+          $ref: '#/definitions/PayoutSummary'
+  PayoutSummary:
     type: object
     description: Описание суммы вывода по типу операций
     required:
@@ -4244,11 +4244,13 @@ definitions:
         format: int32
         minimum: 0
       fromTime:
-        description: Дата и время создания первой операции над денежными средствами
+        description: Дата и время первого подтверждения операции над денежными средствами
         type: string
+        format: date-time
       toTime:
-        description: Дата и время создания последней операции над денежными средствами
+        description: Дата и время последнего подтверждения операции над денежными средствами
         type: string
+        format: date-time
       type:
         description: Тип операций над денежными средствами
         type: string
