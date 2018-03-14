@@ -49,9 +49,9 @@ properties:
       - $ref: '#/definitions/Currency'
   payoutToolDetails:
     $ref: '#/definitions/PayoutToolDetails'
-  payoutCashFlowDescriptions:
+  payoutSummary:
     description: Описание части суммы вывода, сгруппированное по типу операций над денежными средствами
     type: array
     items:
-      $ref: '#/definitions/PayoutCashFlowDescription'
+      $ref: '#/definitions/PayoutSummary'
 

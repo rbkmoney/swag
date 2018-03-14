@@ -31,11 +31,13 @@ properties:
     format: int32
     minimum: 0
   fromTime:
-    description: Дата и время создания первой операции над денежными средствами
+    description: Дата и время первого подтверждения операции над денежными средствами
     type: string
+    format: date-time
   toTime:
-    description: Дата и время создания последней операции над денежными средствами
+    description: Дата и время последнего подтверждения операции над денежными средствами
     type: string
+    format: date-time
   type:
     description: Тип операций над денежными средствами
     type: string
