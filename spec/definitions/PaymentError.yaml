@@ -1,24 +1,55 @@
-description: Описание ошибки, возникшей в процессе проведения платежа
+# TODO ревьюверы, есть мысли как сделать описание ошибок мёрчанта более понятно?
+description: |
+  Ошибка, возникшая в процессе проведения платежа
+
+  Для токена клиента:
+
+  | Сообщение              | Описание                                                                  |
+  | ---------              | --------                                                                  |
+  | InvalidPaymentTool     | невалидный платёжный инструмент (введите правильный платёжный инструмент) |
+  | AccountLimitsExceeded  | превышены лимиты (перенастройте лимиты или попробуйте позже)              |
+  | InsufficientFunds      | нехватка ненег (пополните счет)                                           |
+  | PreauthorizationFailed | предварительная авторизация отклонена (пройдите авторизацию)              |
+  | AccountBlocked         | платёжный инструмент заблокирован (обратитесь к эмитенту)                 |
+  | PaymentRejected        | платёж отклонён по иным причинам                                          |
+
+  Для токена мерчанта:
+
+  - rejected_by_inspector
+  - preauthorization_failed
+  - authorization_failed:
+    - unknown
+    - merchant_blocked
+    - operation_blocked
+    - account_not_found
+    - account_blocked
+    - account_stolen
+    - insufficient_funds
+    - account_limit_exceeded:
+      - unknown
+      - amount
+      - number
+    - provider_limit_exceeded:
+      - unknown
+      - amount
+      - number
+    - payment_tool_rejected:
+      - unknown
+      - bank_card_rejected:
+        - unknown
+        - card_number_invalid
+        - card_expired
+        - card_holder_invalid
+        - cvv_invalid
+        - card_unsupported
+        - issuer_not_found
+
+  Например `authorization_failed:payment_tool_rejected:bank_card_rejected:cvv_invalid` в случае некорретного CVV.
+
+
 type: object
 required:
   - message
 properties:
   message:
     type: string
-    enum:
-      # невалидный платёжный инструмент (введите правильный платёжный инструмент)
-      #   authorization_failed:payment_tool_rejected
-      #   authorization_failed:account_not_found
-      - Invalid payment tool
-      # превышены лимиты (настройте лимиты или попробуйте позже)
-      #   authorization_failed:account_limit_exceeded
-      - Account limits exceeded
-      # нехватка ненег (пополните счет)
-      #   authorization_failed:insufficient_funds
-      - Insufficient funds
-      # платёжный инструмент заблокирован (обратитесь к эмитенту)
-      #   authorization_failed:account_blocked
-      - Account blocked
-      # платёж отклонён
-      #   *
-      - Payment rejected
