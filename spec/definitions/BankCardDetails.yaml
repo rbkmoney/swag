@@ -8,4 +8,4 @@ properties:
     pattern: '^\d{2,4}$'
   paymentSystem:
     x-rebillyMerge:
-      - $ref: '#/definitions/BankCardPaymentSystem'
+      - $ref: '#/definitions/PaymentSystem'

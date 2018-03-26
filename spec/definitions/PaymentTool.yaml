@@ -1,4 +1,6 @@
 type: object
+allOf:
+  - $ref: '#/definitions/PaymentTool'
 discriminator: paymentToolType
 properties:
   paymentToolType:
@@ -8,5 +10,6 @@ properties:
       - CardData
       - PaymentTerminalData
       - DigitalWalletData
+      - MobilePaymentToken
 required:
   - paymentToolType

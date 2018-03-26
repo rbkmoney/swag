@@ -10,4 +10,4 @@ allOf:
         type: array
         items:
           x-rebillyMerge:
-            - $ref: '#/definitions/BankCardPaymentSystem'
+            - $ref: '#/definitions/PaymentSystem'
