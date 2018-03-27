@@ -8,7 +8,7 @@ allOf:
       - paymentToken
     properties:
       merchantID:
-        description: Идентификатор мерчата в Apple
+        description: Идентификатор мерчанта в Apple
         type: string
       paymentToken:
         description: Совокупность открытых и зашифрованных платежных данных

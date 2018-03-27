@@ -6,7 +6,7 @@ allOf:
     discriminator: mobilePaymentDataType
     properties:
       mobilePaymentDataType:
-        description: Тип платежного токена для мобильных платежей
+        description: Тип платежных данных для мобильных платежей
         type: string
         enum:
           - ApplePay
