@@ -1,6 +1,4 @@
 type: object
-allOf:
-  - $ref: '#/definitions/PaymentTool'
 discriminator: paymentToolType
 properties:
   paymentToolType:
