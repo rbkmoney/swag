@@ -10,4 +10,10 @@ allOf:
         type: array
         items:
           x-rebillyMerge:
-            - $ref: '#/definitions/PaymentSystem'
+            - $ref: '#/definitions/BankCardPaymentSystem'
+      tokenProviders:
+        description: Список провайдеров мобильных токенов
+        type: array
+        items:
+          x-rebillyMerge:
+            - $ref: '#/definitions/BankCardTokenProvider'

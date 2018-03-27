@@ -1,0 +1,15 @@
+type: object
+allOf:
+  - $ref: '#/definitions/MobilePaymentToken'
+  - type: object
+    description: Samsung pay токен
+    required:
+      - serviceID
+      - referenceID
+    properties:
+      serviceID:
+        description: Идентификатор сервиса в Samsung
+        type: string
+      referenceID:
+        description: Идентификатор мерчанта в Samsung
+        type: string

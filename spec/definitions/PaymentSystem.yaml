@@ -1,8 +1,0 @@
-type: object
-required:
-  - bankCard
-properties:
-  bankCard:
-    $ref: '#/definitions/BankCardPaymentSystem'
-  mobile:
-    $ref: '#/definitions/MobilePaymentSystem'

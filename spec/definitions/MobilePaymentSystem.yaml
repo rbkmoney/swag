@@ -1,4 +1,0 @@
-description: Мобильная платежная система
-type: string
-enum:
-  - applepay

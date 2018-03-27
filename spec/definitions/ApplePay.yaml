@@ -1,0 +1,15 @@
+type: object
+allOf:
+  - $ref: '#/definitions/MobilePaymentToken'
+  - type: object
+    description: Apple pay токен
+    required:
+      - merchantID
+      - paymentToken
+    properties:
+      merchantID:
+        description: Идентификатор мерчата в Apple
+        type: string
+      paymentToken:
+        description: Совокупность открытых и зашифрованных платежных данных
+        type: object
