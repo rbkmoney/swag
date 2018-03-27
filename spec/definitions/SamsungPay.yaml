@@ -1,8 +1,8 @@
 type: object
 allOf:
-  - $ref: '#/definitions/MobilePaymentToken'
+  - $ref: '#/definitions/MobilePaymentData'
   - type: object
-    description: Samsung pay токен
+    description: Платежные данные Samsung
     required:
       - serviceID
       - referenceID

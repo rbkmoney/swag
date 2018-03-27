@@ -1,8 +1,8 @@
 type: object
 allOf:
-  - $ref: '#/definitions/MobilePaymentToken'
+  - $ref: '#/definitions/MobilePaymentData'
   - type: object
-    description: Apple pay токен
+    description: Платежные данные Apple
     required:
       - merchantID
       - paymentToken
