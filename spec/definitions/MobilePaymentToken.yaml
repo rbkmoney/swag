@@ -1,0 +1,14 @@
+type: object
+allOf:
+  - $ref: '#/definitions/PaymentTool'
+  - type: object
+    description: Платежный токен
+    discriminator: mobilePaymentTokenType
+    properties:
+      paymentToolType:
+        description: Тип платежного токена для мобильных платежей
+        type: string
+        enum:
+          - ApplePay
+    required:
+      - mobilePaymentTokenType
