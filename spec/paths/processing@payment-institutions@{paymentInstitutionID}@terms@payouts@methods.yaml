@@ -1,0 +1,30 @@
+get:
+  description: Получить cпособы вывода средств для платёжной организации
+  tags:
+    - PaymentInstitutions
+  operationId: getPaymentInstitutionPayoutMethods
+  parameters:
+    - $ref: '#/parameters/requestID'
+    - $ref: '#/parameters/paymentInstitutionID'
+    - name: currency
+      in: query
+      required: false
+      description: >-
+        Валюта, символьный код согласно [ISO
+        4217](http://www.iso.org/iso/home/standards/currency_codes.htm).
+      type: string
+      pattern: '^[A-Z]{3}$'
+  responses:
+    '200':
+      description: Способ вывода средств
+      schema:
+        type: array
+        items:
+          type: string
+          enum:
+            - BankAccount
+            - InternationalBankAccount
+    '400':
+      $ref: '#/responses/BadRequest'
+    '404':
+      $ref: '#/responses/NotFound'

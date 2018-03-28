@@ -27,12 +27,12 @@ post:
     - $ref: '#/parameters/requestID'
     - $ref: '#/parameters/invoiceID'
     - $ref: '#/parameters/paymentID'
-    - name: reason
+    - name: refundParams
+      description: Параметры создаваемого возврата платежа
       in: body
-      description: Причина совершения возврата
-      required: false
+      required: true
       schema:
-        $ref: '#/definitions/Reason'
+        $ref: '#/definitions/RefundParams'
   responses:
     '201':
       description: Возврат создан
