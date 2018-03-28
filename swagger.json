@@ -5211,14 +5211,31 @@
       }
     },
     "PaymentError": {
-      "description": "Ошибка, возникшая в процессе проведения платежа\n\nДля токена клиента:\n\n| Сообщение              | Описание                                                                  |\n| ---------              | --------                                                                  |\n| InvalidPaymentTool     | невалидный платёжный инструмент (введите правильный платёжный инструмент) |\n| AccountLimitsExceeded  | превышены лимиты (перенастройте лимиты или попробуйте позже)              |\n| InsufficientFunds      | нехватка ненег (пополните счет)                                           |\n| PreauthorizationFailed | предварительная авторизация отклонена (пройдите авторизацию)              |\n| AccountBlocked         | платёжный инструмент заблокирован (обратитесь к эмитенту)                 |\n| PaymentRejected        | платёж отклонён по иным причинам                                          |\n\nДля токена мерчанта:\n\n- rejected_by_inspector\n- preauthorization_failed\n- authorization_failed:\n  - unknown\n  - merchant_blocked\n  - operation_blocked\n  - account_not_found\n  - account_blocked\n  - account_stolen\n  - insufficient_funds\n  - account_limit_exceeded:\n    - unknown\n    - amount\n    - number\n  - provider_limit_exceeded:\n    - unknown\n    - amount\n    - number\n  - payment_tool_rejected:\n    - unknown\n    - bank_card_rejected:\n      - unknown\n      - card_number_invalid\n      - card_expired\n      - card_holder_invalid\n      - cvv_invalid\n      - card_unsupported\n      - issuer_not_found\n\nНапример `authorization_failed:payment_tool_rejected:bank_card_rejected:cvv_invalid` в случае некорретного CVV.\n",
+      "description": "[Ошибка, возникшая в процессе проведения платежа](#tag/Error-Codes)\n",
       "type": "object",
       "required": [
-        "message"
+        "code"
       ],
       "properties": {
-        "message": {
+        "code": {
+          "description": "Основной код ошибки",
           "type": "string"
+        },
+        "subError": {
+          "description": "Описание ошибки более детального уровня",
+          "type": "object",
+          "required": [
+            "code"
+          ],
+          "properties": {
+            "code": {
+              "description": "Код ошибки более детального уровня",
+              "type": "string"
+            },
+            "subError": {
+              "$ref": "#/definitions/PaymentError/properties/subError"
+            }
+          }
         }
       }
     },
