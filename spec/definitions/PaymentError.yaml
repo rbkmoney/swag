@@ -8,13 +8,13 @@ properties:
     description: Основной код ошибки
     type: string
   subError:
-    description: Описание ошибки более детального уровня
+    description: Детализация описания ошибки
     type: object
     required:
       - code
     properties:
       code:
-        description: Код ошибки более детального уровня
+        description: Детализация кода ошибки
         type: string
       subError:
         $ref: '#/definitions/PaymentError/properties/subError'
