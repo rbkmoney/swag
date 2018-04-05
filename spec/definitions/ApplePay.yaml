@@ -1,14 +1,14 @@
 type: object
 allOf:
-  - $ref: '#/definitions/MobilePaymentData'
+  - $ref: '#/definitions/TokenizedCardData'
   - type: object
-    description: Платежные данные Apple
+    description: Платежные данные Apple Pay
     required:
       - merchantID
       - paymentToken
     properties:
       merchantID:
-        description: Идентификатор мерчанта в Apple
+        description: Идентификатор мерчанта в Apple Pay
         type: string
       paymentToken:
         description: Совокупность открытых и зашифрованных платежных данных

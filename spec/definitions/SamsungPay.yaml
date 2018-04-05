@@ -1,15 +1,15 @@
 type: object
 allOf:
-  - $ref: '#/definitions/MobilePaymentData'
+  - $ref: '#/definitions/TokenizedCardData'
   - type: object
-    description: Платежные данные Samsung
+    description: Платежные данные Samsung Pay
     required:
       - serviceID
-      - referenceID
+      - merchantID
     properties:
       serviceID:
-        description: Идентификатор сервиса в Samsung
+        description: Идентификатор сервиса в Samsung Pay
         type: string
-      referenceID:
-        description: Идентификатор мерчанта в Samsung
+      merchantID:
+        description: Идентификатор мерчанта в Samsung Pay
         type: string
