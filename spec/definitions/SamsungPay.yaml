@@ -5,11 +5,11 @@ allOf:
     description: Платежные данные Samsung Pay
     required:
       - serviceID
-      - merchantID
+      - referenceID
     properties:
       serviceID:
         description: Идентификатор сервиса в Samsung Pay
         type: string
-      merchantID:
-        description: Идентификатор мерчанта в Samsung Pay
+      referenceID:
+        description: Идентификатор токена в Samsung Pay
         type: string
