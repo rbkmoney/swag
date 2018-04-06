@@ -3216,6 +3216,32 @@
         }
       }
     },
+    "ApplePay": {
+      "type": "object",
+      "allOf": [
+        {
+          "$ref": "#/definitions/TokenizedCardData"
+        },
+        {
+          "type": "object",
+          "description": "Платежные данные Apple Pay",
+          "required": [
+            "merchantID",
+            "paymentToken"
+          ],
+          "properties": {
+            "merchantID": {
+              "description": "Идентификатор мерчанта в Apple Pay",
+              "type": "string"
+            },
+            "paymentToken": {
+              "description": "Совокупность открытых и зашифрованных платежных данных",
+              "type": "object"
+            }
+          }
+        }
+      ]
+    },
     "BankAccount": {
       "description": "Данные расчётного счёта в банковской организации, ведущей деятельность под\nюрисдикцией РФ.\n",
       "type": "object",
@@ -3280,6 +3306,19 @@
                   "nspkmir"
                 ]
               }
+            },
+            "tokenProviders": {
+              "description": "Список провайдеров платежных токенов",
+              "type": "array",
+              "items": {
+                "description": "Провайдер платежных токенов",
+                "type": "string",
+                "enum": [
+                  "applepay",
+                  "googlepay",
+                  "samsungpay"
+                ]
+              }
             }
           }
         }
@@ -3332,6 +3371,15 @@
         "unionpay",
         "jcb",
         "nspkmir"
+      ]
+    },
+    "BankCardTokenProvider": {
+      "description": "Провайдер платежных токенов",
+      "type": "string",
+      "enum": [
+        "applepay",
+        "googlepay",
+        "samsungpay"
       ]
     },
     "BrowserGetRequest": {
@@ -5980,7 +6028,8 @@
           "enum": [
             "CardData",
             "PaymentTerminalData",
-            "DigitalWalletData"
+            "DigitalWalletData",
+            "TokenizedCardData"
           ]
         }
       },
@@ -6560,6 +6609,32 @@
         }
       ]
     },
+    "SamsungPay": {
+      "type": "object",
+      "allOf": [
+        {
+          "$ref": "#/definitions/TokenizedCardData"
+        },
+        {
+          "type": "object",
+          "description": "Платежные данные Samsung Pay",
+          "required": [
+            "serviceID",
+            "referenceID"
+          ],
+          "properties": {
+            "serviceID": {
+              "description": "Идентификатор сервиса в Samsung Pay",
+              "type": "string"
+            },
+            "referenceID": {
+              "description": "Идентификатор токена в Samsung Pay",
+              "type": "string"
+            }
+          }
+        }
+      ]
+    },
     "Schedule": {
       "description": "Расписание",
       "type": "object",
@@ -6939,6 +7014,31 @@
               "type": "string"
             }
           }
+        }
+      ]
+    },
+    "TokenizedCardData": {
+      "type": "object",
+      "allOf": [
+        {
+          "$ref": "#/definitions/PaymentTool"
+        },
+        {
+          "type": "object",
+          "description": "Токенизированная банковская карта",
+          "discriminator": "provider",
+          "properties": {
+            "provider": {
+              "type": "string",
+              "enum": [
+                "ApplePay",
+                "SamsungPay"
+              ]
+            }
+          },
+          "required": [
+            "provider"
+          ]
         }
       ]
     },
