@@ -1,0 +1,20 @@
+description: |
+  [Ошибка, возникшая в процессе проведения платежа](#tag/Error-Codes)
+type: object
+required:
+  - code
+properties:
+  code:
+    description: Основной код ошибки
+    type: string
+  subError:
+    description: Детализация описания ошибки
+    type: object
+    required:
+      - code
+    properties:
+      code:
+        description: Детализация кода ошибки
+        type: string
+      subError:
+        $ref: '#/definitions/PaymentError/properties/subError'
