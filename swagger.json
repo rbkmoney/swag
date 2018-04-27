@@ -5414,20 +5414,7 @@
           "type": "string"
         },
         "subError": {
-          "description": "Детализация описания ошибки",
-          "type": "object",
-          "required": [
-            "code"
-          ],
-          "properties": {
-            "code": {
-              "description": "Детализация кода ошибки",
-              "type": "string"
-            },
-            "subError": {
-              "$ref": "#/definitions/PaymentError/properties/subError"
-            }
-          }
+          "$ref": "#/definitions/SubError"
         }
       }
     },
@@ -7045,6 +7032,22 @@
           }
         }
       ]
+    },
+    "SubError": {
+      "description": "Детализация описания ошибки\n",
+      "type": "object",
+      "required": [
+        "code"
+      ],
+      "properties": {
+        "code": {
+          "description": "Детализация кода ошибки",
+          "type": "string"
+        },
+        "subError": {
+          "$ref": "#/definitions/SubError"
+        }
+      }
     },
     "TokenizedCardData": {
       "type": "object",
