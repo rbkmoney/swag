@@ -1,0 +1,11 @@
+description: |
+  Детализация описания ошибки
+type: object
+required:
+  - code
+properties:
+  code:
+    description: Детализация кода ошибки
+    type: string
+  subError:
+    $ref: '#/definitions/SubError'
