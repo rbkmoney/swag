@@ -8,4 +8,4 @@ properties:
     type: string
     enum:
       - ArticlesOfAssociation
-      - LegalAgreement
+      - PowerOfAttorney
