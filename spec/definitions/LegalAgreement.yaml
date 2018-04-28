@@ -1,13 +1,16 @@
 description: Ключевые данные юридического соглашения
 type: object
-required:
-  - id
-  - signedAt
-properties:
-  id:
-    description: Идентификатор юридического соглашения, например номер договора
-    type: string
-  signedAt:
-    description: Дата и время заключения юридического соглашения
-    type: string
-    format: date-time
+allOf:
+  - $ref: '#/definitions/RepresentativeDocument'
+  - type: object
+    required:
+      - id
+      - signedAt
+    properties:
+      id:
+        description: Идентификатор юридического соглашения, например номер договора
+        type: string
+      signedAt:
+        description: Дата и время заключения юридического соглашения
+        type: string
+        format: date-time

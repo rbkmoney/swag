@@ -1,0 +1,20 @@
+description: Настройки выгрузки актов
+type: object
+required:
+  - scheduleID
+  - signer
+  - needSign
+  - needReference
+properties:
+  scheduleID:
+    description: Идентификатор расписания выгрузок
+    type: integer
+    format: int32
+  signer:
+    $ref: '#/definitions/Representative'
+  needSign:
+    description: Подписать от имени платёжной организации
+    type: boolean
+  needReference:
+    description: Предоставить расшифровку
+    type: boolean

@@ -1,0 +1,5 @@
+description: Настройки выгрузки автоматической отчетности
+type: object
+properties:
+  serviceAcceptanceActPreferences:
+    $ref: '#/definitions/ServiceAcceptanceActPreferences'
