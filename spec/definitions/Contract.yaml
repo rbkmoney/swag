@@ -39,3 +39,5 @@ properties:
   paymentInstitutionID:
     type: integer
     format: int32
+  reportingPreferences:
+    $ref: '#/definitions/ReportingPreferences'

@@ -1,0 +1,11 @@
+description: Документ, на основании которого действует ЕИО/представитель
+type: object
+discriminator: representativeDocumentType
+required:
+  - representativeDocumentType
+properties:
+  representativeDocumentType:
+    type: string
+    enum:
+      - ArticlesOfAssociation
+      - PowerOfAttorney

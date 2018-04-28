@@ -1,0 +1,8 @@
+description: Изменение настроек выгрузки автоматической отчетности
+type: object
+allOf:
+  - $ref: '#/definitions/ContractModification'
+  - type: object
+    properties:
+      serviceAcceptanceActPreferences:
+        $ref: '#/definitions/ServiceAcceptanceActPreferences'
