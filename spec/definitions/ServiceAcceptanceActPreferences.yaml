@@ -3,8 +3,6 @@ type: object
 required:
   - scheduleID
   - signer
-  - needSign
-  - needReference
 properties:
   scheduleID:
     description: Идентификатор расписания выгрузок
