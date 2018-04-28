@@ -3216,6 +3216,15 @@
         }
       }
     },
+    "ArticlesOfAssociation": {
+      "description": "Устав организации",
+      "type": "object",
+      "allOf": [
+        {
+          "$ref": "#/definitions/RepresentativeDocument"
+        }
+      ]
+    },
     "BankAccount": {
       "description": "Данные расчётного счёта в банковской организации, ведущей деятельность под\nюрисдикцией РФ.\n",
       "type": "object",
@@ -3647,6 +3656,9 @@
         "paymentInstitutionID": {
           "type": "integer",
           "format": "int32"
+        },
+        "reportingPreferences": {
+          "$ref": "#/definitions/ReportingPreferences"
         }
       }
     },
@@ -3769,7 +3781,8 @@
                 "ContractTermination",
                 "ContractLegalAgreementBinding",
                 "ContractAdjustmentCreation",
-                "ContractPayoutToolCreation"
+                "ContractPayoutToolCreation",
+                "ContractReportingPreferencesChange"
               ]
             }
           }
@@ -3821,6 +3834,23 @@
               "$ref": "#/definitions/PayoutToolParams"
             }
           ]
+        }
+      ]
+    },
+    "ContractReportingPreferencesChange": {
+      "description": "Изменение настроек выгрузки автоматической отчетности",
+      "type": "object",
+      "allOf": [
+        {
+          "$ref": "#/definitions/ContractModification"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "serviceAcceptanceActPreferences": {
+              "$ref": "#/definitions/ServiceAcceptanceActPreferences"
+            }
+          }
         }
       ]
     },
@@ -5464,6 +5494,7 @@
       }
     },
     "PaymentInstitution": {
+      "description": "Платёжная организация",
       "type": "object",
       "required": [
         "id",
@@ -6250,6 +6281,17 @@
         }
       }
     },
+    "PowerOfAttorney": {
+      "type": "object",
+      "allOf": [
+        {
+          "$ref": "#/definitions/RepresentativeDocument"
+        },
+        {
+          "$ref": "#/definitions/LegalAgreement"
+        }
+      ]
+    },
     "Reason": {
       "type": "object",
       "required": [
@@ -6502,6 +6544,54 @@
         }
       ]
     },
+    "ReportingPreferences": {
+      "description": "Настройки выгрузки автоматической отчетности",
+      "type": "object",
+      "properties": {
+        "serviceAcceptanceActPreferences": {
+          "$ref": "#/definitions/ServiceAcceptanceActPreferences"
+        }
+      }
+    },
+    "Representative": {
+      "description": "ЕИО/Представитель",
+      "type": "object",
+      "required": [
+        "position",
+        "fullName",
+        "document"
+      ],
+      "properties": {
+        "position": {
+          "description": "Наименование должности ЕИО/представителя",
+          "type": "string"
+        },
+        "fullName": {
+          "description": "ФИО ЕИО/представителя",
+          "type": "string"
+        },
+        "document": {
+          "$ref": "#/definitions/RepresentativeDocument"
+        }
+      }
+    },
+    "RepresentativeDocument": {
+      "description": "Документ, на основании которого действует ЕИО/представитель",
+      "type": "object",
+      "discriminator": "representativeDocumentType",
+      "required": [
+        "representativeDocumentType"
+      ],
+      "properties": {
+        "representativeDocumentType": {
+          "type": "string",
+          "enum": [
+            "ArticlesOfAssociation",
+            "PowerOfAttorney"
+          ]
+        }
+      }
+    },
     "Residence": {
       "description": "Резиденция, alpha-3 код по стандарту [ISO 3166-1](https://en.wikipedia.org/wiki/ISO_3166-1)",
       "type": "string",
@@ -6595,6 +6685,24 @@
         "description": {
           "type": "string",
           "maxLength": 1000
+        }
+      }
+    },
+    "ServiceAcceptanceActPreferences": {
+      "description": "Настройки выгрузки актов",
+      "type": "object",
+      "required": [
+        "scheduleID",
+        "signer"
+      ],
+      "properties": {
+        "scheduleID": {
+          "description": "Идентификатор расписания выгрузок",
+          "type": "integer",
+          "format": "int32"
+        },
+        "signer": {
+          "$ref": "#/definitions/Representative"
         }
       }
     },
