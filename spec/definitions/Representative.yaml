@@ -1,0 +1,15 @@
+description: ЕИО/Представитель
+type: object
+required:
+  - position
+  - fullName
+  - document
+properties:
+  position:
+    description: Наименование должности ЕИО/представителя
+    type: string
+  fullName:
+    description: ФИО ЕИО/представителя
+    type: string
+  document:
+    $ref: '#/definitions/RepresentativeDocument'
