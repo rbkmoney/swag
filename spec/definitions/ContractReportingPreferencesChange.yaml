@@ -2,7 +2,4 @@ description: Изменение настроек выгрузки автомат
 type: object
 allOf:
   - $ref: '#/definitions/ContractModification'
-  - type: object
-    properties:
-      serviceAcceptanceActPreferences:
-        $ref: '#/definitions/ServiceAcceptanceActPreferences'
+  - $ref: '#/definitions/ReportingPreferences'
