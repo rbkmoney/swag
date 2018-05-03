@@ -16,7 +16,5 @@ get:
       description: Category found
       schema:
         $ref: '#/definitions/Category'
-    '400':
-      $ref: '#/responses/BadRequest'
     '404':
       $ref: '#/responses/NotFound'

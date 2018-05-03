@@ -17,7 +17,23 @@ post:
       schema:
         $ref: '#/definitions/Webhook'
     '400':
-      $ref: '#/responses/BadRequest'
+      description: Ошибочные данные webhook'а
+      schema:
+        type: object
+        required:
+          - code
+          - message
+        properties:
+          code:
+            description: |
+              [Код ошибки](#tag/Error-Codes)
+            type: string
+            enum:
+              - invalidShopID
+          message:
+            description: Человекочитаемое описание ошибки
+            type: string
+            example: Shop not found
 
 get:
   description: Получить набор установленных webhook'ов.

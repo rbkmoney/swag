@@ -14,7 +14,25 @@ put:
   responses:
     '204':
       description: Заявка отозвана
-    '400':
-      $ref: '#/responses/BadRequest'
     '404':
       $ref: '#/responses/NotFound'
+    '400':
+      description: Ошибка отзыва заявки
+      schema:
+        type: object
+        required:
+          - code
+          - message
+        properties:
+          code:
+            description: |
+              [Код ошибки](#tag/Error-Codes)
+            type: string
+            enum:
+              - invalidClaimStatus
+              - invalidClaimRevision
+              - invalidPartyStatus
+          message:
+            description: Человекочитаемое описание ошибки
+            type: string
+            example: Invalid claim status

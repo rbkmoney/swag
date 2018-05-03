@@ -14,10 +14,9 @@ get:
         type: array
         items:
           $ref: '#/definitions/Refund'
-    '400':
-      $ref: '#/responses/BadRequest'
     '404':
       $ref: '#/responses/NotFound'
+
 post:
   description: Создать возврат указанного платежа
   tags:
@@ -38,7 +37,28 @@ post:
       description: Возврат создан
       schema:
         $ref: '#/definitions/Refund'
-    '400':
-      $ref: '#/responses/BadRequest'
     '404':
       $ref: '#/responses/NotFound'
+    '400':
+      description: Ошибочные данные для возврата
+      schema:
+        type: object
+        required:
+          - code
+          - message
+        properties:
+          code:
+            description: |
+              [Код ошибки](#tag/Error-Codes)
+            type: string
+            enum:
+              - operationNotPermitted
+              - invalidInvoicePaymentStatus
+              - insufficentAccountBalance
+              - invoicePaymentAmountExceeded
+              - inconsistentRefundCurrency
+              - invalidRequest
+          message:
+            description: Человекочитаемое описание ошибки
+            type: string
+            example: Operation not permitted
