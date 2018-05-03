@@ -53,7 +53,7 @@ post:
             type: string
             enum:
               - operationNotPermitted
-              - invalidInvoicePaymentStatus
+              - invalidPaymentStatus
               - insufficentAccountBalance
               - invoicePaymentAmountExceeded
               - inconsistentRefundCurrency
