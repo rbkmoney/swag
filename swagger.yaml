@@ -2199,6 +2199,11 @@ definitions:
         description: 'Валюта, символьный код согласно [ISO 4217](http://www.iso.org/iso/home/standards/currency_codes.htm).'
         type: string
         pattern: '^[A-Z]{3}$'
+  ArticlesOfAssociation:
+    description: Устав организации
+    type: object
+    allOf:
+      - $ref: '#/definitions/RepresentativeDocument'
   BankAccount:
     description: |
       Данные расчётного счёта в банковской организации, ведущей деятельность под
@@ -2519,6 +2524,8 @@ definitions:
       paymentInstitutionID:
         type: integer
         format: int32
+      reportingPreferences:
+        $ref: '#/definitions/ReportingPreferences'
   ContractAdjustment:
     description: Данные поправки к договору
     type: object
@@ -2599,6 +2606,7 @@ definitions:
               - ContractLegalAgreementBinding
               - ContractAdjustmentCreation
               - ContractPayoutToolCreation
+              - ContractReportingPreferencesChange
   Contractor:
     description: 'Данные лица, выступающего стороной договора'
     type: object
@@ -2628,6 +2636,12 @@ definitions:
                 maxLength: 40
                 minLength: 1
           - $ref: '#/definitions/PayoutToolParams'
+  ContractReportingPreferencesChange:
+    description: Изменение настроек выгрузки автоматической отчетности
+    type: object
+    allOf:
+      - $ref: '#/definitions/ContractModification'
+      - $ref: '#/definitions/ReportingPreferences'
   ContractTermination:
     description: Расторжение договора
     type: object
@@ -3760,6 +3774,7 @@ definitions:
         description: Сумма платежей в магазине
         type: integer
   PaymentInstitution:
+    description: Платёжная организация
     type: object
     required:
       - id
@@ -4304,6 +4319,11 @@ definitions:
         type: string
       details:
         $ref: '#/definitions/PayoutToolDetails'
+  PowerOfAttorney:
+    type: object
+    allOf:
+      - $ref: '#/definitions/RepresentativeDocument'
+      - $ref: '#/definitions/LegalAgreement'
   Reason:
     type: object
     required:
@@ -4476,6 +4496,40 @@ definitions:
             type: array
             items:
               $ref: '#/definitions/FileMeta'
+  ReportingPreferences:
+    description: Настройки выгрузки автоматической отчетности
+    type: object
+    properties:
+      serviceAcceptanceActPreferences:
+        $ref: '#/definitions/ServiceAcceptanceActPreferences'
+  Representative:
+    description: ЕИО/Представитель
+    type: object
+    required:
+      - position
+      - fullName
+      - document
+    properties:
+      position:
+        description: Наименование должности ЕИО/представителя
+        type: string
+      fullName:
+        description: ФИО ЕИО/представителя
+        type: string
+      document:
+        $ref: '#/definitions/RepresentativeDocument'
+  RepresentativeDocument:
+    description: 'Документ, на основании которого действует ЕИО/представитель'
+    type: object
+    discriminator: representativeDocumentType
+    required:
+      - representativeDocumentType
+    properties:
+      representativeDocumentType:
+        type: string
+        enum:
+          - ArticlesOfAssociation
+          - PowerOfAttorney
   Residence:
     description: 'Резиденция, alpha-3 код по стандарту [ISO 3166-1](https://en.wikipedia.org/wiki/ISO_3166-1)'
     type: string
@@ -4560,6 +4614,19 @@ definitions:
       description:
         type: string
         maxLength: 1000
+  ServiceAcceptanceActPreferences:
+    description: Настройки выгрузки актов
+    type: object
+    required:
+      - scheduleID
+      - signer
+    properties:
+      scheduleID:
+        description: Идентификатор расписания выгрузок
+        type: integer
+        format: int32
+      signer:
+        $ref: '#/definitions/Representative'
   Shop:
     description: Данные магазина
     type: object
