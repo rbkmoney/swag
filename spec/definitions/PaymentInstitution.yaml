@@ -1,3 +1,4 @@
+description: Платёжная организация
 type: object
 required:
   - id
