@@ -15,21 +15,3 @@ get:
           $ref: '#/definitions/PaymentMethod'
     '404':
       $ref: '#/responses/NotFound'
-    '400':
-      description: Ошибочные данные для получения
-      schema:
-        type: object
-        required:
-          - code
-          - message
-        properties:
-          code:
-            description: |
-              [Код ошибки](#tag/Error-Codes)
-            type: string
-            enum:
-              - partyNotExistsYet
-          message:
-            description: Человекочитаемое описание ошибки
-            type: string
-            example: Party not exists yet
