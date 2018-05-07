@@ -21,4 +21,20 @@ post:
       schema:
         $ref: '#/definitions/PaymentResource'
     '400':
-      $ref: '#/responses/BadRequest'
+      description: Ошибочные данные для токенизации
+      schema:
+        type: object
+        required:
+          - code
+          - message
+        properties:
+          code:
+            description: |
+              [Код ошибки](#tag/Error-Codes)
+            type: string
+            enum:
+              - invalidRequest
+          message:
+            description: Человекочитаемое описание ошибки
+            type: string
+            example: Card data is invalid

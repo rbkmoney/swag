@@ -15,7 +15,26 @@ post:
   responses:
     '204':
       description: Инвойс аннулирован
-    '400':
-      $ref: '#/responses/BadRequest'
     '404':
       $ref: '#/responses/NotFound'
+    '400':
+      description: Ошибка отмены инвойса
+      schema:
+        type: object
+        required:
+          - code
+          - message
+        properties:
+          code:
+            description: |
+              [Код ошибки](#tag/Error-Codes)
+            type: string
+            enum:
+              - invalidInvoiceStatus
+              - invoicePaymentPending
+              - invalidPartyStatus
+              - invalidShopStatus
+          message:
+            description: Человекочитаемое описание ошибки
+            type: string
+            example: Invalid invoice status
