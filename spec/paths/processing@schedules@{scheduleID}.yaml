@@ -16,7 +16,5 @@ get:
       description: Schedule found
       schema:
         $ref: '#/definitions/Schedule'
-    '400':
-      $ref: '#/responses/BadRequest'
     '404':
       $ref: '#/responses/NotFound'
