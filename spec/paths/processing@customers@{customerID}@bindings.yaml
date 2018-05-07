@@ -17,10 +17,32 @@ post:
       description: Привязка запущена
       schema:
         $ref: '#/definitions/CustomerBinding'
-    '400':
-      $ref: '#/responses/BadRequest'
     '404':
       $ref: '#/responses/NotFound'
+    '400':
+      description: Ошибочные данные для привязки
+      schema:
+        type: object
+        required:
+          - code
+          - message
+        properties:
+          code:
+            description: |
+              [Код ошибки](#tag/Error-Codes)
+            type: string
+            enum:
+              - invalidPaymentResource
+              - operationNotPermitted
+              - invalidPartyStatus
+              - invalidShopStatus
+              - invalidPaymentToolToken
+              - invalidPaymentSession
+              - invalidRequest
+          message:
+            description: Человекочитаемое описание ошибки
+            type: string
+            example: Invalid payment resource
 
 get:
   description: Получить все привязки к плательщику.
@@ -37,7 +59,5 @@ get:
         type: array
         items:
           $ref: '#/definitions/CustomerBinding'
-    '400':
-      $ref: '#/responses/BadRequest'
     '404':
       $ref: '#/responses/NotFound'

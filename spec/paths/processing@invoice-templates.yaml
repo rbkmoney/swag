@@ -17,4 +17,24 @@ post:
       schema:
         $ref: '#/definitions/InvoiceTemplateAndToken'
     '400':
-      $ref: '#/responses/BadRequest'
+      description: Ошибочные данные для создания шаблона
+      schema:
+        type: object
+        required:
+          - code
+          - message
+        properties:
+          code:
+            description: |
+              [Код ошибки](#tag/Error-Codes)
+            type: string
+            enum:
+              - invalidRequest
+              - invalidShopID
+              - invalidPartyStatus
+              - invalidShopStatus
+              - invalidInvoiceCart
+          message:
+            description: Человекочитаемое описание ошибки
+            type: string
+            example: Lifetime cannot be zero
