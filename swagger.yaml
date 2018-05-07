@@ -55,13 +55,9 @@ security:
   - bearer: []
 responses:
   NotFound:
-    description: Entity not found
+    description: Заданный ресурс не найден
     schema:
       $ref: '#/definitions/GeneralError'
-  BadRequest:
-    description: Illegal input for operation
-    schema:
-      $ref: '#/definitions/LogicError'
 parameters:
   accountID:
     name: accountID
@@ -405,16 +401,29 @@ tags:
       В поле `code` содержится тип ошибки, а в `message` - дополнительная информация по произошедшей ошибке.
       На данный момент существуют следующие коды ошибок:
 
-        |  Код  |  Описание  |
-        | -- | -- |
-        | **invalidUser**  | Запрос невозможен для данного пользователя. |
-        | **invalidRequest** | Запрос соответствует спецификации, но не удовлетворяет остальным параметрам системы. Например, попытка создания инвойса с несуществующей валютой |
-        | **invalidInvoiceStatus** | Запрос невозможен из-за ненадлежащего статуса инвойса. Например, попытка оплаты погашенного инвойса |
-        |  **invalidPartyStatus** | Запрос невозможен из-за ненадлежащего статуса пользователя. Например, попытка создания инвойса для заблокированного пользователя |
-        | **invalidPaymentStatus** | Запрос невозможен из-за ненадлежащего статуса платежа. Например, попытка аннулировать инвойс, по которому имеется незавершенный платеж |
-        | **invalidShopStatus** | Запрос невозможен из-за ненадлежащего статуса магазина. Например, попытка создания инвойса в рамках магазина со статусом "приостановлен" |
-        | **invalidContractStatus** | Запрос невозможен из-за ненадлежащего статуса контракта. Например, попытка создания магазина с контрактом, у которого истек срок действия |
-
+        | Код                              | Описание                                                                                                                              |
+        | ---                              | --------                                                                                                                              |
+        | **operationNotPermitted**        | Недоступная в рамках действующего договора операция.                                                                                  |
+        | **invalidPartyStatus**           | Ваш участник заблокирован или его операции приостановлены. В последнем случае вы можете их [возобновить](#operation/activateMyParty). |
+        | **invalidShopStatus**            | Ваш магазин заблокирован или его операции приостановлены. В последнем случае вы можете их [возобновить](#operation/activateShop).     |
+        | **invalidShopID**                | Указан идентификатор несуществующего магазина.                                                                                        |
+        | **invalidInvoiceCost**           | Стоимость инвойса не указана или неверна, в частности, не равна стоимости позиций в корзине.                                          |
+        | **invalidInvoiceCart**           | Некорректная корзина в инвойсе, Например, пустая.                                                                                     |
+        | **invalidInvoiceStatus**         | Неверный [статус инвойса](#tag/Invoices). Например, при попытке [оплатить](#operation/createPayment) отменённый инвойс.               |
+        | **invoicePaymentPending**        | Последний запущенный платёж по указанному инвойсу ещё не достиг финального статуса.                                                   |
+        | **invalidPaymentStatus**         | Неверный [статус платежа](#tag/Payments). Например, при попытке [подтвердить](#operation/capturePayment) неуспешный платёж.           |
+        | **invalidPaymentResource**       | Не поддерживаемый системой или не подключенный в рамках действующего договора платежный инструмент.                                   |
+        | **invalidPaymentToolToken**      | Неверное содержимое токена платёжного инструмента.                                                                                    |
+        | **invalidPaymentSession**        | Неверные содержимое платёжной сессии.                                                                                                 |
+        | **insufficentAccountBalance**    | Недостаточный объём денежных средств на счёте магазина, например, для проведения возврата.                                            |
+        | **invoicePaymentAmountExceeded** | Попытка возврата сверх суммы платежа.                                                                                                 |
+        | **inconsistentRefundCurrency**   | Попытка возврата средств в валюте, отличной от валюты платежа.                                                                        |
+        | **changesetConflict**            | Попытка внести изменения участника, конфликтующие с изменениями в других заявках, ожидающих рассмотрения.                             |
+        | **invalidChangeset**             | Неверные изменения участника, например, попытка создать магазин в валюте, недоступной в рамках договора.                              |
+        | **invalidClaimStatus**           | Неверный статус заявки. Например, при попытке [отзыва](#operation/revokeClaimByID) уже принятой заявки.                               |
+        | **invalidClaimRevision**         | Неверная ревизия заявки. Например, в случае если заявку одновременно с вами кто-то уже принял или отклонил.                           |
+        | **limitExceeded**                | Превышен разумный лимит выборки. В этом случае лучше запросить менее объёмный набор данных.                                           |
+        | **invalidRequest**               | Прочие неверные данные запроса.                                                                                                       |
 
       ## Общие ошибки
       Ошибки возникающие при попытках совершения операций с незарегистрированными в системе объектами. Имеют вид
@@ -473,7 +482,22 @@ paths:
             items:
               $ref: '#/definitions/PaymentMethodStat'
         '400':
-          $ref: '#/responses/BadRequest'
+          description: Неверные данные запроса статистики
+          schema:
+            type: object
+            required:
+              - code
+              - message
+            properties:
+              code:
+                description: |
+                  [Код ошибки](#tag/Error-Codes)
+                type: string
+                enum:
+                  - invalidRequest
+              message:
+                description: Человекочитаемое описание ошибки
+                type: string
         '404':
           $ref: '#/responses/NotFound'
   '/analytics/shops/{shopID}/customers/stats/rate':
@@ -494,7 +518,22 @@ paths:
           schema:
             $ref: '#/definitions/PaymentRateStat'
         '400':
-          $ref: '#/responses/BadRequest'
+          description: Неверные данные запроса статистики
+          schema:
+            type: object
+            required:
+              - code
+              - message
+            properties:
+              code:
+                description: |
+                  [Код ошибки](#tag/Error-Codes)
+                type: string
+                enum:
+                  - invalidRequest
+              message:
+                description: Человекочитаемое описание ошибки
+                type: string
         '404':
           $ref: '#/responses/NotFound'
   '/analytics/shops/{shopID}/invoices':
@@ -629,7 +668,22 @@ paths:
                 items:
                   $ref: '#/definitions/Invoice'
         '400':
-          $ref: '#/responses/BadRequest'
+          description: Неверные данные для поиска
+          schema:
+            type: object
+            required:
+              - code
+              - message
+            properties:
+              code:
+                description: |
+                  [Код ошибки](#tag/Error-Codes)
+                type: string
+                enum:
+                  - invalidRequest
+              message:
+                description: Человекочитаемое описание ошибки
+                type: string
         '404':
           $ref: '#/responses/NotFound'
   '/analytics/shops/{shopID}/payments':
@@ -747,7 +801,22 @@ paths:
                 items:
                   $ref: '#/definitions/PaymentSearchResult'
         '400':
-          $ref: '#/responses/BadRequest'
+          description: Неверные данные для поиска
+          schema:
+            type: object
+            required:
+              - code
+              - message
+            properties:
+              code:
+                description: |
+                  [Код ошибки](#tag/Error-Codes)
+                type: string
+                enum:
+                  - invalidRequest
+              message:
+                description: Человекочитаемое описание ошибки
+                type: string
         '404':
           $ref: '#/responses/NotFound'
   '/analytics/shops/{shopID}/payments/stats/conversion':
@@ -772,7 +841,22 @@ paths:
             items:
               $ref: '#/definitions/PaymentConversionStat'
         '400':
-          $ref: '#/responses/BadRequest'
+          description: Неверные данные запроса статистики
+          schema:
+            type: object
+            required:
+              - code
+              - message
+            properties:
+              code:
+                description: |
+                  [Код ошибки](#tag/Error-Codes)
+                type: string
+                enum:
+                  - invalidRequest
+              message:
+                description: Человекочитаемое описание ошибки
+                type: string
         '404':
           $ref: '#/responses/NotFound'
   '/analytics/shops/{shopID}/payments/stats/geo':
@@ -797,7 +881,22 @@ paths:
             items:
               $ref: '#/definitions/PaymentGeoStat'
         '400':
-          $ref: '#/responses/BadRequest'
+          description: Неверные данные запроса статистики
+          schema:
+            type: object
+            required:
+              - code
+              - message
+            properties:
+              code:
+                description: |
+                  [Код ошибки](#tag/Error-Codes)
+                type: string
+                enum:
+                  - invalidRequest
+              message:
+                description: Человекочитаемое описание ошибки
+                type: string
         '404':
           $ref: '#/responses/NotFound'
   '/analytics/shops/{shopID}/payments/stats/revenue':
@@ -823,7 +922,22 @@ paths:
             items:
               $ref: '#/definitions/PaymentRevenueStat'
         '400':
-          $ref: '#/responses/BadRequest'
+          description: Неверные данные запроса статистики
+          schema:
+            type: object
+            required:
+              - code
+              - message
+            properties:
+              code:
+                description: |
+                  [Код ошибки](#tag/Error-Codes)
+                type: string
+                enum:
+                  - invalidRequest
+              message:
+                description: Человекочитаемое описание ошибки
+                type: string
         '404':
           $ref: '#/responses/NotFound'
   '/analytics/shops/{shopID}/payouts':
@@ -877,7 +991,22 @@ paths:
                 items:
                   $ref: '#/definitions/Payout'
         '400':
-          $ref: '#/responses/BadRequest'
+          description: Неверные данные для поиска
+          schema:
+            type: object
+            required:
+              - code
+              - message
+            properties:
+              code:
+                description: |
+                  [Код ошибки](#tag/Error-Codes)
+                type: string
+                enum:
+                  - invalidRequest
+              message:
+                description: Человекочитаемое описание ошибки
+                type: string
         '404':
           $ref: '#/responses/NotFound'
   '/processing/accounts/{accountID}':
@@ -930,8 +1059,6 @@ paths:
           description: Category found
           schema:
             $ref: '#/definitions/Category'
-        '400':
-          $ref: '#/responses/BadRequest'
         '404':
           $ref: '#/responses/NotFound'
   /processing/claims:
@@ -980,7 +1107,26 @@ paths:
           schema:
             $ref: '#/definitions/Claim'
         '400':
-          $ref: '#/responses/BadRequest'
+          description: Ошибочные данные в заявке
+          schema:
+            type: object
+            required:
+              - code
+              - message
+            properties:
+              code:
+                description: |
+                  [Код ошибки](#tag/Error-Codes)
+                type: string
+                enum:
+                  - changesetConflict
+                  - invalidPartyStatus
+                  - invalidChangeset
+                  - invalidRequest
+              message:
+                description: Человекочитаемое описание ошибки
+                type: string
+                example: Changeset conflict
   '/processing/claims/{claimID}':
     get:
       description: |
@@ -1016,31 +1162,25 @@ paths:
         '204':
           description: Заявка отозвана
         '400':
-          $ref: '#/responses/BadRequest'
-        '404':
-          $ref: '#/responses/NotFound'
-  '/processing/claims/{claimID}/update':
-    post:
-      description: |
-        Обновить набор изменений заявки, новые изменения будут добавлены
-        к существующей заявке.
-      operationId: updateClaimByID
-      tags:
-        - Claims
-      parameters:
-        - $ref: '#/parameters/requestID'
-        - $ref: '#/parameters/claimID'
-        - $ref: '#/parameters/claimRevision'
-        - name: claimChangeset
-          in: body
-          required: true
+          description: Ошибка отзыва заявки
           schema:
-            $ref: '#/definitions/ClaimChangeset'
-      responses:
-        '200':
-          description: Claim updated
-        '400':
-          $ref: '#/responses/BadRequest'
+            type: object
+            required:
+              - code
+              - message
+            properties:
+              code:
+                description: |
+                  [Код ошибки](#tag/Error-Codes)
+                type: string
+                enum:
+                  - invalidClaimStatus
+                  - invalidClaimRevision
+                  - invalidPartyStatus
+              message:
+                description: Человекочитаемое описание ошибки
+                type: string
+                example: Invalid claim status
         '404':
           $ref: '#/responses/NotFound'
   /processing/contracts:
@@ -1164,7 +1304,27 @@ paths:
           schema:
             $ref: '#/definitions/CustomerAndToken'
         '400':
-          $ref: '#/responses/BadRequest'
+          description: Ошибочные данные плательщика
+          schema:
+            type: object
+            required:
+              - code
+              - message
+            properties:
+              code:
+                description: |
+                  [Код ошибки](#tag/Error-Codes)
+                type: string
+                enum:
+                  - operationNotPermitted
+                  - invalidShopID
+                  - invalidPartyStatus
+                  - invalidShopStatus
+                  - invalidRequest
+              message:
+                description: Человекочитаемое описание ошибки
+                type: string
+                example: Operation not permitted
   '/processing/customers/{customerID}':
     get:
       description: Получить данные плательщика по его идентификатору.
@@ -1179,8 +1339,6 @@ paths:
           description: Данные плательщика
           schema:
             $ref: '#/definitions/Customer'
-        '400':
-          $ref: '#/responses/BadRequest'
         '404':
           $ref: '#/responses/NotFound'
     delete:
@@ -1195,7 +1353,24 @@ paths:
         '204':
           description: Плательщик удален
         '400':
-          $ref: '#/responses/BadRequest'
+          description: Ошибка удаления плательщика
+          schema:
+            type: object
+            required:
+              - code
+              - message
+            properties:
+              code:
+                description: |
+                  [Код ошибки](#tag/Error-Codes)
+                type: string
+                enum:
+                  - invalidPartyStatus
+                  - invalidShopStatus
+              message:
+                description: Человекочитаемое описание ошибки
+                type: string
+                example: Invalid party status
         '404':
           $ref: '#/responses/NotFound'
   '/processing/customers/{customerID}/access-tokens':
@@ -1236,7 +1411,29 @@ paths:
           schema:
             $ref: '#/definitions/CustomerBinding'
         '400':
-          $ref: '#/responses/BadRequest'
+          description: Ошибочные данные для привязки
+          schema:
+            type: object
+            required:
+              - code
+              - message
+            properties:
+              code:
+                description: |
+                  [Код ошибки](#tag/Error-Codes)
+                type: string
+                enum:
+                  - invalidPaymentResource
+                  - operationNotPermitted
+                  - invalidPartyStatus
+                  - invalidShopStatus
+                  - invalidPaymentToolToken
+                  - invalidPaymentSession
+                  - invalidRequest
+              message:
+                description: Человекочитаемое описание ошибки
+                type: string
+                example: Invalid payment resource
         '404':
           $ref: '#/responses/NotFound'
     get:
@@ -1254,8 +1451,6 @@ paths:
             type: array
             items:
               $ref: '#/definitions/CustomerBinding'
-        '400':
-          $ref: '#/responses/BadRequest'
         '404':
           $ref: '#/responses/NotFound'
   '/processing/customers/{customerID}/bindings/{customerBindingID}':
@@ -1273,8 +1468,6 @@ paths:
           description: Данные привязки
           schema:
             $ref: '#/definitions/CustomerBinding'
-        '400':
-          $ref: '#/responses/BadRequest'
         '404':
           $ref: '#/responses/NotFound'
   '/processing/customers/{customerID}/events':
@@ -1310,7 +1503,22 @@ paths:
             items:
               $ref: '#/definitions/CustomerEvent'
         '400':
-          $ref: '#/responses/BadRequest'
+          description: Ошибочные данные для запроса истории
+          schema:
+            type: object
+            required:
+              - code
+              - message
+            properties:
+              code:
+                description: |
+                  [Код ошибки](#tag/Error-Codes)
+                type: string
+                enum:
+                  - invalidRequest
+              message:
+                description: Человекочитаемое описание ошибки
+                type: string
         '404':
           $ref: '#/responses/NotFound'
   /processing/invoice-templates:
@@ -1333,7 +1541,27 @@ paths:
           schema:
             $ref: '#/definitions/InvoiceTemplateAndToken'
         '400':
-          $ref: '#/responses/BadRequest'
+          description: Ошибочные данные для создания шаблона
+          schema:
+            type: object
+            required:
+              - code
+              - message
+            properties:
+              code:
+                description: |
+                  [Код ошибки](#tag/Error-Codes)
+                type: string
+                enum:
+                  - invalidRequest
+                  - invalidShopID
+                  - invalidPartyStatus
+                  - invalidShopStatus
+                  - invalidInvoiceCart
+              message:
+                description: Человекочитаемое описание ошибки
+                type: string
+                example: Lifetime cannot be zero
   '/processing/invoice-templates/{invoiceTemplateID}':
     get:
       description: Получить шаблон инвойса по его идентификатору.
@@ -1348,8 +1576,6 @@ paths:
           description: Шаблон инвойса
           schema:
             $ref: '#/definitions/InvoiceTemplate'
-        '400':
-          $ref: '#/responses/BadRequest'
         '404':
           $ref: '#/responses/NotFound'
     put:
@@ -1372,7 +1598,26 @@ paths:
           schema:
             $ref: '#/definitions/InvoiceTemplate'
         '400':
-          $ref: '#/responses/BadRequest'
+          description: Ошибочные данные для изменения шаблона
+          schema:
+            type: object
+            required:
+              - code
+              - message
+            properties:
+              code:
+                description: |
+                  [Код ошибки](#tag/Error-Codes)
+                type: string
+                enum:
+                  - invalidPartyStatus
+                  - invalidShopStatus
+                  - invalidInvoiceCart
+                  - invalidRequest
+              message:
+                description: Человекочитаемое описание ошибки
+                type: string
+                example: Invalid party status
         '404':
           $ref: '#/responses/NotFound'
     delete:
@@ -1387,7 +1632,24 @@ paths:
         '204':
           description: Шаблон инвойса удален.
         '400':
-          $ref: '#/responses/BadRequest'
+          description: Ошибочные данные для удаления шаблона
+          schema:
+            type: object
+            required:
+              - code
+              - message
+            properties:
+              code:
+                description: |
+                  [Код ошибки](#tag/Error-Codes)
+                type: string
+                enum:
+                  - invalidPartyStatus
+                  - invalidShopStatus
+              message:
+                description: Человекочитаемое описание ошибки
+                type: string
+                example: Invalid party status
         '404':
           $ref: '#/responses/NotFound'
   '/processing/invoice-templates/{invoiceTemplateID}/invoices':
@@ -1411,7 +1673,25 @@ paths:
           schema:
             $ref: '#/definitions/InvoiceAndToken'
         '400':
-          $ref: '#/responses/BadRequest'
+          description: Ошибочные данные для создания инвойса
+          schema:
+            type: object
+            required:
+              - code
+              - message
+            properties:
+              code:
+                description: |
+                  [Код ошибки](#tag/Error-Codes)
+                type: string
+                enum:
+                  - invalidPartyStatus
+                  - invalidShopStatus
+                  - invalidRequest
+              message:
+                description: Человекочитаемое описание ошибки
+                type: string
+                example: Invalid party status
         '404':
           $ref: '#/responses/NotFound'
   '/processing/invoice-templates/{invoiceTemplateID}/payment-methods':
@@ -1430,8 +1710,6 @@ paths:
             type: array
             items:
               $ref: '#/definitions/PaymentMethod'
-        '400':
-          $ref: '#/responses/BadRequest'
         '404':
           $ref: '#/responses/NotFound'
   /processing/invoices:
@@ -1454,7 +1732,28 @@ paths:
           schema:
             $ref: '#/definitions/InvoiceAndToken'
         '400':
-          $ref: '#/responses/BadRequest'
+          description: Ошибочные данные для создания инвойса
+          schema:
+            type: object
+            required:
+              - code
+              - message
+            properties:
+              code:
+                description: |
+                  [Код ошибки](#tag/Error-Codes)
+                type: string
+                enum:
+                  - invalidShopID
+                  - invalidRequest
+                  - invalidPartyStatus
+                  - invalidShopStatus
+                  - invalidInvoiceCart
+                  - invalidInvoiceCost
+              message:
+                description: Человекочитаемое описание ошибки
+                type: string
+                example: Shop not found
   '/processing/invoices/{invoiceID}':
     get:
       description: Получить данные инвойса по его идентификатору.
@@ -1469,8 +1768,6 @@ paths:
           description: Данные инвойса
           schema:
             $ref: '#/definitions/Invoice'
-        '400':
-          $ref: '#/responses/BadRequest'
         '404':
           $ref: '#/responses/NotFound'
   '/processing/invoices/{invoiceID}/access-tokens':
@@ -1522,7 +1819,22 @@ paths:
             items:
               $ref: '#/definitions/InvoiceEvent'
         '400':
-          $ref: '#/responses/BadRequest'
+          description: Ошибочные данные для запроса истории
+          schema:
+            type: object
+            required:
+              - code
+              - message
+            properties:
+              code:
+                description: |
+                  [Код ошибки](#tag/Error-Codes)
+                type: string
+                enum:
+                  - invalidRequest
+              message:
+                description: Человекочитаемое описание ошибки
+                type: string
         '404':
           $ref: '#/responses/NotFound'
   '/processing/invoices/{invoiceID}/fulfill':
@@ -1544,7 +1856,25 @@ paths:
         '204':
           description: Инвойс погашен
         '400':
-          $ref: '#/responses/BadRequest'
+          description: Ошибка погашения инвойса
+          schema:
+            type: object
+            required:
+              - code
+              - message
+            properties:
+              code:
+                description: |
+                  [Код ошибки](#tag/Error-Codes)
+                type: string
+                enum:
+                  - invalidInvoiceStatus
+                  - invalidPartyStatus
+                  - invalidShopStatus
+              message:
+                description: Человекочитаемое описание ошибки
+                type: string
+                example: Invalid invoice status
         '404':
           $ref: '#/responses/NotFound'
   '/processing/invoices/{invoiceID}/payment-methods':
@@ -1563,8 +1893,6 @@ paths:
             type: array
             items:
               $ref: '#/definitions/PaymentMethod'
-        '400':
-          $ref: '#/responses/BadRequest'
         '404':
           $ref: '#/responses/NotFound'
   '/processing/invoices/{invoiceID}/payments':
@@ -1583,8 +1911,6 @@ paths:
             type: array
             items:
               $ref: '#/definitions/Payment'
-        '400':
-          $ref: '#/responses/BadRequest'
         '404':
           $ref: '#/responses/NotFound'
     post:
@@ -1607,7 +1933,29 @@ paths:
           schema:
             $ref: '#/definitions/Payment'
         '400':
-          $ref: '#/responses/BadRequest'
+          description: Ошибочные данные для запуска платежа
+          schema:
+            type: object
+            required:
+              - code
+              - message
+            properties:
+              code:
+                description: |
+                  [Код ошибки](#tag/Error-Codes)
+                type: string
+                enum:
+                  - invalidInvoiceStatus
+                  - invoicePaymentPending
+                  - invalidRequest
+                  - invalidPartyStatus
+                  - invalidShopStatus
+                  - invalidPaymentToolToken
+                  - invalidPaymentSession
+              message:
+                description: Человекочитаемое описание ошибки
+                type: string
+                example: Invalid invoice status
         '404':
           $ref: '#/responses/NotFound'
   '/processing/invoices/{invoiceID}/payments/{paymentID}':
@@ -1625,8 +1973,6 @@ paths:
           description: Данные платежа
           schema:
             $ref: '#/definitions/Payment'
-        '400':
-          $ref: '#/responses/BadRequest'
         '404':
           $ref: '#/responses/NotFound'
   '/processing/invoices/{invoiceID}/payments/{paymentID}/cancel':
@@ -1649,7 +1995,27 @@ paths:
         '202':
           description: Запрос на отмену платежа принят
         '400':
-          $ref: '#/responses/BadRequest'
+          description: Ошибка отмены платежа
+          schema:
+            type: object
+            required:
+              - code
+              - message
+            properties:
+              code:
+                description: |
+                  [Код ошибки](#tag/Error-Codes)
+                type: string
+                enum:
+                  - invalidPaymentStatus
+                  - operationNotPermitted
+                  - invalidPartyStatus
+                  - invalidShopStatus
+                  - invalidRequest
+              message:
+                description: Человекочитаемое описание ошибки
+                type: string
+                example: Invalid payment status
         '404':
           $ref: '#/responses/NotFound'
   '/processing/invoices/{invoiceID}/payments/{paymentID}/capture':
@@ -1672,7 +2038,27 @@ paths:
         '202':
           description: Запрос на подтверждение платежа принят
         '400':
-          $ref: '#/responses/BadRequest'
+          description: Ошибка отмены платежа
+          schema:
+            type: object
+            required:
+              - code
+              - message
+            properties:
+              code:
+                description: |
+                  [Код ошибки](#tag/Error-Codes)
+                type: string
+                enum:
+                  - invalidPaymentStatus
+                  - operationNotPermitted
+                  - invalidPartyStatus
+                  - invalidShopStatus
+                  - invalidRequest
+              message:
+                description: Человекочитаемое описание ошибки
+                type: string
+                example: Invalid payment status
         '404':
           $ref: '#/responses/NotFound'
   '/processing/invoices/{invoiceID}/payments/{paymentID}/refunds':
@@ -1692,8 +2078,6 @@ paths:
             type: array
             items:
               $ref: '#/definitions/Refund'
-        '400':
-          $ref: '#/responses/BadRequest'
         '404':
           $ref: '#/responses/NotFound'
     post:
@@ -1717,7 +2101,28 @@ paths:
           schema:
             $ref: '#/definitions/Refund'
         '400':
-          $ref: '#/responses/BadRequest'
+          description: Ошибочные данные для возврата
+          schema:
+            type: object
+            required:
+              - code
+              - message
+            properties:
+              code:
+                description: |
+                  [Код ошибки](#tag/Error-Codes)
+                type: string
+                enum:
+                  - operationNotPermitted
+                  - invalidPaymentStatus
+                  - insufficentAccountBalance
+                  - invoicePaymentAmountExceeded
+                  - inconsistentRefundCurrency
+                  - invalidRequest
+              message:
+                description: Человекочитаемое описание ошибки
+                type: string
+                example: Operation not permitted
         '404':
           $ref: '#/responses/NotFound'
   '/processing/invoices/{invoiceID}/payments/{paymentID}/refunds/{refundID}':
@@ -1736,8 +2141,6 @@ paths:
           description: Данные возврата
           schema:
             $ref: '#/definitions/Refund'
-        '400':
-          $ref: '#/responses/BadRequest'
         '404':
           $ref: '#/responses/NotFound'
   '/processing/invoices/{invoiceID}/rescind':
@@ -1759,7 +2162,26 @@ paths:
         '204':
           description: Инвойс аннулирован
         '400':
-          $ref: '#/responses/BadRequest'
+          description: Ошибка отмены инвойса
+          schema:
+            type: object
+            required:
+              - code
+              - message
+            properties:
+              code:
+                description: |
+                  [Код ошибки](#tag/Error-Codes)
+                type: string
+                enum:
+                  - invalidInvoiceStatus
+                  - invoicePaymentPending
+                  - invalidPartyStatus
+                  - invalidShopStatus
+              message:
+                description: Человекочитаемое описание ошибки
+                type: string
+                example: Invalid invoice status
         '404':
           $ref: '#/responses/NotFound'
   /processing/me:
@@ -1833,8 +2255,6 @@ paths:
           description: Payment institution found
           schema:
             $ref: '#/definitions/PaymentInstitution'
-        '400':
-          $ref: '#/responses/BadRequest'
         '404':
           $ref: '#/responses/NotFound'
   '/processing/payment-institutions/{paymentInstitutionID}/terms/payments':
@@ -1851,8 +2271,6 @@ paths:
           description: Payment institution terms calculated
           schema:
             $ref: '#/definitions/PaymentTerms'
-        '400':
-          $ref: '#/responses/BadRequest'
         '404':
           $ref: '#/responses/NotFound'
   '/processing/payment-institutions/{paymentInstitutionID}/terms/payouts/methods':
@@ -1880,8 +2298,6 @@ paths:
               enum:
                 - BankAccount
                 - InternationalBankAccount
-        '400':
-          $ref: '#/responses/BadRequest'
         '404':
           $ref: '#/responses/NotFound'
   '/processing/payment-institutions/{paymentInstitutionID}/terms/payouts/schedules':
@@ -1915,8 +2331,6 @@ paths:
             items:
               type: integer
               format: int32
-        '400':
-          $ref: '#/responses/BadRequest'
         '404':
           $ref: '#/responses/NotFound'
   /processing/payment-resources:
@@ -1943,7 +2357,23 @@ paths:
           schema:
             $ref: '#/definitions/PaymentResource'
         '400':
-          $ref: '#/responses/BadRequest'
+          description: Ошибочные данные для токенизации
+          schema:
+            type: object
+            required:
+              - code
+              - message
+            properties:
+              code:
+                description: |
+                  [Код ошибки](#tag/Error-Codes)
+                type: string
+                enum:
+                  - invalidRequest
+              message:
+                description: Человекочитаемое описание ошибки
+                type: string
+                example: Card data is invalid
   '/processing/schedules/{scheduleID}':
     get:
       description: Получить данные расписания выводов по ее ID
@@ -1963,8 +2393,6 @@ paths:
           description: Schedule found
           schema:
             $ref: '#/definitions/Schedule'
-        '400':
-          $ref: '#/responses/BadRequest'
         '404':
           $ref: '#/responses/NotFound'
   /processing/shops:
@@ -2048,7 +2476,23 @@ paths:
           schema:
             $ref: '#/definitions/Webhook'
         '400':
-          $ref: '#/responses/BadRequest'
+          description: Ошибочные данные webhook'а
+          schema:
+            type: object
+            required:
+              - code
+              - message
+            properties:
+              code:
+                description: |
+                  [Код ошибки](#tag/Error-Codes)
+                type: string
+                enum:
+                  - invalidShopID
+              message:
+                description: Человекочитаемое описание ошибки
+                type: string
+                example: Shop not found
     get:
       description: Получить набор установленных webhook'ов.
       tags:
@@ -2124,7 +2568,22 @@ paths:
             items:
               $ref: '#/definitions/LocationName'
         '400':
-          $ref: '#/responses/BadRequest'
+          description: Неверные данные запроса геопозиций
+          schema:
+            type: object
+            required:
+              - code
+              - message
+            properties:
+              code:
+                description: |
+                  [Код ошибки](#tag/Error-Codes)
+                type: string
+                enum:
+                  - invalidRequest
+              message:
+                description: Человекочитаемое описание ошибки
+                type: string
   '/shops/{shopID}/reports':
     get:
       description: Получить список отчетов по данному магазину за период
@@ -2147,7 +2606,24 @@ paths:
                 items:
                   $ref: '#/definitions/Report'
         '400':
-          $ref: '#/responses/BadRequest'
+          description: Ошибочные данные для получения
+          schema:
+            type: object
+            required:
+              - code
+              - message
+            properties:
+              code:
+                description: |
+                  [Код ошибки](#tag/Error-Codes)
+                type: string
+                enum:
+                  - limitExceeded
+                  - invalidRequest
+              message:
+                description: Человекочитаемое описание ошибки
+                type: string
+                example: 'Max limit: 1000'
   '/shops/{shopID}/reports/{reportID}/files/{fileID}/download':
     get:
       description: Скачать файл
@@ -2167,7 +2643,22 @@ paths:
               type: string
               description: URL файла
         '400':
-          $ref: '#/responses/BadRequest'
+          description: Ошибочные данные для скачинвания
+          schema:
+            type: object
+            required:
+              - code
+              - message
+            properties:
+              code:
+                description: |
+                  [Код ошибки](#tag/Error-Codes)
+                type: string
+                enum:
+                  - invalidRequest
+              message:
+                description: Человекочитаемое описание ошибки
+                type: string
         '404':
           $ref: '#/responses/NotFound'
 definitions:
