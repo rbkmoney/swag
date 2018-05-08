@@ -2690,6 +2690,22 @@ definitions:
         description: 'Валюта, символьный код согласно [ISO 4217](http://www.iso.org/iso/home/standards/currency_codes.htm).'
         type: string
         pattern: '^[A-Z]{3}$'
+  ApplePay:
+    type: object
+    allOf:
+      - $ref: '#/definitions/TokenizedCardData'
+      - type: object
+        description: Платежные данные Apple Pay
+        required:
+          - merchantID
+          - paymentToken
+        properties:
+          merchantID:
+            description: Идентификатор мерчанта в Apple Pay
+            type: string
+          paymentToken:
+            description: Совокупность открытых и зашифрованных платежных данных
+            type: object
   BankAccount:
     description: |
       Данные расчётного счёта в банковской организации, ведущей деятельность под
@@ -2743,6 +2759,16 @@ definitions:
                 - unionpay
                 - jcb
                 - nspkmir
+          tokenProviders:
+            description: Список провайдеров платежных токенов
+            type: array
+            items:
+              description: Провайдер платежных токенов
+              type: string
+              enum:
+                - applepay
+                - googlepay
+                - samsungpay
   BankCardDetails:
     required:
       - cardNumberMask
@@ -2784,6 +2810,13 @@ definitions:
       - unionpay
       - jcb
       - nspkmir
+  BankCardTokenProvider:
+    description: Провайдер платежных токенов
+    type: string
+    enum:
+      - applepay
+      - googlepay
+      - samsungpay
   BrowserGetRequest:
     type: object
     allOf:
@@ -4614,6 +4647,7 @@ definitions:
           - CardData
           - PaymentTerminalData
           - DigitalWalletData
+          - TokenizedCardData
     required:
       - paymentToolType
   PaymentToolDetails:
@@ -5035,6 +5069,22 @@ definitions:
             maxLength: 1000
           bankAccount:
             $ref: '#/definitions/BankAccount'
+  SamsungPay:
+    type: object
+    allOf:
+      - $ref: '#/definitions/TokenizedCardData'
+      - type: object
+        description: Платежные данные Samsung Pay
+        required:
+          - serviceID
+          - referenceID
+        properties:
+          serviceID:
+            description: Идентификатор сервиса в Samsung Pay
+            type: string
+          referenceID:
+            description: Идентификатор токена в Samsung Pay
+            type: string
   Schedule:
     description: Расписание
     type: object
@@ -5301,6 +5351,21 @@ definitions:
             description: |
               Идентификатор средства вывода в рамках текущего контракта магазина
             type: string
+  TokenizedCardData:
+    type: object
+    allOf:
+      - $ref: '#/definitions/PaymentTool'
+      - type: object
+        description: Токенизированная банковская карта
+        discriminator: provider
+        properties:
+          provider:
+            type: string
+            enum:
+              - ApplePay
+              - SamsungPay
+        required:
+          - provider
   UserInteraction:
     type: object
     discriminator: interactionType
