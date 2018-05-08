@@ -13,10 +13,9 @@ get:
         type: array
         items:
           $ref: '#/definitions/Payment'
-    '400':
-      $ref: '#/responses/BadRequest'
     '404':
       $ref: '#/responses/NotFound'
+
 post:
   description: Создать новый платеж по указанному инвойсу.
   tags:
@@ -36,7 +35,29 @@ post:
       description: Платёж создан
       schema:
         $ref: '#/definitions/Payment'
-    '400':
-      $ref: '#/responses/BadRequest'
     '404':
       $ref: '#/responses/NotFound'
+    '400':
+      description: Ошибочные данные для запуска платежа
+      schema:
+        type: object
+        required:
+          - code
+          - message
+        properties:
+          code:
+            description: |
+              [Код ошибки](#tag/Error-Codes)
+            type: string
+            enum:
+              - invalidInvoiceStatus
+              - invoicePaymentPending
+              - invalidRequest
+              - invalidPartyStatus
+              - invalidShopStatus
+              - invalidPaymentToolToken
+              - invalidPaymentSession
+          message:
+            description: Человекочитаемое описание ошибки
+            type: string
+            example: Invalid invoice status
