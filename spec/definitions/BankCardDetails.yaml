@@ -6,6 +6,10 @@ properties:
     description: Маскированый номер карты
     type: string
     pattern: '^\d{2,4}$'
+  cardBin:
+    description: BIN карты
+    type: string
+    pattern: '^\d{6}$'
   paymentSystem:
     x-rebillyMerge:
       - $ref: '#/definitions/BankCardPaymentSystem'
