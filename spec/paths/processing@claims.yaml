@@ -23,6 +23,7 @@ get:
         type: array
         items:
           $ref: '#/definitions/Claim'
+
 post:
   description: |
     Создать новую заявку с заданным набором изменений и отправить её на
@@ -43,4 +44,23 @@ post:
       schema:
         $ref: '#/definitions/Claim'
     '400':
-      $ref: '#/responses/BadRequest'
+      description: Ошибочные данные в заявке
+      schema:
+        type: object
+        required:
+          - code
+          - message
+        properties:
+          code:
+            description: |
+              [Код ошибки](#tag/Error-Codes)
+            type: string
+            enum:
+              - changesetConflict
+              - invalidPartyStatus
+              - invalidChangeset
+              - invalidRequest
+          message:
+            description: Человекочитаемое описание ошибки
+            type: string
+            example: Changeset conflict

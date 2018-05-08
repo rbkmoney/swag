@@ -30,7 +30,5 @@ get:
         items:
           type: integer
           format: int32
-    '400':
-      $ref: '#/responses/BadRequest'
     '404':
       $ref: '#/responses/NotFound'
