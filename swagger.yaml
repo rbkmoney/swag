@@ -2919,6 +2919,10 @@ definitions:
         description: Маскированый номер карты
         type: string
         pattern: '^\d{2,4}$'
+      bin:
+        description: BIN банка-эмитента карты
+        type: string
+        pattern: '^\d{6,8}$'
       paymentSystem:
         description: Платежная система
         type: string
