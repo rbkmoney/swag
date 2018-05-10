@@ -11,3 +11,7 @@ properties:
     description: Дата и время заключения юридического соглашения
     type: string
     format: date-time
+  validUntil:
+    description: Дата и время окончания действия юридического соглашения
+    type: string
+    format: date-time
