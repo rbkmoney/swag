@@ -96,12 +96,21 @@ get:
       type: string
       maxLength: 40
       minLength: 1
-    - name: cardNumberMask
+    - name: lastDigits
       in: query
-      description: Маскированый номер карты
+      description: Последние цифры номера карты
       required: false
       type: string
       pattern: '^\d{2,4}$'
+
+# ToDo: add as soon as magista has the implementation
+#    - name: bin
+#      in: query
+#      description: BIN банка-эмитента карты
+#      required: false
+#      type: string
+#      pattern: '^\d{6,8}\*+\d{2,4}$'
+
     - name: paymentAmount
       in: query
       description: Сумма платежа
