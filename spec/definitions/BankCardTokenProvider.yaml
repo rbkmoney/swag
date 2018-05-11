@@ -1,0 +1,6 @@
+description: Провайдер платежных токенов
+type: string
+enum:
+  - applepay
+  - googlepay
+  - samsungpay

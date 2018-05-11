@@ -11,7 +11,5 @@ get:
       description: Данные инвойса
       schema:
         $ref: '#/definitions/Invoice'
-    '400':
-      $ref: '#/responses/BadRequest'
     '404':
       $ref: '#/responses/NotFound'

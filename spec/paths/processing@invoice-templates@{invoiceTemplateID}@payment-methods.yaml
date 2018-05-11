@@ -13,7 +13,5 @@ get:
         type: array
         items:
           $ref: '#/definitions/PaymentMethod'
-    '400':
-      $ref: '#/responses/BadRequest'
     '404':
       $ref: '#/responses/NotFound'

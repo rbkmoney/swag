@@ -11,3 +11,9 @@ allOf:
         items:
           x-rebillyMerge:
             - $ref: '#/definitions/BankCardPaymentSystem'
+      tokenProviders:
+        description: Список провайдеров платежных токенов
+        type: array
+        items:
+          x-rebillyMerge:
+            - $ref: '#/definitions/BankCardTokenProvider'
