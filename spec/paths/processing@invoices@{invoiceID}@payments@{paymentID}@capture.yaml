@@ -19,7 +19,7 @@ post:
     '404':
       $ref: '#/responses/NotFound'
     '400':
-      description: Ошибка отмены платежа
+      description: Ошибка подтверждения платежа
       schema:
         type: object
         required:
