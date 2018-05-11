@@ -2038,7 +2038,7 @@ paths:
         '202':
           description: Запрос на подтверждение платежа принят
         '400':
-          description: Ошибка отмены платежа
+          description: Ошибка подтверждения платежа
           schema:
             type: object
             required:
