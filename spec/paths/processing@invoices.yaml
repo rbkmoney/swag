@@ -17,4 +17,25 @@ post:
       schema:
         $ref: '#/definitions/InvoiceAndToken'
     '400':
-      $ref: '#/responses/BadRequest'
+      description: Ошибочные данные для создания инвойса
+      schema:
+        type: object
+        required:
+          - code
+          - message
+        properties:
+          code:
+            description: |
+              [Код ошибки](#tag/Error-Codes)
+            type: string
+            enum:
+              - invalidShopID
+              - invalidRequest
+              - invalidPartyStatus
+              - invalidShopStatus
+              - invalidInvoiceCart
+              - invalidInvoiceCost
+          message:
+            description: Человекочитаемое описание ошибки
+            type: string
+            example: Shop not found

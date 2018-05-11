@@ -15,7 +15,22 @@ get:
         Location:
           type: "string"
           description: URL файла
-    '400':
-      $ref: '#/responses/BadRequest'
     '404':
       $ref: '#/responses/NotFound'
+    '400':
+      description: Ошибочные данные для скачинвания
+      schema:
+        type: object
+        required:
+          - code
+          - message
+        properties:
+          code:
+            description: |
+              [Код ошибки](#tag/Error-Codes)
+            type: string
+            enum:
+              - invalidRequest
+          message:
+            description: Человекочитаемое описание ошибки
+            type: string

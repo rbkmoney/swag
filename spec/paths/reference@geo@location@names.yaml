@@ -29,4 +29,19 @@ get:
         items:
           $ref: '#/definitions/LocationName'
     '400':
-      $ref: '#/responses/BadRequest'
+      description: Неверные данные запроса геопозиций
+      schema:
+        type: object
+        required:
+          - code
+          - message
+        properties:
+          code:
+            description: |
+              [Код ошибки](#tag/Error-Codes)
+            type: string
+            enum:
+              - invalidRequest
+          message:
+            description: Человекочитаемое описание ошибки
+            type: string

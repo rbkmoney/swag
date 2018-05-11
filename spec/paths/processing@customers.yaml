@@ -17,4 +17,24 @@ post:
       schema:
         $ref: '#/definitions/CustomerAndToken'
     '400':
-      $ref: '#/responses/BadRequest'
+      description: Ошибочные данные плательщика
+      schema:
+        type: object
+        required:
+          - code
+          - message
+        properties:
+          code:
+            description: |
+              [Код ошибки](#tag/Error-Codes)
+            type: string
+            enum:
+              - operationNotPermitted
+              - invalidShopID
+              - invalidPartyStatus
+              - invalidShopStatus
+              - invalidRequest
+          message:
+            description: Человекочитаемое описание ошибки
+            type: string
+            example: Operation not permitted

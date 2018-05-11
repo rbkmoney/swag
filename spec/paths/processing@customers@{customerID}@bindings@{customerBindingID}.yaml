@@ -12,7 +12,5 @@ get:
       description: Данные привязки
       schema:
         $ref: '#/definitions/CustomerBinding'
-    '400':
-      $ref: '#/responses/BadRequest'
     '404':
       $ref: '#/responses/NotFound'

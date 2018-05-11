@@ -19,5 +19,21 @@ get:
             items:
               $ref: '#/definitions/Report'
     '400':
-      $ref: '#/responses/BadRequest'
-
+      description: Ошибочные данные для получения
+      schema:
+        type: object
+        required:
+          - code
+          - message
+        properties:
+          code:
+            description: |
+              [Код ошибки](#tag/Error-Codes)
+            type: string
+            enum:
+              - limitExceeded
+              - invalidRequest
+          message:
+            description: Человекочитаемое описание ошибки
+            type: string
+            example: "Max limit: 1000"

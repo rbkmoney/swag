@@ -11,10 +11,9 @@ get:
       description: Данные плательщика
       schema:
         $ref: '#/definitions/Customer'
-    '400':
-      $ref: '#/responses/BadRequest'
     '404':
       $ref: '#/responses/NotFound'
+
 delete:
   description: Удалить плательщика по его идентификатору
   operationId: deleteCustomer
@@ -26,7 +25,24 @@ delete:
   responses:
     '204':
       description: Плательщик удален
-    '400':
-      $ref: '#/responses/BadRequest'
     '404':
       $ref: '#/responses/NotFound'
+    '400':
+      description: Ошибка удаления плательщика
+      schema:
+        type: object
+        required:
+          - code
+          - message
+        properties:
+          code:
+            description: |
+              [Код ошибки](#tag/Error-Codes)
+            type: string
+            enum:
+              - invalidPartyStatus
+              - invalidShopStatus
+          message:
+            description: Человекочитаемое описание ошибки
+            type: string
+            example: Invalid party status
