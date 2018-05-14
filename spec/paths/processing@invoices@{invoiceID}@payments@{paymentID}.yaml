@@ -12,7 +12,5 @@ get:
       description: Данные платежа
       schema:
         $ref: '#/definitions/Payment'
-    '400':
-      $ref: '#/responses/BadRequest'
     '404':
       $ref: '#/responses/NotFound'

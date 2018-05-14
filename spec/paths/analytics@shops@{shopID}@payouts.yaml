@@ -37,7 +37,22 @@ get:
             type: array
             items:
               $ref: '#/definitions/Payout'
-    '400':
-      $ref: '#/responses/BadRequest'
     '404':
       $ref: '#/responses/NotFound'
+    '400':
+      description: Неверные данные для поиска
+      schema:
+        type: object
+        required:
+          - code
+          - message
+        properties:
+          code:
+            description: |
+              [Код ошибки](#tag/Error-Codes)
+            type: string
+            enum:
+              - invalidRequest
+          message:
+            description: Человекочитаемое описание ошибки
+            type: string

@@ -16,7 +16,27 @@ post:
   responses:
     '202':
       description: Запрос на подтверждение платежа принят
-    '400':
-      $ref: '#/responses/BadRequest'
     '404':
       $ref: '#/responses/NotFound'
+    '400':
+      description: Ошибка подтверждения платежа
+      schema:
+        type: object
+        required:
+          - code
+          - message
+        properties:
+          code:
+            description: |
+              [Код ошибки](#tag/Error-Codes)
+            type: string
+            enum:
+              - invalidPaymentStatus
+              - operationNotPermitted
+              - invalidPartyStatus
+              - invalidShopStatus
+              - invalidRequest
+          message:
+            description: Человекочитаемое описание ошибки
+            type: string
+            example: Invalid payment status

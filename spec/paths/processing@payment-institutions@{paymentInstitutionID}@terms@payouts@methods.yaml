@@ -24,7 +24,5 @@ get:
           enum:
             - BankAccount
             - InternationalBankAccount
-    '400':
-      $ref: '#/responses/BadRequest'
     '404':
       $ref: '#/responses/NotFound'

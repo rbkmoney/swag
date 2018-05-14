@@ -96,12 +96,21 @@ get:
       type: string
       maxLength: 40
       minLength: 1
-    - name: cardNumberMask
+    - name: lastDigits
       in: query
-      description: Маскированый номер карты
+      description: Последние цифры номера карты
       required: false
       type: string
       pattern: '^\d{2,4}$'
+
+# ToDo: add as soon as magista has the implementation
+#    - name: bin
+#      in: query
+#      description: BIN банка-эмитента карты
+#      required: false
+#      type: string
+#      pattern: '^\d{6,8}\*+\d{2,4}$'
+
     - name: paymentAmount
       in: query
       description: Сумма платежа
@@ -128,7 +137,22 @@ get:
             type: array
             items:
               $ref: '#/definitions/Invoice'
-    '400':
-      $ref: '#/responses/BadRequest'
     '404':
       $ref: '#/responses/NotFound'
+    '400':
+      description: Неверные данные для поиска
+      schema:
+        type: object
+        required:
+          - code
+          - message
+        properties:
+          code:
+            description: |
+              [Код ошибки](#tag/Error-Codes)
+            type: string
+            enum:
+              - invalidRequest
+          message:
+            description: Человекочитаемое описание ошибки
+            type: string

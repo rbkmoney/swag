@@ -11,10 +11,9 @@ get:
       description: Шаблон инвойса
       schema:
         $ref: '#/definitions/InvoiceTemplate'
-    '400':
-      $ref: '#/responses/BadRequest'
     '404':
       $ref: '#/responses/NotFound'
+
 put:
   description: Модифицировать шаблон инвойса.
   tags:
@@ -34,10 +33,30 @@ put:
       description: Шаблон инвойса модифицирован.
       schema:
         $ref: '#/definitions/InvoiceTemplate'
-    '400':
-      $ref: '#/responses/BadRequest'
     '404':
       $ref: '#/responses/NotFound'
+    '400':
+      description: Ошибочные данные для изменения шаблона
+      schema:
+        type: object
+        required:
+          - code
+          - message
+        properties:
+          code:
+            description: |
+              [Код ошибки](#tag/Error-Codes)
+            type: string
+            enum:
+              - invalidPartyStatus
+              - invalidShopStatus
+              - invalidInvoiceCart
+              - invalidRequest
+          message:
+            description: Человекочитаемое описание ошибки
+            type: string
+            example: Invalid party status
+
 delete:
   description: Удалить шаблон инвойса.
   tags:
@@ -49,7 +68,24 @@ delete:
   responses:
     '204':
       description: Шаблон инвойса удален.
-    '400':
-      $ref: '#/responses/BadRequest'
     '404':
       $ref: '#/responses/NotFound'
+    '400':
+      description: Ошибочные данные для удаления шаблона
+      schema:
+        type: object
+        required:
+          - code
+          - message
+        properties:
+          code:
+            description: |
+              [Код ошибки](#tag/Error-Codes)
+            type: string
+            enum:
+              - invalidPartyStatus
+              - invalidShopStatus
+          message:
+            description: Человекочитаемое описание ошибки
+            type: string
+            example: Invalid party status
