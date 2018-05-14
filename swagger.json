@@ -37,15 +37,9 @@
   ],
   "responses": {
     "NotFound": {
-      "description": "Entity not found",
+      "description": "Заданный ресурс не найден",
       "schema": {
         "$ref": "#/definitions/GeneralError"
-      }
-    },
-    "BadRequest": {
-      "description": "Illegal input for operation",
-      "schema": {
-        "$ref": "#/definitions/LogicError"
       }
     }
   },
@@ -363,7 +357,7 @@
     {
       "name": "Error Codes",
       "x-displayName": "Коды ошибок",
-      "description": "\n## Ошибки бизнес-логики\nВсе ошибки бизнес-логики имеют следуюший вид:\n\n  ```json\n  {\n    \"code\": \"string\",\n    \"message\": \"string\"\n  }\n  ```\n\nВ поле `code` содержится тип ошибки, а в `message` - дополнительная информация по произошедшей ошибке.\nНа данный момент существуют следующие коды ошибок:\n\n  |  Код  |  Описание  |\n  | -- | -- |\n  | **invalidUser**  | Запрос невозможен для данного пользователя. |\n  | **invalidRequest** | Запрос соответствует спецификации, но не удовлетворяет остальным параметрам системы. Например, попытка создания инвойса с несуществующей валютой |\n  | **invalidInvoiceStatus** | Запрос невозможен из-за ненадлежащего статуса инвойса. Например, попытка оплаты погашенного инвойса |\n  |  **invalidPartyStatus** | Запрос невозможен из-за ненадлежащего статуса пользователя. Например, попытка создания инвойса для заблокированного пользователя |\n  | **invalidPaymentStatus** | Запрос невозможен из-за ненадлежащего статуса платежа. Например, попытка аннулировать инвойс, по которому имеется незавершенный платеж |\n  | **invalidShopStatus** | Запрос невозможен из-за ненадлежащего статуса магазина. Например, попытка создания инвойса в рамках магазина со статусом \"приостановлен\" |\n  | **invalidContractStatus** | Запрос невозможен из-за ненадлежащего статуса контракта. Например, попытка создания магазина с контрактом, у которого истек срок действия |\n\n\n## Общие ошибки\nОшибки возникающие при попытках совершения операций с незарегистрированными в системе объектами. Имеют вид\n\n  ```json\n  {\n      \"message\": \"string\"\n  }\n  ```\n\nВ поле `message` содержится информация по произошедшей ошибке. Например:\n\n  ```json\n  {\n      \"message\": \"Invoice not found\"\n  }\n  ```\n\n## Ошибки обработки запросов\nВ процессе обработки запросов силами нашей платформы могут происходить различные непредвиденные ситуации. Об их появлении платформа сигнализирует по протоколу HTTP соответствующими [статусами][5xx], обозначающими ошибки сервера.\n\n  |  Код    |  Описание  |\n  | ------- | ---------- |\n  | **500** | В процессе обработки платформой запроса возникла непредвиденная ситуация. При получении подобного кода ответа мы рекомендуем обратиться в техническую поддержку. |\n  | **503** | Платформа временно недоступна и не готова обслуживать данный запрос. Запрос гарантированно не выполнен, при получении подобного кода ответа попробуйте выполнить его позднее, когда доступность платформы будет восстановлена. |\n  | **504** | Платформа превысила допустимое время обработки запроса, результат запроса не определён. Попробуйте отправить запрос повторно или выяснить результат выполнения исходного запроса, если повторное исполнение запроса нежелательно. |\n\n[5xx]: https://tools.ietf.org/html/rfc7231#section-6.6\n"
+      "description": "\n## Ошибки бизнес-логики\nВсе ошибки бизнес-логики имеют следуюший вид:\n\n  ```json\n  {\n    \"code\": \"string\",\n    \"message\": \"string\"\n  }\n  ```\n\nВ поле `code` содержится тип ошибки, а в `message` - дополнительная информация по произошедшей ошибке.\nНа данный момент существуют следующие коды ошибок:\n\n  | Код                              | Описание                                                                                                                              |\n  | ---                              | --------                                                                                                                              |\n  | **operationNotPermitted**        | Недоступная в рамках действующего договора операция.                                                                                  |\n  | **invalidPartyStatus**           | Ваш участник заблокирован или его операции приостановлены. В последнем случае вы можете их [возобновить](#operation/activateMyParty). |\n  | **invalidShopStatus**            | Ваш магазин заблокирован или его операции приостановлены. В последнем случае вы можете их [возобновить](#operation/activateShop).     |\n  | **invalidShopID**                | Указан идентификатор несуществующего магазина.                                                                                        |\n  | **invalidInvoiceCost**           | Стоимость инвойса не указана или неверна, в частности, не равна стоимости позиций в корзине.                                          |\n  | **invalidInvoiceCart**           | Некорректная корзина в инвойсе, Например, пустая.                                                                                     |\n  | **invalidInvoiceStatus**         | Неверный [статус инвойса](#tag/Invoices). Например, при попытке [оплатить](#operation/createPayment) отменённый инвойс.               |\n  | **invoicePaymentPending**        | Последний запущенный платёж по указанному инвойсу ещё не достиг финального статуса.                                                   |\n  | **invalidPaymentStatus**         | Неверный [статус платежа](#tag/Payments). Например, при попытке [подтвердить](#operation/capturePayment) неуспешный платёж.           |\n  | **invalidPaymentResource**       | Не поддерживаемый системой или не подключенный в рамках действующего договора платежный инструмент.                                   |\n  | **invalidPaymentToolToken**      | Неверное содержимое токена платёжного инструмента.                                                                                    |\n  | **invalidPaymentSession**        | Неверные содержимое платёжной сессии.                                                                                                 |\n  | **insufficentAccountBalance**    | Недостаточный объём денежных средств на счёте магазина, например, для проведения возврата.                                            |\n  | **invoicePaymentAmountExceeded** | Попытка возврата сверх суммы платежа.                                                                                                 |\n  | **inconsistentRefundCurrency**   | Попытка возврата средств в валюте, отличной от валюты платежа.                                                                        |\n  | **changesetConflict**            | Попытка внести изменения участника, конфликтующие с изменениями в других заявках, ожидающих рассмотрения.                             |\n  | **invalidChangeset**             | Неверные изменения участника, например, попытка создать магазин в валюте, недоступной в рамках договора.                              |\n  | **invalidClaimStatus**           | Неверный статус заявки. Например, при попытке [отзыва](#operation/revokeClaimByID) уже принятой заявки.                               |\n  | **invalidClaimRevision**         | Неверная ревизия заявки. Например, в случае если заявку одновременно с вами кто-то уже принял или отклонил.                           |\n  | **limitExceeded**                | Превышен разумный лимит выборки. В этом случае лучше запросить менее объёмный набор данных.                                           |\n  | **invalidRequest**               | Прочие неверные данные запроса.                                                                                                       |\n\n## Общие ошибки\nОшибки возникающие при попытках совершения операций с незарегистрированными в системе объектами. Имеют вид\n\n  ```json\n  {\n      \"message\": \"string\"\n  }\n  ```\n\nВ поле `message` содержится информация по произошедшей ошибке. Например:\n\n  ```json\n  {\n      \"message\": \"Invoice not found\"\n  }\n  ```\n\n## Ошибки обработки запросов\nВ процессе обработки запросов силами нашей платформы могут происходить различные непредвиденные ситуации. Об их появлении платформа сигнализирует по протоколу HTTP соответствующими [статусами][5xx], обозначающими ошибки сервера.\n\n  |  Код    |  Описание  |\n  | ------- | ---------- |\n  | **500** | В процессе обработки платформой запроса возникла непредвиденная ситуация. При получении подобного кода ответа мы рекомендуем обратиться в техническую поддержку. |\n  | **503** | Платформа временно недоступна и не готова обслуживать данный запрос. Запрос гарантированно не выполнен, при получении подобного кода ответа попробуйте выполнить его позднее, когда доступность платформы будет восстановлена. |\n  | **504** | Платформа превысила допустимое время обработки запроса, результат запроса не определён. Попробуйте отправить запрос повторно или выяснить результат выполнения исходного запроса, если повторное исполнение запроса нежелательно. |\n\n[5xx]: https://tools.ietf.org/html/rfc7231#section-6.6\n"
     }
   ],
   "paths": {
@@ -415,7 +409,27 @@
             }
           },
           "400": {
-            "$ref": "#/responses/BadRequest"
+            "description": "Неверные данные запроса статистики",
+            "schema": {
+              "type": "object",
+              "required": [
+                "code",
+                "message"
+              ],
+              "properties": {
+                "code": {
+                  "description": "[Код ошибки](#tag/Error-Codes)\n",
+                  "type": "string",
+                  "enum": [
+                    "invalidRequest"
+                  ]
+                },
+                "message": {
+                  "description": "Человекочитаемое описание ошибки",
+                  "type": "string"
+                }
+              }
+            }
           },
           "404": {
             "$ref": "#/responses/NotFound"
@@ -452,7 +466,27 @@
             }
           },
           "400": {
-            "$ref": "#/responses/BadRequest"
+            "description": "Неверные данные запроса статистики",
+            "schema": {
+              "type": "object",
+              "required": [
+                "code",
+                "message"
+              ],
+              "properties": {
+                "code": {
+                  "description": "[Код ошибки](#tag/Error-Codes)\n",
+                  "type": "string",
+                  "enum": [
+                    "invalidRequest"
+                  ]
+                },
+                "message": {
+                  "description": "Человекочитаемое описание ошибки",
+                  "type": "string"
+                }
+              }
+            }
           },
           "404": {
             "$ref": "#/responses/NotFound"
@@ -645,7 +679,27 @@
             }
           },
           "400": {
-            "$ref": "#/responses/BadRequest"
+            "description": "Неверные данные для поиска",
+            "schema": {
+              "type": "object",
+              "required": [
+                "code",
+                "message"
+              ],
+              "properties": {
+                "code": {
+                  "description": "[Код ошибки](#tag/Error-Codes)\n",
+                  "type": "string",
+                  "enum": [
+                    "invalidRequest"
+                  ]
+                },
+                "message": {
+                  "description": "Человекочитаемое описание ошибки",
+                  "type": "string"
+                }
+              }
+            }
           },
           "404": {
             "$ref": "#/responses/NotFound"
@@ -816,7 +870,27 @@
             }
           },
           "400": {
-            "$ref": "#/responses/BadRequest"
+            "description": "Неверные данные для поиска",
+            "schema": {
+              "type": "object",
+              "required": [
+                "code",
+                "message"
+              ],
+              "properties": {
+                "code": {
+                  "description": "[Код ошибки](#tag/Error-Codes)\n",
+                  "type": "string",
+                  "enum": [
+                    "invalidRequest"
+                  ]
+                },
+                "message": {
+                  "description": "Человекочитаемое описание ошибки",
+                  "type": "string"
+                }
+              }
+            }
           },
           "404": {
             "$ref": "#/responses/NotFound"
@@ -862,7 +936,27 @@
             }
           },
           "400": {
-            "$ref": "#/responses/BadRequest"
+            "description": "Неверные данные запроса статистики",
+            "schema": {
+              "type": "object",
+              "required": [
+                "code",
+                "message"
+              ],
+              "properties": {
+                "code": {
+                  "description": "[Код ошибки](#tag/Error-Codes)\n",
+                  "type": "string",
+                  "enum": [
+                    "invalidRequest"
+                  ]
+                },
+                "message": {
+                  "description": "Человекочитаемое описание ошибки",
+                  "type": "string"
+                }
+              }
+            }
           },
           "404": {
             "$ref": "#/responses/NotFound"
@@ -908,7 +1002,27 @@
             }
           },
           "400": {
-            "$ref": "#/responses/BadRequest"
+            "description": "Неверные данные запроса статистики",
+            "schema": {
+              "type": "object",
+              "required": [
+                "code",
+                "message"
+              ],
+              "properties": {
+                "code": {
+                  "description": "[Код ошибки](#tag/Error-Codes)\n",
+                  "type": "string",
+                  "enum": [
+                    "invalidRequest"
+                  ]
+                },
+                "message": {
+                  "description": "Человекочитаемое описание ошибки",
+                  "type": "string"
+                }
+              }
+            }
           },
           "404": {
             "$ref": "#/responses/NotFound"
@@ -954,7 +1068,27 @@
             }
           },
           "400": {
-            "$ref": "#/responses/BadRequest"
+            "description": "Неверные данные запроса статистики",
+            "schema": {
+              "type": "object",
+              "required": [
+                "code",
+                "message"
+              ],
+              "properties": {
+                "code": {
+                  "description": "[Код ошибки](#tag/Error-Codes)\n",
+                  "type": "string",
+                  "enum": [
+                    "invalidRequest"
+                  ]
+                },
+                "message": {
+                  "description": "Человекочитаемое описание ошибки",
+                  "type": "string"
+                }
+              }
+            }
           },
           "404": {
             "$ref": "#/responses/NotFound"
@@ -1041,7 +1175,27 @@
             }
           },
           "400": {
-            "$ref": "#/responses/BadRequest"
+            "description": "Неверные данные для поиска",
+            "schema": {
+              "type": "object",
+              "required": [
+                "code",
+                "message"
+              ],
+              "properties": {
+                "code": {
+                  "description": "[Код ошибки](#tag/Error-Codes)\n",
+                  "type": "string",
+                  "enum": [
+                    "invalidRequest"
+                  ]
+                },
+                "message": {
+                  "description": "Человекочитаемое описание ошибки",
+                  "type": "string"
+                }
+              }
+            }
           },
           "404": {
             "$ref": "#/responses/NotFound"
@@ -1129,9 +1283,6 @@
               "$ref": "#/definitions/Category"
             }
           },
-          "400": {
-            "$ref": "#/responses/BadRequest"
-          },
           "404": {
             "$ref": "#/responses/NotFound"
           }
@@ -1201,7 +1352,31 @@
             }
           },
           "400": {
-            "$ref": "#/responses/BadRequest"
+            "description": "Ошибочные данные в заявке",
+            "schema": {
+              "type": "object",
+              "required": [
+                "code",
+                "message"
+              ],
+              "properties": {
+                "code": {
+                  "description": "[Код ошибки](#tag/Error-Codes)\n",
+                  "type": "string",
+                  "enum": [
+                    "changesetConflict",
+                    "invalidPartyStatus",
+                    "invalidChangeset",
+                    "invalidRequest"
+                  ]
+                },
+                "message": {
+                  "description": "Человекочитаемое описание ошибки",
+                  "type": "string",
+                  "example": "Changeset conflict"
+                }
+              }
+            }
           }
         }
       }
@@ -1264,46 +1439,30 @@
             "description": "Заявка отозвана"
           },
           "400": {
-            "$ref": "#/responses/BadRequest"
-          },
-          "404": {
-            "$ref": "#/responses/NotFound"
-          }
-        }
-      }
-    },
-    "/processing/claims/{claimID}/update": {
-      "post": {
-        "description": "Обновить набор изменений заявки, новые изменения будут добавлены\nк существующей заявке.\n",
-        "operationId": "updateClaimByID",
-        "tags": [
-          "Claims"
-        ],
-        "parameters": [
-          {
-            "$ref": "#/parameters/requestID"
-          },
-          {
-            "$ref": "#/parameters/claimID"
-          },
-          {
-            "$ref": "#/parameters/claimRevision"
-          },
-          {
-            "name": "claimChangeset",
-            "in": "body",
-            "required": true,
+            "description": "Ошибка отзыва заявки",
             "schema": {
-              "$ref": "#/definitions/ClaimChangeset"
+              "type": "object",
+              "required": [
+                "code",
+                "message"
+              ],
+              "properties": {
+                "code": {
+                  "description": "[Код ошибки](#tag/Error-Codes)\n",
+                  "type": "string",
+                  "enum": [
+                    "invalidClaimStatus",
+                    "invalidClaimRevision",
+                    "invalidPartyStatus"
+                  ]
+                },
+                "message": {
+                  "description": "Человекочитаемое описание ошибки",
+                  "type": "string",
+                  "example": "Invalid claim status"
+                }
+              }
             }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Claim updated"
-          },
-          "400": {
-            "$ref": "#/responses/BadRequest"
           },
           "404": {
             "$ref": "#/responses/NotFound"
@@ -1517,7 +1676,32 @@
             }
           },
           "400": {
-            "$ref": "#/responses/BadRequest"
+            "description": "Ошибочные данные плательщика",
+            "schema": {
+              "type": "object",
+              "required": [
+                "code",
+                "message"
+              ],
+              "properties": {
+                "code": {
+                  "description": "[Код ошибки](#tag/Error-Codes)\n",
+                  "type": "string",
+                  "enum": [
+                    "operationNotPermitted",
+                    "invalidShopID",
+                    "invalidPartyStatus",
+                    "invalidShopStatus",
+                    "invalidRequest"
+                  ]
+                },
+                "message": {
+                  "description": "Человекочитаемое описание ошибки",
+                  "type": "string",
+                  "example": "Operation not permitted"
+                }
+              }
+            }
           }
         }
       }
@@ -1544,9 +1728,6 @@
               "$ref": "#/definitions/Customer"
             }
           },
-          "400": {
-            "$ref": "#/responses/BadRequest"
-          },
           "404": {
             "$ref": "#/responses/NotFound"
           }
@@ -1571,7 +1752,29 @@
             "description": "Плательщик удален"
           },
           "400": {
-            "$ref": "#/responses/BadRequest"
+            "description": "Ошибка удаления плательщика",
+            "schema": {
+              "type": "object",
+              "required": [
+                "code",
+                "message"
+              ],
+              "properties": {
+                "code": {
+                  "description": "[Код ошибки](#tag/Error-Codes)\n",
+                  "type": "string",
+                  "enum": [
+                    "invalidPartyStatus",
+                    "invalidShopStatus"
+                  ]
+                },
+                "message": {
+                  "description": "Человекочитаемое описание ошибки",
+                  "type": "string",
+                  "example": "Invalid party status"
+                }
+              }
+            }
           },
           "404": {
             "$ref": "#/responses/NotFound"
@@ -1639,7 +1842,34 @@
             }
           },
           "400": {
-            "$ref": "#/responses/BadRequest"
+            "description": "Ошибочные данные для привязки",
+            "schema": {
+              "type": "object",
+              "required": [
+                "code",
+                "message"
+              ],
+              "properties": {
+                "code": {
+                  "description": "[Код ошибки](#tag/Error-Codes)\n",
+                  "type": "string",
+                  "enum": [
+                    "invalidPaymentResource",
+                    "operationNotPermitted",
+                    "invalidPartyStatus",
+                    "invalidShopStatus",
+                    "invalidPaymentToolToken",
+                    "invalidPaymentSession",
+                    "invalidRequest"
+                  ]
+                },
+                "message": {
+                  "description": "Человекочитаемое описание ошибки",
+                  "type": "string",
+                  "example": "Invalid payment resource"
+                }
+              }
+            }
           },
           "404": {
             "$ref": "#/responses/NotFound"
@@ -1669,9 +1899,6 @@
                 "$ref": "#/definitions/CustomerBinding"
               }
             }
-          },
-          "400": {
-            "$ref": "#/responses/BadRequest"
           },
           "404": {
             "$ref": "#/responses/NotFound"
@@ -1703,9 +1930,6 @@
             "schema": {
               "$ref": "#/definitions/CustomerBinding"
             }
-          },
-          "400": {
-            "$ref": "#/responses/BadRequest"
           },
           "404": {
             "$ref": "#/responses/NotFound"
@@ -1756,7 +1980,27 @@
             }
           },
           "400": {
-            "$ref": "#/responses/BadRequest"
+            "description": "Ошибочные данные для запроса истории",
+            "schema": {
+              "type": "object",
+              "required": [
+                "code",
+                "message"
+              ],
+              "properties": {
+                "code": {
+                  "description": "[Код ошибки](#tag/Error-Codes)\n",
+                  "type": "string",
+                  "enum": [
+                    "invalidRequest"
+                  ]
+                },
+                "message": {
+                  "description": "Человекочитаемое описание ошибки",
+                  "type": "string"
+                }
+              }
+            }
           },
           "404": {
             "$ref": "#/responses/NotFound"
@@ -1793,7 +2037,32 @@
             }
           },
           "400": {
-            "$ref": "#/responses/BadRequest"
+            "description": "Ошибочные данные для создания шаблона",
+            "schema": {
+              "type": "object",
+              "required": [
+                "code",
+                "message"
+              ],
+              "properties": {
+                "code": {
+                  "description": "[Код ошибки](#tag/Error-Codes)\n",
+                  "type": "string",
+                  "enum": [
+                    "invalidRequest",
+                    "invalidShopID",
+                    "invalidPartyStatus",
+                    "invalidShopStatus",
+                    "invalidInvoiceCart"
+                  ]
+                },
+                "message": {
+                  "description": "Человекочитаемое описание ошибки",
+                  "type": "string",
+                  "example": "Lifetime cannot be zero"
+                }
+              }
+            }
           }
         }
       }
@@ -1819,9 +2088,6 @@
             "schema": {
               "$ref": "#/definitions/InvoiceTemplate"
             }
-          },
-          "400": {
-            "$ref": "#/responses/BadRequest"
           },
           "404": {
             "$ref": "#/responses/NotFound"
@@ -1859,7 +2125,31 @@
             }
           },
           "400": {
-            "$ref": "#/responses/BadRequest"
+            "description": "Ошибочные данные для изменения шаблона",
+            "schema": {
+              "type": "object",
+              "required": [
+                "code",
+                "message"
+              ],
+              "properties": {
+                "code": {
+                  "description": "[Код ошибки](#tag/Error-Codes)\n",
+                  "type": "string",
+                  "enum": [
+                    "invalidPartyStatus",
+                    "invalidShopStatus",
+                    "invalidInvoiceCart",
+                    "invalidRequest"
+                  ]
+                },
+                "message": {
+                  "description": "Человекочитаемое описание ошибки",
+                  "type": "string",
+                  "example": "Invalid party status"
+                }
+              }
+            }
           },
           "404": {
             "$ref": "#/responses/NotFound"
@@ -1885,7 +2175,29 @@
             "description": "Шаблон инвойса удален."
           },
           "400": {
-            "$ref": "#/responses/BadRequest"
+            "description": "Ошибочные данные для удаления шаблона",
+            "schema": {
+              "type": "object",
+              "required": [
+                "code",
+                "message"
+              ],
+              "properties": {
+                "code": {
+                  "description": "[Код ошибки](#tag/Error-Codes)\n",
+                  "type": "string",
+                  "enum": [
+                    "invalidPartyStatus",
+                    "invalidShopStatus"
+                  ]
+                },
+                "message": {
+                  "description": "Человекочитаемое описание ошибки",
+                  "type": "string",
+                  "example": "Invalid party status"
+                }
+              }
+            }
           },
           "404": {
             "$ref": "#/responses/NotFound"
@@ -1925,7 +2237,30 @@
             }
           },
           "400": {
-            "$ref": "#/responses/BadRequest"
+            "description": "Ошибочные данные для создания инвойса",
+            "schema": {
+              "type": "object",
+              "required": [
+                "code",
+                "message"
+              ],
+              "properties": {
+                "code": {
+                  "description": "[Код ошибки](#tag/Error-Codes)\n",
+                  "type": "string",
+                  "enum": [
+                    "invalidPartyStatus",
+                    "invalidShopStatus",
+                    "invalidRequest"
+                  ]
+                },
+                "message": {
+                  "description": "Человекочитаемое описание ошибки",
+                  "type": "string",
+                  "example": "Invalid party status"
+                }
+              }
+            }
           },
           "404": {
             "$ref": "#/responses/NotFound"
@@ -1957,9 +2292,6 @@
                 "$ref": "#/definitions/PaymentMethod"
               }
             }
-          },
-          "400": {
-            "$ref": "#/responses/BadRequest"
           },
           "404": {
             "$ref": "#/responses/NotFound"
@@ -1996,7 +2328,33 @@
             }
           },
           "400": {
-            "$ref": "#/responses/BadRequest"
+            "description": "Ошибочные данные для создания инвойса",
+            "schema": {
+              "type": "object",
+              "required": [
+                "code",
+                "message"
+              ],
+              "properties": {
+                "code": {
+                  "description": "[Код ошибки](#tag/Error-Codes)\n",
+                  "type": "string",
+                  "enum": [
+                    "invalidShopID",
+                    "invalidRequest",
+                    "invalidPartyStatus",
+                    "invalidShopStatus",
+                    "invalidInvoiceCart",
+                    "invalidInvoiceCost"
+                  ]
+                },
+                "message": {
+                  "description": "Человекочитаемое описание ошибки",
+                  "type": "string",
+                  "example": "Shop not found"
+                }
+              }
+            }
           }
         }
       }
@@ -2022,9 +2380,6 @@
             "schema": {
               "$ref": "#/definitions/Invoice"
             }
-          },
-          "400": {
-            "$ref": "#/responses/BadRequest"
           },
           "404": {
             "$ref": "#/responses/NotFound"
@@ -2103,7 +2458,27 @@
             }
           },
           "400": {
-            "$ref": "#/responses/BadRequest"
+            "description": "Ошибочные данные для запроса истории",
+            "schema": {
+              "type": "object",
+              "required": [
+                "code",
+                "message"
+              ],
+              "properties": {
+                "code": {
+                  "description": "[Код ошибки](#tag/Error-Codes)\n",
+                  "type": "string",
+                  "enum": [
+                    "invalidRequest"
+                  ]
+                },
+                "message": {
+                  "description": "Человекочитаемое описание ошибки",
+                  "type": "string"
+                }
+              }
+            }
           },
           "404": {
             "$ref": "#/responses/NotFound"
@@ -2140,7 +2515,30 @@
             "description": "Инвойс погашен"
           },
           "400": {
-            "$ref": "#/responses/BadRequest"
+            "description": "Ошибка погашения инвойса",
+            "schema": {
+              "type": "object",
+              "required": [
+                "code",
+                "message"
+              ],
+              "properties": {
+                "code": {
+                  "description": "[Код ошибки](#tag/Error-Codes)\n",
+                  "type": "string",
+                  "enum": [
+                    "invalidInvoiceStatus",
+                    "invalidPartyStatus",
+                    "invalidShopStatus"
+                  ]
+                },
+                "message": {
+                  "description": "Человекочитаемое описание ошибки",
+                  "type": "string",
+                  "example": "Invalid invoice status"
+                }
+              }
+            }
           },
           "404": {
             "$ref": "#/responses/NotFound"
@@ -2173,9 +2571,6 @@
               }
             }
           },
-          "400": {
-            "$ref": "#/responses/BadRequest"
-          },
           "404": {
             "$ref": "#/responses/NotFound"
           }
@@ -2206,9 +2601,6 @@
                 "$ref": "#/definitions/Payment"
               }
             }
-          },
-          "400": {
-            "$ref": "#/responses/BadRequest"
           },
           "404": {
             "$ref": "#/responses/NotFound"
@@ -2246,7 +2638,34 @@
             }
           },
           "400": {
-            "$ref": "#/responses/BadRequest"
+            "description": "Ошибочные данные для запуска платежа",
+            "schema": {
+              "type": "object",
+              "required": [
+                "code",
+                "message"
+              ],
+              "properties": {
+                "code": {
+                  "description": "[Код ошибки](#tag/Error-Codes)\n",
+                  "type": "string",
+                  "enum": [
+                    "invalidInvoiceStatus",
+                    "invoicePaymentPending",
+                    "invalidRequest",
+                    "invalidPartyStatus",
+                    "invalidShopStatus",
+                    "invalidPaymentToolToken",
+                    "invalidPaymentSession"
+                  ]
+                },
+                "message": {
+                  "description": "Человекочитаемое описание ошибки",
+                  "type": "string",
+                  "example": "Invalid invoice status"
+                }
+              }
+            }
           },
           "404": {
             "$ref": "#/responses/NotFound"
@@ -2278,9 +2697,6 @@
             "schema": {
               "$ref": "#/definitions/Payment"
             }
-          },
-          "400": {
-            "$ref": "#/responses/BadRequest"
           },
           "404": {
             "$ref": "#/responses/NotFound"
@@ -2320,7 +2736,32 @@
             "description": "Запрос на отмену платежа принят"
           },
           "400": {
-            "$ref": "#/responses/BadRequest"
+            "description": "Ошибка отмены платежа",
+            "schema": {
+              "type": "object",
+              "required": [
+                "code",
+                "message"
+              ],
+              "properties": {
+                "code": {
+                  "description": "[Код ошибки](#tag/Error-Codes)\n",
+                  "type": "string",
+                  "enum": [
+                    "invalidPaymentStatus",
+                    "operationNotPermitted",
+                    "invalidPartyStatus",
+                    "invalidShopStatus",
+                    "invalidRequest"
+                  ]
+                },
+                "message": {
+                  "description": "Человекочитаемое описание ошибки",
+                  "type": "string",
+                  "example": "Invalid payment status"
+                }
+              }
+            }
           },
           "404": {
             "$ref": "#/responses/NotFound"
@@ -2360,7 +2801,32 @@
             "description": "Запрос на подтверждение платежа принят"
           },
           "400": {
-            "$ref": "#/responses/BadRequest"
+            "description": "Ошибка подтверждения платежа",
+            "schema": {
+              "type": "object",
+              "required": [
+                "code",
+                "message"
+              ],
+              "properties": {
+                "code": {
+                  "description": "[Код ошибки](#tag/Error-Codes)\n",
+                  "type": "string",
+                  "enum": [
+                    "invalidPaymentStatus",
+                    "operationNotPermitted",
+                    "invalidPartyStatus",
+                    "invalidShopStatus",
+                    "invalidRequest"
+                  ]
+                },
+                "message": {
+                  "description": "Человекочитаемое описание ошибки",
+                  "type": "string",
+                  "example": "Invalid payment status"
+                }
+              }
+            }
           },
           "404": {
             "$ref": "#/responses/NotFound"
@@ -2395,9 +2861,6 @@
                 "$ref": "#/definitions/Refund"
               }
             }
-          },
-          "400": {
-            "$ref": "#/responses/BadRequest"
           },
           "404": {
             "$ref": "#/responses/NotFound"
@@ -2438,7 +2901,33 @@
             }
           },
           "400": {
-            "$ref": "#/responses/BadRequest"
+            "description": "Ошибочные данные для возврата",
+            "schema": {
+              "type": "object",
+              "required": [
+                "code",
+                "message"
+              ],
+              "properties": {
+                "code": {
+                  "description": "[Код ошибки](#tag/Error-Codes)\n",
+                  "type": "string",
+                  "enum": [
+                    "operationNotPermitted",
+                    "invalidPaymentStatus",
+                    "insufficentAccountBalance",
+                    "invoicePaymentAmountExceeded",
+                    "inconsistentRefundCurrency",
+                    "invalidRequest"
+                  ]
+                },
+                "message": {
+                  "description": "Человекочитаемое описание ошибки",
+                  "type": "string",
+                  "example": "Operation not permitted"
+                }
+              }
+            }
           },
           "404": {
             "$ref": "#/responses/NotFound"
@@ -2473,9 +2962,6 @@
             "schema": {
               "$ref": "#/definitions/Refund"
             }
-          },
-          "400": {
-            "$ref": "#/responses/BadRequest"
           },
           "404": {
             "$ref": "#/responses/NotFound"
@@ -2512,7 +2998,31 @@
             "description": "Инвойс аннулирован"
           },
           "400": {
-            "$ref": "#/responses/BadRequest"
+            "description": "Ошибка отмены инвойса",
+            "schema": {
+              "type": "object",
+              "required": [
+                "code",
+                "message"
+              ],
+              "properties": {
+                "code": {
+                  "description": "[Код ошибки](#tag/Error-Codes)\n",
+                  "type": "string",
+                  "enum": [
+                    "invalidInvoiceStatus",
+                    "invoicePaymentPending",
+                    "invalidPartyStatus",
+                    "invalidShopStatus"
+                  ]
+                },
+                "message": {
+                  "description": "Человекочитаемое описание ошибки",
+                  "type": "string",
+                  "example": "Invalid invoice status"
+                }
+              }
+            }
           },
           "404": {
             "$ref": "#/responses/NotFound"
@@ -2639,9 +3149,6 @@
               "$ref": "#/definitions/PaymentInstitution"
             }
           },
-          "400": {
-            "$ref": "#/responses/BadRequest"
-          },
           "404": {
             "$ref": "#/responses/NotFound"
           }
@@ -2669,9 +3176,6 @@
             "schema": {
               "$ref": "#/definitions/PaymentTerms"
             }
-          },
-          "400": {
-            "$ref": "#/responses/BadRequest"
           },
           "404": {
             "$ref": "#/responses/NotFound"
@@ -2715,9 +3219,6 @@
                 ]
               }
             }
-          },
-          "400": {
-            "$ref": "#/responses/BadRequest"
           },
           "404": {
             "$ref": "#/responses/NotFound"
@@ -2770,9 +3271,6 @@
               }
             }
           },
-          "400": {
-            "$ref": "#/responses/BadRequest"
-          },
           "404": {
             "$ref": "#/responses/NotFound"
           }
@@ -2808,7 +3306,28 @@
             }
           },
           "400": {
-            "$ref": "#/responses/BadRequest"
+            "description": "Ошибочные данные для токенизации",
+            "schema": {
+              "type": "object",
+              "required": [
+                "code",
+                "message"
+              ],
+              "properties": {
+                "code": {
+                  "description": "[Код ошибки](#tag/Error-Codes)\n",
+                  "type": "string",
+                  "enum": [
+                    "invalidRequest"
+                  ]
+                },
+                "message": {
+                  "description": "Человекочитаемое описание ошибки",
+                  "type": "string",
+                  "example": "Card data is invalid"
+                }
+              }
+            }
           }
         }
       }
@@ -2839,9 +3358,6 @@
             "schema": {
               "$ref": "#/definitions/Schedule"
             }
-          },
-          "400": {
-            "$ref": "#/responses/BadRequest"
           },
           "404": {
             "$ref": "#/responses/NotFound"
@@ -2981,7 +3497,28 @@
             }
           },
           "400": {
-            "$ref": "#/responses/BadRequest"
+            "description": "Ошибочные данные webhook'а",
+            "schema": {
+              "type": "object",
+              "required": [
+                "code",
+                "message"
+              ],
+              "properties": {
+                "code": {
+                  "description": "[Код ошибки](#tag/Error-Codes)\n",
+                  "type": "string",
+                  "enum": [
+                    "invalidShopID"
+                  ]
+                },
+                "message": {
+                  "description": "Человекочитаемое описание ошибки",
+                  "type": "string",
+                  "example": "Shop not found"
+                }
+              }
+            }
           }
         }
       },
@@ -3102,7 +3639,27 @@
             }
           },
           "400": {
-            "$ref": "#/responses/BadRequest"
+            "description": "Неверные данные запроса геопозиций",
+            "schema": {
+              "type": "object",
+              "required": [
+                "code",
+                "message"
+              ],
+              "properties": {
+                "code": {
+                  "description": "[Код ошибки](#tag/Error-Codes)\n",
+                  "type": "string",
+                  "enum": [
+                    "invalidRequest"
+                  ]
+                },
+                "message": {
+                  "description": "Человекочитаемое описание ошибки",
+                  "type": "string"
+                }
+              }
+            }
           }
         }
       }
@@ -3144,7 +3701,29 @@
             }
           },
           "400": {
-            "$ref": "#/responses/BadRequest"
+            "description": "Ошибочные данные для получения",
+            "schema": {
+              "type": "object",
+              "required": [
+                "code",
+                "message"
+              ],
+              "properties": {
+                "code": {
+                  "description": "[Код ошибки](#tag/Error-Codes)\n",
+                  "type": "string",
+                  "enum": [
+                    "limitExceeded",
+                    "invalidRequest"
+                  ]
+                },
+                "message": {
+                  "description": "Человекочитаемое описание ошибки",
+                  "type": "string",
+                  "example": "Max limit: 1000"
+                }
+              }
+            }
           }
         }
       }
@@ -3181,7 +3760,27 @@
             }
           },
           "400": {
-            "$ref": "#/responses/BadRequest"
+            "description": "Ошибочные данные для скачинвания",
+            "schema": {
+              "type": "object",
+              "required": [
+                "code",
+                "message"
+              ],
+              "properties": {
+                "code": {
+                  "description": "[Код ошибки](#tag/Error-Codes)\n",
+                  "type": "string",
+                  "enum": [
+                    "invalidRequest"
+                  ]
+                },
+                "message": {
+                  "description": "Человекочитаемое описание ошибки",
+                  "type": "string"
+                }
+              }
+            }
           },
           "404": {
             "$ref": "#/responses/NotFound"
@@ -3228,6 +3827,32 @@
           "pattern": "^[A-Z]{3}$"
         }
       }
+    },
+    "ApplePay": {
+      "type": "object",
+      "allOf": [
+        {
+          "$ref": "#/definitions/TokenizedCardData"
+        },
+        {
+          "type": "object",
+          "description": "Платежные данные Apple Pay",
+          "required": [
+            "merchantID",
+            "paymentToken"
+          ],
+          "properties": {
+            "merchantID": {
+              "description": "Идентификатор мерчанта в Apple Pay",
+              "type": "string"
+            },
+            "paymentToken": {
+              "description": "Совокупность открытых и зашифрованных платежных данных",
+              "type": "object"
+            }
+          }
+        }
+      ]
     },
     "ArticlesOfAssociation": {
       "description": "Устав организации",
@@ -3302,6 +3927,19 @@
                   "nspkmir"
                 ]
               }
+            },
+            "tokenProviders": {
+              "description": "Список провайдеров платежных токенов",
+              "type": "array",
+              "items": {
+                "description": "Провайдер платежных токенов",
+                "type": "string",
+                "enum": [
+                  "applepay",
+                  "googlepay",
+                  "samsungpay"
+                ]
+              }
             }
           }
         }
@@ -3315,6 +3953,16 @@
       "properties": {
         "cardNumberMask": {
           "description": "Маскированый номер карты",
+          "type": "string",
+          "pattern": "^\\d{6,8}\\*+\\d{2,4}$"
+        },
+        "bin": {
+          "description": "BIN банка-эмитента карты",
+          "type": "string",
+          "pattern": "^\\d{6,8}$"
+        },
+        "lastDigits": {
+          "description": "Последние цифры номера карты",
           "type": "string",
           "pattern": "^\\d{2,4}$"
         },
@@ -3354,6 +4002,15 @@
         "unionpay",
         "jcb",
         "nspkmir"
+      ]
+    },
+    "BankCardTokenProvider": {
+      "description": "Провайдер платежных токенов",
+      "type": "string",
+      "enum": [
+        "applepay",
+        "googlepay",
+        "samsungpay"
       ]
     },
     "BrowserGetRequest": {
@@ -5975,7 +6632,8 @@
           "enum": [
             "CardData",
             "PaymentTerminalData",
-            "DigitalWalletData"
+            "DigitalWalletData",
+            "TokenizedCardData"
           ]
         }
       },
@@ -6625,6 +7283,32 @@
         }
       ]
     },
+    "SamsungPay": {
+      "type": "object",
+      "allOf": [
+        {
+          "$ref": "#/definitions/TokenizedCardData"
+        },
+        {
+          "type": "object",
+          "description": "Платежные данные Samsung Pay",
+          "required": [
+            "serviceID",
+            "referenceID"
+          ],
+          "properties": {
+            "serviceID": {
+              "description": "Идентификатор сервиса в Samsung Pay",
+              "type": "string"
+            },
+            "referenceID": {
+              "description": "Идентификатор токена в Samsung Pay",
+              "type": "string"
+            }
+          }
+        }
+      ]
+    },
     "Schedule": {
       "description": "Расписание",
       "type": "object",
@@ -7022,6 +7706,31 @@
               "type": "string"
             }
           }
+        }
+      ]
+    },
+    "TokenizedCardData": {
+      "type": "object",
+      "allOf": [
+        {
+          "$ref": "#/definitions/PaymentTool"
+        },
+        {
+          "type": "object",
+          "description": "Токенизированная банковская карта",
+          "discriminator": "provider",
+          "properties": {
+            "provider": {
+              "type": "string",
+              "enum": [
+                "ApplePay",
+                "SamsungPay"
+              ]
+            }
+          },
+          "required": [
+            "provider"
+          ]
         }
       ]
     },
