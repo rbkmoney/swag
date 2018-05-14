@@ -17,7 +17,25 @@ post:
       description: Инвойс создан
       schema:
         $ref: '#/definitions/InvoiceAndToken'
-    '400':
-      $ref: '#/responses/BadRequest'
     '404':
       $ref: '#/responses/NotFound'
+    '400':
+      description: Ошибочные данные для создания инвойса
+      schema:
+        type: object
+        required:
+          - code
+          - message
+        properties:
+          code:
+            description: |
+              [Код ошибки](#tag/Error-Codes)
+            type: string
+            enum:
+              - invalidPartyStatus
+              - invalidShopStatus
+              - invalidRequest
+          message:
+            description: Человекочитаемое описание ошибки
+            type: string
+            example: Invalid party status
