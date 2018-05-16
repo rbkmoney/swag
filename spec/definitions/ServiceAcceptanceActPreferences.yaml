@@ -1,0 +1,12 @@
+description: Настройки выгрузки актов
+type: object
+required:
+  - scheduleID
+  - signer
+properties:
+  scheduleID:
+    description: Идентификатор расписания выгрузок
+    type: integer
+    format: int32
+  signer:
+    $ref: '#/definitions/Representative'
