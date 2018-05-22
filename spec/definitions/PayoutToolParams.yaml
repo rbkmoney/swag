@@ -1,10 +1,10 @@
 type: object
+discriminator: paramsType
 required:
   - currency
-  - details
 properties:
   currency:
     description: Валюта, в которой производится вывод
     type: string
-  details:
-    $ref: '#/definitions/PayoutToolDetails'
+  paramsType:
+    type: string
