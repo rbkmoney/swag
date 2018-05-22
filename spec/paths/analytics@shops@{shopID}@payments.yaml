@@ -86,6 +86,22 @@ get:
       type: string
       maxLength: 40
       minLength: 1
+    - x-rebillyMerge:
+      - name: bankCardTokenProvider
+        in: query
+        required: false
+      - $ref: '#/definitions/BankCardTokenProvider'
+    - x-rebillyMerge:
+      - name: bankCardPaymentSystem
+        in: query
+        required: false
+      - $ref: '#/definitions/BankCardPaymentSystem'
+    - name: bin
+      in: query
+      description: BIN банка-эмитента карты
+      required: false
+      type: string
+      pattern: '^\d{6,8}$'
     - name: cardNumberMask
       in: query
       description: Маскированый номер карты
