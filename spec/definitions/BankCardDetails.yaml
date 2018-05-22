@@ -17,3 +17,6 @@ properties:
   paymentSystem:
     x-rebillyMerge:
       - $ref: '#/definitions/BankCardPaymentSystem'
+  tokenProvider:
+    x-rebillyMerge:
+      - $ref: '#/definitions/BankCardTokenProvider'
