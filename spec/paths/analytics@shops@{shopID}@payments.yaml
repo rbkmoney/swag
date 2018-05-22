@@ -92,33 +92,16 @@ get:
       required: false
       type: string
       pattern: '^\d{2,4}$'
-    - name: bankCardTokenProvider
-      in: query
-      description: Провайдер платежных токенов
-      required: false
-      type: string
-      enum:
-        - applepay
-        - googlepay
-        - samsungpay
-    - name: bankCardPaymentSystem
-      in: query
-      description: Платежная система
-      required: false
-      type: string
-      enum:
-        - visa
-        - mastercard
-        - visaelectron
-        - maestro
-        - forbrugsforeningen
-        - dankort
-        - amex
-        - dinersclub
-        - discover
-        - unionpay
-        - jcb
-        - nspkmir
+    - x-rebillyMerge:
+      - name: bankCardTokenProvider
+        in: query
+        required: false
+      - $ref: '#/definitions/BankCardTokenProvider'
+    - x-rebillyMerge:
+      - name: bankCardPaymentSystem
+        in: query
+        required: false
+      - $ref: '#/definitions/BankCardPaymentSystem'
     - name: paymentAmount
       in: query
       description: Сумма платежа
