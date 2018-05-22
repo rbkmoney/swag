@@ -1,0 +1,28 @@
+post:
+  description: Создать выплату
+  tags:
+    - Payouts
+  operationId: createPayout
+  parameters:
+    - $ref: '#/parameters/requestID'
+    - $ref: '#/parameters/shopID'
+    - name: payoutParams
+      description: Параметры создаваемой выплаты
+      in: body
+      required: true
+      schema:
+        $ref: '#/definitions/PayoutParams'
+  responses:
+    '201':
+      description: Выплата создана
+      schema:
+        type: object
+        required:
+          - payoutID
+        properties:
+          payoutID:
+            description: Идентификатор выплаты
+            type: integer
+            format: int64
+    '400':
+      $ref: '#/responses/BadRequest'

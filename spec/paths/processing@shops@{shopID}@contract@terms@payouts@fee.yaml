@@ -1,0 +1,62 @@
+get:
+  description: Pассчитать сумму комиссии на выплату
+  tags:
+    - Payouts
+  operationId: calculatePayoutFee
+  parameters:
+    - $ref: '#/parameters/requestID'
+    - $ref: '#/parameters/shopID'
+    - name: payoutType
+      description: Тип выплаты
+      in: query
+      type: string
+      enum:
+        - cardPayout
+      required: true
+    - name: token
+      description: Токен средства вывода
+      in: query
+      type: string
+      maxLength: 1000
+      required: true
+    - name: amount
+      description: |
+        Сумма выплаты в минорных денежных единицах,
+        например в копейках в случае указания российских рублей в качестве валюты.
+      in: query
+      type: integer
+      format: int64
+      minimum: 1
+      required: true
+    - name: currency
+      description: |
+        Валюта, символьный код согласно
+        [ISO 4217](http://www.iso.org/iso/home/standards/currency_codes.htm).
+      in: query
+      type: string
+      pattern: '^[A-Z]{3}$'
+      required: true
+  responses:
+    '200':
+      description: Сумма комиссии на выплату
+      schema:
+        type: object
+        required:
+          - amount
+          - currency
+        properties:
+          amount:
+            description: |
+              Сумма комиссии на выплату в минорных денежных единицах,
+              например в копейках в случае указания российских рублей в качестве валюты.
+            type: integer
+            format: int64
+            minimum: 1
+          currency:
+            description: |
+              Валюта, символьный код согласно
+              [ISO 4217](http://www.iso.org/iso/home/standards/currency_codes.htm).
+            type: string
+            pattern: '^[A-Z]{3}$'
+    '400':
+      $ref: '#/responses/BadRequest'

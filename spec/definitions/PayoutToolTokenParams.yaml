@@ -1,0 +1,13 @@
+type: object
+required:
+  - payoutTool
+properties:
+  payoutTool:
+    type: object
+    required:
+      - cardNumber
+    properties:
+      cardNumber:
+        description: Номер банковской карты
+        type: string
+        pattern: '^\d{12,19}$'
