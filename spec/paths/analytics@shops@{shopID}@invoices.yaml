@@ -112,9 +112,9 @@ get:
       required: false
       type: string
       pattern: '^\d{6,8}$'
-    - name: lastDigits
+    - name: cardNumberMask
       in: query
-      description: Последние цифры номера карты
+      description: Маскированый номер карты
       required: false
       type: string
       pattern: '^\d{2,4}$'
