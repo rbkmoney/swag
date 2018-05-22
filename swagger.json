@@ -634,6 +634,47 @@
             "minLength": 1
           },
           {
+            "name": "bankCardTokenProvider",
+            "in": "query",
+            "required": false,
+            "description": "Провайдер платежных токенов",
+            "type": "string",
+            "enum": [
+              "applepay",
+              "googlepay",
+              "samsungpay"
+            ]
+          },
+          {
+            "name": "bankCardPaymentSystem",
+            "in": "query",
+            "required": false,
+            "description": "Платежная система",
+            "type": "string",
+            "enum": [
+              "visa",
+              "mastercard",
+              "visaelectron",
+              "maestro",
+              "forbrugsforeningen",
+              "dankort",
+              "amex",
+              "dinersclub",
+              "discover",
+              "unionpay",
+              "jcb",
+              "nspkmir"
+            ]
+          },
+          {
+            "name": "bin",
+            "in": "query",
+            "description": "BIN банка-эмитента карты",
+            "required": false,
+            "type": "string",
+            "pattern": "^\\d{6,8}$"
+          },
+          {
             "name": "lastDigits",
             "in": "query",
             "description": "Последние цифры номера карты",
@@ -834,12 +875,53 @@
             "minLength": 1
           },
           {
-            "name": "cardNumberMask",
+            "name": "bin",
             "in": "query",
-            "description": "Маскированый номер карты",
+            "description": "BIN банка-эмитента карты",
+            "required": false,
+            "type": "string",
+            "pattern": "^\\d{6,8}$"
+          },
+          {
+            "name": "lastDigits",
+            "in": "query",
+            "description": "Последние цифры номера карты",
             "required": false,
             "type": "string",
             "pattern": "^\\d{2,4}$"
+          },
+          {
+            "name": "bankCardTokenProvider",
+            "in": "query",
+            "required": false,
+            "description": "Провайдер платежных токенов",
+            "type": "string",
+            "enum": [
+              "applepay",
+              "googlepay",
+              "samsungpay"
+            ]
+          },
+          {
+            "name": "bankCardPaymentSystem",
+            "in": "query",
+            "required": false,
+            "description": "Платежная система",
+            "type": "string",
+            "enum": [
+              "visa",
+              "mastercard",
+              "visaelectron",
+              "maestro",
+              "forbrugsforeningen",
+              "dankort",
+              "amex",
+              "dinersclub",
+              "discover",
+              "unionpay",
+              "jcb",
+              "nspkmir"
+            ]
           },
           {
             "name": "paymentAmount",
@@ -6452,6 +6534,10 @@
           "properties": {
             "id": {
               "description": "Идентификатор платежа",
+              "type": "string"
+            },
+            "shortID": {
+              "description": "Cокращенный идентификатор платежа и инвойса (spid)",
               "type": "string"
             },
             "invoiceID": {
