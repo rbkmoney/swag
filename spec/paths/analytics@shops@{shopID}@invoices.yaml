@@ -111,7 +111,7 @@ get:
       description: BIN банка-эмитента карты
       required: false
       type: string
-      pattern: '^\d{6,8}\*+\d{2,4}$'
+      pattern: '^\d{6,8}$'
     - name: lastDigits
       in: query
       description: Последние цифры номера карты
