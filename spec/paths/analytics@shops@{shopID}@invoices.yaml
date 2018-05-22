@@ -106,21 +106,18 @@ get:
         in: query
         required: false
       - $ref: '#/definitions/BankCardPaymentSystem'
+    - name: bin
+      in: query
+      description: BIN банка-эмитента карты
+      required: false
+      type: string
+      pattern: '^\d{6,8}\*+\d{2,4}$'
     - name: lastDigits
       in: query
       description: Последние цифры номера карты
       required: false
       type: string
       pattern: '^\d{2,4}$'
-
-# ToDo: add as soon as magista has the implementation
-#    - name: bin
-#      in: query
-#      description: BIN банка-эмитента карты
-#      required: false
-#      type: string
-#      pattern: '^\d{6,8}\*+\d{2,4}$'
-
     - name: paymentAmount
       in: query
       description: Сумма платежа
