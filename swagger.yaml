@@ -2873,6 +2873,13 @@ definitions:
           - unionpay
           - jcb
           - nspkmir
+      tokenProvider:
+        description: Провайдер платежных токенов
+        type: string
+        enum:
+          - applepay
+          - googlepay
+          - samsungpay
   BankCardPaymentSystem:
     description: Платежная система
     type: string
