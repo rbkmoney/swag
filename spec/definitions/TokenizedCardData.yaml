@@ -9,6 +9,7 @@ allOf:
         type: string
         enum:
           - ApplePay
+          - GooglePay
           - SamsungPay
     required:
       - provider
