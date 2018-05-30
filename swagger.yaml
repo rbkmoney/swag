@@ -3733,6 +3733,22 @@ definitions:
       countryGeoID:
         type: integer
         format: int32
+  GooglePay:
+    type: object
+    allOf:
+      - $ref: '#/definitions/TokenizedCardData'
+      - type: object
+        description: Платежные данные Google Pay
+        required:
+          - merchantID
+          - paymentToken
+        properties:
+          merchantID:
+            description: Идентификатор мерчанта в Google Pay
+            type: string
+          paymentToken:
+            description: Совокупность открытых и зашифрованных платежных данных
+            type: object
   InternationalBankAccount:
     description: Данные международного банковского счета
     type: object
@@ -5701,6 +5717,7 @@ definitions:
             type: string
             enum:
               - ApplePay
+              - GooglePay
               - SamsungPay
         required:
           - provider
