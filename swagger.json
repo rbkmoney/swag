@@ -5123,12 +5123,12 @@
           "type": "object",
           "description": "Платежные данные Google Pay",
           "required": [
-            "merchantID",
+            "gatewayMerchantID",
             "paymentToken"
           ],
           "properties": {
-            "merchantID": {
-              "description": "Идентификатор мерчанта в Google Pay",
+            "gatewayMerchantID": {
+              "description": "Идентификатор мерчанта в системе RBKmoney",
               "type": "string"
             },
             "paymentToken": {
