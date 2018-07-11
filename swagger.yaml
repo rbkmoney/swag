@@ -703,7 +703,6 @@ paths:
         - $ref: '#/parameters/fromTime'
         - $ref: '#/parameters/toTime'
         - $ref: '#/parameters/limit'
-        - $ref: '#/parameters/offset'
         - name: invoiceStatus
           in: query
           description: Статус инвойса для поиска
@@ -843,14 +842,26 @@ paths:
           type: integer
           format: int64
           minimum: 1
+        - name: continuationToken
+          in: query
+          required: false
+          description: |
+            Токен, сигнализирующий о том, что в ответе передана только часть данных.
+            Для получения следующей части нужно повторно обратиться к сервису, указав тот-же набор условий и полученый токен.
+            Если токена нет, получена последняя часть данных.
+          type: string
       responses:
         '200':
           description: Найденные инвойсы
           schema:
             type: object
             properties:
-              totalCount:
-                type: integer
+              continuationToken:
+                description: |
+                  Токен, сигнализирующий о том, что в ответе передана только часть данных.
+                  Для получения следующей части нужно повторно обратиться к сервису, указав тот-же набор условий и полученый токен.
+                  Если токена нет, получена последняя часть данных.
+                type: string
               result:
                 type: array
                 items:
@@ -886,7 +897,6 @@ paths:
         - $ref: '#/parameters/fromTime'
         - $ref: '#/parameters/toTime'
         - $ref: '#/parameters/limit'
-        - $ref: '#/parameters/offset'
         - name: paymentStatus
           in: query
           description: Статус платежа для поиска
@@ -1009,14 +1019,26 @@ paths:
           type: integer
           format: int64
           minimum: 1
+        - name: continuationToken
+          in: query
+          required: false
+          description: |
+            Токен, сигнализирующий о том, что в ответе передана только часть данных.
+            Для получения следующей части нужно повторно обратиться к сервису, указав тот-же набор условий и полученый токен.
+            Если токена нет, получена последняя часть данных.
+          type: string
       responses:
         '200':
           description: Найденные платежи
           schema:
             type: object
             properties:
-              totalCount:
-                type: integer
+              continuationToken:
+                description: |
+                  Токен, сигнализирующий о том, что в ответе передана только часть данных.
+                  Для получения следующей части нужно повторно обратиться к сервису, указав тот-же набор условий и полученый токен.
+                  Если токена нет, получена последняя часть данных.
+                type: string
               result:
                 type: array
                 items:
@@ -3232,6 +3254,12 @@ definitions:
           [E.164](https://en.wikipedia.org/wiki/E.164).
         type: string
         format: '^\+\d{4,15}$'
+  ContinuationToken:
+    description: |
+      Токен, сигнализирующий о том, что в ответе передана только часть данных.
+      Для получения следующей части нужно повторно обратиться к сервису, указав тот-же набор условий и полученый токен.
+      Если токена нет, получена последняя часть данных.
+    type: string
   Contract:
     description: Данные договора с участником
     type: object
@@ -4827,6 +4855,10 @@ definitions:
           metadata:
             description: Связанные с платежом метаданные
             type: object
+          statusChangedAt:
+            description: Дата и время изменения статуса платежа
+            type: string
+            format: date-time
   PaymentStarted:
     type: object
     allOf:
