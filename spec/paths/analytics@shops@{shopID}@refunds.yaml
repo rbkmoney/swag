@@ -50,7 +50,7 @@ get:
           result:
             type: array
             items:
-              $ref: '#/definitions/Refund'
+              $ref: '#/definitions/RefundSearchResult'
     '404':
       $ref: '#/responses/NotFound'
     '400':
