@@ -1,0 +1,11 @@
+type: object
+description: Рекуррентный токен
+allOf:
+  - $ref: '#/definitions/Payer'
+  - type: object
+    required:
+      - recurrentToken
+    properties:
+      recurrentToken:
+        x-rebillyMerge:
+          - $ref: '#/definitions/RecurrentToken'

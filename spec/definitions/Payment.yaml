@@ -37,4 +37,7 @@ allOf:
         $ref: '#/definitions/PaymentFlow'
       payer:
         $ref: '#/definitions/Payer'
+      recurrentToken:
+        x-rebillyMerge:
+          - $ref: '#/definitions/RecurrentToken'
   - $ref: '#/definitions/PaymentStatus'

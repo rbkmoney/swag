@@ -1,8 +1,8 @@
 type: object
+description: Многоразовое платежное средство
 allOf:
   - $ref: '#/definitions/Payer'
   - type: object
-    description: Многоразовое платежное средство
     required:
       - customerID
     properties:
