@@ -1,0 +1,14 @@
+type: object
+allOf:
+  - type: object
+    required:
+      - invoiceID
+      - paymentID
+    properties:
+      invoiceID:
+        description: Идентификатор инвойса
+        type: string
+      paymentID:
+        description: Идентификатор платежа
+        type: string
+  - $ref: '#/definitions/Refund'
