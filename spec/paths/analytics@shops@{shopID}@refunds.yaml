@@ -1,0 +1,72 @@
+get:
+  description: Поиск возвратов
+  tags:
+    - Search
+  operationId: searchRefunds
+  parameters:
+    - $ref: '#/parameters/requestID'
+    - $ref: '#/parameters/shopID'
+    - $ref: '#/parameters/fromTime'
+    - $ref: '#/parameters/toTime'
+    - $ref: '#/parameters/limit'
+    - $ref: '#/parameters/offset'
+    - name: invoiceID
+      in: query
+      description: Идентификатор инвойса
+      required: false
+      type: string
+      maxLength: 40
+      minLength: 1
+    - name: paymentID
+      in: query
+      description: Идентификатор платежа
+      required: false
+      type: string
+      maxLength: 40
+      minLength: 1
+    - name: refundID
+      in: query
+      description: Идентификатор возврата
+      required: false
+      type: string
+      maxLength: 40
+      minLength: 1
+    - name: refundStatus
+      in: query
+      description: Статус возврата
+      type: string
+      enum:
+        - pending
+        - succeeded
+        - failed
+  responses:
+    '200':
+      description: Найденные возвраты
+      schema:
+        type: object
+        properties:
+          totalCount:
+            type: integer
+          result:
+            type: array
+            items:
+              $ref: '#/definitions/RefundSearchResult'
+    '404':
+      $ref: '#/responses/NotFound'
+    '400':
+      description: Неверные данные для поиска
+      schema:
+        type: object
+        required:
+          - code
+          - message
+        properties:
+          code:
+            description: |
+              [Код ошибки](#tag/Error-Codes)
+            type: string
+            enum:
+              - invalidRequest
+          message:
+            description: Человекочитаемое описание ошибки
+            type: string
