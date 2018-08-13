@@ -52,3 +52,7 @@ allOf:
       metadata:
         description: Связанные с платежом метаданные
         type: object
+      statusChangedAt:
+        description: Дата и время изменения статуса платежа
+        type: string
+        format: date-time
