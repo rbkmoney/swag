@@ -7,7 +7,3 @@ properties:
     $ref: '#/definitions/PaymentFlow'
   payer:
     $ref: '#/definitions/Payer'
-  isFirstRecurrent:
-    description: Признак первого платежа в серии рекуррентных
-    type: boolean
-    default: false

@@ -9,7 +9,7 @@ properties:
     type: string
     maxLength: 1000
   paymentSession:
-    description: Идентификатор платежной сессии
+    description: Идентификатор платежной или рекуррентной платежной сессии
     type: string
     maxLength: 1000
   paymentToolDetails:
