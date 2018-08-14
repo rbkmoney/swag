@@ -11,3 +11,4 @@ properties:
     enum:
       - PaymentFlowInstant
       - PaymentFlowHold
+      - PaymentFlowRecurrent
