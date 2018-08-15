@@ -37,8 +37,4 @@ allOf:
         $ref: '#/definitions/PaymentFlow'
       payer:
         $ref: '#/definitions/Payer'
-      recurrentSession:
-        description: Идентификатор рекуррентной платежной сессии
-        type: string
-        maxLength: 1000
   - $ref: '#/definitions/PaymentStatus'
