@@ -12,7 +12,7 @@ properties:
     description: Идентификатор платежной сессии
     type: string
     maxLength: 1000
-  recurrentSession:
+  recurringSession:
     description: Идентификатор рекуррентной сессии
     type: string
     maxLength: 1000

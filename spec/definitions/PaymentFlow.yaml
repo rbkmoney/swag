@@ -11,7 +11,7 @@ properties:
     enum:
       - PaymentFlowInstant
       - PaymentFlowHold
-  isRecurrent:
+  isRecurring:
     description: Признак выполнения рекуррентного платежа
     type: boolean
     default: false
