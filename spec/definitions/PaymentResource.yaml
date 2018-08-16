@@ -12,7 +12,8 @@ properties:
     type: string
     maxLength: 1000
   recurringSession:
-    description: Идентификатор рекуррентной сессии
+    description: |
+      Идентификатор рекуррентной сессии необходимый в случае проведения повторной авторизации
     type: string
     maxLength: 1000
   paymentToolDetails:
