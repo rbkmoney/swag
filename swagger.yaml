@@ -3073,7 +3073,7 @@ definitions:
         type: string
         maxLength: 1000
   ContactInfo:
-    description: Контактные данные плательщика
+    description: Контактные данные
     type: object
     properties:
       email:
@@ -3224,6 +3224,7 @@ definitions:
         type: string
         enum:
           - LegalEntity
+          - PrivateEntity
           - RegisteredUser
   ContractPayoutToolCreation:
     description: Создание инструмента вывода в рамках договора
@@ -4953,6 +4954,20 @@ definitions:
     allOf:
       - $ref: '#/definitions/RepresentativeDocument'
       - $ref: '#/definitions/LegalAgreement'
+  PrivateEntity:
+    description: Физическое лицо
+    allOf:
+      - $ref: '#/definitions/Contractor'
+      - type: object
+        discriminator: entityType
+        required:
+          - entityType
+        properties:
+          entityType:
+            description: Тип физ. лица
+            type: string
+            enum:
+              - RussianPrivateEntity
   Reason:
     type: object
     required:
@@ -5227,6 +5242,32 @@ definitions:
             maxLength: 1000
           bankAccount:
             $ref: '#/definitions/BankAccount'
+  RussianPrivateEntity:
+    description: Физическое лицо под юрисдикцией РФ
+    type: object
+    allOf:
+      - $ref: '#/definitions/PrivateEntity'
+      - type: object
+        required:
+          - firstName
+          - secondName
+          - middleName
+          - contactInfo
+        properties:
+          firstName:
+            description: Имя
+            type: string
+            maxLength: 200
+          secondName:
+            description: Фамилия
+            type: string
+            maxLength: 200
+          middleName:
+            description: Отчество
+            type: string
+            maxLength: 200
+          contactInfo:
+            $ref: '#/definitions/ContactInfo'
   SamsungPay:
     type: object
     allOf:

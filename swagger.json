@@ -4349,7 +4349,7 @@
       }
     },
     "ContactInfo": {
-      "description": "Контактные данные плательщика",
+      "description": "Контактные данные",
       "type": "object",
       "properties": {
         "email": {
@@ -4562,6 +4562,7 @@
           "type": "string",
           "enum": [
             "LegalEntity",
+            "PrivateEntity",
             "RegisteredUser"
           ]
         }
@@ -7030,6 +7031,30 @@
         }
       ]
     },
+    "PrivateEntity": {
+      "description": "Физическое лицо",
+      "allOf": [
+        {
+          "$ref": "#/definitions/Contractor"
+        },
+        {
+          "type": "object",
+          "discriminator": "entityType",
+          "required": [
+            "entityType"
+          ],
+          "properties": {
+            "entityType": {
+              "description": "Тип физ. лица",
+              "type": "string",
+              "enum": [
+                "RussianPrivateEntity"
+              ]
+            }
+          }
+        }
+      ]
+    },
     "Reason": {
       "type": "object",
       "required": [
@@ -7399,6 +7424,44 @@
             },
             "bankAccount": {
               "$ref": "#/definitions/BankAccount"
+            }
+          }
+        }
+      ]
+    },
+    "RussianPrivateEntity": {
+      "description": "Физическое лицо под юрисдикцией РФ",
+      "type": "object",
+      "allOf": [
+        {
+          "$ref": "#/definitions/PrivateEntity"
+        },
+        {
+          "type": "object",
+          "required": [
+            "firstName",
+            "secondName",
+            "middleName",
+            "contactInfo"
+          ],
+          "properties": {
+            "firstName": {
+              "description": "Имя",
+              "type": "string",
+              "maxLength": 200
+            },
+            "secondName": {
+              "description": "Фамилия",
+              "type": "string",
+              "maxLength": 200
+            },
+            "middleName": {
+              "description": "Отчество",
+              "type": "string",
+              "maxLength": 200
+            },
+            "contactInfo": {
+              "$ref": "#/definitions/ContactInfo"
             }
           }
         }
