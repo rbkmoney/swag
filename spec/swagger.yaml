@@ -48,7 +48,7 @@ info:
       2017-01-01T00:00:00Z
       2017-01-01T00:00:01+00:00
     ```
-  termsOfService: 'http://rbkmoney.com/'
+  termsOfService: 'https://rbk.money/'
   contact:
     name: RBKmoney support team
     email: support@rbk.money
@@ -71,11 +71,11 @@ securityDefinitions:
       Cоответствующий ключ передается в заголовке.
 
       ```shell
-       Authorization: Bearer {TOKENIZATION|PRIVATE_JWT}
+       Authorization: Bearer {JWT}
       ```
 
       Посмотреть ваш API-ключ вы можете в [личном
-      кабинете](https://dashboard.rbk.money/api/key).
+      кабинете](https://dashboard.rbk.money/).
 
 
       Ключи не разделяются на тестовые и боевые, ваш API ключ открывает доступ
