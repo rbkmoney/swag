@@ -11,3 +11,9 @@ properties:
     enum:
       - PaymentFlowInstant
       - PaymentFlowHold
+  isRecurring:
+    description: |
+      Признак выполнения рекуррентного платежа.
+      В случае успешного проведения платежа с этим признаком будет сформирован идентификатор рекуррентной сессии
+    type: boolean
+    default: false
