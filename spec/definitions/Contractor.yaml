@@ -9,4 +9,5 @@ properties:
     type: string
     enum:
       - LegalEntity
+      - PrivateEntity
       - RegisteredUser
