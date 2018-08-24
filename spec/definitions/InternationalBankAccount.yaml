@@ -1,16 +1,27 @@
 description: Данные международного банковского счета
 type: object
 required:
-  - accountHolder
-  - bankName
-  - bankAddress
   - iban
+  - accountHolder
   - bic
+  - bankName
 properties:
+  iban:
+    description: |
+      International Bank Account Number [ISO 13616](https://en.wikipedia.org/wiki/International_Bank_Account_Number)
+    type: string
+    pattern: '^[A-Z0-9]{14,35}$'
+    example: "GR1601101250000000012300695"
   accountHolder:
     description: Держатель счёта
     type: string
     maxLength: 100
+  bic:
+    description: |
+      Business Identifier Code [ISO 9362](https://en.wikipedia.org/wiki/ISO_9362)
+    type: string
+    pattern: '^([A-Z0-9]{8}|[A-Z0-9]{11})$'
+    example: "DEUTDEFF500"
   bankName:
     description: Наименование юридического лица банковской организации
     type: string
@@ -19,19 +30,3 @@ properties:
     description: Адрес юридического лица банковской организации
     type: string
     maxLength: 150
-  iban:
-    description: |
-      International Bank Account Number [ISO 13616](https://en.wikipedia.org/wiki/International_Bank_Account_Number)
-    type: string
-    pattern: '^[A-Z0-9]{3,34}$'
-    example: "GR1601101250000000012300695"
-  bic:
-    description: |
-      Business Identifier Code [ISO 9362](https://en.wikipedia.org/wiki/ISO_9362)
-    type: string
-    pattern: '^([A-Z0-9]{8}|[A-Z0-9]{11})$'
-    example: "DEUTDEFF500"
-  localBankCode:
-    description: Национальный код банка
-    type: string
-    maxLength: 100
