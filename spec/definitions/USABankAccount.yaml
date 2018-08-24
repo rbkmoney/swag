@@ -1,0 +1,39 @@
+description: Данные банковского счета в банковской системе США
+type: object
+required:
+  - account
+  - accountHolder
+  - bic
+  - bankName
+properties:
+  account:
+    description: |
+      Номер счёта
+    type: string
+    pattern: '^[0-9]{9,100}$'
+    example: "123006951"
+  accountHolder:
+    description: Держатель счёта
+    type: string
+    maxLength: 100
+  bic:
+    description: |
+      Business Identifier Code [ISO 9362](https://en.wikipedia.org/wiki/ISO_9362)
+    type: string
+    pattern: '^([A-Z0-9]{8}|[A-Z0-9]{11})$'
+    example: "BOFAUS3N"
+  abaRtn:
+    description: |
+      [ABA Routing Transit Number](https://en.wikipedia.org/wiki/ABA_routing_transit_number)
+      банковской организации
+    type: string
+    pattern: '^[0-9]{9}$'
+    example: "129131673"
+  bankName:
+    description: Наименование юридического лица банковской организации
+    type: string
+    maxLength: 100
+  bankAddress:
+    description: Адрес юридического лица банковской организации
+    type: string
+    maxLength: 150
