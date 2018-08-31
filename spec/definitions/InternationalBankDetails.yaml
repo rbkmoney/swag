@@ -28,9 +28,11 @@ properties:
     example: |
       RAIFFEISEN BANK INTERNATIONAL AG
   countryCode:
-    description: |
-      Страна резиденции банковской организации,
-      alpha-2 код по стандарту [ISO 3166-1](https://en.wikipedia.org/wiki/ISO_3166-1)
+    x-rebillyMerge:
+      - $ref: '#/definitions/Residence'
+      - description: |
+          Страна резиденции банковской организации,
+          alpha-3 код по стандарту [ISO 3166-1](https://en.wikipedia.org/wiki/ISO_3166-1)
     type: string
     # readOnly: true
     pattern: '^[A-Z]{2}$'
