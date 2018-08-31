@@ -22,6 +22,7 @@ properties:
   name:
     description: Наименование юридического лица банковской организации
     type: string
+    # TODO
     # readOnly: true
     maxLength: 100
     example: |
@@ -38,6 +39,6 @@ properties:
     description: Адрес юридического лица банковской организации
     type: string
     # readOnly: true
-    maxLength: 150
+    maxLength: 1000
     example: |
       1030, VIENNA, AM STADTPARK 9
