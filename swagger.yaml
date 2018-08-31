@@ -3908,12 +3908,12 @@ definitions:
         example: |
           RAIFFEISEN BANK INTERNATIONAL AG
       countryCode:
+        type: string
+        pattern: '^[A-Z]{3}$'
+        example: RUS
         description: |
           Страна резиденции банковской организации,
-          alpha-2 код по стандарту [ISO 3166-1](https://en.wikipedia.org/wiki/ISO_3166-1)
-        type: string
-        pattern: '^[A-Z]{2}$'
-        example: AT
+          alpha-3 код по стандарту [ISO 3166-1](https://en.wikipedia.org/wiki/ISO_3166-1)
       address:
         description: Адрес юридического лица банковской организации
         type: string
