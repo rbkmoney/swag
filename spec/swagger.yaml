@@ -627,7 +627,8 @@ tags:
         | **invalidPaymentStatus**         | Неверный [статус платежа](#tag/Payments). Например, при попытке [подтвердить](#operation/capturePayment) неуспешный платёж.           |
         | **invalidPaymentResource**       | Не поддерживаемый системой или не подключенный в рамках действующего договора платежный инструмент.                                   |
         | **invalidPaymentToolToken**      | Неверное содержимое токена платёжного инструмента.                                                                                    |
-        | **invalidPaymentSession**        | Неверные содержимое платёжной сессии.                                                                                                 |
+        | **invalidPaymentSession**        | Невернoе содержимое платёжной сессии.                                                                                                 |
+        | **invalidRecurringSession**      | Невернoе содержимое рекуррентной сессии.                                                                                              |
         | **insufficentAccountBalance**    | Недостаточный объём денежных средств на счёте магазина, например, для проведения возврата.                                            |
         | **invoicePaymentAmountExceeded** | Попытка возврата сверх суммы платежа.                                                                                                 |
         | **inconsistentRefundCurrency**   | Попытка возврата средств в валюте, отличной от валюты платежа.                                                                        |

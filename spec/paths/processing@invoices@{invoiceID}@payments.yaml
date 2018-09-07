@@ -57,6 +57,7 @@ post:
               - invalidShopStatus
               - invalidPaymentToolToken
               - invalidPaymentSession
+              - invalidRecurringSession
           message:
             description: Человекочитаемое описание ошибки
             type: string
