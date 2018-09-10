@@ -21,4 +21,5 @@ allOf:
           - ContractLegalAgreementBinding
           - ContractAdjustmentCreation
           - ContractPayoutToolCreation
+          - ContractPayoutToolInfoModification
           - ContractReportingPreferencesChange
