@@ -12,5 +12,5 @@ allOf:
         type: string
         maxLength: 40
         minLength: 1
-    details:
-      $ref: '#/definitions/PayoutToolDetails'
+      details:
+        $ref: '#/definitions/PayoutToolDetails'
