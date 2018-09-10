@@ -37,9 +37,12 @@ allOf:
         $ref: '#/definitions/PaymentFlow'
       payer:
         $ref: '#/definitions/Payer'
-      generatedRecurringSession:
-        description: |
-          Идентификатор рекуррентной сессии необходимый в случае проведения повторной авторизации
-        type: string
-        maxLength: 1000
+      makeRecurrent:
+        x-rebillyMerge:
+          - $ref: '#/definitions/PaymentMakeRecurrent'
+          - readOnly: true
+      recurrentPaymentSource:
+        allOf:
+          - $ref: '#/definitions/PaymentRecurrentSource'
+          - readOnly: true
   - $ref: '#/definitions/PaymentStatus'
