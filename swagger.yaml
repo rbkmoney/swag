@@ -3458,6 +3458,7 @@ definitions:
               - ContractLegalAgreementBinding
               - ContractAdjustmentCreation
               - ContractPayoutToolCreation
+              - ContractPayoutToolInfoModification
               - ContractReportingPreferencesChange
   Contractor:
     description: 'Данные лица, выступающего стороной договора'
@@ -3489,6 +3490,23 @@ definitions:
                 maxLength: 40
                 minLength: 1
           - $ref: '#/definitions/PayoutToolParams'
+  ContractPayoutToolInfoModification:
+    description: Изменение информации об инструменте вывода в рамках договора
+    type: object
+    allOf:
+      - $ref: '#/definitions/ContractModification'
+      - type: object
+        required:
+          - payoutToolID
+          - details
+        properties:
+          payoutToolID:
+            description: Идентификатор средства вывода
+            type: string
+            maxLength: 40
+            minLength: 1
+          details:
+            $ref: '#/definitions/PayoutToolDetails'
   ContractReportingPreferencesChange:
     description: Изменение настроек выгрузки автоматической отчетности
     type: object

@@ -4656,6 +4656,7 @@
                 "ContractLegalAgreementBinding",
                 "ContractAdjustmentCreation",
                 "ContractPayoutToolCreation",
+                "ContractPayoutToolInfoModification",
                 "ContractReportingPreferencesChange"
               ]
             }
@@ -4709,6 +4710,33 @@
               "$ref": "#/definitions/PayoutToolParams"
             }
           ]
+        }
+      ]
+    },
+    "ContractPayoutToolInfoModification": {
+      "description": "Изменение информации об инструменте вывода в рамках договора",
+      "type": "object",
+      "allOf": [
+        {
+          "$ref": "#/definitions/ContractModification"
+        },
+        {
+          "type": "object",
+          "required": [
+            "payoutToolID",
+            "details"
+          ],
+          "properties": {
+            "payoutToolID": {
+              "description": "Идентификатор средства вывода",
+              "type": "string",
+              "maxLength": 40,
+              "minLength": 1
+            },
+            "details": {
+              "$ref": "#/definitions/PayoutToolDetails"
+            }
+          }
         }
       ]
     },
