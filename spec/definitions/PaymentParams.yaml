@@ -7,3 +7,6 @@ properties:
     $ref: '#/definitions/PaymentFlow'
   payer:
     $ref: '#/definitions/Payer'
+  makeRecurrent:
+    x-rebillyMerge:
+      - $ref: '#/definitions/PaymentMakeRecurrent'
