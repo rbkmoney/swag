@@ -58,6 +58,7 @@ post:
               - invalidPaymentToolToken
               - invalidPaymentSession
               - invalidRecurrentSource
+              - operationNotPermitted
           message:
             description: Человекочитаемое описание ошибки
             type: string
