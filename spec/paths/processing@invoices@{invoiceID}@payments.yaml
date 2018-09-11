@@ -57,7 +57,7 @@ post:
               - invalidShopStatus
               - invalidPaymentToolToken
               - invalidPaymentSession
-              - invalidRecurrentSource
+              - invalidRecurrentParrent
               - operationNotPermitted
           message:
             description: Человекочитаемое описание ошибки

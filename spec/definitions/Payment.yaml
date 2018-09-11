@@ -41,8 +41,8 @@ allOf:
         x-rebillyMerge:
           - $ref: '#/definitions/PaymentMakeRecurrent'
           - readOnly: true
-      recurrentPaymentSource:
+      recurrentParrentPayment:
         allOf:
-          - $ref: '#/definitions/PaymentRecurrentSource'
+          - $ref: '#/definitions/PaymentRecurrentParrent'
           - readOnly: true
   - $ref: '#/definitions/PaymentStatus'
