@@ -11,8 +11,8 @@ properties:
     description: Идентификатор платежной сессии
     type: string
     maxLength: 1000
-  recurrentParrentPayment:
-    $ref: '#/definitions/PaymentRecurrentParrent'
+  recurrentParentPayment:
+    $ref: '#/definitions/PaymentRecurrentParent'
   paymentToolDetails:
     $ref: '#/definitions/PaymentToolDetails'
   clientInfo:
