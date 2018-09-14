@@ -3894,9 +3894,7 @@ definitions:
       bankDetails:
         $ref: '#/definitions/InternationalBankDetails'
       correspondentBankAccount:
-        allOf:
-          - description: Данные корреспондентского счёта указанного банка
-          - $ref: '#/definitions/InternationalBankAccount'
+        $ref: '#/definitions/InternationalCorrespondentBankAccount'
   InternationalBankDetails:
     description: Данные международной банковской организации
     type: object
@@ -3938,6 +3936,10 @@ definitions:
         maxLength: 1000
         example: |
           1030, VIENNA, AM STADTPARK 9
+  InternationalCorrespondentBankAccount:
+    allOf:
+      - description: Данные корреспондентского счёта указанного банка
+      - $ref: '#/definitions/InternationalBankAccount'
   InternationalLegalEntity:
     description: Международное юридическое лицо
     type: object
@@ -4872,9 +4874,22 @@ definitions:
       paymentToolDetails:
         $ref: '#/definitions/PaymentToolDetails'
       clientInfo:
-        allOf:
-          - $ref: '#/definitions/ClientInfo'
-          - readOnly: true
+        description: Данные клиентского устройства плательщика
+        type: object
+        required:
+          - fingerprint
+        properties:
+          ip:
+            description: IP-адрес плательщика
+            type: string
+            format: ip-address
+            maxLength: 45
+            readOnly: true
+          fingerprint:
+            description: Уникальный отпечаток user agent'а плательщика
+            type: string
+            maxLength: 1000
+        readOnly: true
   PaymentResourceParams:
     type: object
     required:
