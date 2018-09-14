@@ -15,6 +15,6 @@ properties:
   paymentToolDetails:
     $ref: '#/definitions/PaymentToolDetails'
   clientInfo:
-    allOf:
+    x-rebillyMerge:
       - $ref: '#/definitions/ClientInfo'
       - readOnly: true
