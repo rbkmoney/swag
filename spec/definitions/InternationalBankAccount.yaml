@@ -18,6 +18,4 @@ properties:
   bankDetails:
     $ref: '#/definitions/InternationalBankDetails'
   correspondentBankAccount:
-    allOf:
-     - description: Данные корреспондентского счёта указанного банка
-     - $ref: '#/definitions/InternationalBankAccount'
+    $ref: '#/definitions/InternationalCorrespondentBankAccount'
