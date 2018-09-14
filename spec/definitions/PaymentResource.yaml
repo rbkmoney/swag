@@ -1,8 +1,8 @@
 type: object
 description: Данные одноразового платежного средства
 required:
-  - paymentToolToken
   - paymentSession
+  - paymentToolToken
 properties:
   paymentToolToken:
     description: Токен платежного средства, предоставленного плательщиком

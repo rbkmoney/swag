@@ -1,9 +1,13 @@
 type: object
-description: Данные платежного средства на основе другого платежа
-required:
-  - recurrentParentPayment
-properties:
-  recurrentParentPayment:
-    $ref: '#/definitions/PaymentRecurrentParent'
-  paymentToolDetails:
-    $ref: '#/definitions/PaymentToolDetails'
+description: Многоразовое платежное средство на основе другого платежа
+allOf:
+  - $ref: '#/definitions/Payer'
+  - type: object
+    required:
+      - contactInfo
+      - recurrentParentPayment
+    properties:
+      contactInfo:
+        $ref: '#/definitions/ContactInfo'
+      recurrentParentPayment:
+        $ref: '#/definitions/PaymentRecurrentParent'
