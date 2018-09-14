@@ -1,0 +1,9 @@
+type: object
+description: Данные платежного средства на основе другого платежа
+required:
+  - recurrentParentPayment
+properties:
+  recurrentParentPayment:
+    $ref: '#/definitions/PaymentRecurrentParent'
+  paymentToolDetails:
+    $ref: '#/definitions/PaymentToolDetails'
