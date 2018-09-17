@@ -1,6 +1,7 @@
 type: object
 description: Данные одноразового платежного средства
 required:
+  - paymentSession
   - paymentToolToken
 properties:
   paymentToolToken:
@@ -11,8 +12,6 @@ properties:
     description: Идентификатор платежной сессии
     type: string
     maxLength: 1000
-  recurrentParentPayment:
-    $ref: '#/definitions/PaymentRecurrentParent'
   paymentToolDetails:
     $ref: '#/definitions/PaymentToolDetails'
   clientInfo:
