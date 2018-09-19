@@ -10,14 +10,11 @@ post:
     - $ref: '#/parameters/toTime'
   responses:
     '201':
-      description: Идентификатор отчета
+      description: Отчет создан
       schema:
-        type: object
-        properties:
-          result:
-            type: integer
+        $ref: '#/definitions/Report'
     '400':
-      description: Ошибочные данные для получения
+      description: Ошибочные данные для генерации
       schema:
         type: object
         required:
