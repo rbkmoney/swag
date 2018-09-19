@@ -1,3 +1,41 @@
+post:
+  description: Сгенерировать отчет с указанным типом по магазину за указанный промежуток времени
+  tags:
+    - Reports
+  operationId: createReport
+  parameters:
+    - $ref: '#/parameters/requestID'
+    - $ref: '#/parameters/shopID'
+    - $ref: '#/parameters/fromTime'
+    - $ref: '#/parameters/toTime'
+  responses:
+    '201':
+      description: Идентификатор отчета
+      schema:
+        type: object
+        properties:
+          result:
+            type: integer
+    '400':
+      description: Ошибочные данные для получения
+      schema:
+        type: object
+        required:
+          - code
+          - message
+        properties:
+          code:
+            description: |
+              [Код ошибки](#tag/Error-Codes)
+            type: string
+            enum:
+              - invalidShopID
+              - invalidRequest
+          message:
+            description: Человекочитаемое описание ошибки
+            type: string
+            example: "Invalid shop id"
+
 get:
   description: Получить список отчетов по данному магазину за период
   tags:
