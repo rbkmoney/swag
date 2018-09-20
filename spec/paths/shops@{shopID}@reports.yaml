@@ -11,25 +11,7 @@ post:
       description: Параметры генерации отчета
       required: true
       schema:
-        type: object
-        required:
-          - reportType
-          - fromTime
-          - toTime
-        properties:
-          reportType:
-            description: Тип отчета
-            type: string
-            enum:
-              - paymentRegistry
-          fromTime:
-            description: Начало временного отрезка
-            type: string
-            format: date-time
-          toTime:
-            description: Конец временного отрезка
-            type: string
-            format: date-time
+        $ref: '#/definitions/ReportParams'
   responses:
     '201':
       description: Отчет создан
