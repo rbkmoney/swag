@@ -3937,14 +3937,9 @@
           "200": {
             "description": "Найденные отчеты",
             "schema": {
-              "type": "object",
-              "properties": {
-                "result": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/definitions/Report"
-                  }
-                }
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Report"
               }
             }
           },
