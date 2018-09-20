@@ -2891,6 +2891,44 @@ paths:
                 description: Человекочитаемое описание ошибки
                 type: string
   '/shops/{shopID}/reports':
+    post:
+      description: Сгенерировать отчет с указанным типом по магазину за указанный промежуток времени
+      tags:
+        - Reports
+      operationId: createReport
+      parameters:
+        - $ref: '#/parameters/requestID'
+        - $ref: '#/parameters/shopID'
+        - name: createReport
+          in: body
+          description: Параметры генерации отчета
+          required: true
+          schema:
+            $ref: '#/definitions/ReportParams'
+      responses:
+        '201':
+          description: Отчет создан
+          schema:
+            $ref: '#/definitions/Report'
+        '400':
+          description: Ошибочные данные для генерации
+          schema:
+            type: object
+            required:
+              - code
+              - message
+            properties:
+              code:
+                description: |
+                  [Код ошибки](#tag/Error-Codes)
+                type: string
+                enum:
+                  - invalidShopID
+                  - invalidRequest
+              message:
+                description: Человекочитаемое описание ошибки
+                type: string
+                example: Invalid shop id
     get:
       description: Получить список отчетов по данному магазину за период
       tags:
@@ -2930,6 +2968,23 @@ paths:
                 description: Человекочитаемое описание ошибки
                 type: string
                 example: 'Max limit: 1000'
+  '/shops/{shopID}/reports/{reportID}':
+    get:
+      description: Получить отчет по данному идентификатору
+      tags:
+        - Reports
+      operationId: getReport
+      parameters:
+        - $ref: '#/parameters/requestID'
+        - $ref: '#/parameters/shopID'
+        - $ref: '#/parameters/reportID'
+      responses:
+        '200':
+          description: Найденный отчет
+          schema:
+            $ref: '#/definitions/Report'
+        '404':
+          $ref: '#/responses/NotFound'
   '/shops/{shopID}/reports/{reportID}/files/{fileID}/download':
     get:
       description: Скачать файл
@@ -5459,48 +5514,66 @@ definitions:
             type: string
   Report:
     type: object
-    allOf:
-      - type: object
-        required:
-          - id
-          - createdAt
-          - fromTime
-          - toTime
-          - type
-          - files
-        properties:
-          id:
-            description: Идентификатор отчета
-            type: integer
-            format: int64
-          createdAt:
-            description: Дата и время создания
-            type: string
-            format: date-time
-          fromTime:
-            description: Дата и время начала периода
-            type: string
-            format: date-time
-          toTime:
-            description: Дата и время конца периода
-            type: string
-            format: date-time
-          type:
-            description: Тип отчета
-            type: string
-            enum:
-              - provisionOfService
-              - paymentRegistry
-          files:
-            type: array
-            items:
-              $ref: '#/definitions/FileMeta'
+    required:
+      - id
+      - createdAt
+      - fromTime
+      - toTime
+      - type
+      - files
+    properties:
+      id:
+        description: Идентификатор отчета
+        type: integer
+        format: int64
+      createdAt:
+        description: Дата и время создания
+        type: string
+        format: date-time
+      fromTime:
+        description: Дата и время начала периода
+        type: string
+        format: date-time
+      toTime:
+        description: Дата и время конца периода
+        type: string
+        format: date-time
+      type:
+        description: Тип отчета
+        type: string
+        enum:
+          - provisionOfService
+          - paymentRegistry
+      files:
+        type: array
+        items:
+          $ref: '#/definitions/FileMeta'
   ReportingPreferences:
     description: Настройки выгрузки автоматической отчетности
     type: object
     properties:
       serviceAcceptanceActPreferences:
         $ref: '#/definitions/ServiceAcceptanceActPreferences'
+  ReportParams:
+    type: object
+    required:
+      - reportType
+      - fromTime
+      - toTime
+    properties:
+      reportType:
+        description: Тип отчета
+        type: string
+        enum:
+          - paymentRegistry
+      fromTime:
+        description: Начало временного отрезка
+        type: string
+        format: date-time
+      toTime:
+        description: Конец временного отрезка
+        type: string
+        format: date-time
   Representative:
     description: ЕИО/Представитель
     type: object
