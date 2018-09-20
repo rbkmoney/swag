@@ -11,12 +11,10 @@ properties:
     description: Идентификатор отчета
     type: integer
     format: int64
-    readOnly: true
   createdAt:
     description: Дата и время создания
     type: string
     format: date-time
-    readOnly: true
   fromTime:
     description: Дата и время начала периода
     type: string
@@ -35,4 +33,3 @@ properties:
     type: array
     items:
       $ref: '#/definitions/FileMeta'
-    readOnly: true
