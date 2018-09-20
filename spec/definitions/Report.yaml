@@ -1,37 +1,38 @@
 type: object
-allOf:
-  - type: object
-    required:
-      - id
-      - createdAt
-      - fromTime
-      - toTime
-      - type
-      - files
-    properties:
-      id:
-        description: Идентификатор отчета
-        type: integer
-        format: int64
-      createdAt:
-        description: Дата и время создания
-        type: string
-        format: date-time
-      fromTime:
-        description: Дата и время начала периода
-        type: string
-        format: date-time
-      toTime:
-        description: Дата и время конца периода
-        type: string
-        format: date-time
-      type:
-        description: Тип отчета
-        type: string
-        enum:
-          - provisionOfService
-          - paymentRegistry
-      files:
-        type: array
-        items:
-          $ref: '#/definitions/FileMeta'
+required:
+  - id
+  - createdAt
+  - fromTime
+  - toTime
+  - type
+  - files
+properties:
+  id:
+    description: Идентификатор отчета
+    type: integer
+    format: int64
+    readOnly: true
+  createdAt:
+    description: Дата и время создания
+    type: string
+    format: date-time
+    readOnly: true
+  fromTime:
+    description: Дата и время начала периода
+    type: string
+    format: date-time
+  toTime:
+    description: Дата и время конца периода
+    type: string
+    format: date-time
+  type:
+    description: Тип отчета
+    type: string
+    enum:
+      - provisionOfService
+      - paymentRegistry
+  files:
+    type: array
+    items:
+      $ref: '#/definitions/FileMeta'
+    readOnly: true
