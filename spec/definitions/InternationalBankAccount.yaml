@@ -13,7 +13,7 @@ properties:
 
       _* Если `iban` задан, `bankDetails` не обязательны к заполнению._
     type: string
-    pattern: '^[A-Z0-9]{14,35}$'
+    pattern: '^[A-Z0-9]{3,35}$'
     example: "GR1601101250000000012300695"
   bankDetails:
     $ref: '#/definitions/InternationalBankDetails'
