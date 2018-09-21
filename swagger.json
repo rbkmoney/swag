@@ -5390,7 +5390,7 @@
         "iban": {
           "description": "International Bank Account Number [ISO 13616](https://en.wikipedia.org/wiki/International_Bank_Account_Number)\n\n_* Если `iban` задан, `bankDetails` не обязательны к заполнению._\n",
           "type": "string",
-          "pattern": "^[A-Z0-9]{14,35}$",
+          "pattern": "^[A-Z0-9]{3,35}$",
           "example": "GR1601101250000000012300695"
         },
         "bankDetails": {
