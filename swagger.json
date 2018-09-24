@@ -5295,7 +5295,7 @@
         "filename": {
           "description": "Имя файла",
           "type": "string",
-          "maxLength": 40,
+          "maxLength": 1000,
           "minLength": 1
         },
         "signatures": {
