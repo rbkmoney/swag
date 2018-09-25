@@ -6723,7 +6723,19 @@
           "maxLength": 1000
         },
         "paymentToolDetails": {
-          "$ref": "#/definitions/PaymentToolDetails"
+          "type": "object",
+          "discriminator": "detailsType",
+          "description": "Детали платежного средства",
+          "readOnly": false,
+          "required": [
+            "detailsType"
+          ],
+          "properties": {
+            "detailsType": {
+              "description": "Тип информации о платежном средстве",
+              "type": "string"
+            }
+          }
         },
         "clientInfo": {
           "description": "Данные клиентского устройства плательщика",
