@@ -4941,7 +4941,7 @@ definitions:
             description: Уникальный отпечаток user agent'а плательщика
             type: string
             maxLength: 1000
-        readOnly: true
+        readOnly: false
   PaymentResourceParams:
     type: object
     required:

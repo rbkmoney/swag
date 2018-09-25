@@ -6745,7 +6745,7 @@
               "maxLength": 1000
             }
           },
-          "readOnly": true
+          "readOnly": false
         }
       }
     },
