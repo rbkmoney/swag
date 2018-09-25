@@ -13,10 +13,8 @@ properties:
     type: string
     maxLength: 1000
   paymentToolDetails:
-    x-rebillyMerge:
-      - $ref: '#/definitions/PaymentToolDetails'
-      - readOnly: false
+    $ref: '#/definitions/PaymentToolDetails'
   clientInfo:
-    x-rebillyMerge:
+    allOf:
       - $ref: '#/definitions/ClientInfo'
-      - readOnly: false
+      - readOnly: true
