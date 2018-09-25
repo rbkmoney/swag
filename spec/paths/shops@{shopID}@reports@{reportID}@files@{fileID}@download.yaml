@@ -5,6 +5,7 @@ get:
   operationId: downloadFile
   parameters:
     - $ref: '#/parameters/requestID'
+    - $ref: '#/parameters/deadline'
     - $ref: '#/parameters/shopID'
     - $ref: '#/parameters/reportID'
     - $ref: '#/parameters/fileID'

@@ -5,6 +5,7 @@ get:
   operationId: getCategories
   parameters:
     - $ref: '#/parameters/requestID'
+    - $ref: '#/parameters/deadline'
   responses:
     '200':
       description: List of categories

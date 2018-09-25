@@ -5,6 +5,7 @@ get:
   operationId: getInvoiceEvents
   parameters:
     - $ref: '#/parameters/requestID'
+    - $ref: '#/parameters/deadline'
     - $ref: '#/parameters/invoiceID'
     - name: limit
       in: query

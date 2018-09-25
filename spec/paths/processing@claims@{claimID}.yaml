@@ -6,6 +6,7 @@ get:
     - Claims
   parameters:
     - $ref: '#/parameters/requestID'
+    - $ref: '#/parameters/deadline'
     - $ref: '#/parameters/claimID'
   responses:
     '200':

@@ -6,6 +6,7 @@ post:
     - Customers
   parameters:
     - $ref: '#/parameters/requestID'
+    - $ref: '#/parameters/deadline'
     - $ref: '#/parameters/customerID'
   responses:
     '201':

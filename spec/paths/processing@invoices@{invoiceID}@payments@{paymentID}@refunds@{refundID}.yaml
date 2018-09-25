@@ -5,6 +5,7 @@ get:
   operationId: getRefundByID
   parameters:
     - $ref: '#/parameters/requestID'
+    - $ref: '#/parameters/deadline'
     - $ref: '#/parameters/invoiceID'
     - $ref: '#/parameters/paymentID'
     - $ref: '#/parameters/refundID'

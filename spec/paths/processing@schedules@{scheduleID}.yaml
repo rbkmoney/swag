@@ -5,6 +5,7 @@ get:
   operationId: getScheduleByRef
   parameters:
     - $ref: '#/parameters/requestID'
+    - $ref: '#/parameters/deadline'
     - name: scheduleID
       in: path
       description: Schedule reference

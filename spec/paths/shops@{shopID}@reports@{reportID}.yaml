@@ -5,6 +5,7 @@ get:
   operationId: getReport
   parameters:
     - $ref: '#/parameters/requestID'
+    - $ref: '#/parameters/deadline'
     - $ref: '#/parameters/shopID'
     - $ref: '#/parameters/reportID'
   responses:

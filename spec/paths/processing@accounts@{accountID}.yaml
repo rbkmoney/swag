@@ -5,6 +5,7 @@ get:
     - Accounts
   parameters:
     - $ref: '#/parameters/requestID'
+    - $ref: '#/parameters/deadline'
     - $ref: '#/parameters/accountID'
   responses:
     '200':

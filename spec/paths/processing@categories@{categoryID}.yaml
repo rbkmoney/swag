@@ -5,6 +5,7 @@ get:
   operationId: getCategoryByRef
   parameters:
     - $ref: '#/parameters/requestID'
+    - $ref: '#/parameters/deadline'
     - name: categoryID
       in: path
       description: Category reference

@@ -5,6 +5,7 @@ get:
   operationId: getInvoicePaymentMethodsByTemplateID
   parameters:
     - $ref: '#/parameters/requestID'
+    - $ref: '#/parameters/deadline'
     - $ref: '#/parameters/invoiceTemplateID'
   responses:
     '200':
