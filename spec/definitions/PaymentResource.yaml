@@ -17,4 +17,4 @@ properties:
   clientInfo:
     x-rebillyMerge:
       - $ref: '#/definitions/ClientInfo'
-      - readOnly: true
+      - readOnly: false
