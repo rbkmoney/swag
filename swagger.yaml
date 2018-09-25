@@ -4541,7 +4541,7 @@ definitions:
       clientInfo:
         allOf:
           - $ref: '#/definitions/ClientInfo'
-          - readOnly: true
+          - readOnly: false
   PaymentResourceParams:
     type: object
     required:

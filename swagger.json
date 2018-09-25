@@ -6412,7 +6412,7 @@
               "$ref": "#/definitions/ClientInfo"
             },
             {
-              "readOnly": true
+              "readOnly": false
             }
           ]
         }
