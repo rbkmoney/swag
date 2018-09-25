@@ -17,4 +17,4 @@ properties:
   clientInfo:
     allOf:
       - $ref: '#/definitions/ClientInfo'
-      - readOnly: false
+      - readOnly: true
