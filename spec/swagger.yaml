@@ -289,6 +289,14 @@ parameters:
     required: false
     type: integer
     minimum: 0
+  deadline:
+    name: deadline
+    in: header
+    description: Максимальное время работы запроса
+    required: false
+    type: string
+    maxLength: 32
+    minLength: 1
 tags:
   - name: Parties
     x-displayName: Участники
