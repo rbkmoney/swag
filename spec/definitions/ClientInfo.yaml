@@ -8,7 +8,6 @@ properties:
     type: string
     format: ip-address
     maxLength: 45
-    readOnly: true
   fingerprint:
     description: Уникальный отпечаток user agent'а плательщика
     type: string
