@@ -6723,41 +6723,17 @@
           "maxLength": 1000
         },
         "paymentToolDetails": {
-          "type": "object",
-          "discriminator": "detailsType",
-          "description": "Детали платежного средства",
-          "readOnly": false,
-          "required": [
-            "detailsType"
-          ],
-          "properties": {
-            "detailsType": {
-              "description": "Тип информации о платежном средстве",
-              "type": "string"
-            }
-          }
+          "$ref": "#/definitions/PaymentToolDetails"
         },
         "clientInfo": {
-          "description": "Данные клиентского устройства плательщика",
-          "type": "object",
-          "required": [
-            "fingerprint"
-          ],
-          "properties": {
-            "ip": {
-              "description": "IP-адрес плательщика",
-              "type": "string",
-              "format": "ip-address",
-              "maxLength": 45,
-              "readOnly": true
+          "allOf": [
+            {
+              "$ref": "#/definitions/ClientInfo"
             },
-            "fingerprint": {
-              "description": "Уникальный отпечаток user agent'а плательщика",
-              "type": "string",
-              "maxLength": 1000
+            {
+              "readOnly": true
             }
-          },
-          "readOnly": false
+          ]
         }
       }
     },
