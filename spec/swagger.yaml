@@ -315,6 +315,8 @@ parameters:
     description: Максимальное время обработки запроса
     required: false
     type: string
+    maxLength: 40
+    minLength: 1
 tags:
   - name: Parties
     x-displayName: Участники
