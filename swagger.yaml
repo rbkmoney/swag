@@ -414,7 +414,8 @@ tags:
         | **invalidPaymentStatus**         | Неверный [статус платежа](#tag/Payments). Например, при попытке [подтвердить](#operation/capturePayment) неуспешный платёж.           |
         | **invalidPaymentResource**       | Не поддерживаемый системой или не подключенный в рамках действующего договора платежный инструмент.                                   |
         | **invalidPaymentToolToken**      | Неверное содержимое токена платёжного инструмента.                                                                                    |
-        | **invalidPaymentSession**        | Неверные содержимое платёжной сессии.                                                                                                 |
+        | **invalidPaymentSession**        | Невернoе содержимое платёжной сессии.                                                                                                 |
+        | **invalidRecurrentParent**       | Невернo указан родительский рекуррентный платеж.                                                                                      |
         | **insufficentAccountBalance**    | Недостаточный объём денежных средств на счёте магазина, например, для проведения возврата.                                            |
         | **invoicePaymentAmountExceeded** | Попытка возврата сверх суммы платежа.                                                                                                 |
         | **inconsistentRefundCurrency**   | Попытка возврата средств в валюте, отличной от валюты платежа.                                                                        |
@@ -2258,6 +2259,8 @@ paths:
                   - invalidShopStatus
                   - invalidPaymentToolToken
                   - invalidPaymentSession
+                  - invalidRecurrentParent
+                  - operationNotPermitted
               message:
                 description: Человекочитаемое описание ошибки
                 type: string
@@ -3746,10 +3749,10 @@ definitions:
           $ref: '#/definitions/CustomerChange'
   CustomerPayer:
     type: object
+    description: Многоразовое платежное средство
     allOf:
       - $ref: '#/definitions/Payer'
       - type: object
-        description: Многоразовое платежное средство
         required:
           - customerID
         properties:
@@ -4686,6 +4689,13 @@ definitions:
             $ref: '#/definitions/PaymentFlow'
           payer:
             $ref: '#/definitions/Payer'
+          makeRecurrent:
+            description: |
+              Признак создания родительского рекуррентного платежа.
+              Успешно проведеный платеж с этим признаком можно использовать как родительский в других рекуррентных платежах.
+            type: boolean
+            default: false
+            readOnly: true
       - $ref: '#/definitions/PaymentStatus'
   PaymentConversionStat:
     type: object
@@ -4830,6 +4840,12 @@ definitions:
             type: string
           userInteraction:
             $ref: '#/definitions/UserInteraction'
+  PaymentMakeRecurrent:
+    description: |
+      Признак создания родительского рекуррентного платежа.
+      Успешно проведеный платеж с этим признаком можно использовать как родительский в других рекуррентных платежах.
+    type: boolean
+    default: false
   PaymentMethod:
     type: object
     discriminator: method
@@ -4900,6 +4916,12 @@ definitions:
         $ref: '#/definitions/PaymentFlow'
       payer:
         $ref: '#/definitions/Payer'
+      makeRecurrent:
+        description: |
+          Признак создания родительского рекуррентного платежа.
+          Успешно проведеный платеж с этим признаком можно использовать как родительский в других рекуррентных платежах.
+        type: boolean
+        default: false
   PaymentRateStat:
     type: object
     required:
@@ -4908,6 +4930,19 @@ definitions:
       uniqueCount:
         description: Количество уникальных плательщиков
         type: integer
+  PaymentRecurrentParent:
+    type: object
+    description: 'Родительский платеж, на основе которого создан текущий рекуррентный платеж'
+    required:
+      - invoiceID
+      - paymentID
+    properties:
+      invoiceID:
+        description: Идентификатор инвойса
+        type: string
+      paymentID:
+        description: Идентификатор платежа
+        type: string
   PaymentResource:
     type: object
     description: Данные одноразового платежного средства
@@ -5032,6 +5067,13 @@ definitions:
             description: Дата и время изменения статуса платежа
             type: string
             format: date-time
+          makeRecurrent:
+            description: |
+              Признак создания родительского рекуррентного платежа.
+              Успешно проведеный платеж с этим признаком можно использовать как родительский в других рекуррентных платежах.
+            type: boolean
+            default: false
+            readOnly: true
   PaymentStarted:
     type: object
     allOf:
@@ -5356,6 +5398,20 @@ definitions:
         description: Причина совершения операции
         type: string
         maxLength: 1000
+  RecurrentPayer:
+    type: object
+    description: Многоразовое платежное средство на основе другого платежа
+    allOf:
+      - $ref: '#/definitions/Payer'
+      - type: object
+        required:
+          - contactInfo
+          - recurrentParentPayment
+        properties:
+          contactInfo:
+            $ref: '#/definitions/ContactInfo'
+          recurrentParentPayment:
+            $ref: '#/definitions/PaymentRecurrentParent'
   Redirect:
     type: object
     allOf:
