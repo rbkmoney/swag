@@ -57,6 +57,8 @@ post:
               - invalidShopStatus
               - invalidPaymentToolToken
               - invalidPaymentSession
+              - invalidRecurrentParent
+              - operationNotPermitted
           message:
             description: Человекочитаемое описание ошибки
             type: string
