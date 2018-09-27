@@ -3,7 +3,7 @@
   "info": {
     "version": "2.0.0",
     "title": "RBKmoney Platform API",
-    "description": "## Описание\nRBKmoney API является базовой и единственной точкой взаимодействия с платежной платформой. Все изменения состояний платформы осуществляются с помощью вызовов соответствующих методов API. Любые сторонние приложения, включая наши веб-сайты и другие UI-интерфейсы являются внешними приложениями-клиентами.\nRBKmoney API работает поверх HTTP-протокола. Мы используем REST архитектуру, схема описывается в соответствии со [Swagger](http://swagger.io/). Коды возврата описываются соответствующими HTTP-статусами. Платформа принимает и возвращает JSON-структуры в HTTP body.\n## Идемпотентные запросы\nЛюбой вызов методов API обязан предваряться предоставлением уникального для участника в пределах платформы ID запроса. Данный ID передается в соответствующем заголовке HTTP-запроса:\n```\n X-Request-ID: oX5MWM2AQy\n```\nДля генерации ID запросов мы рекомендуем использовать алгоритмы генерации из стандарта [RFC-4122](https://www.ietf.org/rfc/rfc4122.txt). Платформа гарантирует идемпотентность запросов, отправленных с одинаковым ID.\n## Тип содержимого и кодировка\nЛюбой запрос к API должен выполняться в кодировке UTF-8 и с указанием содержимого в формате JSON\n```\n  Content-Type: application/json; charset=utf-8\n```\n## Формат дат\nПлатформа принимает значения date-time в стандарте ISO 8601 с обязательным указанием UTC-оффсета, например:\n```\n  2017-01-01T00:00:00Z\n  2017-01-01T00:00:01+00:00\n```\n",
+    "description": "## Описание\nRBKmoney API является базовой и единственной точкой взаимодействия с платежной платформой. Все изменения состояний платформы осуществляются с помощью вызовов соответствующих методов API. Любые сторонние приложения, включая наши веб-сайты и другие UI-интерфейсы являются внешними приложениями-клиентами.\nRBKmoney API работает поверх HTTP-протокола. Мы используем REST архитектуру, схема описывается в соответствии со [Swagger](http://swagger.io/). Коды возврата описываются соответствующими HTTP-статусами. Платформа принимает и возвращает JSON-структуры в HTTP body.\n## Идемпотентные запросы\nЛюбой вызов методов API обязан предваряться предоставлением уникального для участника в пределах платформы ID запроса. Данный ID передается в соответствующем заголовке HTTP-запроса:\n```\n X-Request-ID: oX5MWM2AQy\n```\nДля генерации ID запросов мы рекомендуем использовать алгоритмы генерации из стандарта [RFC-4122](https://www.ietf.org/rfc/rfc4122.txt). Платформа гарантирует идемпотентность запросов, отправленных с одинаковым ID.\n## Тип содержимого и кодировка\nЛюбой запрос к API должен выполняться в кодировке UTF-8 и с указанием содержимого в формате JSON\n```\n  Content-Type: application/json; charset=utf-8\n```\n## Формат дат\nПлатформа принимает значения date-time в стандарте ISO 8601 с обязательным указанием UTC-оффсета, например:\n```\n  2017-01-01T00:00:00Z\n  2017-01-01T00:00:01+00:00\n```\n## Максимальное время обработки запроса\nК любому вызову методов API можно добавить параметр отсечки по времени, определяющий максимальное время ожидания завершения операции по запросу. Данная отсечка передается в соответствующем заголовке HTTP-запроса:\n```\n X-Request-Deadline: 10s\n```\nЗначение отсечки может быть задано в формате ISO 8601 (см. [Формат дат](#section/Format-dat)), либо в относительных величинах, например:\n`150000ms`, `540s`, `3.5m` При этом возможные единицы измерения `ms`, `s`, `m`. В обоих случаях  не рекомендуется, чтобы задаваемое значение было меньше **3 секунд** и превышало **1 минуту**.\n",
     "termsOfService": "https://rbk.money/",
     "contact": {
       "name": "RBKmoney support team",
@@ -266,6 +266,15 @@
       "required": false,
       "type": "integer",
       "minimum": 0
+    },
+    "deadline": {
+      "name": "X-Request-Deadline",
+      "in": "header",
+      "description": "Максимальное время обработки запроса",
+      "required": false,
+      "type": "string",
+      "maxLength": 40,
+      "minLength": 1
     }
   },
   "tags": [
@@ -373,6 +382,9 @@
             "$ref": "#/parameters/requestID"
           },
           {
+            "$ref": "#/parameters/deadline"
+          },
+          {
             "$ref": "#/parameters/shopID"
           },
           {
@@ -449,6 +461,9 @@
             "$ref": "#/parameters/requestID"
           },
           {
+            "$ref": "#/parameters/deadline"
+          },
+          {
             "$ref": "#/parameters/shopID"
           },
           {
@@ -504,6 +519,9 @@
         "parameters": [
           {
             "$ref": "#/parameters/requestID"
+          },
+          {
+            "$ref": "#/parameters/deadline"
           },
           {
             "$ref": "#/parameters/shopID"
@@ -765,6 +783,9 @@
             "$ref": "#/parameters/requestID"
           },
           {
+            "$ref": "#/parameters/deadline"
+          },
+          {
             "$ref": "#/parameters/shopID"
           },
           {
@@ -1002,6 +1023,9 @@
             "$ref": "#/parameters/requestID"
           },
           {
+            "$ref": "#/parameters/deadline"
+          },
+          {
             "$ref": "#/parameters/shopID"
           },
           {
@@ -1066,6 +1090,9 @@
         "parameters": [
           {
             "$ref": "#/parameters/requestID"
+          },
+          {
+            "$ref": "#/parameters/deadline"
           },
           {
             "$ref": "#/parameters/shopID"
@@ -1134,6 +1161,9 @@
             "$ref": "#/parameters/requestID"
           },
           {
+            "$ref": "#/parameters/deadline"
+          },
+          {
             "$ref": "#/parameters/shopID"
           },
           {
@@ -1198,6 +1228,9 @@
         "parameters": [
           {
             "$ref": "#/parameters/requestID"
+          },
+          {
+            "$ref": "#/parameters/deadline"
           },
           {
             "$ref": "#/parameters/shopID"
@@ -1292,6 +1325,9 @@
         "parameters": [
           {
             "$ref": "#/parameters/requestID"
+          },
+          {
+            "$ref": "#/parameters/deadline"
           },
           {
             "$ref": "#/parameters/shopID"
@@ -1406,6 +1442,9 @@
             "$ref": "#/parameters/requestID"
           },
           {
+            "$ref": "#/parameters/deadline"
+          },
+          {
             "$ref": "#/parameters/accountID"
           }
         ],
@@ -1432,6 +1471,9 @@
         "parameters": [
           {
             "$ref": "#/parameters/requestID"
+          },
+          {
+            "$ref": "#/parameters/deadline"
           }
         ],
         "responses": {
@@ -1457,6 +1499,9 @@
         "parameters": [
           {
             "$ref": "#/parameters/requestID"
+          },
+          {
+            "$ref": "#/parameters/deadline"
           },
           {
             "name": "categoryID",
@@ -1492,6 +1537,9 @@
             "$ref": "#/parameters/requestID"
           },
           {
+            "$ref": "#/parameters/deadline"
+          },
+          {
             "name": "claimStatus",
             "description": "Значение статуса для фильтрации",
             "in": "query",
@@ -1525,6 +1573,9 @@
         "parameters": [
           {
             "$ref": "#/parameters/requestID"
+          },
+          {
+            "$ref": "#/parameters/deadline"
           },
           {
             "name": "claimChangeset",
@@ -1584,6 +1635,9 @@
             "$ref": "#/parameters/requestID"
           },
           {
+            "$ref": "#/parameters/deadline"
+          },
+          {
             "$ref": "#/parameters/claimID"
           }
         ],
@@ -1610,6 +1664,9 @@
         "parameters": [
           {
             "$ref": "#/parameters/requestID"
+          },
+          {
+            "$ref": "#/parameters/deadline"
           },
           {
             "$ref": "#/parameters/claimID"
@@ -1671,6 +1728,9 @@
         "parameters": [
           {
             "$ref": "#/parameters/requestID"
+          },
+          {
+            "$ref": "#/parameters/deadline"
           }
         ],
         "responses": {
@@ -1696,6 +1756,9 @@
         "parameters": [
           {
             "$ref": "#/parameters/requestID"
+          },
+          {
+            "$ref": "#/parameters/deadline"
           },
           {
             "$ref": "#/parameters/contractID"
@@ -1724,6 +1787,9 @@
         "parameters": [
           {
             "$ref": "#/parameters/requestID"
+          },
+          {
+            "$ref": "#/parameters/deadline"
           },
           {
             "$ref": "#/parameters/contractID"
@@ -1757,6 +1823,9 @@
             "$ref": "#/parameters/requestID"
           },
           {
+            "$ref": "#/parameters/deadline"
+          },
+          {
             "$ref": "#/parameters/contractID"
           },
           {
@@ -1786,6 +1855,9 @@
         "parameters": [
           {
             "$ref": "#/parameters/requestID"
+          },
+          {
+            "$ref": "#/parameters/deadline"
           },
           {
             "$ref": "#/parameters/contractID"
@@ -1819,6 +1891,9 @@
             "$ref": "#/parameters/requestID"
           },
           {
+            "$ref": "#/parameters/deadline"
+          },
+          {
             "$ref": "#/parameters/contractID"
           },
           {
@@ -1848,6 +1923,9 @@
         "parameters": [
           {
             "$ref": "#/parameters/requestID"
+          },
+          {
+            "$ref": "#/parameters/deadline"
           },
           {
             "name": "customerParams",
@@ -1909,6 +1987,9 @@
             "$ref": "#/parameters/requestID"
           },
           {
+            "$ref": "#/parameters/deadline"
+          },
+          {
             "$ref": "#/parameters/customerID"
           }
         ],
@@ -1933,6 +2014,9 @@
         "parameters": [
           {
             "$ref": "#/parameters/requestID"
+          },
+          {
+            "$ref": "#/parameters/deadline"
           },
           {
             "$ref": "#/parameters/customerID"
@@ -1985,6 +2069,9 @@
             "$ref": "#/parameters/requestID"
           },
           {
+            "$ref": "#/parameters/deadline"
+          },
+          {
             "$ref": "#/parameters/customerID"
           }
         ],
@@ -2011,6 +2098,9 @@
         "parameters": [
           {
             "$ref": "#/parameters/requestID"
+          },
+          {
+            "$ref": "#/parameters/deadline"
           },
           {
             "$ref": "#/parameters/customerID"
@@ -2078,6 +2168,9 @@
             "$ref": "#/parameters/requestID"
           },
           {
+            "$ref": "#/parameters/deadline"
+          },
+          {
             "$ref": "#/parameters/customerID"
           }
         ],
@@ -2109,6 +2202,9 @@
             "$ref": "#/parameters/requestID"
           },
           {
+            "$ref": "#/parameters/deadline"
+          },
+          {
             "$ref": "#/parameters/customerID"
           },
           {
@@ -2138,6 +2234,9 @@
         "parameters": [
           {
             "$ref": "#/parameters/requestID"
+          },
+          {
+            "$ref": "#/parameters/deadline"
           },
           {
             "$ref": "#/parameters/customerID"
@@ -2211,6 +2310,9 @@
             "$ref": "#/parameters/requestID"
           },
           {
+            "$ref": "#/parameters/deadline"
+          },
+          {
             "name": "invoiceTemplateCreateParams",
             "description": "Параметры шаблона инвойса.",
             "in": "body",
@@ -2270,6 +2372,9 @@
             "$ref": "#/parameters/requestID"
           },
           {
+            "$ref": "#/parameters/deadline"
+          },
+          {
             "$ref": "#/parameters/invoiceTemplateID"
           }
         ],
@@ -2294,6 +2399,9 @@
         "parameters": [
           {
             "$ref": "#/parameters/requestID"
+          },
+          {
+            "$ref": "#/parameters/deadline"
           },
           {
             "$ref": "#/parameters/invoiceTemplateID"
@@ -2358,6 +2466,9 @@
             "$ref": "#/parameters/requestID"
           },
           {
+            "$ref": "#/parameters/deadline"
+          },
+          {
             "$ref": "#/parameters/invoiceTemplateID"
           }
         ],
@@ -2406,6 +2517,9 @@
         "parameters": [
           {
             "$ref": "#/parameters/requestID"
+          },
+          {
+            "$ref": "#/parameters/deadline"
           },
           {
             "$ref": "#/parameters/invoiceTemplateID"
@@ -2471,6 +2585,9 @@
             "$ref": "#/parameters/requestID"
           },
           {
+            "$ref": "#/parameters/deadline"
+          },
+          {
             "$ref": "#/parameters/invoiceTemplateID"
           }
         ],
@@ -2500,6 +2617,9 @@
         "parameters": [
           {
             "$ref": "#/parameters/requestID"
+          },
+          {
+            "$ref": "#/parameters/deadline"
           },
           {
             "name": "invoiceParams",
@@ -2562,6 +2682,9 @@
             "$ref": "#/parameters/requestID"
           },
           {
+            "$ref": "#/parameters/deadline"
+          },
+          {
             "$ref": "#/parameters/invoiceID"
           }
         ],
@@ -2590,6 +2713,9 @@
             "$ref": "#/parameters/requestID"
           },
           {
+            "$ref": "#/parameters/deadline"
+          },
+          {
             "$ref": "#/parameters/invoiceID"
           }
         ],
@@ -2616,6 +2742,9 @@
         "parameters": [
           {
             "$ref": "#/parameters/requestID"
+          },
+          {
+            "$ref": "#/parameters/deadline"
           },
           {
             "$ref": "#/parameters/invoiceID"
@@ -2689,6 +2818,9 @@
             "$ref": "#/parameters/requestID"
           },
           {
+            "$ref": "#/parameters/deadline"
+          },
+          {
             "$ref": "#/parameters/invoiceID"
           },
           {
@@ -2749,6 +2881,9 @@
             "$ref": "#/parameters/requestID"
           },
           {
+            "$ref": "#/parameters/deadline"
+          },
+          {
             "$ref": "#/parameters/invoiceID"
           }
         ],
@@ -2780,6 +2915,9 @@
             "$ref": "#/parameters/requestID"
           },
           {
+            "$ref": "#/parameters/deadline"
+          },
+          {
             "$ref": "#/parameters/invoiceID"
           }
         ],
@@ -2807,6 +2945,9 @@
         "parameters": [
           {
             "$ref": "#/parameters/requestID"
+          },
+          {
+            "$ref": "#/parameters/deadline"
           },
           {
             "$ref": "#/parameters/invoiceID"
@@ -2878,6 +3019,9 @@
             "$ref": "#/parameters/requestID"
           },
           {
+            "$ref": "#/parameters/deadline"
+          },
+          {
             "$ref": "#/parameters/invoiceID"
           },
           {
@@ -2907,6 +3051,9 @@
         "parameters": [
           {
             "$ref": "#/parameters/requestID"
+          },
+          {
+            "$ref": "#/parameters/deadline"
           },
           {
             "$ref": "#/parameters/invoiceID"
@@ -2974,6 +3121,9 @@
             "$ref": "#/parameters/requestID"
           },
           {
+            "$ref": "#/parameters/deadline"
+          },
+          {
             "$ref": "#/parameters/invoiceID"
           },
           {
@@ -3039,6 +3189,9 @@
             "$ref": "#/parameters/requestID"
           },
           {
+            "$ref": "#/parameters/deadline"
+          },
+          {
             "$ref": "#/parameters/invoiceID"
           },
           {
@@ -3069,6 +3222,9 @@
         "parameters": [
           {
             "$ref": "#/parameters/requestID"
+          },
+          {
+            "$ref": "#/parameters/deadline"
           },
           {
             "$ref": "#/parameters/invoiceID"
@@ -3140,6 +3296,9 @@
             "$ref": "#/parameters/requestID"
           },
           {
+            "$ref": "#/parameters/deadline"
+          },
+          {
             "$ref": "#/parameters/invoiceID"
           },
           {
@@ -3172,6 +3331,9 @@
         "parameters": [
           {
             "$ref": "#/parameters/requestID"
+          },
+          {
+            "$ref": "#/parameters/deadline"
           },
           {
             "$ref": "#/parameters/invoiceID"
@@ -3232,6 +3394,9 @@
         "parameters": [
           {
             "$ref": "#/parameters/requestID"
+          },
+          {
+            "$ref": "#/parameters/deadline"
           }
         ],
         "responses": {
@@ -3254,6 +3419,9 @@
         "parameters": [
           {
             "$ref": "#/parameters/requestID"
+          },
+          {
+            "$ref": "#/parameters/deadline"
           }
         ],
         "responses": {
@@ -3273,6 +3441,9 @@
         "parameters": [
           {
             "$ref": "#/parameters/requestID"
+          },
+          {
+            "$ref": "#/parameters/deadline"
           }
         ],
         "responses": {
@@ -3292,6 +3463,9 @@
         "parameters": [
           {
             "$ref": "#/parameters/requestID"
+          },
+          {
+            "$ref": "#/parameters/deadline"
           },
           {
             "$ref": "#/parameters/residence"
@@ -3332,6 +3506,9 @@
             "$ref": "#/parameters/requestID"
           },
           {
+            "$ref": "#/parameters/deadline"
+          },
+          {
             "$ref": "#/parameters/paymentInstitutionID"
           }
         ],
@@ -3360,6 +3537,9 @@
             "$ref": "#/parameters/requestID"
           },
           {
+            "$ref": "#/parameters/deadline"
+          },
+          {
             "$ref": "#/parameters/paymentInstitutionID"
           }
         ],
@@ -3386,6 +3566,9 @@
         "parameters": [
           {
             "$ref": "#/parameters/requestID"
+          },
+          {
+            "$ref": "#/parameters/deadline"
           },
           {
             "$ref": "#/parameters/paymentInstitutionID"
@@ -3429,6 +3612,9 @@
         "parameters": [
           {
             "$ref": "#/parameters/requestID"
+          },
+          {
+            "$ref": "#/parameters/deadline"
           },
           {
             "$ref": "#/parameters/paymentInstitutionID"
@@ -3480,6 +3666,9 @@
         "parameters": [
           {
             "$ref": "#/parameters/requestID"
+          },
+          {
+            "$ref": "#/parameters/deadline"
           },
           {
             "name": "paymentResource",
@@ -3537,6 +3726,9 @@
             "$ref": "#/parameters/requestID"
           },
           {
+            "$ref": "#/parameters/deadline"
+          },
+          {
             "name": "scheduleID",
             "in": "path",
             "description": "Schedule reference",
@@ -3568,6 +3760,9 @@
         "parameters": [
           {
             "$ref": "#/parameters/requestID"
+          },
+          {
+            "$ref": "#/parameters/deadline"
           }
         ],
         "responses": {
@@ -3593,6 +3788,9 @@
         "parameters": [
           {
             "$ref": "#/parameters/requestID"
+          },
+          {
+            "$ref": "#/parameters/deadline"
           },
           {
             "$ref": "#/parameters/shopID"
@@ -3623,6 +3821,9 @@
             "$ref": "#/parameters/requestID"
           },
           {
+            "$ref": "#/parameters/deadline"
+          },
+          {
             "$ref": "#/parameters/shopID"
           }
         ],
@@ -3648,6 +3849,9 @@
             "$ref": "#/parameters/requestID"
           },
           {
+            "$ref": "#/parameters/deadline"
+          },
+          {
             "$ref": "#/parameters/shopID"
           }
         ],
@@ -3671,6 +3875,9 @@
         "parameters": [
           {
             "$ref": "#/parameters/requestID"
+          },
+          {
+            "$ref": "#/parameters/deadline"
           },
           {
             "name": "webhookParams",
@@ -3724,6 +3931,9 @@
         "parameters": [
           {
             "$ref": "#/parameters/requestID"
+          },
+          {
+            "$ref": "#/parameters/deadline"
           }
         ],
         "responses": {
@@ -3749,6 +3959,9 @@
         "parameters": [
           {
             "$ref": "#/parameters/requestID"
+          },
+          {
+            "$ref": "#/parameters/deadline"
           },
           {
             "$ref": "#/parameters/webhookID"
@@ -3777,6 +3990,9 @@
             "$ref": "#/parameters/requestID"
           },
           {
+            "$ref": "#/parameters/deadline"
+          },
+          {
             "$ref": "#/parameters/webhookID"
           }
         ],
@@ -3800,6 +4016,9 @@
         "parameters": [
           {
             "$ref": "#/parameters/requestID"
+          },
+          {
+            "$ref": "#/parameters/deadline"
           },
           {
             "name": "language",
@@ -3869,6 +4088,9 @@
             "$ref": "#/parameters/requestID"
           },
           {
+            "$ref": "#/parameters/deadline"
+          },
+          {
             "$ref": "#/parameters/shopID"
           },
           {
@@ -3924,6 +4146,9 @@
         "parameters": [
           {
             "$ref": "#/parameters/requestID"
+          },
+          {
+            "$ref": "#/parameters/deadline"
           },
           {
             "$ref": "#/parameters/shopID"
@@ -3985,6 +4210,9 @@
             "$ref": "#/parameters/requestID"
           },
           {
+            "$ref": "#/parameters/deadline"
+          },
+          {
             "$ref": "#/parameters/shopID"
           },
           {
@@ -4014,6 +4242,9 @@
         "parameters": [
           {
             "$ref": "#/parameters/requestID"
+          },
+          {
+            "$ref": "#/parameters/deadline"
           },
           {
             "$ref": "#/parameters/shopID"

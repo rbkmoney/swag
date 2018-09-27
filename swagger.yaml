@@ -23,6 +23,13 @@ info:
       2017-01-01T00:00:00Z
       2017-01-01T00:00:01+00:00
     ```
+    ## Максимальное время обработки запроса
+    К любому вызову методов API можно добавить параметр отсечки по времени, определяющий максимальное время ожидания завершения операции по запросу. Данная отсечка передается в соответствующем заголовке HTTP-запроса:
+    ```
+     X-Request-Deadline: 10s
+    ```
+    Значение отсечки может быть задано в формате ISO 8601 (см. [Формат дат](#section/Format-dat)), либо в относительных величинах, например:
+    `150000ms`, `540s`, `3.5m` При этом возможные единицы измерения `ms`, `s`, `m`. В обоих случаях  не рекомендуется, чтобы задаваемое значение было меньше **3 секунд** и превышало **1 минуту**.
   termsOfService: 'https://rbk.money/'
   contact:
     name: RBKmoney support team
@@ -256,6 +263,14 @@ parameters:
     required: false
     type: integer
     minimum: 0
+  deadline:
+    name: X-Request-Deadline
+    in: header
+    description: Максимальное время обработки запроса
+    required: false
+    type: string
+    maxLength: 40
+    minLength: 1
 tags:
   - name: Parties
     x-displayName: Участники
@@ -618,6 +633,7 @@ paths:
       operationId: getPaymentMethodStats
       parameters:
         - $ref: '#/parameters/requestID'
+        - $ref: '#/parameters/deadline'
         - $ref: '#/parameters/shopID'
         - $ref: '#/parameters/fromTime'
         - $ref: '#/parameters/toTime'
@@ -665,6 +681,7 @@ paths:
       operationId: getPaymentRateStats
       parameters:
         - $ref: '#/parameters/requestID'
+        - $ref: '#/parameters/deadline'
         - $ref: '#/parameters/shopID'
         - $ref: '#/parameters/fromTime'
         - $ref: '#/parameters/toTime'
@@ -700,6 +717,7 @@ paths:
       operationId: searchInvoices
       parameters:
         - $ref: '#/parameters/requestID'
+        - $ref: '#/parameters/deadline'
         - $ref: '#/parameters/shopID'
         - $ref: '#/parameters/fromTime'
         - $ref: '#/parameters/toTime'
@@ -894,6 +912,7 @@ paths:
       operationId: searchPayments
       parameters:
         - $ref: '#/parameters/requestID'
+        - $ref: '#/parameters/deadline'
         - $ref: '#/parameters/shopID'
         - $ref: '#/parameters/fromTime'
         - $ref: '#/parameters/toTime'
@@ -1072,6 +1091,7 @@ paths:
       operationId: getPaymentConversionStats
       parameters:
         - $ref: '#/parameters/requestID'
+        - $ref: '#/parameters/deadline'
         - $ref: '#/parameters/shopID'
         - $ref: '#/parameters/fromTime'
         - $ref: '#/parameters/toTime'
@@ -1112,6 +1132,7 @@ paths:
       operationId: getPaymentGeoStats
       parameters:
         - $ref: '#/parameters/requestID'
+        - $ref: '#/parameters/deadline'
         - $ref: '#/parameters/shopID'
         - $ref: '#/parameters/fromTime'
         - $ref: '#/parameters/toTime'
@@ -1153,6 +1174,7 @@ paths:
       operationId: getPaymentRevenueStats
       parameters:
         - $ref: '#/parameters/requestID'
+        - $ref: '#/parameters/deadline'
         - $ref: '#/parameters/shopID'
         - $ref: '#/parameters/fromTime'
         - $ref: '#/parameters/toTime'
@@ -1192,6 +1214,7 @@ paths:
       operationId: searchPayouts
       parameters:
         - $ref: '#/parameters/requestID'
+        - $ref: '#/parameters/deadline'
         - $ref: '#/parameters/shopID'
         - $ref: '#/parameters/fromTime'
         - $ref: '#/parameters/toTime'
@@ -1251,6 +1274,7 @@ paths:
       operationId: searchRefunds
       parameters:
         - $ref: '#/parameters/requestID'
+        - $ref: '#/parameters/deadline'
         - $ref: '#/parameters/shopID'
         - $ref: '#/parameters/fromTime'
         - $ref: '#/parameters/toTime'
@@ -1324,6 +1348,7 @@ paths:
         - Accounts
       parameters:
         - $ref: '#/parameters/requestID'
+        - $ref: '#/parameters/deadline'
         - $ref: '#/parameters/accountID'
       responses:
         '200':
@@ -1340,6 +1365,7 @@ paths:
       operationId: getCategories
       parameters:
         - $ref: '#/parameters/requestID'
+        - $ref: '#/parameters/deadline'
       responses:
         '200':
           description: List of categories
@@ -1355,6 +1381,7 @@ paths:
       operationId: getCategoryByRef
       parameters:
         - $ref: '#/parameters/requestID'
+        - $ref: '#/parameters/deadline'
         - name: categoryID
           in: path
           description: Category reference
@@ -1378,6 +1405,7 @@ paths:
         - Claims
       parameters:
         - $ref: '#/parameters/requestID'
+        - $ref: '#/parameters/deadline'
         - name: claimStatus
           description: Значение статуса для фильтрации
           in: query
@@ -1403,6 +1431,7 @@ paths:
         - Claims
       parameters:
         - $ref: '#/parameters/requestID'
+        - $ref: '#/parameters/deadline'
         - name: claimChangeset
           in: body
           required: true
@@ -1443,6 +1472,7 @@ paths:
         - Claims
       parameters:
         - $ref: '#/parameters/requestID'
+        - $ref: '#/parameters/deadline'
         - $ref: '#/parameters/claimID'
       responses:
         '200':
@@ -1459,6 +1489,7 @@ paths:
         - Claims
       parameters:
         - $ref: '#/parameters/requestID'
+        - $ref: '#/parameters/deadline'
         - $ref: '#/parameters/claimID'
         - $ref: '#/parameters/claimRevision'
         - name: reason
@@ -1498,6 +1529,7 @@ paths:
         - Contracts
       parameters:
         - $ref: '#/parameters/requestID'
+        - $ref: '#/parameters/deadline'
       responses:
         '200':
           description: List of contracts
@@ -1513,6 +1545,7 @@ paths:
         - Contracts
       parameters:
         - $ref: '#/parameters/requestID'
+        - $ref: '#/parameters/deadline'
         - $ref: '#/parameters/contractID'
       responses:
         '200':
@@ -1529,6 +1562,7 @@ paths:
         - Contracts
       parameters:
         - $ref: '#/parameters/requestID'
+        - $ref: '#/parameters/deadline'
         - $ref: '#/parameters/contractID'
       responses:
         '200':
@@ -1547,6 +1581,7 @@ paths:
         - Contracts
       parameters:
         - $ref: '#/parameters/requestID'
+        - $ref: '#/parameters/deadline'
         - $ref: '#/parameters/contractID'
         - $ref: '#/parameters/adjustmentID'
       responses:
@@ -1564,6 +1599,7 @@ paths:
         - Payouts
       parameters:
         - $ref: '#/parameters/requestID'
+        - $ref: '#/parameters/deadline'
         - $ref: '#/parameters/contractID'
       responses:
         '200':
@@ -1582,6 +1618,7 @@ paths:
         - Payouts
       parameters:
         - $ref: '#/parameters/requestID'
+        - $ref: '#/parameters/deadline'
         - $ref: '#/parameters/contractID'
         - $ref: '#/parameters/payoutToolID'
       responses:
@@ -1599,6 +1636,7 @@ paths:
       operationId: createCustomer
       parameters:
         - $ref: '#/parameters/requestID'
+        - $ref: '#/parameters/deadline'
         - name: customerParams
           description: Параметры создаваемого плательщика
           in: body
@@ -1640,6 +1678,7 @@ paths:
         - Customers
       parameters:
         - $ref: '#/parameters/requestID'
+        - $ref: '#/parameters/deadline'
         - $ref: '#/parameters/customerID'
       responses:
         '200':
@@ -1655,6 +1694,7 @@ paths:
         - Customers
       parameters:
         - $ref: '#/parameters/requestID'
+        - $ref: '#/parameters/deadline'
         - $ref: '#/parameters/customerID'
       responses:
         '204':
@@ -1689,6 +1729,7 @@ paths:
         - Customers
       parameters:
         - $ref: '#/parameters/requestID'
+        - $ref: '#/parameters/deadline'
         - $ref: '#/parameters/customerID'
       responses:
         '201':
@@ -1705,6 +1746,7 @@ paths:
       operationId: createBinding
       parameters:
         - $ref: '#/parameters/requestID'
+        - $ref: '#/parameters/deadline'
         - $ref: '#/parameters/customerID'
         - name: bindingParams
           description: Параметры создаваемой привязки
@@ -1750,6 +1792,7 @@ paths:
       operationId: getBindings
       parameters:
         - $ref: '#/parameters/requestID'
+        - $ref: '#/parameters/deadline'
         - $ref: '#/parameters/customerID'
       responses:
         '200':
@@ -1768,6 +1811,7 @@ paths:
       operationId: getBinding
       parameters:
         - $ref: '#/parameters/requestID'
+        - $ref: '#/parameters/deadline'
         - $ref: '#/parameters/customerID'
         - $ref: '#/parameters/customerBindingID'
       responses:
@@ -1785,6 +1829,7 @@ paths:
       operationId: getCustomerEvents
       parameters:
         - $ref: '#/parameters/requestID'
+        - $ref: '#/parameters/deadline'
         - $ref: '#/parameters/customerID'
         - name: limit
           in: query
@@ -1836,6 +1881,7 @@ paths:
       operationId: createInvoiceTemplate
       parameters:
         - $ref: '#/parameters/requestID'
+        - $ref: '#/parameters/deadline'
         - name: invoiceTemplateCreateParams
           description: Параметры шаблона инвойса.
           in: body
@@ -1877,6 +1923,7 @@ paths:
       operationId: getInvoiceTemplateByID
       parameters:
         - $ref: '#/parameters/requestID'
+        - $ref: '#/parameters/deadline'
         - $ref: '#/parameters/invoiceTemplateID'
       responses:
         '200':
@@ -1892,6 +1939,7 @@ paths:
       operationId: updateInvoiceTemplate
       parameters:
         - $ref: '#/parameters/requestID'
+        - $ref: '#/parameters/deadline'
         - $ref: '#/parameters/invoiceTemplateID'
         - name: invoiceTemplateUpdateParams
           description: Параметры модифицируемого инвойса.
@@ -1934,6 +1982,7 @@ paths:
       operationId: deleteInvoiceTemplate
       parameters:
         - $ref: '#/parameters/requestID'
+        - $ref: '#/parameters/deadline'
         - $ref: '#/parameters/invoiceTemplateID'
       responses:
         '204':
@@ -1967,6 +2016,7 @@ paths:
       operationId: createInvoiceWithTemplate
       parameters:
         - $ref: '#/parameters/requestID'
+        - $ref: '#/parameters/deadline'
         - $ref: '#/parameters/invoiceTemplateID'
         - name: invoiceParamsWithTemplate
           description: Параметры создаваемого инвойса
@@ -2009,6 +2059,7 @@ paths:
       operationId: getInvoicePaymentMethodsByTemplateID
       parameters:
         - $ref: '#/parameters/requestID'
+        - $ref: '#/parameters/deadline'
         - $ref: '#/parameters/invoiceTemplateID'
       responses:
         '200':
@@ -2027,6 +2078,7 @@ paths:
       operationId: createInvoice
       parameters:
         - $ref: '#/parameters/requestID'
+        - $ref: '#/parameters/deadline'
         - name: invoiceParams
           description: Параметры создаваемого инвойса
           in: body
@@ -2069,6 +2121,7 @@ paths:
       operationId: getInvoiceByID
       parameters:
         - $ref: '#/parameters/requestID'
+        - $ref: '#/parameters/deadline'
         - $ref: '#/parameters/invoiceID'
       responses:
         '200':
@@ -2085,6 +2138,7 @@ paths:
         - Invoices
       parameters:
         - $ref: '#/parameters/requestID'
+        - $ref: '#/parameters/deadline'
         - $ref: '#/parameters/invoiceID'
       responses:
         '201':
@@ -2101,6 +2155,7 @@ paths:
       operationId: getInvoiceEvents
       parameters:
         - $ref: '#/parameters/requestID'
+        - $ref: '#/parameters/deadline'
         - $ref: '#/parameters/invoiceID'
         - name: limit
           in: query
@@ -2152,6 +2207,7 @@ paths:
       operationId: fulfillInvoice
       parameters:
         - $ref: '#/parameters/requestID'
+        - $ref: '#/parameters/deadline'
         - $ref: '#/parameters/invoiceID'
         - name: fulfillInvoice
           in: body
@@ -2192,6 +2248,7 @@ paths:
       operationId: getInvoicePaymentMethods
       parameters:
         - $ref: '#/parameters/requestID'
+        - $ref: '#/parameters/deadline'
         - $ref: '#/parameters/invoiceID'
       responses:
         '200':
@@ -2210,6 +2267,7 @@ paths:
       operationId: getPayments
       parameters:
         - $ref: '#/parameters/requestID'
+        - $ref: '#/parameters/deadline'
         - $ref: '#/parameters/invoiceID'
       responses:
         '200':
@@ -2227,6 +2285,7 @@ paths:
       operationId: createPayment
       parameters:
         - $ref: '#/parameters/requestID'
+        - $ref: '#/parameters/deadline'
         - $ref: '#/parameters/invoiceID'
         - name: paymentParams
           description: Параметры создаваемого платежа
@@ -2275,6 +2334,7 @@ paths:
       operationId: getPaymentByID
       parameters:
         - $ref: '#/parameters/requestID'
+        - $ref: '#/parameters/deadline'
         - $ref: '#/parameters/invoiceID'
         - $ref: '#/parameters/paymentID'
       responses:
@@ -2292,6 +2352,7 @@ paths:
       operationId: cancelPayment
       parameters:
         - $ref: '#/parameters/requestID'
+        - $ref: '#/parameters/deadline'
         - $ref: '#/parameters/invoiceID'
         - $ref: '#/parameters/paymentID'
         - name: cancelPayment
@@ -2335,6 +2396,7 @@ paths:
       operationId: capturePayment
       parameters:
         - $ref: '#/parameters/requestID'
+        - $ref: '#/parameters/deadline'
         - $ref: '#/parameters/invoiceID'
         - $ref: '#/parameters/paymentID'
         - name: capturePayment
@@ -2378,6 +2440,7 @@ paths:
       operationId: getRefunds
       parameters:
         - $ref: '#/parameters/requestID'
+        - $ref: '#/parameters/deadline'
         - $ref: '#/parameters/invoiceID'
         - $ref: '#/parameters/paymentID'
       responses:
@@ -2396,6 +2459,7 @@ paths:
       operationId: createRefund
       parameters:
         - $ref: '#/parameters/requestID'
+        - $ref: '#/parameters/deadline'
         - $ref: '#/parameters/invoiceID'
         - $ref: '#/parameters/paymentID'
         - name: refundParams
@@ -2442,6 +2506,7 @@ paths:
       operationId: getRefundByID
       parameters:
         - $ref: '#/parameters/requestID'
+        - $ref: '#/parameters/deadline'
         - $ref: '#/parameters/invoiceID'
         - $ref: '#/parameters/paymentID'
         - $ref: '#/parameters/refundID'
@@ -2460,6 +2525,7 @@ paths:
       operationId: rescindInvoice
       parameters:
         - $ref: '#/parameters/requestID'
+        - $ref: '#/parameters/deadline'
         - $ref: '#/parameters/invoiceID'
         - name: rescindInvoice
           in: body
@@ -2500,6 +2566,7 @@ paths:
       operationId: getMyParty
       parameters:
         - $ref: '#/parameters/requestID'
+        - $ref: '#/parameters/deadline'
       responses:
         '200':
           description: Get my party
@@ -2513,6 +2580,7 @@ paths:
         - Parties
       parameters:
         - $ref: '#/parameters/requestID'
+        - $ref: '#/parameters/deadline'
       responses:
         '204':
           description: Party activated
@@ -2524,6 +2592,7 @@ paths:
         - Parties
       parameters:
         - $ref: '#/parameters/requestID'
+        - $ref: '#/parameters/deadline'
       responses:
         '204':
           description: Party suspended
@@ -2535,6 +2604,7 @@ paths:
       operationId: getPaymentInstitutions
       parameters:
         - $ref: '#/parameters/requestID'
+        - $ref: '#/parameters/deadline'
         - $ref: '#/parameters/residence'
         - name: realm
           in: query
@@ -2558,6 +2628,7 @@ paths:
       operationId: getPaymentInstitutionByRef
       parameters:
         - $ref: '#/parameters/requestID'
+        - $ref: '#/parameters/deadline'
         - $ref: '#/parameters/paymentInstitutionID'
       responses:
         '200':
@@ -2574,6 +2645,7 @@ paths:
       operationId: getPaymentInstitutionPaymentTerms
       parameters:
         - $ref: '#/parameters/requestID'
+        - $ref: '#/parameters/deadline'
         - $ref: '#/parameters/paymentInstitutionID'
       responses:
         '200':
@@ -2590,6 +2662,7 @@ paths:
       operationId: getPaymentInstitutionPayoutMethods
       parameters:
         - $ref: '#/parameters/requestID'
+        - $ref: '#/parameters/deadline'
         - $ref: '#/parameters/paymentInstitutionID'
         - name: currency
           in: query
@@ -2617,6 +2690,7 @@ paths:
       operationId: getPaymentInstitutionPayoutSchedules
       parameters:
         - $ref: '#/parameters/requestID'
+        - $ref: '#/parameters/deadline'
         - $ref: '#/parameters/paymentInstitutionID'
         - name: currency
           in: query
@@ -2654,6 +2728,7 @@ paths:
       operationId: createPaymentResource
       parameters:
         - $ref: '#/parameters/requestID'
+        - $ref: '#/parameters/deadline'
         - name: paymentResource
           description: Данные для создания платежного средства
           in: body
@@ -2691,6 +2766,7 @@ paths:
       operationId: getScheduleByRef
       parameters:
         - $ref: '#/parameters/requestID'
+        - $ref: '#/parameters/deadline'
         - name: scheduleID
           in: path
           description: Schedule reference
@@ -2712,6 +2788,7 @@ paths:
         - Shops
       parameters:
         - $ref: '#/parameters/requestID'
+        - $ref: '#/parameters/deadline'
       responses:
         '200':
           description: List of shops
@@ -2727,6 +2804,7 @@ paths:
         - Shops
       parameters:
         - $ref: '#/parameters/requestID'
+        - $ref: '#/parameters/deadline'
         - $ref: '#/parameters/shopID'
       responses:
         '200':
@@ -2743,6 +2821,7 @@ paths:
         - Shops
       parameters:
         - $ref: '#/parameters/requestID'
+        - $ref: '#/parameters/deadline'
         - $ref: '#/parameters/shopID'
       responses:
         '204':
@@ -2759,6 +2838,7 @@ paths:
         - Shops
       parameters:
         - $ref: '#/parameters/requestID'
+        - $ref: '#/parameters/deadline'
         - $ref: '#/parameters/shopID'
       responses:
         '204':
@@ -2773,6 +2853,7 @@ paths:
       operationId: createWebhook
       parameters:
         - $ref: '#/parameters/requestID'
+        - $ref: '#/parameters/deadline'
         - name: webhookParams
           description: Параметры устанавливаемого webhook'а
           in: body
@@ -2809,6 +2890,7 @@ paths:
       operationId: getWebhooks
       parameters:
         - $ref: '#/parameters/requestID'
+        - $ref: '#/parameters/deadline'
       responses:
         '200':
           description: Набор webhook'ов
@@ -2824,6 +2906,7 @@ paths:
       operationId: getWebhookByID
       parameters:
         - $ref: '#/parameters/requestID'
+        - $ref: '#/parameters/deadline'
         - $ref: '#/parameters/webhookID'
       responses:
         '200':
@@ -2839,6 +2922,7 @@ paths:
       operationId: deleteWebhookByID
       parameters:
         - $ref: '#/parameters/requestID'
+        - $ref: '#/parameters/deadline'
         - $ref: '#/parameters/webhookID'
       responses:
         '204':
@@ -2855,6 +2939,7 @@ paths:
         - Geo
       parameters:
         - $ref: '#/parameters/requestID'
+        - $ref: '#/parameters/deadline'
         - name: language
           in: query
           description: Язык для локализации
@@ -2901,6 +2986,7 @@ paths:
       operationId: createReport
       parameters:
         - $ref: '#/parameters/requestID'
+        - $ref: '#/parameters/deadline'
         - $ref: '#/parameters/shopID'
         - name: createReport
           in: body
@@ -2939,6 +3025,7 @@ paths:
       operationId: getReports
       parameters:
         - $ref: '#/parameters/requestID'
+        - $ref: '#/parameters/deadline'
         - $ref: '#/parameters/shopID'
         - $ref: '#/parameters/fromTime'
         - $ref: '#/parameters/toTime'
@@ -2976,6 +3063,7 @@ paths:
       operationId: getReport
       parameters:
         - $ref: '#/parameters/requestID'
+        - $ref: '#/parameters/deadline'
         - $ref: '#/parameters/shopID'
         - $ref: '#/parameters/reportID'
       responses:
@@ -2993,6 +3081,7 @@ paths:
       operationId: downloadFile
       parameters:
         - $ref: '#/parameters/requestID'
+        - $ref: '#/parameters/deadline'
         - $ref: '#/parameters/shopID'
         - $ref: '#/parameters/reportID'
         - $ref: '#/parameters/fileID'
