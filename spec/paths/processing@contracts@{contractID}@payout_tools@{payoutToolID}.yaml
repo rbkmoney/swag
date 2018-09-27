@@ -5,6 +5,7 @@ get:
     - Payouts
   parameters:
     - $ref: '#/parameters/requestID'
+    - $ref: '#/parameters/deadline'
     - $ref: '#/parameters/contractID'
     - $ref: '#/parameters/payoutToolID'
   responses:

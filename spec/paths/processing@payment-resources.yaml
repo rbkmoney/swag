@@ -9,6 +9,7 @@ post:
   operationId: createPaymentResource
   parameters:
     - $ref: '#/parameters/requestID'
+    - $ref: '#/parameters/deadline'
     - name: paymentResource
       description: Данные для создания платежного средства
       in: body

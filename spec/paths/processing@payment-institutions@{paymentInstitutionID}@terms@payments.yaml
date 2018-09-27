@@ -5,6 +5,7 @@ get:
   operationId: getPaymentInstitutionPaymentTerms
   parameters:
     - $ref: '#/parameters/requestID'
+    - $ref: '#/parameters/deadline'
     - $ref: '#/parameters/paymentInstitutionID'
   responses:
     '200':

@@ -5,6 +5,7 @@ post:
   operationId: createCustomer
   parameters:
     - $ref: '#/parameters/requestID'
+    - $ref: '#/parameters/deadline'
     - name: customerParams
       description: Параметры создаваемого плательщика
       in: body

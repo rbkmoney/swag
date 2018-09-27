@@ -5,6 +5,7 @@ put:
     - Parties
   parameters:
     - $ref: '#/parameters/requestID'
+    - $ref: '#/parameters/deadline'
   responses:
     '204':
       description: Party activated

@@ -5,6 +5,7 @@ post:
   operationId: createInvoiceTemplate
   parameters:
     - $ref: '#/parameters/requestID'
+    - $ref: '#/parameters/deadline'
     - name: invoiceTemplateCreateParams
       description: Параметры шаблона инвойса.
       in: body

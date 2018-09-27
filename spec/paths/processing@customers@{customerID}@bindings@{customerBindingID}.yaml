@@ -5,6 +5,7 @@ get:
   operationId: getBinding
   parameters:
     - $ref: '#/parameters/requestID'
+    - $ref: '#/parameters/deadline'
     - $ref: '#/parameters/customerID'
     - $ref: '#/parameters/customerBindingID'
   responses:

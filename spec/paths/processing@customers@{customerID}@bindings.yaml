@@ -5,6 +5,7 @@ post:
   operationId: createBinding
   parameters:
     - $ref: '#/parameters/requestID'
+    - $ref: '#/parameters/deadline'
     - $ref: '#/parameters/customerID'
     - name: bindingParams
       description: Параметры создаваемой привязки
@@ -51,6 +52,7 @@ get:
   operationId: getBindings
   parameters:
     - $ref: '#/parameters/requestID'
+    - $ref: '#/parameters/deadline'
     - $ref: '#/parameters/customerID'
   responses:
     '200':

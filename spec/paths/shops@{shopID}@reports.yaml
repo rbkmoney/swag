@@ -5,6 +5,7 @@ post:
   operationId: createReport
   parameters:
     - $ref: '#/parameters/requestID'
+    - $ref: '#/parameters/deadline'
     - $ref: '#/parameters/shopID'
     - name: createReport
       in: body
@@ -44,6 +45,7 @@ get:
   operationId: getReports
   parameters:
     - $ref: '#/parameters/requestID'
+    - $ref: '#/parameters/deadline'
     - $ref: '#/parameters/shopID'
     - $ref: '#/parameters/fromTime'
     - $ref: '#/parameters/toTime'

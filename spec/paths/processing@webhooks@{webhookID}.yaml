@@ -5,6 +5,7 @@ get:
   operationId: getWebhookByID
   parameters:
     - $ref: '#/parameters/requestID'
+    - $ref: '#/parameters/deadline'
     - $ref: '#/parameters/webhookID'
   responses:
     '200':
@@ -21,6 +22,7 @@ delete:
   operationId: deleteWebhookByID
   parameters:
     - $ref: '#/parameters/requestID'
+    - $ref: '#/parameters/deadline'
     - $ref: '#/parameters/webhookID'
   responses:
     '204':

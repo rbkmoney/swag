@@ -5,6 +5,7 @@ put:
     - Claims
   parameters:
     - $ref: '#/parameters/requestID'
+    - $ref: '#/parameters/deadline'
     - $ref: '#/parameters/claimID'
     - $ref: '#/parameters/claimRevision'
     - name: reason
