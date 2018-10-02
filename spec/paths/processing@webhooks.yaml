@@ -5,6 +5,7 @@ post:
   operationId: createWebhook
   parameters:
     - $ref: '#/parameters/requestID'
+    - $ref: '#/parameters/deadline'
     - name: webhookParams
       description: Параметры устанавливаемого webhook'а
       in: body
@@ -42,6 +43,7 @@ get:
   operationId: getWebhooks
   parameters:
     - $ref: '#/parameters/requestID'
+    - $ref: '#/parameters/deadline'
   responses:
     '200':
       description: Набор webhook'ов

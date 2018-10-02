@@ -4,6 +4,7 @@ get:
   operationId: getMyParty
   parameters:
     - $ref: '#/parameters/requestID'
+    - $ref: '#/parameters/deadline'
   responses:
     '200':
       description: Get my party

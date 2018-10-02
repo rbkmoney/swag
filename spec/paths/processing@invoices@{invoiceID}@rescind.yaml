@@ -5,6 +5,7 @@ post:
   operationId: rescindInvoice
   parameters:
     - $ref: '#/parameters/requestID'
+    - $ref: '#/parameters/deadline'
     - $ref: '#/parameters/invoiceID'
     - name: rescindInvoice
       in: body

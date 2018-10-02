@@ -7,6 +7,7 @@ get:
     - Claims
   parameters:
     - $ref: '#/parameters/requestID'
+    - $ref: '#/parameters/deadline'
     - name: claimStatus
       description: Значение статуса для фильтрации
       in: query
@@ -33,6 +34,7 @@ post:
     - Claims
   parameters:
     - $ref: '#/parameters/requestID'
+    - $ref: '#/parameters/deadline'
     - name: claimChangeset
       in: body
       required: true

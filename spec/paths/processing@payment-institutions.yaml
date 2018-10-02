@@ -5,6 +5,7 @@ get:
   operationId: getPaymentInstitutions
   parameters:
     - $ref: '#/parameters/requestID'
+    - $ref: '#/parameters/deadline'
     - $ref: '#/parameters/residence'
     - name: realm
       in: query

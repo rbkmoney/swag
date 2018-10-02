@@ -5,6 +5,7 @@ get:
   operationId: getRefunds
   parameters:
     - $ref: '#/parameters/requestID'
+    - $ref: '#/parameters/deadline'
     - $ref: '#/parameters/invoiceID'
     - $ref: '#/parameters/paymentID'
   responses:
@@ -24,6 +25,7 @@ post:
   operationId: createRefund
   parameters:
     - $ref: '#/parameters/requestID'
+    - $ref: '#/parameters/deadline'
     - $ref: '#/parameters/invoiceID'
     - $ref: '#/parameters/paymentID'
     - name: refundParams

@@ -1,0 +1,46 @@
+description: Данные международной банковской организации
+type: object
+properties:
+  bic:
+    description: |
+      Business Identifier Code [ISO 9362](https://en.wikipedia.org/wiki/ISO_9362).
+
+      _* Если `bic` задан, прочие данные не обязательны к заполнению._
+    type: string
+    pattern: '^([A-Z0-9]{8}|[A-Z0-9]{11})$'
+    example: |
+      RZBAATWW
+  abartn:
+    description: |
+      [ABA Routing Transit Number](https://en.wikipedia.org/wiki/ABA_routing_transit_number)
+      банковской организации, специфичный для банковской системы USA.
+
+      _* Если `abartn` задан, прочие данные не обязательны к заполнению._
+    type: string
+    pattern: '^[0-9]{9}$'
+    example: "129131673"
+  name:
+    description: Наименование юридического лица банковской организации
+    type: string
+    # TODO
+    # readOnly: true
+    maxLength: 100
+    example: |
+      RAIFFEISEN BANK INTERNATIONAL AG
+  countryCode:
+    x-rebillyMerge:
+      - $ref: '#/definitions/Residence'
+      - description: |
+          Страна резиденции банковской организации,
+          alpha-3 код по стандарту [ISO 3166-1](https://en.wikipedia.org/wiki/ISO_3166-1)
+    type: string
+    # readOnly: true
+    pattern: '^[A-Z]{2}$'
+    example: "AT"
+  address:
+    description: Адрес юридического лица банковской организации
+    type: string
+    # readOnly: true
+    maxLength: 1000
+    example: |
+      1030, VIENNA, AM STADTPARK 9

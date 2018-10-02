@@ -5,6 +5,7 @@ post:
   operationId: cancelPayment
   parameters:
     - $ref: '#/parameters/requestID'
+    - $ref: '#/parameters/deadline'
     - $ref: '#/parameters/invoiceID'
     - $ref: '#/parameters/paymentID'
     - name: cancelPayment

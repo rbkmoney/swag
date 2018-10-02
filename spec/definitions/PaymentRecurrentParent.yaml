@@ -1,0 +1,12 @@
+type: object
+description: Родительский платеж, на основе которого создан текущий рекуррентный платеж
+required:
+  - invoiceID
+  - paymentID
+properties:
+  invoiceID:
+    description: Идентификатор инвойса
+    type: string
+  paymentID:
+    description: Идентификатор платежа
+    type: string

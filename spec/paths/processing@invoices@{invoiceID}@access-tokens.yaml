@@ -5,6 +5,7 @@ post:
     - Invoices
   parameters:
     - $ref: '#/parameters/requestID'
+    - $ref: '#/parameters/deadline'
     - $ref: '#/parameters/invoiceID'
   responses:
     '201':

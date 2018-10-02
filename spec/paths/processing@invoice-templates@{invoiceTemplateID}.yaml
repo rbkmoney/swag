@@ -5,6 +5,7 @@ get:
   operationId: getInvoiceTemplateByID
   parameters:
     - $ref: '#/parameters/requestID'
+    - $ref: '#/parameters/deadline'
     - $ref: '#/parameters/invoiceTemplateID'
   responses:
     '200':
@@ -21,6 +22,7 @@ put:
   operationId: updateInvoiceTemplate
   parameters:
     - $ref: '#/parameters/requestID'
+    - $ref: '#/parameters/deadline'
     - $ref: '#/parameters/invoiceTemplateID'
     - name: invoiceTemplateUpdateParams
       description: Параметры модифицируемого инвойса.
@@ -64,6 +66,7 @@ delete:
   operationId: deleteInvoiceTemplate
   parameters:
     - $ref: '#/parameters/requestID'
+    - $ref: '#/parameters/deadline'
     - $ref: '#/parameters/invoiceTemplateID'
   responses:
     '204':

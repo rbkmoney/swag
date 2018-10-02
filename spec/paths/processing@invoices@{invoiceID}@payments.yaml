@@ -5,6 +5,7 @@ get:
   operationId: getPayments
   parameters:
     - $ref: '#/parameters/requestID'
+    - $ref: '#/parameters/deadline'
     - $ref: '#/parameters/invoiceID'
   responses:
     '200':
@@ -23,6 +24,7 @@ post:
   operationId: createPayment
   parameters:
     - $ref: '#/parameters/requestID'
+    - $ref: '#/parameters/deadline'
     - $ref: '#/parameters/invoiceID'
     - name: paymentParams
       description: Параметры создаваемого платежа
@@ -57,6 +59,8 @@ post:
               - invalidShopStatus
               - invalidPaymentToolToken
               - invalidPaymentSession
+              - invalidRecurrentParent
+              - operationNotPermitted
           message:
             description: Человекочитаемое описание ошибки
             type: string

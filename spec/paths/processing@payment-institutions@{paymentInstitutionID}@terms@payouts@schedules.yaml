@@ -5,6 +5,7 @@ get:
   operationId: getPaymentInstitutionPayoutSchedules
   parameters:
     - $ref: '#/parameters/requestID'
+    - $ref: '#/parameters/deadline'
     - $ref: '#/parameters/paymentInstitutionID'
     - name: currency
       in: query

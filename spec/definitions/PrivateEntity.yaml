@@ -1,0 +1,13 @@
+description: Физическое лицо
+allOf:
+  - $ref: '#/definitions/Contractor'
+  - type: object
+    discriminator: entityType
+    required:
+      - entityType
+    properties:
+      entityType:
+        description: Тип физ. лица
+        type: string
+        enum:
+          - RussianPrivateEntity
