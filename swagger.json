@@ -7892,6 +7892,7 @@
         "createdAt",
         "fromTime",
         "toTime",
+        "status",
         "type",
         "files"
       ],
@@ -7915,6 +7916,14 @@
           "description": "Дата и время конца периода",
           "type": "string",
           "format": "date-time"
+        },
+        "status": {
+          "description": "Статус формирования отчета",
+          "type": "string",
+          "enum": [
+            "pending",
+            "created"
+          ]
         },
         "type": {
           "description": "Тип отчета",
