@@ -54,6 +54,9 @@ post:
               [Код ошибки](#tag/Error-Codes)
             type: string
             enum:
+              - invalidPartyStatus
+              - invalidShopStatus
+              - invalidContractStatus
               - operationNotPermitted
               - invalidPaymentStatus
               - insufficentAccountBalance

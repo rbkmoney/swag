@@ -57,6 +57,7 @@ post:
               - invalidRequest
               - invalidPartyStatus
               - invalidShopStatus
+              - invalidContractStatus
               - invalidPaymentToolToken
               - invalidPaymentSession
               - invalidRecurrentParent
