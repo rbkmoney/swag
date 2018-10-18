@@ -11,7 +11,7 @@ get:
     - $ref: '#/parameters/fileID'
   responses:
     '200':
-      description: Get download link
+      description: Download link
       schema:
         $ref: '#/definitions/ReportLink'
     '404':
