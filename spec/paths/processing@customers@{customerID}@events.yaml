@@ -46,6 +46,7 @@ get:
             type: string
             enum:
               - invalidRequest
+              - invalidDeadline
           message:
             description: Человекочитаемое описание ошибки
             type: string

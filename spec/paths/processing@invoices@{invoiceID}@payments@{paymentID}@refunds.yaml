@@ -63,6 +63,7 @@ post:
               - invoicePaymentAmountExceeded
               - inconsistentRefundCurrency
               - invalidRequest
+              - invalidDeadline
           message:
             description: Человекочитаемое описание ошибки
             type: string

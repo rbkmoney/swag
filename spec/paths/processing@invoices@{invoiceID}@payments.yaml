@@ -55,6 +55,7 @@ post:
               - invalidInvoiceStatus
               - invoicePaymentPending
               - invalidRequest
+              - invalidDeadline
               - invalidPartyStatus
               - invalidShopStatus
               - invalidContractStatus

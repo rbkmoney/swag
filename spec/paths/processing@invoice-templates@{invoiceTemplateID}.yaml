@@ -54,6 +54,7 @@ put:
               - invalidShopStatus
               - invalidInvoiceCart
               - invalidRequest
+              - invalidDeadline
           message:
             description: Человекочитаемое описание ошибки
             type: string

@@ -33,6 +33,7 @@ post:
             enum:
               - invalidShopID
               - invalidRequest
+              - invalidDeadline
           message:
             description: Человекочитаемое описание ошибки
             type: string
@@ -71,6 +72,7 @@ get:
             enum:
               - limitExceeded
               - invalidRequest
+              - invalidDeadline
           message:
             description: Человекочитаемое описание ошибки
             type: string
