@@ -440,6 +440,7 @@ tags:
         | **invalidClaimStatus**           | Неверный статус заявки. Например, при попытке [отзыва](#operation/revokeClaimByID) уже принятой заявки.                               |
         | **invalidClaimRevision**         | Неверная ревизия заявки. Например, в случае если заявку одновременно с вами кто-то уже принял или отклонил.                           |
         | **limitExceeded**                | Превышен разумный лимит выборки. В этом случае лучше запросить менее объёмный набор данных.                                           |
+        | **invalidDeadline**              | Неверный формат времени.                                                                                                       |
         | **invalidRequest**               | Прочие неверные данные запроса.                                                                                                       |
 
       ## Общие ошибки
@@ -668,6 +669,7 @@ paths:
                 type: string
                 enum:
                   - invalidRequest
+                  - invalidDeadline
               message:
                 description: Человекочитаемое описание ошибки
                 type: string
@@ -705,6 +707,7 @@ paths:
                 type: string
                 enum:
                   - invalidRequest
+                  - invalidDeadline
               message:
                 description: Человекочитаемое описание ошибки
                 type: string
@@ -900,6 +903,7 @@ paths:
                 type: string
                 enum:
                   - invalidRequest
+                  - invalidDeadline
               message:
                 description: Человекочитаемое описание ошибки
                 type: string
@@ -1078,6 +1082,7 @@ paths:
                 type: string
                 enum:
                   - invalidRequest
+                  - invalidDeadline
               message:
                 description: Человекочитаемое описание ошибки
                 type: string
@@ -1119,6 +1124,7 @@ paths:
                 type: string
                 enum:
                   - invalidRequest
+                  - invalidDeadline
               message:
                 description: Человекочитаемое описание ошибки
                 type: string
@@ -1160,6 +1166,7 @@ paths:
                 type: string
                 enum:
                   - invalidRequest
+                  - invalidDeadline
               message:
                 description: Человекочитаемое описание ошибки
                 type: string
@@ -1202,6 +1209,7 @@ paths:
                 type: string
                 enum:
                   - invalidRequest
+                  - invalidDeadline
               message:
                 description: Человекочитаемое описание ошибки
                 type: string
@@ -1262,6 +1270,7 @@ paths:
                 type: string
                 enum:
                   - invalidRequest
+                  - invalidDeadline
               message:
                 description: Человекочитаемое описание ошибки
                 type: string
@@ -1336,6 +1345,7 @@ paths:
                 type: string
                 enum:
                   - invalidRequest
+                  - invalidDeadline
               message:
                 description: Человекочитаемое описание ошибки
                 type: string
@@ -1460,6 +1470,7 @@ paths:
                   - invalidPartyStatus
                   - invalidChangeset
                   - invalidRequest
+                  - invalidDeadline
               message:
                 description: Человекочитаемое описание ошибки
                 type: string
@@ -1667,6 +1678,7 @@ paths:
                   - invalidPartyStatus
                   - invalidShopStatus
                   - invalidRequest
+                  - invalidDeadline
               message:
                 description: Человекочитаемое описание ошибки
                 type: string
@@ -1780,6 +1792,7 @@ paths:
                   - invalidPaymentToolToken
                   - invalidPaymentSession
                   - invalidRequest
+                  - invalidDeadline
               message:
                 description: Человекочитаемое описание ошибки
                 type: string
@@ -1869,6 +1882,7 @@ paths:
                 type: string
                 enum:
                   - invalidRequest
+                  - invalidDeadline
               message:
                 description: Человекочитаемое описание ошибки
                 type: string
@@ -1908,6 +1922,7 @@ paths:
                 type: string
                 enum:
                   - invalidRequest
+                  - invalidDeadline
                   - invalidShopID
                   - invalidPartyStatus
                   - invalidShopStatus
@@ -1970,6 +1985,7 @@ paths:
                   - invalidShopStatus
                   - invalidInvoiceCart
                   - invalidRequest
+                  - invalidDeadline
               message:
                 description: Человекочитаемое описание ошибки
                 type: string
@@ -2046,6 +2062,7 @@ paths:
                   - invalidPartyStatus
                   - invalidShopStatus
                   - invalidRequest
+                  - invalidDeadline
               message:
                 description: Человекочитаемое описание ошибки
                 type: string
@@ -2106,6 +2123,7 @@ paths:
                 enum:
                   - invalidShopID
                   - invalidRequest
+                  - invalidDeadline
                   - invalidPartyStatus
                   - invalidShopStatus
                   - invalidInvoiceCart
@@ -2195,6 +2213,7 @@ paths:
                 type: string
                 enum:
                   - invalidRequest
+                  - invalidDeadline
               message:
                 description: Человекочитаемое описание ошибки
                 type: string
@@ -2315,6 +2334,7 @@ paths:
                   - invalidInvoiceStatus
                   - invoicePaymentPending
                   - invalidRequest
+                  - invalidDeadline
                   - invalidPartyStatus
                   - invalidShopStatus
                   - invalidContractStatus
@@ -2384,6 +2404,7 @@ paths:
                   - invalidPartyStatus
                   - invalidShopStatus
                   - invalidRequest
+                  - invalidDeadline
               message:
                 description: Человекочитаемое описание ошибки
                 type: string
@@ -2428,6 +2449,7 @@ paths:
                   - invalidPartyStatus
                   - invalidShopStatus
                   - invalidRequest
+                  - invalidDeadline
               message:
                 description: Человекочитаемое описание ошибки
                 type: string
@@ -2497,6 +2519,7 @@ paths:
                   - invoicePaymentAmountExceeded
                   - inconsistentRefundCurrency
                   - invalidRequest
+                  - invalidDeadline
               message:
                 description: Человекочитаемое описание ошибки
                 type: string
@@ -2759,6 +2782,7 @@ paths:
                 type: string
                 enum:
                   - invalidRequest
+                  - invalidDeadline
               message:
                 description: Человекочитаемое описание ошибки
                 type: string
@@ -2980,6 +3004,7 @@ paths:
                 type: string
                 enum:
                   - invalidRequest
+                  - invalidDeadline
               message:
                 description: Человекочитаемое описание ошибки
                 type: string
@@ -3019,6 +3044,7 @@ paths:
                 enum:
                   - invalidShopID
                   - invalidRequest
+                  - invalidDeadline
               message:
                 description: Человекочитаемое описание ошибки
                 type: string
@@ -3056,6 +3082,7 @@ paths:
                 enum:
                   - limitExceeded
                   - invalidRequest
+                  - invalidDeadline
               message:
                 description: Человекочитаемое описание ошибки
                 type: string
@@ -3111,6 +3138,7 @@ paths:
                 type: string
                 enum:
                   - invalidRequest
+                  - invalidDeadline
               message:
                 description: Человекочитаемое описание ошибки
                 type: string
