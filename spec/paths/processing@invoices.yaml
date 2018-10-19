@@ -32,6 +32,7 @@ post:
             enum:
               - invalidShopID
               - invalidRequest
+              - invalidDeadline
               - invalidPartyStatus
               - invalidShopStatus
               - invalidInvoiceCart

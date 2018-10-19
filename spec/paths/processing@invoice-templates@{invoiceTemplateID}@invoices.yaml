@@ -36,6 +36,7 @@ post:
               - invalidPartyStatus
               - invalidShopStatus
               - invalidRequest
+              - invalidDeadline
           message:
             description: Человекочитаемое описание ошибки
             type: string

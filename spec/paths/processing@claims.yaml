@@ -62,6 +62,7 @@ post:
               - invalidPartyStatus
               - invalidChangeset
               - invalidRequest
+              - invalidDeadline
           message:
             description: Человекочитаемое описание ошибки
             type: string
