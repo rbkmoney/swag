@@ -20,6 +20,8 @@ post:
         $ref: '#/definitions/CustomerBinding'
     '404':
       $ref: '#/responses/NotFound'
+    '401':
+      $ref: '#/responses/Unauthorized'
     '400':
       description: Ошибочные данные для привязки
       schema:
@@ -64,3 +66,5 @@ get:
           $ref: '#/definitions/CustomerBinding'
     '404':
       $ref: '#/responses/NotFound'
+    '401':
+      $ref: '#/responses/Unauthorized'

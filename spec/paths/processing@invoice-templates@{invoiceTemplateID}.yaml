@@ -14,6 +14,8 @@ get:
         $ref: '#/definitions/InvoiceTemplate'
     '404':
       $ref: '#/responses/NotFound'
+    '401':
+      $ref: '#/responses/Unauthorized'
 
 put:
   description: Модифицировать шаблон инвойса.
@@ -37,6 +39,8 @@ put:
         $ref: '#/definitions/InvoiceTemplate'
     '404':
       $ref: '#/responses/NotFound'
+    '401':
+      $ref: '#/responses/Unauthorized'
     '400':
       description: Ошибочные данные для изменения шаблона
       schema:
@@ -74,6 +78,8 @@ delete:
       description: Шаблон инвойса удален.
     '404':
       $ref: '#/responses/NotFound'
+    '401':
+      $ref: '#/responses/Unauthorized'
     '400':
       description: Ошибочные данные для удаления шаблона
       schema:

@@ -16,3 +16,5 @@ get:
           $ref: '#/definitions/ContractAdjustment'
     '404':
       $ref: '#/responses/NotFound'
+    '401':
+      $ref: '#/responses/Unauthorized'

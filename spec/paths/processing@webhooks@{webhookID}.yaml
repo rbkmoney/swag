@@ -14,6 +14,8 @@ get:
         $ref: '#/definitions/Webhook'
     '404':
       $ref: '#/responses/NotFound'
+    '401':
+      $ref: '#/responses/Unauthorized'
 
 delete:
   description: Снять указанный webhook.
@@ -29,3 +31,5 @@ delete:
       description: Webhook успешно снят
     '404':
       $ref: '#/responses/NotFound'
+    '401':
+      $ref: '#/responses/Unauthorized'

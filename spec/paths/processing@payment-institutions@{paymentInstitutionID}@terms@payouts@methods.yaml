@@ -27,3 +27,5 @@ get:
             - InternationalBankAccount
     '404':
       $ref: '#/responses/NotFound'
+    '401':
+      $ref: '#/responses/Unauthorized'

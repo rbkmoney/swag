@@ -19,3 +19,5 @@ get:
         $ref: '#/definitions/Schedule'
     '404':
       $ref: '#/responses/NotFound'
+    '401':
+      $ref: '#/responses/Unauthorized'
