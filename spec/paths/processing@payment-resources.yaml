@@ -21,6 +21,8 @@ post:
       description: Токен и сессия созданы
       schema:
         $ref: '#/definitions/PaymentResource'
+    '401':
+      $ref: '#/responses/Unauthorized'
     '400':
       description: Ошибочные данные для токенизации
       schema:

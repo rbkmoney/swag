@@ -35,3 +35,21 @@ get:
       $ref: '#/responses/NotFound'
     '401':
       $ref: '#/responses/Unauthorized'
+    '400':
+      description: Неверные данные для поиска
+      schema:
+        type: object
+        required:
+          - code
+          - message
+        properties:
+          code:
+            description: |
+              [Код ошибки](#tag/Error-Codes)
+            type: string
+            enum:
+              - invalidRequest
+              - invalidDeadline
+          message:
+            description: Человекочитаемое описание ошибки
+            type: string
