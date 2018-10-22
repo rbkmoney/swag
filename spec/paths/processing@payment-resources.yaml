@@ -24,21 +24,4 @@ post:
     '401':
       $ref: '#/responses/Unauthorized'
     '400':
-      description: Ошибочные данные для токенизации
-      schema:
-        type: object
-        required:
-          - code
-          - message
-        properties:
-          code:
-            description: |
-              [Код ошибки](#tag/Error-Codes)
-            type: string
-            enum:
-              - invalidRequest
-              - invalidDeadline
-          message:
-            description: Человекочитаемое описание ошибки
-            type: string
-            example: Card data is invalid
+      $ref: '#/responses/DefaultLogicError'

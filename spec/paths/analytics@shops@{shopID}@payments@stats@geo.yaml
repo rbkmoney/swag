@@ -24,20 +24,4 @@ get:
     '401':
       $ref: '#/responses/Unauthorized'
     '400':
-      description: Неверные данные запроса статистики
-      schema:
-        type: object
-        required:
-          - code
-          - message
-        properties:
-          code:
-            description: |
-              [Код ошибки](#tag/Error-Codes)
-            type: string
-            enum:
-              - invalidRequest
-              - invalidDeadline
-          message:
-            description: Человекочитаемое описание ошибки
-            type: string
+      $ref: '#/responses/DefaultLogicError'

@@ -113,6 +113,10 @@ responses:
     description: Ошибка авторизации
     schema:
       $ref: '#/definitions/GeneralError'
+  DefaultLogicError:
+    description: Неверные данные
+    schema:
+      $ref: '#/definitions/DefaultLogicError'
 parameters:
   accountID:
     name: accountID
