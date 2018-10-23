@@ -41,6 +41,18 @@
       "schema": {
         "$ref": "#/definitions/GeneralError"
       }
+    },
+    "Unauthorized": {
+      "description": "Ошибка авторизации",
+      "schema": {
+        "$ref": "#/definitions/GeneralError"
+      }
+    },
+    "DefaultLogicError": {
+      "description": "Неверные данные",
+      "schema": {
+        "$ref": "#/definitions/DefaultLogicError"
+      }
     }
   },
   "parameters": {
@@ -421,28 +433,10 @@
             }
           },
           "400": {
-            "description": "Неверные данные запроса статистики",
-            "schema": {
-              "type": "object",
-              "required": [
-                "code",
-                "message"
-              ],
-              "properties": {
-                "code": {
-                  "description": "[Код ошибки](#tag/Error-Codes)\n",
-                  "type": "string",
-                  "enum": [
-                    "invalidRequest",
-                    "invalidDeadline"
-                  ]
-                },
-                "message": {
-                  "description": "Человекочитаемое описание ошибки",
-                  "type": "string"
-                }
-              }
-            }
+            "$ref": "#/responses/DefaultLogicError"
+          },
+          "401": {
+            "$ref": "#/responses/Unauthorized"
           },
           "404": {
             "$ref": "#/responses/NotFound"
@@ -482,28 +476,10 @@
             }
           },
           "400": {
-            "description": "Неверные данные запроса статистики",
-            "schema": {
-              "type": "object",
-              "required": [
-                "code",
-                "message"
-              ],
-              "properties": {
-                "code": {
-                  "description": "[Код ошибки](#tag/Error-Codes)\n",
-                  "type": "string",
-                  "enum": [
-                    "invalidRequest",
-                    "invalidDeadline"
-                  ]
-                },
-                "message": {
-                  "description": "Человекочитаемое описание ошибки",
-                  "type": "string"
-                }
-              }
-            }
+            "$ref": "#/responses/DefaultLogicError"
+          },
+          "401": {
+            "$ref": "#/responses/Unauthorized"
           },
           "404": {
             "$ref": "#/responses/NotFound"
@@ -745,28 +721,10 @@
             }
           },
           "400": {
-            "description": "Неверные данные для поиска",
-            "schema": {
-              "type": "object",
-              "required": [
-                "code",
-                "message"
-              ],
-              "properties": {
-                "code": {
-                  "description": "[Код ошибки](#tag/Error-Codes)\n",
-                  "type": "string",
-                  "enum": [
-                    "invalidRequest",
-                    "invalidDeadline"
-                  ]
-                },
-                "message": {
-                  "description": "Человекочитаемое описание ошибки",
-                  "type": "string"
-                }
-              }
-            }
+            "$ref": "#/responses/DefaultLogicError"
+          },
+          "401": {
+            "$ref": "#/responses/Unauthorized"
           },
           "404": {
             "$ref": "#/responses/NotFound"
@@ -986,28 +944,10 @@
             }
           },
           "400": {
-            "description": "Неверные данные для поиска",
-            "schema": {
-              "type": "object",
-              "required": [
-                "code",
-                "message"
-              ],
-              "properties": {
-                "code": {
-                  "description": "[Код ошибки](#tag/Error-Codes)\n",
-                  "type": "string",
-                  "enum": [
-                    "invalidRequest",
-                    "invalidDeadline"
-                  ]
-                },
-                "message": {
-                  "description": "Человекочитаемое описание ошибки",
-                  "type": "string"
-                }
-              }
-            }
+            "$ref": "#/responses/DefaultLogicError"
+          },
+          "401": {
+            "$ref": "#/responses/Unauthorized"
           },
           "404": {
             "$ref": "#/responses/NotFound"
@@ -1056,28 +996,10 @@
             }
           },
           "400": {
-            "description": "Неверные данные запроса статистики",
-            "schema": {
-              "type": "object",
-              "required": [
-                "code",
-                "message"
-              ],
-              "properties": {
-                "code": {
-                  "description": "[Код ошибки](#tag/Error-Codes)\n",
-                  "type": "string",
-                  "enum": [
-                    "invalidRequest",
-                    "invalidDeadline"
-                  ]
-                },
-                "message": {
-                  "description": "Человекочитаемое описание ошибки",
-                  "type": "string"
-                }
-              }
-            }
+            "$ref": "#/responses/DefaultLogicError"
+          },
+          "401": {
+            "$ref": "#/responses/Unauthorized"
           },
           "404": {
             "$ref": "#/responses/NotFound"
@@ -1126,28 +1048,10 @@
             }
           },
           "400": {
-            "description": "Неверные данные запроса статистики",
-            "schema": {
-              "type": "object",
-              "required": [
-                "code",
-                "message"
-              ],
-              "properties": {
-                "code": {
-                  "description": "[Код ошибки](#tag/Error-Codes)\n",
-                  "type": "string",
-                  "enum": [
-                    "invalidRequest",
-                    "invalidDeadline"
-                  ]
-                },
-                "message": {
-                  "description": "Человекочитаемое описание ошибки",
-                  "type": "string"
-                }
-              }
-            }
+            "$ref": "#/responses/DefaultLogicError"
+          },
+          "401": {
+            "$ref": "#/responses/Unauthorized"
           },
           "404": {
             "$ref": "#/responses/NotFound"
@@ -1196,28 +1100,10 @@
             }
           },
           "400": {
-            "description": "Неверные данные запроса статистики",
-            "schema": {
-              "type": "object",
-              "required": [
-                "code",
-                "message"
-              ],
-              "properties": {
-                "code": {
-                  "description": "[Код ошибки](#tag/Error-Codes)\n",
-                  "type": "string",
-                  "enum": [
-                    "invalidRequest",
-                    "invalidDeadline"
-                  ]
-                },
-                "message": {
-                  "description": "Человекочитаемое описание ошибки",
-                  "type": "string"
-                }
-              }
-            }
+            "$ref": "#/responses/DefaultLogicError"
+          },
+          "401": {
+            "$ref": "#/responses/Unauthorized"
           },
           "404": {
             "$ref": "#/responses/NotFound"
@@ -1294,28 +1180,10 @@
             }
           },
           "400": {
-            "description": "Неверные данные для поиска",
-            "schema": {
-              "type": "object",
-              "required": [
-                "code",
-                "message"
-              ],
-              "properties": {
-                "code": {
-                  "description": "[Код ошибки](#tag/Error-Codes)\n",
-                  "type": "string",
-                  "enum": [
-                    "invalidRequest",
-                    "invalidDeadline"
-                  ]
-                },
-                "message": {
-                  "description": "Человекочитаемое описание ошибки",
-                  "type": "string"
-                }
-              }
-            }
+            "$ref": "#/responses/DefaultLogicError"
+          },
+          "401": {
+            "$ref": "#/responses/Unauthorized"
           },
           "404": {
             "$ref": "#/responses/NotFound"
@@ -1410,28 +1278,10 @@
             }
           },
           "400": {
-            "description": "Неверные данные для поиска",
-            "schema": {
-              "type": "object",
-              "required": [
-                "code",
-                "message"
-              ],
-              "properties": {
-                "code": {
-                  "description": "[Код ошибки](#tag/Error-Codes)\n",
-                  "type": "string",
-                  "enum": [
-                    "invalidRequest",
-                    "invalidDeadline"
-                  ]
-                },
-                "message": {
-                  "description": "Человекочитаемое описание ошибки",
-                  "type": "string"
-                }
-              }
-            }
+            "$ref": "#/responses/DefaultLogicError"
+          },
+          "401": {
+            "$ref": "#/responses/Unauthorized"
           },
           "404": {
             "$ref": "#/responses/NotFound"
@@ -1464,6 +1314,12 @@
               "$ref": "#/definitions/Account"
             }
           },
+          "400": {
+            "$ref": "#/responses/DefaultLogicError"
+          },
+          "401": {
+            "$ref": "#/responses/Unauthorized"
+          },
           "404": {
             "$ref": "#/responses/NotFound"
           }
@@ -1494,6 +1350,12 @@
                 "$ref": "#/definitions/Category"
               }
             }
+          },
+          "400": {
+            "$ref": "#/responses/DefaultLogicError"
+          },
+          "401": {
+            "$ref": "#/responses/Unauthorized"
           }
         }
       }
@@ -1527,6 +1389,12 @@
             "schema": {
               "$ref": "#/definitions/Category"
             }
+          },
+          "400": {
+            "$ref": "#/responses/DefaultLogicError"
+          },
+          "401": {
+            "$ref": "#/responses/Unauthorized"
           },
           "404": {
             "$ref": "#/responses/NotFound"
@@ -1570,6 +1438,12 @@
                 "$ref": "#/definitions/Claim"
               }
             }
+          },
+          "400": {
+            "$ref": "#/responses/DefaultLogicError"
+          },
+          "401": {
+            "$ref": "#/responses/Unauthorized"
           }
         }
       },
@@ -1629,6 +1503,9 @@
                 }
               }
             }
+          },
+          "401": {
+            "$ref": "#/responses/Unauthorized"
           }
         }
       }
@@ -1657,6 +1534,12 @@
             "schema": {
               "$ref": "#/definitions/Claim"
             }
+          },
+          "400": {
+            "$ref": "#/responses/DefaultLogicError"
+          },
+          "401": {
+            "$ref": "#/responses/Unauthorized"
           },
           "404": {
             "$ref": "#/responses/NotFound"
@@ -1711,7 +1594,9 @@
                   "enum": [
                     "invalidClaimStatus",
                     "invalidClaimRevision",
-                    "invalidPartyStatus"
+                    "invalidPartyStatus",
+                    "invalidRequest",
+                    "invalidDeadline"
                   ]
                 },
                 "message": {
@@ -1721,6 +1606,9 @@
                 }
               }
             }
+          },
+          "401": {
+            "$ref": "#/responses/Unauthorized"
           },
           "404": {
             "$ref": "#/responses/NotFound"
@@ -1752,6 +1640,12 @@
                 "$ref": "#/definitions/Contract"
               }
             }
+          },
+          "400": {
+            "$ref": "#/responses/DefaultLogicError"
+          },
+          "401": {
+            "$ref": "#/responses/Unauthorized"
           }
         }
       }
@@ -1780,6 +1674,12 @@
             "schema": {
               "$ref": "#/definitions/Contract"
             }
+          },
+          "400": {
+            "$ref": "#/responses/DefaultLogicError"
+          },
+          "401": {
+            "$ref": "#/responses/Unauthorized"
           },
           "404": {
             "$ref": "#/responses/NotFound"
@@ -1815,6 +1715,12 @@
               }
             }
           },
+          "400": {
+            "$ref": "#/responses/DefaultLogicError"
+          },
+          "401": {
+            "$ref": "#/responses/Unauthorized"
+          },
           "404": {
             "$ref": "#/responses/NotFound"
           }
@@ -1848,6 +1754,12 @@
             "schema": {
               "$ref": "#/definitions/ContractAdjustment"
             }
+          },
+          "400": {
+            "$ref": "#/responses/DefaultLogicError"
+          },
+          "401": {
+            "$ref": "#/responses/Unauthorized"
           },
           "404": {
             "$ref": "#/responses/NotFound"
@@ -1883,6 +1795,12 @@
               }
             }
           },
+          "400": {
+            "$ref": "#/responses/DefaultLogicError"
+          },
+          "401": {
+            "$ref": "#/responses/Unauthorized"
+          },
           "404": {
             "$ref": "#/responses/NotFound"
           }
@@ -1916,6 +1834,12 @@
             "schema": {
               "$ref": "#/definitions/PayoutTool"
             }
+          },
+          "400": {
+            "$ref": "#/responses/DefaultLogicError"
+          },
+          "401": {
+            "$ref": "#/responses/Unauthorized"
           },
           "404": {
             "$ref": "#/responses/NotFound"
@@ -1982,6 +1906,9 @@
                 }
               }
             }
+          },
+          "401": {
+            "$ref": "#/responses/Unauthorized"
           }
         }
       }
@@ -2010,6 +1937,12 @@
             "schema": {
               "$ref": "#/definitions/Customer"
             }
+          },
+          "400": {
+            "$ref": "#/responses/DefaultLogicError"
+          },
+          "401": {
+            "$ref": "#/responses/Unauthorized"
           },
           "404": {
             "$ref": "#/responses/NotFound"
@@ -2051,7 +1984,9 @@
                   "type": "string",
                   "enum": [
                     "invalidPartyStatus",
-                    "invalidShopStatus"
+                    "invalidShopStatus",
+                    "invalidRequest",
+                    "invalidDeadline"
                   ]
                 },
                 "message": {
@@ -2061,6 +1996,9 @@
                 }
               }
             }
+          },
+          "401": {
+            "$ref": "#/responses/Unauthorized"
           },
           "404": {
             "$ref": "#/responses/NotFound"
@@ -2092,6 +2030,12 @@
             "schema": {
               "$ref": "#/definitions/AccessToken"
             }
+          },
+          "400": {
+            "$ref": "#/responses/DefaultLogicError"
+          },
+          "401": {
+            "$ref": "#/responses/Unauthorized"
           },
           "404": {
             "$ref": "#/responses/NotFound"
@@ -2164,6 +2108,9 @@
               }
             }
           },
+          "401": {
+            "$ref": "#/responses/Unauthorized"
+          },
           "404": {
             "$ref": "#/responses/NotFound"
           }
@@ -2195,6 +2142,12 @@
                 "$ref": "#/definitions/CustomerBinding"
               }
             }
+          },
+          "400": {
+            "$ref": "#/responses/DefaultLogicError"
+          },
+          "401": {
+            "$ref": "#/responses/Unauthorized"
           },
           "404": {
             "$ref": "#/responses/NotFound"
@@ -2229,6 +2182,12 @@
             "schema": {
               "$ref": "#/definitions/CustomerBinding"
             }
+          },
+          "400": {
+            "$ref": "#/responses/DefaultLogicError"
+          },
+          "401": {
+            "$ref": "#/responses/Unauthorized"
           },
           "404": {
             "$ref": "#/responses/NotFound"
@@ -2282,28 +2241,10 @@
             }
           },
           "400": {
-            "description": "Ошибочные данные для запроса истории",
-            "schema": {
-              "type": "object",
-              "required": [
-                "code",
-                "message"
-              ],
-              "properties": {
-                "code": {
-                  "description": "[Код ошибки](#tag/Error-Codes)\n",
-                  "type": "string",
-                  "enum": [
-                    "invalidRequest",
-                    "invalidDeadline"
-                  ]
-                },
-                "message": {
-                  "description": "Человекочитаемое описание ошибки",
-                  "type": "string"
-                }
-              }
-            }
+            "$ref": "#/responses/DefaultLogicError"
+          },
+          "401": {
+            "$ref": "#/responses/Unauthorized"
           },
           "404": {
             "$ref": "#/responses/NotFound"
@@ -2370,6 +2311,9 @@
                 }
               }
             }
+          },
+          "401": {
+            "$ref": "#/responses/Unauthorized"
           }
         }
       }
@@ -2398,6 +2342,12 @@
             "schema": {
               "$ref": "#/definitions/InvoiceTemplate"
             }
+          },
+          "400": {
+            "$ref": "#/responses/DefaultLogicError"
+          },
+          "401": {
+            "$ref": "#/responses/Unauthorized"
           },
           "404": {
             "$ref": "#/responses/NotFound"
@@ -2465,6 +2415,9 @@
               }
             }
           },
+          "401": {
+            "$ref": "#/responses/Unauthorized"
+          },
           "404": {
             "$ref": "#/responses/NotFound"
           }
@@ -2505,7 +2458,9 @@
                   "type": "string",
                   "enum": [
                     "invalidPartyStatus",
-                    "invalidShopStatus"
+                    "invalidShopStatus",
+                    "invalidRequest",
+                    "invalidDeadline"
                   ]
                 },
                 "message": {
@@ -2515,6 +2470,9 @@
                 }
               }
             }
+          },
+          "401": {
+            "$ref": "#/responses/Unauthorized"
           },
           "404": {
             "$ref": "#/responses/NotFound"
@@ -2583,6 +2541,9 @@
               }
             }
           },
+          "401": {
+            "$ref": "#/responses/Unauthorized"
+          },
           "404": {
             "$ref": "#/responses/NotFound"
           }
@@ -2616,6 +2577,12 @@
                 "$ref": "#/definitions/PaymentMethod"
               }
             }
+          },
+          "400": {
+            "$ref": "#/responses/DefaultLogicError"
+          },
+          "401": {
+            "$ref": "#/responses/Unauthorized"
           },
           "404": {
             "$ref": "#/responses/NotFound"
@@ -2683,6 +2650,9 @@
                 }
               }
             }
+          },
+          "401": {
+            "$ref": "#/responses/Unauthorized"
           }
         }
       }
@@ -2711,6 +2681,12 @@
             "schema": {
               "$ref": "#/definitions/Invoice"
             }
+          },
+          "400": {
+            "$ref": "#/responses/DefaultLogicError"
+          },
+          "401": {
+            "$ref": "#/responses/Unauthorized"
           },
           "404": {
             "$ref": "#/responses/NotFound"
@@ -2742,6 +2718,12 @@
             "schema": {
               "$ref": "#/definitions/AccessToken"
             }
+          },
+          "400": {
+            "$ref": "#/responses/DefaultLogicError"
+          },
+          "401": {
+            "$ref": "#/responses/Unauthorized"
           },
           "404": {
             "$ref": "#/responses/NotFound"
@@ -2795,28 +2777,10 @@
             }
           },
           "400": {
-            "description": "Ошибочные данные для запроса истории",
-            "schema": {
-              "type": "object",
-              "required": [
-                "code",
-                "message"
-              ],
-              "properties": {
-                "code": {
-                  "description": "[Код ошибки](#tag/Error-Codes)\n",
-                  "type": "string",
-                  "enum": [
-                    "invalidRequest",
-                    "invalidDeadline"
-                  ]
-                },
-                "message": {
-                  "description": "Человекочитаемое описание ошибки",
-                  "type": "string"
-                }
-              }
-            }
+            "$ref": "#/responses/DefaultLogicError"
+          },
+          "401": {
+            "$ref": "#/responses/Unauthorized"
           },
           "404": {
             "$ref": "#/responses/NotFound"
@@ -2870,7 +2834,9 @@
                   "enum": [
                     "invalidInvoiceStatus",
                     "invalidPartyStatus",
-                    "invalidShopStatus"
+                    "invalidShopStatus",
+                    "invalidRequest",
+                    "invalidDeadline"
                   ]
                 },
                 "message": {
@@ -2880,6 +2846,9 @@
                 }
               }
             }
+          },
+          "401": {
+            "$ref": "#/responses/Unauthorized"
           },
           "404": {
             "$ref": "#/responses/NotFound"
@@ -2915,6 +2884,12 @@
               }
             }
           },
+          "400": {
+            "$ref": "#/responses/DefaultLogicError"
+          },
+          "401": {
+            "$ref": "#/responses/Unauthorized"
+          },
           "404": {
             "$ref": "#/responses/NotFound"
           }
@@ -2948,6 +2923,12 @@
                 "$ref": "#/definitions/Payment"
               }
             }
+          },
+          "400": {
+            "$ref": "#/responses/DefaultLogicError"
+          },
+          "401": {
+            "$ref": "#/responses/Unauthorized"
           },
           "404": {
             "$ref": "#/responses/NotFound"
@@ -3021,6 +3002,9 @@
               }
             }
           },
+          "401": {
+            "$ref": "#/responses/Unauthorized"
+          },
           "404": {
             "$ref": "#/responses/NotFound"
           }
@@ -3054,6 +3038,12 @@
             "schema": {
               "$ref": "#/definitions/Payment"
             }
+          },
+          "400": {
+            "$ref": "#/responses/DefaultLogicError"
+          },
+          "401": {
+            "$ref": "#/responses/Unauthorized"
           },
           "404": {
             "$ref": "#/responses/NotFound"
@@ -3124,6 +3114,9 @@
               }
             }
           },
+          "401": {
+            "$ref": "#/responses/Unauthorized"
+          },
           "404": {
             "$ref": "#/responses/NotFound"
           }
@@ -3193,6 +3186,9 @@
               }
             }
           },
+          "401": {
+            "$ref": "#/responses/Unauthorized"
+          },
           "404": {
             "$ref": "#/responses/NotFound"
           }
@@ -3229,6 +3225,12 @@
                 "$ref": "#/definitions/Refund"
               }
             }
+          },
+          "400": {
+            "$ref": "#/responses/DefaultLogicError"
+          },
+          "401": {
+            "$ref": "#/responses/Unauthorized"
           },
           "404": {
             "$ref": "#/responses/NotFound"
@@ -3304,6 +3306,9 @@
               }
             }
           },
+          "401": {
+            "$ref": "#/responses/Unauthorized"
+          },
           "404": {
             "$ref": "#/responses/NotFound"
           }
@@ -3340,6 +3345,12 @@
             "schema": {
               "$ref": "#/definitions/Refund"
             }
+          },
+          "400": {
+            "$ref": "#/responses/DefaultLogicError"
+          },
+          "401": {
+            "$ref": "#/responses/Unauthorized"
           },
           "404": {
             "$ref": "#/responses/NotFound"
@@ -3394,7 +3405,9 @@
                     "invalidInvoiceStatus",
                     "invoicePaymentPending",
                     "invalidPartyStatus",
-                    "invalidShopStatus"
+                    "invalidShopStatus",
+                    "invalidRequest",
+                    "invalidDeadline"
                   ]
                 },
                 "message": {
@@ -3404,6 +3417,9 @@
                 }
               }
             }
+          },
+          "401": {
+            "$ref": "#/responses/Unauthorized"
           },
           "404": {
             "$ref": "#/responses/NotFound"
@@ -3431,6 +3447,12 @@
             "schema": {
               "$ref": "#/definitions/Party"
             }
+          },
+          "400": {
+            "$ref": "#/responses/DefaultLogicError"
+          },
+          "401": {
+            "$ref": "#/responses/Unauthorized"
           }
         }
       }
@@ -3453,6 +3475,12 @@
         "responses": {
           "204": {
             "description": "Party activated"
+          },
+          "400": {
+            "$ref": "#/responses/DefaultLogicError"
+          },
+          "401": {
+            "$ref": "#/responses/Unauthorized"
           }
         }
       }
@@ -3475,6 +3503,12 @@
         "responses": {
           "204": {
             "description": "Party suspended"
+          },
+          "400": {
+            "$ref": "#/responses/DefaultLogicError"
+          },
+          "401": {
+            "$ref": "#/responses/Unauthorized"
           }
         }
       }
@@ -3516,6 +3550,12 @@
                 "$ref": "#/definitions/PaymentInstitution"
               }
             }
+          },
+          "400": {
+            "$ref": "#/responses/DefaultLogicError"
+          },
+          "401": {
+            "$ref": "#/responses/Unauthorized"
           }
         }
       }
@@ -3544,6 +3584,12 @@
             "schema": {
               "$ref": "#/definitions/PaymentInstitution"
             }
+          },
+          "400": {
+            "$ref": "#/responses/DefaultLogicError"
+          },
+          "401": {
+            "$ref": "#/responses/Unauthorized"
           },
           "404": {
             "$ref": "#/responses/NotFound"
@@ -3575,6 +3621,12 @@
             "schema": {
               "$ref": "#/definitions/PaymentTerms"
             }
+          },
+          "400": {
+            "$ref": "#/responses/DefaultLogicError"
+          },
+          "401": {
+            "$ref": "#/responses/Unauthorized"
           },
           "404": {
             "$ref": "#/responses/NotFound"
@@ -3621,6 +3673,12 @@
                 ]
               }
             }
+          },
+          "400": {
+            "$ref": "#/responses/DefaultLogicError"
+          },
+          "401": {
+            "$ref": "#/responses/Unauthorized"
           },
           "404": {
             "$ref": "#/responses/NotFound"
@@ -3676,6 +3734,12 @@
               }
             }
           },
+          "400": {
+            "$ref": "#/responses/DefaultLogicError"
+          },
+          "401": {
+            "$ref": "#/responses/Unauthorized"
+          },
           "404": {
             "$ref": "#/responses/NotFound"
           }
@@ -3714,29 +3778,10 @@
             }
           },
           "400": {
-            "description": "Ошибочные данные для токенизации",
-            "schema": {
-              "type": "object",
-              "required": [
-                "code",
-                "message"
-              ],
-              "properties": {
-                "code": {
-                  "description": "[Код ошибки](#tag/Error-Codes)\n",
-                  "type": "string",
-                  "enum": [
-                    "invalidRequest",
-                    "invalidDeadline"
-                  ]
-                },
-                "message": {
-                  "description": "Человекочитаемое описание ошибки",
-                  "type": "string",
-                  "example": "Card data is invalid"
-                }
-              }
-            }
+            "$ref": "#/responses/DefaultLogicError"
+          },
+          "401": {
+            "$ref": "#/responses/Unauthorized"
           }
         }
       }
@@ -3771,6 +3816,12 @@
               "$ref": "#/definitions/Schedule"
             }
           },
+          "400": {
+            "$ref": "#/responses/DefaultLogicError"
+          },
+          "401": {
+            "$ref": "#/responses/Unauthorized"
+          },
           "404": {
             "$ref": "#/responses/NotFound"
           }
@@ -3801,6 +3852,12 @@
                 "$ref": "#/definitions/Shop"
               }
             }
+          },
+          "400": {
+            "$ref": "#/responses/DefaultLogicError"
+          },
+          "401": {
+            "$ref": "#/responses/Unauthorized"
           }
         }
       }
@@ -3830,6 +3887,12 @@
               "$ref": "#/definitions/Shop"
             }
           },
+          "400": {
+            "$ref": "#/responses/DefaultLogicError"
+          },
+          "401": {
+            "$ref": "#/responses/Unauthorized"
+          },
           "404": {
             "$ref": "#/responses/NotFound"
           }
@@ -3858,6 +3921,12 @@
           "204": {
             "description": "Shop activated"
           },
+          "400": {
+            "$ref": "#/responses/DefaultLogicError"
+          },
+          "401": {
+            "$ref": "#/responses/Unauthorized"
+          },
           "404": {
             "$ref": "#/responses/NotFound"
           }
@@ -3885,6 +3954,12 @@
         "responses": {
           "204": {
             "description": "Shop suspended"
+          },
+          "400": {
+            "$ref": "#/responses/DefaultLogicError"
+          },
+          "401": {
+            "$ref": "#/responses/Unauthorized"
           },
           "404": {
             "$ref": "#/responses/NotFound"
@@ -3936,7 +4011,9 @@
                   "description": "[Код ошибки](#tag/Error-Codes)\n",
                   "type": "string",
                   "enum": [
-                    "invalidShopID"
+                    "invalidShopID",
+                    "invalidRequest",
+                    "invalidDeadline"
                   ]
                 },
                 "message": {
@@ -3946,6 +4023,9 @@
                 }
               }
             }
+          },
+          "401": {
+            "$ref": "#/responses/Unauthorized"
           }
         }
       },
@@ -3972,6 +4052,12 @@
                 "$ref": "#/definitions/Webhook"
               }
             }
+          },
+          "400": {
+            "$ref": "#/responses/DefaultLogicError"
+          },
+          "401": {
+            "$ref": "#/responses/Unauthorized"
           }
         }
       }
@@ -4001,6 +4087,12 @@
               "$ref": "#/definitions/Webhook"
             }
           },
+          "400": {
+            "$ref": "#/responses/DefaultLogicError"
+          },
+          "401": {
+            "$ref": "#/responses/Unauthorized"
+          },
           "404": {
             "$ref": "#/responses/NotFound"
           }
@@ -4026,6 +4118,12 @@
         "responses": {
           "204": {
             "description": "Webhook успешно снят"
+          },
+          "400": {
+            "$ref": "#/responses/DefaultLogicError"
+          },
+          "401": {
+            "$ref": "#/responses/Unauthorized"
           },
           "404": {
             "$ref": "#/responses/NotFound"
@@ -4078,28 +4176,10 @@
             }
           },
           "400": {
-            "description": "Неверные данные запроса геопозиций",
-            "schema": {
-              "type": "object",
-              "required": [
-                "code",
-                "message"
-              ],
-              "properties": {
-                "code": {
-                  "description": "[Код ошибки](#tag/Error-Codes)\n",
-                  "type": "string",
-                  "enum": [
-                    "invalidRequest",
-                    "invalidDeadline"
-                  ]
-                },
-                "message": {
-                  "description": "Человекочитаемое описание ошибки",
-                  "type": "string"
-                }
-              }
-            }
+            "$ref": "#/responses/DefaultLogicError"
+          },
+          "401": {
+            "$ref": "#/responses/Unauthorized"
           }
         }
       }
@@ -4163,6 +4243,9 @@
                 }
               }
             }
+          },
+          "401": {
+            "$ref": "#/responses/Unauthorized"
           }
         }
       },
@@ -4224,6 +4307,9 @@
                 }
               }
             }
+          },
+          "401": {
+            "$ref": "#/responses/Unauthorized"
           }
         }
       }
@@ -4255,6 +4341,12 @@
             "schema": {
               "$ref": "#/definitions/Report"
             }
+          },
+          "400": {
+            "$ref": "#/responses/DefaultLogicError"
+          },
+          "401": {
+            "$ref": "#/responses/Unauthorized"
           },
           "404": {
             "$ref": "#/responses/NotFound"
@@ -4297,28 +4389,10 @@
             }
           },
           "400": {
-            "description": "Ошибочные данные для скачинвания",
-            "schema": {
-              "type": "object",
-              "required": [
-                "code",
-                "message"
-              ],
-              "properties": {
-                "code": {
-                  "description": "[Код ошибки](#tag/Error-Codes)\n",
-                  "type": "string",
-                  "enum": [
-                    "invalidRequest",
-                    "invalidDeadline"
-                  ]
-                },
-                "message": {
-                  "description": "Человекочитаемое описание ошибки",
-                  "type": "string"
-                }
-              }
-            }
+            "$ref": "#/responses/DefaultLogicError"
+          },
+          "401": {
+            "$ref": "#/responses/Unauthorized"
           },
           "404": {
             "$ref": "#/responses/NotFound"
@@ -5431,6 +5505,27 @@
           }
         }
       ]
+    },
+    "DefaultLogicError": {
+      "type": "object",
+      "required": [
+        "code",
+        "message"
+      ],
+      "properties": {
+        "code": {
+          "description": "[Код ошибки](#tag/Error-Codes)\n",
+          "type": "string",
+          "enum": [
+            "invalidRequest",
+            "invalidDeadline"
+          ]
+        },
+        "message": {
+          "description": "Человекочитаемое описание ошибки",
+          "type": "string"
+        }
+      }
     },
     "DigitalWallet": {
       "type": "object",
