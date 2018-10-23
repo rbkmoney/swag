@@ -43,10 +43,7 @@
       }
     },
     "Unauthorized": {
-      "description": "Ошибка авторизации",
-      "schema": {
-        "$ref": "#/definitions/GeneralError"
-      }
+      "description": "Ошибка авторизации"
     },
     "DefaultLogicError": {
       "description": "Неверные данные",

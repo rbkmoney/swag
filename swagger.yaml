@@ -67,8 +67,6 @@ responses:
       $ref: '#/definitions/GeneralError'
   Unauthorized:
     description: Ошибка авторизации
-    schema:
-      $ref: '#/definitions/GeneralError'
   DefaultLogicError:
     description: Неверные данные
     schema:
