@@ -14,3 +14,7 @@ get:
         $ref: '#/definitions/Account'
     '404':
       $ref: '#/responses/NotFound'
+    '401':
+      $ref: '#/responses/Unauthorized'
+    '400':
+      $ref: '#/responses/DefaultLogicError'

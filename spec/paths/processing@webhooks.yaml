@@ -17,6 +17,8 @@ post:
       description: Webhook установлен
       schema:
         $ref: '#/definitions/Webhook'
+    '401':
+      $ref: '#/responses/Unauthorized'
     '400':
       description: Ошибочные данные webhook'а
       schema:
@@ -31,6 +33,8 @@ post:
             type: string
             enum:
               - invalidShopID
+              - invalidRequest
+              - invalidDeadline
           message:
             description: Человекочитаемое описание ошибки
             type: string
@@ -51,3 +55,7 @@ get:
         type: array
         items:
           $ref: '#/definitions/Webhook'
+    '401':
+      $ref: '#/responses/Unauthorized'
+    '400':
+      $ref: '#/responses/DefaultLogicError'

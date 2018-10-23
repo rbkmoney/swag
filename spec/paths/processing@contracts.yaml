@@ -13,3 +13,7 @@ get:
         type: array
         items:
           $ref: '#/definitions/Contract'
+    '401':
+      $ref: '#/responses/Unauthorized'
+    '400':
+      $ref: '#/responses/DefaultLogicError'

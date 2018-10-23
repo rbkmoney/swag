@@ -17,6 +17,8 @@ post:
       description: Шаблон инвойса создан.
       schema:
         $ref: '#/definitions/InvoiceTemplateAndToken'
+    '401':
+      $ref: '#/responses/Unauthorized'
     '400':
       description: Ошибочные данные для создания шаблона
       schema:

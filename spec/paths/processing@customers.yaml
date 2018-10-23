@@ -17,6 +17,8 @@ post:
       description: Плательщик создан
       schema:
         $ref: '#/definitions/CustomerAndToken'
+    '401':
+      $ref: '#/responses/Unauthorized'
     '400':
       description: Ошибочные данные плательщика
       schema:

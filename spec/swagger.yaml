@@ -109,6 +109,14 @@ responses:
     description: Заданный ресурс не найден
     schema:
       $ref: '#/definitions/GeneralError'
+  Unauthorized:
+    description: Ошибка авторизации
+    schema:
+      $ref: '#/definitions/GeneralError'
+  DefaultLogicError:
+    description: Неверные данные
+    schema:
+      $ref: '#/definitions/DefaultLogicError'
 parameters:
   accountID:
     name: accountID
