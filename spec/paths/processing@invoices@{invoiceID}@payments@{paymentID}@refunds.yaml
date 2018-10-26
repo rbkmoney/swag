@@ -58,6 +58,7 @@ post:
               - invoicePaymentAmountExceeded
               - inconsistentRefundCurrency
               - invalidRequest
+              - invalidPartyStatus
           message:
             description: Человекочитаемое описание ошибки
             type: string
