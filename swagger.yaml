@@ -65,6 +65,12 @@ responses:
     description: Заданный ресурс не найден
     schema:
       $ref: '#/definitions/GeneralError'
+  Unauthorized:
+    description: Ошибка авторизации
+  DefaultLogicError:
+    description: Неверные данные
+    schema:
+      $ref: '#/definitions/DefaultLogicError'
 parameters:
   accountID:
     name: accountID
@@ -440,6 +446,7 @@ tags:
         | **invalidClaimStatus**           | Неверный статус заявки. Например, при попытке [отзыва](#operation/revokeClaimByID) уже принятой заявки.                               |
         | **invalidClaimRevision**         | Неверная ревизия заявки. Например, в случае если заявку одновременно с вами кто-то уже принял или отклонил.                           |
         | **limitExceeded**                | Превышен разумный лимит выборки. В этом случае лучше запросить менее объёмный набор данных.                                           |
+        | **invalidDeadline**              | Неверный формат времени.                                                                                                       |
         | **invalidRequest**               | Прочие неверные данные запроса.                                                                                                       |
 
       ## Общие ошибки
@@ -655,22 +662,9 @@ paths:
             items:
               $ref: '#/definitions/PaymentMethodStat'
         '400':
-          description: Неверные данные запроса статистики
-          schema:
-            type: object
-            required:
-              - code
-              - message
-            properties:
-              code:
-                description: |
-                  [Код ошибки](#tag/Error-Codes)
-                type: string
-                enum:
-                  - invalidRequest
-              message:
-                description: Человекочитаемое описание ошибки
-                type: string
+          $ref: '#/responses/DefaultLogicError'
+        '401':
+          $ref: '#/responses/Unauthorized'
         '404':
           $ref: '#/responses/NotFound'
   '/analytics/shops/{shopID}/customers/stats/rate':
@@ -692,22 +686,9 @@ paths:
           schema:
             $ref: '#/definitions/PaymentRateStat'
         '400':
-          description: Неверные данные запроса статистики
-          schema:
-            type: object
-            required:
-              - code
-              - message
-            properties:
-              code:
-                description: |
-                  [Код ошибки](#tag/Error-Codes)
-                type: string
-                enum:
-                  - invalidRequest
-              message:
-                description: Человекочитаемое описание ошибки
-                type: string
+          $ref: '#/responses/DefaultLogicError'
+        '401':
+          $ref: '#/responses/Unauthorized'
         '404':
           $ref: '#/responses/NotFound'
   '/analytics/shops/{shopID}/invoices':
@@ -887,22 +868,9 @@ paths:
                 items:
                   $ref: '#/definitions/Invoice'
         '400':
-          description: Неверные данные для поиска
-          schema:
-            type: object
-            required:
-              - code
-              - message
-            properties:
-              code:
-                description: |
-                  [Код ошибки](#tag/Error-Codes)
-                type: string
-                enum:
-                  - invalidRequest
-              message:
-                description: Человекочитаемое описание ошибки
-                type: string
+          $ref: '#/responses/DefaultLogicError'
+        '401':
+          $ref: '#/responses/Unauthorized'
         '404':
           $ref: '#/responses/NotFound'
   '/analytics/shops/{shopID}/payments':
@@ -1065,22 +1033,9 @@ paths:
                 items:
                   $ref: '#/definitions/PaymentSearchResult'
         '400':
-          description: Неверные данные для поиска
-          schema:
-            type: object
-            required:
-              - code
-              - message
-            properties:
-              code:
-                description: |
-                  [Код ошибки](#tag/Error-Codes)
-                type: string
-                enum:
-                  - invalidRequest
-              message:
-                description: Человекочитаемое описание ошибки
-                type: string
+          $ref: '#/responses/DefaultLogicError'
+        '401':
+          $ref: '#/responses/Unauthorized'
         '404':
           $ref: '#/responses/NotFound'
   '/analytics/shops/{shopID}/payments/stats/conversion':
@@ -1106,22 +1061,9 @@ paths:
             items:
               $ref: '#/definitions/PaymentConversionStat'
         '400':
-          description: Неверные данные запроса статистики
-          schema:
-            type: object
-            required:
-              - code
-              - message
-            properties:
-              code:
-                description: |
-                  [Код ошибки](#tag/Error-Codes)
-                type: string
-                enum:
-                  - invalidRequest
-              message:
-                description: Человекочитаемое описание ошибки
-                type: string
+          $ref: '#/responses/DefaultLogicError'
+        '401':
+          $ref: '#/responses/Unauthorized'
         '404':
           $ref: '#/responses/NotFound'
   '/analytics/shops/{shopID}/payments/stats/geo':
@@ -1147,22 +1089,9 @@ paths:
             items:
               $ref: '#/definitions/PaymentGeoStat'
         '400':
-          description: Неверные данные запроса статистики
-          schema:
-            type: object
-            required:
-              - code
-              - message
-            properties:
-              code:
-                description: |
-                  [Код ошибки](#tag/Error-Codes)
-                type: string
-                enum:
-                  - invalidRequest
-              message:
-                description: Человекочитаемое описание ошибки
-                type: string
+          $ref: '#/responses/DefaultLogicError'
+        '401':
+          $ref: '#/responses/Unauthorized'
         '404':
           $ref: '#/responses/NotFound'
   '/analytics/shops/{shopID}/payments/stats/revenue':
@@ -1189,22 +1118,9 @@ paths:
             items:
               $ref: '#/definitions/PaymentRevenueStat'
         '400':
-          description: Неверные данные запроса статистики
-          schema:
-            type: object
-            required:
-              - code
-              - message
-            properties:
-              code:
-                description: |
-                  [Код ошибки](#tag/Error-Codes)
-                type: string
-                enum:
-                  - invalidRequest
-              message:
-                description: Человекочитаемое описание ошибки
-                type: string
+          $ref: '#/responses/DefaultLogicError'
+        '401':
+          $ref: '#/responses/Unauthorized'
         '404':
           $ref: '#/responses/NotFound'
   '/analytics/shops/{shopID}/payouts':
@@ -1249,22 +1165,9 @@ paths:
                 items:
                   $ref: '#/definitions/Payout'
         '400':
-          description: Неверные данные для поиска
-          schema:
-            type: object
-            required:
-              - code
-              - message
-            properties:
-              code:
-                description: |
-                  [Код ошибки](#tag/Error-Codes)
-                type: string
-                enum:
-                  - invalidRequest
-              message:
-                description: Человекочитаемое описание ошибки
-                type: string
+          $ref: '#/responses/DefaultLogicError'
+        '401':
+          $ref: '#/responses/Unauthorized'
         '404':
           $ref: '#/responses/NotFound'
   '/analytics/shops/{shopID}/refunds':
@@ -1323,22 +1226,9 @@ paths:
                 items:
                   $ref: '#/definitions/RefundSearchResult'
         '400':
-          description: Неверные данные для поиска
-          schema:
-            type: object
-            required:
-              - code
-              - message
-            properties:
-              code:
-                description: |
-                  [Код ошибки](#tag/Error-Codes)
-                type: string
-                enum:
-                  - invalidRequest
-              message:
-                description: Человекочитаемое описание ошибки
-                type: string
+          $ref: '#/responses/DefaultLogicError'
+        '401':
+          $ref: '#/responses/Unauthorized'
         '404':
           $ref: '#/responses/NotFound'
   '/processing/accounts/{accountID}':
@@ -1356,6 +1246,10 @@ paths:
           description: Account found
           schema:
             $ref: '#/definitions/Account'
+        '400':
+          $ref: '#/responses/DefaultLogicError'
+        '401':
+          $ref: '#/responses/Unauthorized'
         '404':
           $ref: '#/responses/NotFound'
   /processing/categories:
@@ -1374,6 +1268,10 @@ paths:
             type: array
             items:
               $ref: '#/definitions/Category'
+        '400':
+          $ref: '#/responses/DefaultLogicError'
+        '401':
+          $ref: '#/responses/Unauthorized'
   '/processing/categories/{categoryID}':
     get:
       description: Получить данные категории по ее ID
@@ -1394,6 +1292,10 @@ paths:
           description: Category found
           schema:
             $ref: '#/definitions/Category'
+        '400':
+          $ref: '#/responses/DefaultLogicError'
+        '401':
+          $ref: '#/responses/Unauthorized'
         '404':
           $ref: '#/responses/NotFound'
   /processing/claims:
@@ -1423,6 +1325,10 @@ paths:
             type: array
             items:
               $ref: '#/definitions/Claim'
+        '400':
+          $ref: '#/responses/DefaultLogicError'
+        '401':
+          $ref: '#/responses/Unauthorized'
     post:
       description: |
         Создать новую заявку с заданным набором изменений и отправить её на
@@ -1460,10 +1366,13 @@ paths:
                   - invalidPartyStatus
                   - invalidChangeset
                   - invalidRequest
+                  - invalidDeadline
               message:
                 description: Человекочитаемое описание ошибки
                 type: string
                 example: Changeset conflict
+        '401':
+          $ref: '#/responses/Unauthorized'
   '/processing/claims/{claimID}':
     get:
       description: |
@@ -1480,6 +1389,10 @@ paths:
           description: Данные заявки
           schema:
             $ref: '#/definitions/Claim'
+        '400':
+          $ref: '#/responses/DefaultLogicError'
+        '401':
+          $ref: '#/responses/Unauthorized'
         '404':
           $ref: '#/responses/NotFound'
   '/processing/claims/{claimID}/revoke':
@@ -1516,10 +1429,14 @@ paths:
                   - invalidClaimStatus
                   - invalidClaimRevision
                   - invalidPartyStatus
+                  - invalidRequest
+                  - invalidDeadline
               message:
                 description: Человекочитаемое описание ошибки
                 type: string
                 example: Invalid claim status
+        '401':
+          $ref: '#/responses/Unauthorized'
         '404':
           $ref: '#/responses/NotFound'
   /processing/contracts:
@@ -1538,6 +1455,10 @@ paths:
             type: array
             items:
               $ref: '#/definitions/Contract'
+        '400':
+          $ref: '#/responses/DefaultLogicError'
+        '401':
+          $ref: '#/responses/Unauthorized'
   '/processing/contracts/{contractID}':
     get:
       description: Получить данные договора по его ID
@@ -1553,6 +1474,10 @@ paths:
           description: Contract found
           schema:
             $ref: '#/definitions/Contract'
+        '400':
+          $ref: '#/responses/DefaultLogicError'
+        '401':
+          $ref: '#/responses/Unauthorized'
         '404':
           $ref: '#/responses/NotFound'
   '/processing/contracts/{contractID}/adjustments':
@@ -1572,6 +1497,10 @@ paths:
             type: array
             items:
               $ref: '#/definitions/ContractAdjustment'
+        '400':
+          $ref: '#/responses/DefaultLogicError'
+        '401':
+          $ref: '#/responses/Unauthorized'
         '404':
           $ref: '#/responses/NotFound'
   '/processing/contracts/{contractID}/adjustments/{adjustmentID}':
@@ -1590,6 +1519,10 @@ paths:
           description: Данные поправки к договору
           schema:
             $ref: '#/definitions/ContractAdjustment'
+        '400':
+          $ref: '#/responses/DefaultLogicError'
+        '401':
+          $ref: '#/responses/Unauthorized'
         '404':
           $ref: '#/responses/NotFound'
   '/processing/contracts/{contractID}/payout_tools':
@@ -1609,6 +1542,10 @@ paths:
             type: array
             items:
               $ref: '#/definitions/PayoutTool'
+        '400':
+          $ref: '#/responses/DefaultLogicError'
+        '401':
+          $ref: '#/responses/Unauthorized'
         '404':
           $ref: '#/responses/NotFound'
   '/processing/contracts/{contractID}/payout_tools/{payoutToolID}':
@@ -1627,6 +1564,10 @@ paths:
           description: Данные средства вывода
           schema:
             $ref: '#/definitions/PayoutTool'
+        '400':
+          $ref: '#/responses/DefaultLogicError'
+        '401':
+          $ref: '#/responses/Unauthorized'
         '404':
           $ref: '#/responses/NotFound'
   /processing/customers:
@@ -1667,10 +1608,13 @@ paths:
                   - invalidPartyStatus
                   - invalidShopStatus
                   - invalidRequest
+                  - invalidDeadline
               message:
                 description: Человекочитаемое описание ошибки
                 type: string
                 example: Operation not permitted
+        '401':
+          $ref: '#/responses/Unauthorized'
   '/processing/customers/{customerID}':
     get:
       description: Получить данные плательщика по его идентификатору.
@@ -1686,6 +1630,10 @@ paths:
           description: Данные плательщика
           schema:
             $ref: '#/definitions/Customer'
+        '400':
+          $ref: '#/responses/DefaultLogicError'
+        '401':
+          $ref: '#/responses/Unauthorized'
         '404':
           $ref: '#/responses/NotFound'
     delete:
@@ -1715,10 +1663,14 @@ paths:
                 enum:
                   - invalidPartyStatus
                   - invalidShopStatus
+                  - invalidRequest
+                  - invalidDeadline
               message:
                 description: Человекочитаемое описание ошибки
                 type: string
                 example: Invalid party status
+        '401':
+          $ref: '#/responses/Unauthorized'
         '404':
           $ref: '#/responses/NotFound'
   '/processing/customers/{customerID}/access-tokens':
@@ -1737,6 +1689,10 @@ paths:
           description: Токен для доступа создан
           schema:
             $ref: '#/definitions/AccessToken'
+        '400':
+          $ref: '#/responses/DefaultLogicError'
+        '401':
+          $ref: '#/responses/Unauthorized'
         '404':
           $ref: '#/responses/NotFound'
   '/processing/customers/{customerID}/bindings':
@@ -1780,10 +1736,13 @@ paths:
                   - invalidPaymentToolToken
                   - invalidPaymentSession
                   - invalidRequest
+                  - invalidDeadline
               message:
                 description: Человекочитаемое описание ошибки
                 type: string
                 example: Invalid payment resource
+        '401':
+          $ref: '#/responses/Unauthorized'
         '404':
           $ref: '#/responses/NotFound'
     get:
@@ -1802,6 +1761,10 @@ paths:
             type: array
             items:
               $ref: '#/definitions/CustomerBinding'
+        '400':
+          $ref: '#/responses/DefaultLogicError'
+        '401':
+          $ref: '#/responses/Unauthorized'
         '404':
           $ref: '#/responses/NotFound'
   '/processing/customers/{customerID}/bindings/{customerBindingID}':
@@ -1820,6 +1783,10 @@ paths:
           description: Данные привязки
           schema:
             $ref: '#/definitions/CustomerBinding'
+        '400':
+          $ref: '#/responses/DefaultLogicError'
+        '401':
+          $ref: '#/responses/Unauthorized'
         '404':
           $ref: '#/responses/NotFound'
   '/processing/customers/{customerID}/events':
@@ -1856,22 +1823,9 @@ paths:
             items:
               $ref: '#/definitions/CustomerEvent'
         '400':
-          description: Ошибочные данные для запроса истории
-          schema:
-            type: object
-            required:
-              - code
-              - message
-            properties:
-              code:
-                description: |
-                  [Код ошибки](#tag/Error-Codes)
-                type: string
-                enum:
-                  - invalidRequest
-              message:
-                description: Человекочитаемое описание ошибки
-                type: string
+          $ref: '#/responses/DefaultLogicError'
+        '401':
+          $ref: '#/responses/Unauthorized'
         '404':
           $ref: '#/responses/NotFound'
   /processing/invoice-templates:
@@ -1908,6 +1862,7 @@ paths:
                 type: string
                 enum:
                   - invalidRequest
+                  - invalidDeadline
                   - invalidShopID
                   - invalidPartyStatus
                   - invalidShopStatus
@@ -1916,6 +1871,8 @@ paths:
                 description: Человекочитаемое описание ошибки
                 type: string
                 example: Lifetime cannot be zero
+        '401':
+          $ref: '#/responses/Unauthorized'
   '/processing/invoice-templates/{invoiceTemplateID}':
     get:
       description: Получить шаблон инвойса по его идентификатору.
@@ -1931,6 +1888,10 @@ paths:
           description: Шаблон инвойса
           schema:
             $ref: '#/definitions/InvoiceTemplate'
+        '400':
+          $ref: '#/responses/DefaultLogicError'
+        '401':
+          $ref: '#/responses/Unauthorized'
         '404':
           $ref: '#/responses/NotFound'
     put:
@@ -1970,10 +1931,13 @@ paths:
                   - invalidShopStatus
                   - invalidInvoiceCart
                   - invalidRequest
+                  - invalidDeadline
               message:
                 description: Человекочитаемое описание ошибки
                 type: string
                 example: Invalid party status
+        '401':
+          $ref: '#/responses/Unauthorized'
         '404':
           $ref: '#/responses/NotFound'
     delete:
@@ -2003,10 +1967,14 @@ paths:
                 enum:
                   - invalidPartyStatus
                   - invalidShopStatus
+                  - invalidRequest
+                  - invalidDeadline
               message:
                 description: Человекочитаемое описание ошибки
                 type: string
                 example: Invalid party status
+        '401':
+          $ref: '#/responses/Unauthorized'
         '404':
           $ref: '#/responses/NotFound'
   '/processing/invoice-templates/{invoiceTemplateID}/invoices':
@@ -2046,10 +2014,13 @@ paths:
                   - invalidPartyStatus
                   - invalidShopStatus
                   - invalidRequest
+                  - invalidDeadline
               message:
                 description: Человекочитаемое описание ошибки
                 type: string
                 example: Invalid party status
+        '401':
+          $ref: '#/responses/Unauthorized'
         '404':
           $ref: '#/responses/NotFound'
   '/processing/invoice-templates/{invoiceTemplateID}/payment-methods':
@@ -2069,6 +2040,10 @@ paths:
             type: array
             items:
               $ref: '#/definitions/PaymentMethod'
+        '400':
+          $ref: '#/responses/DefaultLogicError'
+        '401':
+          $ref: '#/responses/Unauthorized'
         '404':
           $ref: '#/responses/NotFound'
   /processing/invoices:
@@ -2106,6 +2081,7 @@ paths:
                 enum:
                   - invalidShopID
                   - invalidRequest
+                  - invalidDeadline
                   - invalidPartyStatus
                   - invalidShopStatus
                   - invalidInvoiceCart
@@ -2114,6 +2090,8 @@ paths:
                 description: Человекочитаемое описание ошибки
                 type: string
                 example: Shop not found
+        '401':
+          $ref: '#/responses/Unauthorized'
   '/processing/invoices/{invoiceID}':
     get:
       description: Получить данные инвойса по его идентификатору.
@@ -2129,6 +2107,10 @@ paths:
           description: Данные инвойса
           schema:
             $ref: '#/definitions/Invoice'
+        '400':
+          $ref: '#/responses/DefaultLogicError'
+        '401':
+          $ref: '#/responses/Unauthorized'
         '404':
           $ref: '#/responses/NotFound'
   '/processing/invoices/{invoiceID}/access-tokens':
@@ -2146,6 +2128,10 @@ paths:
           description: Токен для доступа к инвойсу создан.
           schema:
             $ref: '#/definitions/AccessToken'
+        '400':
+          $ref: '#/responses/DefaultLogicError'
+        '401':
+          $ref: '#/responses/Unauthorized'
         '404':
           $ref: '#/responses/NotFound'
   '/processing/invoices/{invoiceID}/events':
@@ -2182,22 +2168,9 @@ paths:
             items:
               $ref: '#/definitions/InvoiceEvent'
         '400':
-          description: Ошибочные данные для запроса истории
-          schema:
-            type: object
-            required:
-              - code
-              - message
-            properties:
-              code:
-                description: |
-                  [Код ошибки](#tag/Error-Codes)
-                type: string
-                enum:
-                  - invalidRequest
-              message:
-                description: Человекочитаемое описание ошибки
-                type: string
+          $ref: '#/responses/DefaultLogicError'
+        '401':
+          $ref: '#/responses/Unauthorized'
         '404':
           $ref: '#/responses/NotFound'
   '/processing/invoices/{invoiceID}/fulfill':
@@ -2235,10 +2208,14 @@ paths:
                   - invalidInvoiceStatus
                   - invalidPartyStatus
                   - invalidShopStatus
+                  - invalidRequest
+                  - invalidDeadline
               message:
                 description: Человекочитаемое описание ошибки
                 type: string
                 example: Invalid invoice status
+        '401':
+          $ref: '#/responses/Unauthorized'
         '404':
           $ref: '#/responses/NotFound'
   '/processing/invoices/{invoiceID}/payment-methods':
@@ -2258,6 +2235,10 @@ paths:
             type: array
             items:
               $ref: '#/definitions/PaymentMethod'
+        '400':
+          $ref: '#/responses/DefaultLogicError'
+        '401':
+          $ref: '#/responses/Unauthorized'
         '404':
           $ref: '#/responses/NotFound'
   '/processing/invoices/{invoiceID}/payments':
@@ -2277,6 +2258,10 @@ paths:
             type: array
             items:
               $ref: '#/definitions/Payment'
+        '400':
+          $ref: '#/responses/DefaultLogicError'
+        '401':
+          $ref: '#/responses/Unauthorized'
         '404':
           $ref: '#/responses/NotFound'
     post:
@@ -2315,6 +2300,7 @@ paths:
                   - invalidInvoiceStatus
                   - invoicePaymentPending
                   - invalidRequest
+                  - invalidDeadline
                   - invalidPartyStatus
                   - invalidShopStatus
                   - invalidContractStatus
@@ -2326,6 +2312,8 @@ paths:
                 description: Человекочитаемое описание ошибки
                 type: string
                 example: Invalid invoice status
+        '401':
+          $ref: '#/responses/Unauthorized'
         '404':
           $ref: '#/responses/NotFound'
   '/processing/invoices/{invoiceID}/payments/{paymentID}':
@@ -2344,6 +2332,10 @@ paths:
           description: Данные платежа
           schema:
             $ref: '#/definitions/Payment'
+        '400':
+          $ref: '#/responses/DefaultLogicError'
+        '401':
+          $ref: '#/responses/Unauthorized'
         '404':
           $ref: '#/responses/NotFound'
   '/processing/invoices/{invoiceID}/payments/{paymentID}/cancel':
@@ -2384,10 +2376,13 @@ paths:
                   - invalidPartyStatus
                   - invalidShopStatus
                   - invalidRequest
+                  - invalidDeadline
               message:
                 description: Человекочитаемое описание ошибки
                 type: string
                 example: Invalid payment status
+        '401':
+          $ref: '#/responses/Unauthorized'
         '404':
           $ref: '#/responses/NotFound'
   '/processing/invoices/{invoiceID}/payments/{paymentID}/capture':
@@ -2428,10 +2423,13 @@ paths:
                   - invalidPartyStatus
                   - invalidShopStatus
                   - invalidRequest
+                  - invalidDeadline
               message:
                 description: Человекочитаемое описание ошибки
                 type: string
                 example: Invalid payment status
+        '401':
+          $ref: '#/responses/Unauthorized'
         '404':
           $ref: '#/responses/NotFound'
   '/processing/invoices/{invoiceID}/payments/{paymentID}/refunds':
@@ -2452,6 +2450,10 @@ paths:
             type: array
             items:
               $ref: '#/definitions/Refund'
+        '400':
+          $ref: '#/responses/DefaultLogicError'
+        '401':
+          $ref: '#/responses/Unauthorized'
         '404':
           $ref: '#/responses/NotFound'
     post:
@@ -2497,10 +2499,13 @@ paths:
                   - invoicePaymentAmountExceeded
                   - inconsistentRefundCurrency
                   - invalidRequest
+                  - invalidDeadline
               message:
                 description: Человекочитаемое описание ошибки
                 type: string
                 example: Operation not permitted
+        '401':
+          $ref: '#/responses/Unauthorized'
         '404':
           $ref: '#/responses/NotFound'
   '/processing/invoices/{invoiceID}/payments/{paymentID}/refunds/{refundID}':
@@ -2520,6 +2525,10 @@ paths:
           description: Данные возврата
           schema:
             $ref: '#/definitions/Refund'
+        '400':
+          $ref: '#/responses/DefaultLogicError'
+        '401':
+          $ref: '#/responses/Unauthorized'
         '404':
           $ref: '#/responses/NotFound'
   '/processing/invoices/{invoiceID}/rescind':
@@ -2558,10 +2567,14 @@ paths:
                   - invoicePaymentPending
                   - invalidPartyStatus
                   - invalidShopStatus
+                  - invalidRequest
+                  - invalidDeadline
               message:
                 description: Человекочитаемое описание ошибки
                 type: string
                 example: Invalid invoice status
+        '401':
+          $ref: '#/responses/Unauthorized'
         '404':
           $ref: '#/responses/NotFound'
   /processing/me:
@@ -2577,6 +2590,10 @@ paths:
           description: Get my party
           schema:
             $ref: '#/definitions/Party'
+        '400':
+          $ref: '#/responses/DefaultLogicError'
+        '401':
+          $ref: '#/responses/Unauthorized'
   /processing/me/activate:
     put:
       description: Activate my party
@@ -2589,6 +2606,10 @@ paths:
       responses:
         '204':
           description: Party activated
+        '400':
+          $ref: '#/responses/DefaultLogicError'
+        '401':
+          $ref: '#/responses/Unauthorized'
   /processing/me/suspend:
     put:
       description: Suspend my party
@@ -2601,6 +2622,10 @@ paths:
       responses:
         '204':
           description: Party suspended
+        '400':
+          $ref: '#/responses/DefaultLogicError'
+        '401':
+          $ref: '#/responses/Unauthorized'
   /processing/payment-institutions:
     get:
       description: Получить список платёжных организаций
@@ -2625,6 +2650,10 @@ paths:
             type: array
             items:
               $ref: '#/definitions/PaymentInstitution'
+        '400':
+          $ref: '#/responses/DefaultLogicError'
+        '401':
+          $ref: '#/responses/Unauthorized'
   '/processing/payment-institutions/{paymentInstitutionID}':
     get:
       description: Получить данные платёжной организации по ее ID
@@ -2640,6 +2669,10 @@ paths:
           description: Payment institution found
           schema:
             $ref: '#/definitions/PaymentInstitution'
+        '400':
+          $ref: '#/responses/DefaultLogicError'
+        '401':
+          $ref: '#/responses/Unauthorized'
         '404':
           $ref: '#/responses/NotFound'
   '/processing/payment-institutions/{paymentInstitutionID}/terms/payments':
@@ -2657,6 +2690,10 @@ paths:
           description: Payment institution terms calculated
           schema:
             $ref: '#/definitions/PaymentTerms'
+        '400':
+          $ref: '#/responses/DefaultLogicError'
+        '401':
+          $ref: '#/responses/Unauthorized'
         '404':
           $ref: '#/responses/NotFound'
   '/processing/payment-institutions/{paymentInstitutionID}/terms/payouts/methods':
@@ -2685,6 +2722,10 @@ paths:
               enum:
                 - BankAccount
                 - InternationalBankAccount
+        '400':
+          $ref: '#/responses/DefaultLogicError'
+        '401':
+          $ref: '#/responses/Unauthorized'
         '404':
           $ref: '#/responses/NotFound'
   '/processing/payment-institutions/{paymentInstitutionID}/terms/payouts/schedules':
@@ -2719,6 +2760,10 @@ paths:
             items:
               type: integer
               format: int32
+        '400':
+          $ref: '#/responses/DefaultLogicError'
+        '401':
+          $ref: '#/responses/Unauthorized'
         '404':
           $ref: '#/responses/NotFound'
   /processing/payment-resources:
@@ -2746,23 +2791,9 @@ paths:
           schema:
             $ref: '#/definitions/PaymentResource'
         '400':
-          description: Ошибочные данные для токенизации
-          schema:
-            type: object
-            required:
-              - code
-              - message
-            properties:
-              code:
-                description: |
-                  [Код ошибки](#tag/Error-Codes)
-                type: string
-                enum:
-                  - invalidRequest
-              message:
-                description: Человекочитаемое описание ошибки
-                type: string
-                example: Card data is invalid
+          $ref: '#/responses/DefaultLogicError'
+        '401':
+          $ref: '#/responses/Unauthorized'
   '/processing/schedules/{scheduleID}':
     get:
       description: Получить данные расписания выводов по ее ID
@@ -2783,6 +2814,10 @@ paths:
           description: Schedule found
           schema:
             $ref: '#/definitions/Schedule'
+        '400':
+          $ref: '#/responses/DefaultLogicError'
+        '401':
+          $ref: '#/responses/Unauthorized'
         '404':
           $ref: '#/responses/NotFound'
   /processing/shops:
@@ -2801,6 +2836,10 @@ paths:
             type: array
             items:
               $ref: '#/definitions/Shop'
+        '400':
+          $ref: '#/responses/DefaultLogicError'
+        '401':
+          $ref: '#/responses/Unauthorized'
   '/processing/shops/{shopID}':
     get:
       description: Get shop by id
@@ -2816,6 +2855,10 @@ paths:
           description: Shop found
           schema:
             $ref: '#/definitions/Shop'
+        '400':
+          $ref: '#/responses/DefaultLogicError'
+        '401':
+          $ref: '#/responses/Unauthorized'
         '404':
           $ref: '#/responses/NotFound'
   '/processing/shops/{shopID}/activate':
@@ -2831,6 +2874,10 @@ paths:
       responses:
         '204':
           description: Shop activated
+        '400':
+          $ref: '#/responses/DefaultLogicError'
+        '401':
+          $ref: '#/responses/Unauthorized'
         '404':
           $ref: '#/responses/NotFound'
   '/processing/shops/{shopID}/suspend':
@@ -2848,6 +2895,10 @@ paths:
       responses:
         '204':
           description: Shop suspended
+        '400':
+          $ref: '#/responses/DefaultLogicError'
+        '401':
+          $ref: '#/responses/Unauthorized'
         '404':
           $ref: '#/responses/NotFound'
   /processing/webhooks:
@@ -2884,10 +2935,14 @@ paths:
                 type: string
                 enum:
                   - invalidShopID
+                  - invalidRequest
+                  - invalidDeadline
               message:
                 description: Человекочитаемое описание ошибки
                 type: string
                 example: Shop not found
+        '401':
+          $ref: '#/responses/Unauthorized'
     get:
       description: Получить набор установленных webhook'ов.
       tags:
@@ -2903,6 +2958,10 @@ paths:
             type: array
             items:
               $ref: '#/definitions/Webhook'
+        '400':
+          $ref: '#/responses/DefaultLogicError'
+        '401':
+          $ref: '#/responses/Unauthorized'
   '/processing/webhooks/{webhookID}':
     get:
       description: Получить webhook по его идентификатору.
@@ -2918,6 +2977,10 @@ paths:
           description: Данные webhook'а
           schema:
             $ref: '#/definitions/Webhook'
+        '400':
+          $ref: '#/responses/DefaultLogicError'
+        '401':
+          $ref: '#/responses/Unauthorized'
         '404':
           $ref: '#/responses/NotFound'
     delete:
@@ -2932,6 +2995,10 @@ paths:
       responses:
         '204':
           description: Webhook успешно снят
+        '400':
+          $ref: '#/responses/DefaultLogicError'
+        '401':
+          $ref: '#/responses/Unauthorized'
         '404':
           $ref: '#/responses/NotFound'
   /reference/geo/location/names:
@@ -2967,22 +3034,9 @@ paths:
             items:
               $ref: '#/definitions/LocationName'
         '400':
-          description: Неверные данные запроса геопозиций
-          schema:
-            type: object
-            required:
-              - code
-              - message
-            properties:
-              code:
-                description: |
-                  [Код ошибки](#tag/Error-Codes)
-                type: string
-                enum:
-                  - invalidRequest
-              message:
-                description: Человекочитаемое описание ошибки
-                type: string
+          $ref: '#/responses/DefaultLogicError'
+        '401':
+          $ref: '#/responses/Unauthorized'
   '/shops/{shopID}/reports':
     post:
       description: Сгенерировать отчет с указанным типом по магазину за указанный промежуток времени
@@ -3019,10 +3073,13 @@ paths:
                 enum:
                   - invalidShopID
                   - invalidRequest
+                  - invalidDeadline
               message:
                 description: Человекочитаемое описание ошибки
                 type: string
                 example: Invalid shop id
+        '401':
+          $ref: '#/responses/Unauthorized'
     get:
       description: Получить список отчетов по данному магазину за период
       tags:
@@ -3056,10 +3113,13 @@ paths:
                 enum:
                   - limitExceeded
                   - invalidRequest
+                  - invalidDeadline
               message:
                 description: Человекочитаемое описание ошибки
                 type: string
                 example: 'Max limit: 1000'
+        '401':
+          $ref: '#/responses/Unauthorized'
   '/shops/{shopID}/reports/{reportID}':
     get:
       description: Получить отчет по данному идентификатору
@@ -3076,6 +3136,10 @@ paths:
           description: Найденный отчет
           schema:
             $ref: '#/definitions/Report'
+        '400':
+          $ref: '#/responses/DefaultLogicError'
+        '401':
+          $ref: '#/responses/Unauthorized'
         '404':
           $ref: '#/responses/NotFound'
   '/shops/{shopID}/reports/{reportID}/files/{fileID}/download':
@@ -3096,22 +3160,9 @@ paths:
           schema:
             $ref: '#/definitions/ReportLink'
         '400':
-          description: Ошибочные данные для скачинвания
-          schema:
-            type: object
-            required:
-              - code
-              - message
-            properties:
-              code:
-                description: |
-                  [Код ошибки](#tag/Error-Codes)
-                type: string
-                enum:
-                  - invalidRequest
-              message:
-                description: Человекочитаемое описание ошибки
-                type: string
+          $ref: '#/responses/DefaultLogicError'
+        '401':
+          $ref: '#/responses/Unauthorized'
         '404':
           $ref: '#/responses/NotFound'
 definitions:
@@ -3881,6 +3932,22 @@ definitions:
                 - CustomerBindingStarted
                 - CustomerBindingSucceeded
                 - CustomerBindingFailed
+  DefaultLogicError:
+    type: object
+    required:
+      - code
+      - message
+    properties:
+      code:
+        description: |
+          [Код ошибки](#tag/Error-Codes)
+        type: string
+        enum:
+          - invalidRequest
+          - invalidDeadline
+      message:
+        description: Человекочитаемое описание ошибки
+        type: string
   DigitalWallet:
     type: object
     allOf:
