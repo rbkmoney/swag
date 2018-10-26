@@ -4376,13 +4376,10 @@
           }
         ],
         "responses": {
-          "303": {
-            "description": "See Other",
-            "headers": {
-              "Location": {
-                "type": "string",
-                "description": "URL файла"
-              }
+          "200": {
+            "description": "Download link",
+            "schema": {
+              "$ref": "#/definitions/ReportLink"
             }
           },
           "400": {
@@ -8069,6 +8066,18 @@
       "properties": {
         "serviceAcceptanceActPreferences": {
           "$ref": "#/definitions/ServiceAcceptanceActPreferences"
+        }
+      }
+    },
+    "ReportLink": {
+      "type": "object",
+      "required": [
+        "url"
+      ],
+      "properties": {
+        "url": {
+          "description": "URL файла",
+          "type": "string"
         }
       }
     },

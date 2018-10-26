@@ -3155,12 +3155,10 @@ paths:
         - $ref: '#/parameters/reportID'
         - $ref: '#/parameters/fileID'
       responses:
-        '303':
-          description: See Other
-          headers:
-            Location:
-              type: string
-              description: URL файла
+        '200':
+          description: Download link
+          schema:
+            $ref: '#/definitions/ReportLink'
         '400':
           $ref: '#/responses/DefaultLogicError'
         '401':
@@ -5761,6 +5759,14 @@ definitions:
     properties:
       serviceAcceptanceActPreferences:
         $ref: '#/definitions/ServiceAcceptanceActPreferences'
+  ReportLink:
+    type: object
+    required:
+      - url
+    properties:
+      url:
+        description: URL файла
+        type: string
   ReportParams:
     type: object
     required:
