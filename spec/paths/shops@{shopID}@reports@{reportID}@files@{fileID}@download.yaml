@@ -10,12 +10,10 @@ get:
     - $ref: '#/parameters/reportID'
     - $ref: '#/parameters/fileID'
   responses:
-    '303':
-      description: See Other
-      headers:
-        Location:
-          type: "string"
-          description: URL файла
+    '200':
+      description: Download link
+      schema:
+        $ref: '#/definitions/ReportLink'
     '404':
       $ref: '#/responses/NotFound'
     '401':
