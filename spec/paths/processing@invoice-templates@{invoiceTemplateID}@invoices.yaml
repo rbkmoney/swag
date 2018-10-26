@@ -20,6 +20,8 @@ post:
         $ref: '#/definitions/InvoiceAndToken'
     '404':
       $ref: '#/responses/NotFound'
+    '401':
+      $ref: '#/responses/Unauthorized'
     '400':
       description: Ошибочные данные для создания инвойса
       schema:
@@ -36,6 +38,7 @@ post:
               - invalidPartyStatus
               - invalidShopStatus
               - invalidRequest
+              - invalidDeadline
           message:
             description: Человекочитаемое описание ошибки
             type: string

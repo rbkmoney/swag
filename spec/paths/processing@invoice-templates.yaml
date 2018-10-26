@@ -17,6 +17,8 @@ post:
       description: Шаблон инвойса создан.
       schema:
         $ref: '#/definitions/InvoiceTemplateAndToken'
+    '401':
+      $ref: '#/responses/Unauthorized'
     '400':
       description: Ошибочные данные для создания шаблона
       schema:
@@ -31,6 +33,7 @@ post:
             type: string
             enum:
               - invalidRequest
+              - invalidDeadline
               - invalidShopID
               - invalidPartyStatus
               - invalidShopStatus

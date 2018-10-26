@@ -17,6 +17,10 @@ get:
           $ref: '#/definitions/Refund'
     '404':
       $ref: '#/responses/NotFound'
+    '401':
+      $ref: '#/responses/Unauthorized'
+    '400':
+      $ref: '#/responses/DefaultLogicError'
 
 post:
   description: Создать возврат указанного платежа
@@ -41,6 +45,8 @@ post:
         $ref: '#/definitions/Refund'
     '404':
       $ref: '#/responses/NotFound'
+    '401':
+      $ref: '#/responses/Unauthorized'
     '400':
       description: Ошибочные данные для возврата
       schema:
@@ -63,6 +69,7 @@ post:
               - invoicePaymentAmountExceeded
               - inconsistentRefundCurrency
               - invalidRequest
+              - invalidDeadline
           message:
             description: Человекочитаемое описание ошибки
             type: string

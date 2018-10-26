@@ -17,6 +17,8 @@ post:
       description: Инвойс создан
       schema:
         $ref: '#/definitions/InvoiceAndToken'
+    '401':
+      $ref: '#/responses/Unauthorized'
     '400':
       description: Ошибочные данные для создания инвойса
       schema:
@@ -32,6 +34,7 @@ post:
             enum:
               - invalidShopID
               - invalidRequest
+              - invalidDeadline
               - invalidPartyStatus
               - invalidShopStatus
               - invalidInvoiceCart

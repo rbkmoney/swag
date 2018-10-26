@@ -20,6 +20,8 @@ post:
         $ref: '#/definitions/CustomerBinding'
     '404':
       $ref: '#/responses/NotFound'
+    '401':
+      $ref: '#/responses/Unauthorized'
     '400':
       description: Ошибочные данные для привязки
       schema:
@@ -40,6 +42,7 @@ post:
               - invalidPaymentToolToken
               - invalidPaymentSession
               - invalidRequest
+              - invalidDeadline
           message:
             description: Человекочитаемое описание ошибки
             type: string
@@ -63,3 +66,7 @@ get:
           $ref: '#/definitions/CustomerBinding'
     '404':
       $ref: '#/responses/NotFound'
+    '401':
+      $ref: '#/responses/Unauthorized'
+    '400':
+      $ref: '#/responses/DefaultLogicError'

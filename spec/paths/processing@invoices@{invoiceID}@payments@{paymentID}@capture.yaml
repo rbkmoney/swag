@@ -19,6 +19,8 @@ post:
       description: Запрос на подтверждение платежа принят
     '404':
       $ref: '#/responses/NotFound'
+    '401':
+      $ref: '#/responses/Unauthorized'
     '400':
       description: Ошибка подтверждения платежа
       schema:
@@ -37,6 +39,7 @@ post:
               - invalidPartyStatus
               - invalidShopStatus
               - invalidRequest
+              - invalidDeadline
           message:
             description: Человекочитаемое описание ошибки
             type: string
