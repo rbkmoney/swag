@@ -3000,7 +3000,10 @@
                     "insufficentAccountBalance",
                     "invoicePaymentAmountExceeded",
                     "inconsistentRefundCurrency",
-                    "invalidRequest"
+                    "invalidRequest",
+                    "invalidPartyStatus",
+                    "invalidShopStatus",
+                    "invalidContractStatus"
                   ]
                 },
                 "message": {
