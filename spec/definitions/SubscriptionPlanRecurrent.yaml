@@ -3,7 +3,6 @@ type: object
 required:
   - amount
   - schedule
-  - lifetime
 properties:
   amount:
     description: Cумма повторяемого платежа
@@ -12,9 +11,10 @@ properties:
     $ref: '#/definitions/TimePeriod'
   lifetime:
     description: Продолжительность действия подписки
-    oneOf:
-      - type: string
-        enum:
-          - infinite
-      - type: object
+    type: object
+    properties:
+      timeLimit:
         $ref: '#/definitions/TimePeriod'
+      retryLimit:
+        description: Количество попыток списания
+        type: integer

@@ -1,5 +1,8 @@
 description: Период времени
 type: object
+required:
+  - metric
+  - amount
 properties:
   metric:
     description: Единица измерения

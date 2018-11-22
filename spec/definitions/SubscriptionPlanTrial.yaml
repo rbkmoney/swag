@@ -2,7 +2,7 @@ description: Правила триального периода подписки
 type: object
 required:
   - amount
-  - schedule
+  - duration
   - isActive
 properties:
   amount:
