@@ -1,0 +1,52 @@
+description: Описание плана подписки
+type: object
+required:
+  - id
+  - name
+  - createdAt
+  - updatedAt
+  - currency
+  - status
+  - recurrentRules
+properties:
+  id:
+    description: Идентификатор плана подписки
+    type: string
+    readOnly: true
+  name:
+    description: Название плана подписки
+    type: string
+    maxLength: 100
+  createdAt:
+    description: Дата создания
+    type: string
+    format: date-time
+    readOnly: true
+  updatedAt:
+    description: Дата последнего изменения
+    type: string
+    format: date-time
+    readOnly: true
+  currency:
+    x-rebillyMerge:
+      - $ref: '#/definitions/Currency'
+  customerDescription:
+    description: Описание плана подписки для покупателя
+    type: string
+    maxLength: 1000
+  merchantDescription:
+    description: Описание плана подписки для мерчанта
+    type: string
+    maxLength: 1000
+  status:
+    description: Статус плана
+    type: string
+    enum:
+      - active
+      - inactive
+  activationRules:
+    $ref: '#/definitions/SubscriptionPlanActivation'
+  recurrentRules:
+    $ref: '#/definitions/SubscriptionPlanRecurrent'
+  trialRules:
+    $ref: '#/definitions/SubscriptionPlanTrial'

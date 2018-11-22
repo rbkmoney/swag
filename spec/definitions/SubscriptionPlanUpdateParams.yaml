@@ -1,0 +1,30 @@
+description: Изменения плана подписки
+type: object
+properties:
+  name:
+    description: Название плана подписки
+    type: string
+    maxLength: 100
+  currency:
+    x-rebillyMerge:
+      - $ref: '#/definitions/Currency'
+  customerDescription:
+    description: Описание плана подписки для покупателя
+    type: string
+    maxLength: 1000
+  merchantDescription:
+    description: Описание плана подписки для мерчанта
+    type: string
+    maxLength: 1000
+  status:
+    description: Статус плана
+    type: string
+    enum:
+      - active
+      - inactive
+  activationRules:
+    $ref: '#/definitions/SubscriptionPlanActivation'
+  recurrentRules:
+    $ref: '#/definitions/SubscriptionPlanRecurrent'
+  trialRules:
+    $ref: '#/definitions/SubscriptionPlanTrial'

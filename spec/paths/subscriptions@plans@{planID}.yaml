@@ -1,0 +1,66 @@
+get:
+  description: Получить данные плана подписки по его идентификатору.
+  operationId: getPlanById
+  tags:
+    - Subscriptions
+  parameters:
+    - $ref: '#/parameters/requestID'
+    - $ref: '#/parameters/deadline'
+    - $ref: '#/parameters/planID'
+  responses:
+    '200':
+      description: Данные плана
+      schema:
+          $ref: '#/definitions/SubscriptionPlan'
+    '404':
+      $ref: '#/responses/NotFound'
+    '401':
+      $ref: '#/responses/Unauthorized'
+    '400':
+      $ref: '#/responses/DefaultLogicError'
+
+put:
+  description: Модифицировать данные плана подписки
+  operationId: updatePlan
+  tags:
+    - Subscriptions
+  parameters:
+    - $ref: '#/parameters/requestID'
+    - $ref: '#/parameters/deadline'
+    - $ref: '#/parameters/planID'
+    - name: planParams
+      description: Параметры изменения плана подписки
+      in: body
+      required: true
+      schema:
+        $ref: '#/definitions/SubscriptionPlanUpdateParams'
+  responses:
+    '200':
+      description: План изменен
+      schema:
+        $ref: '#/definitions/SubscriptionPlan'
+    '404':
+      $ref: '#/responses/NotFound'
+    '401':
+      $ref: '#/responses/Unauthorized'
+    '400':
+      $ref: '#/responses/DefaultLogicError'
+
+delete:
+  description: Удалить план подписки по его идентификатору
+  operationId: deletePlan
+  tags:
+    - Subscriptions
+  parameters:
+    - $ref: '#/parameters/requestID'
+    - $ref: '#/parameters/deadline'
+    - $ref: '#/parameters/planID'
+  responses:
+    '204':
+      description: План удален
+    '404':
+      $ref: '#/responses/NotFound'
+    '401':
+      $ref: '#/responses/Unauthorized'
+    '400':
+      $ref: '#/responses/DefaultLogicError'

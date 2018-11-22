@@ -1,0 +1,43 @@
+get:
+  description: Получить список всех планов
+  operationId: getPlans
+  tags:
+    - Subscriptions
+  parameters:
+    - $ref: '#/parameters/requestID'
+    - $ref: '#/parameters/deadline'
+  responses:
+    '200':
+      description: Список планов
+      schema:
+        type: array
+        items:
+          $ref: '#/definitions/SubscriptionPlan'
+    '401':
+      $ref: '#/responses/Unauthorized'
+    '400':
+      $ref: '#/responses/DefaultLogicError'
+
+post:
+  description: Создать новый план
+  operationId: createPlan
+  tags:
+    - Subscriptions
+  parameters:
+    - $ref: '#/parameters/requestID'
+    - $ref: '#/parameters/deadline'
+    - name: planParams
+      description: Параметры создаваемого плана
+      in: body
+      required: true
+      schema:
+        $ref: '#/definitions/SubscriptionPlan'
+  responses:
+    '200':
+      description: План создан
+      schema:
+        $ref: '#/definitions/SubscriptionPlan'
+    '401':
+      $ref: '#/responses/Unauthorized'
+    '400':
+      $ref: '#/responses/DefaultLogicError'

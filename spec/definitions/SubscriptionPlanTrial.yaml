@@ -1,0 +1,15 @@
+description: Правила триального периода подписки
+type: object
+required:
+  - amount
+  - schedule
+  - isActive
+properties:
+  amount:
+    description: Альтернативная сумма платежа
+    type: integer
+  duration:
+    $ref: '#/definitions/TimePeriod'
+  isActive:
+    description: Активность правила
+    type: boolean
