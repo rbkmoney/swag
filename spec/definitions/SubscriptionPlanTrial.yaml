@@ -10,6 +10,6 @@ properties:
     type: integer
   duration:
     $ref: '#/definitions/TimePeriod'
-  isActive:
+  enabled:
     description: Активность правила
     type: boolean

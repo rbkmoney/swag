@@ -22,9 +22,9 @@ properties:
     enum:
       - active
       - inactive
-  activationRules:
+  activation:
     $ref: '#/definitions/SubscriptionPlanActivation'
-  recurrentRules:
+  recurrent:
     $ref: '#/definitions/SubscriptionPlanRecurrent'
-  trialRules:
+  trial:
     $ref: '#/definitions/SubscriptionPlanTrial'

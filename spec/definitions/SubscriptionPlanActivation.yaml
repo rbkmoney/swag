@@ -7,6 +7,6 @@ properties:
   amount:
     description: Сумма платежа за подключение
     type: integer
-  isActive:
+  enabled:
     description: Активность правила
     type: boolean

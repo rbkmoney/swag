@@ -2,7 +2,7 @@ get:
   description: Получить список всех планов
   operationId: getPlans
   tags:
-    - Subscriptions
+    - SubscriptionPlans
   parameters:
     - $ref: '#/parameters/requestID'
     - $ref: '#/parameters/deadline'
@@ -22,7 +22,7 @@ post:
   description: Создать новый план
   operationId: createPlan
   tags:
-    - Subscriptions
+    - SubscriptionPlans
   parameters:
     - $ref: '#/parameters/requestID'
     - $ref: '#/parameters/deadline'

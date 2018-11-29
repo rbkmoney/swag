@@ -2,7 +2,7 @@ get:
   description: Получить данные плана подписки по его идентификатору.
   operationId: getPlanById
   tags:
-    - Subscriptions
+    - SubscriptionPlans
   parameters:
     - $ref: '#/parameters/requestID'
     - $ref: '#/parameters/deadline'
@@ -23,7 +23,7 @@ put:
   description: Модифицировать данные плана подписки
   operationId: updatePlan
   tags:
-    - Subscriptions
+    - SubscriptionPlans
   parameters:
     - $ref: '#/parameters/requestID'
     - $ref: '#/parameters/deadline'
@@ -50,7 +50,7 @@ delete:
   description: Удалить план подписки по его идентификатору
   operationId: deletePlan
   tags:
-    - Subscriptions
+    - SubscriptionPlans
   parameters:
     - $ref: '#/parameters/requestID'
     - $ref: '#/parameters/deadline'
@@ -58,8 +58,6 @@ delete:
   responses:
     '204':
       description: План удален
-    '404':
-      $ref: '#/responses/NotFound'
     '401':
       $ref: '#/responses/Unauthorized'
     '400':
