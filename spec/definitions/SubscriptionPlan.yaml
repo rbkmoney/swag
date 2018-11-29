@@ -5,6 +5,7 @@ required:
   - name
   - createdAt
   - updatedAt
+  - version
   - currency
   - status
   - recurrent
@@ -26,6 +27,10 @@ properties:
     description: Дата последнего изменения
     type: string
     format: date-time
+    readOnly: true
+  version:
+    description: Версия плана
+    type: integer
     readOnly: true
   currency:
     x-rebillyMerge:

@@ -19,7 +19,7 @@ get:
     '400':
       $ref: '#/responses/DefaultLogicError'
 
-put:
+patch:
   description: Модифицировать данные плана подписки
   operationId: updatePlan
   tags:
