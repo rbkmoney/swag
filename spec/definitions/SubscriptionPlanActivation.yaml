@@ -2,7 +2,7 @@ description: Правила подключения подписки
 type: object
 required:
   - amount
-  - isActive
+  - enabled
 properties:
   amount:
     description: Сумма платежа за подключение
