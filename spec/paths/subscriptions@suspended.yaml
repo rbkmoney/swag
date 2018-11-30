@@ -1,0 +1,21 @@
+get:
+  description: Получить список отмененных подписок
+  operationId: getSuspendedSubscriptions
+  tags:
+    - Subscriptions
+  parameters:
+    - $ref: '#/parameters/requestID'
+    - $ref: '#/parameters/deadline'
+    - $ref: '#/parameters/limit'
+    - $ref: '#/parameters/offset'
+  responses:
+    '200':
+      description: Список подписок
+      schema: 
+        type: array
+        items:
+          $ref:  '#/definitions/Subscription'
+    '401':
+        $ref: '#/responses/Unauthorized'
+    '400':
+        $ref: '#/responses/DefaultLogicError'

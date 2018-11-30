@@ -1,0 +1,57 @@
+description: Описание подписки
+type: object
+required: 
+  - id
+  - planId
+  - createdAt
+  - endedAt
+  - status
+  - cardData
+  - email
+properties: 
+  id:
+    description: Идентификатор подписки
+    type: string
+    readOnly: true
+  planId:
+    description: Идентификатор плана подписки
+    type: string
+  createdAt:
+    description: Дата создания
+    type: string
+    format: date-time
+    readOnly: true
+  endedAt:
+    description: Дата окончания
+    type: string
+    format: date-time
+    readOnly: true
+  status:
+    description: Статус подписки
+    type: object
+    required:
+      - status
+    properties:
+      status:
+        description: Состояние подписки
+        type: string
+        enum:
+          - active
+          - inactive
+          - paused
+      reason:
+        description: Причина окончания или паузы
+        type: string
+        enum:
+          - client canceled
+          - merchant canceled
+          - recurrent error
+          - plan finished
+        readOnly: true
+  cardData:
+      $ref: '#/definitions/CardData'
+  email:
+      description: 'Email, указанный при оплате'
+      type: string
+      format: email
+      maxLength: 100

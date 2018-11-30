@@ -1,0 +1,34 @@
+desription: Изменение информации о подписке
+type: object
+properties:
+  plan:
+    $ref: '#/parameters/planID'
+  status:
+    description: Статус подписки
+    type: object
+    required:
+      - status
+    properties:
+      status:
+        description: Состояние подписки
+        type: string
+        enum:
+          - active
+          - inactive
+          - paused
+      reason:
+        description: Причина окончания или паузы
+        type: string
+        enum:
+          - client canceled
+          - merchant canceled
+          - recurrent error
+          - plan finished
+        readOnly: true
+  paymentResource:
+      $ref: '#/definitions/PaymentResource'
+  email:
+      description: 'Email, указанный при оплате'
+      type: string
+      format: email
+      maxLength: 100
