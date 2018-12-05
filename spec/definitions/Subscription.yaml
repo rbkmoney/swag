@@ -6,7 +6,7 @@ required:
   - createdAt
   - endedAt
   - status
-  - cardData
+  - paymentResource
   - email
 properties: 
   id:
@@ -48,8 +48,8 @@ properties:
           - recurrent error
           - plan finished
         readOnly: true
-  cardData:
-      $ref: '#/definitions/CardData'
+  paymentResource:
+      $ref: '#/definitions/PaymentResource'
   email:
       description: 'Email, указанный при оплате'
       type: string

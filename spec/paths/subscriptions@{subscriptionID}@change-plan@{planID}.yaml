@@ -1,5 +1,5 @@
 patch:
-  description: Изменить план, используемый в подписке по её идентификатору.
+  description: Изменить план, используемый в подписке, по её идентификатору.
   operationId: changeSubscriptionsPlan
   tags:
     - Subscriptions
@@ -10,7 +10,7 @@ patch:
     - $ref: '#/parameters/planID'
   responses:
     '200':
-      description: План в подписке изменен
+      description: План подписки изменен
       schema:
         $ref: '#/definitions/Subscription'
     '404':
