@@ -27,29 +27,9 @@ properties:
     format: date-time
     readOnly: true
   status:
-    description: Статус подписки
-    type: object
-    required:
-      - status
-    properties:
-      status:
-        description: Состояние подписки
-        type: string
-        enum:
-          - active
-          - inactive
-          - paused
-      reason:
-        description: Причина окончания или паузы
-        type: string
-        enum:
-          - client canceled
-          - merchant canceled
-          - recurrent error
-          - plan finished
-        readOnly: true
+    $ref: '#/definitions/SubscriptionStatus'
   paymentResource:
-      $ref: '#/definitions/PaymentResource'
+    $ref: '#/definitions/PaymentResource'
   email:
       description: 'Email, указанный при оплате'
       type: string

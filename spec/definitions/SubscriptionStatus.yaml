@@ -1,0 +1,12 @@
+description: Статус подписки
+type: object
+readOnly: true
+discriminator: subStatus
+required:
+  - subStatus
+properties:
+  subStatus:
+    type: string
+    enum:
+      - SubscriptionActive
+      - SubscriptionInactive
