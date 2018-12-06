@@ -1,0 +1,11 @@
+type: object
+allOf:
+  - $ref: '#/definitions/SubscriptionChange'
+  - type: object
+    required:
+      - email
+    properties:
+      email:
+        description: Email клиента
+        type: string
+        format: email

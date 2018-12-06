@@ -1,0 +1,16 @@
+# TO DO commented events
+type: object
+discriminator: changeType 
+required:
+  - changeType
+properties:
+  changeType:
+    type: string
+    enum:
+      - SubscriptionCreated
+      - SubscriptionTrialStatusChanged
+      - RecurrentPayment
+      - ClientEmailChanged
+      - PaymentToolChanged
+      - SubscriptionPlanChanged
+      - SubscriptionStatusChanged

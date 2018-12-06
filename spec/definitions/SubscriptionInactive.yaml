@@ -1,0 +1,15 @@
+type: object
+allOf:
+  - $ref: '#/definitions/SubscriptionStatus'
+  - type: object
+    required:
+      - status
+      - reason
+    properties:
+      status:
+        type: string
+        enum:
+          - subscriptionOver
+          - pausedByClient
+          - pausedByMerchant
+          - pausedByReccurentError

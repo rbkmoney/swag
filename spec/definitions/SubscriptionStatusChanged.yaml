@@ -1,0 +1,10 @@
+type: object
+allOf:
+  - $ref: '#/definitions/SubscriptionChange'
+  - type: object
+    desription: Новый статус подписки
+    required:
+      - status
+    properties:
+      status:
+        $ref: '#/definitions/SubscriptionStatus'
