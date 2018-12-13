@@ -25,6 +25,7 @@ get:
           enum:
             - BankAccount
             - InternationalBankAccount
+            - Wallet
     '404':
       $ref: '#/responses/NotFound'
     '401':

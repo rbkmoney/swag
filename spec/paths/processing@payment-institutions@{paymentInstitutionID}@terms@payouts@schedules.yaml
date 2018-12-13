@@ -23,6 +23,7 @@ get:
       enum:
         - BankAccount
         - InternationalBankAccount
+        - Wallet
   responses:
     '200':
       description: Идентификаторы расписаний выводов
