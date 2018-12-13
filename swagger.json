@@ -3666,7 +3666,8 @@
                 "type": "string",
                 "enum": [
                   "BankAccount",
-                  "InternationalBankAccount"
+                  "InternationalBankAccount",
+                  "Wallet"
                 ]
               }
             }
@@ -3716,7 +3717,8 @@
             "type": "string",
             "enum": [
               "BankAccount",
-              "InternationalBankAccount"
+              "InternationalBankAccount",
+              "Wallet"
             ]
           }
         ],
@@ -7701,6 +7703,28 @@
         },
         {
           "$ref": "#/definitions/InternationalBankAccount"
+        }
+      ]
+    },
+    "PayoutToolDetailsWalletInfo": {
+      "type": "object",
+      "allOf": [
+        {
+          "$ref": "#/definitions/PayoutToolDetails"
+        },
+        {
+          "type": "object",
+          "required": [
+            "walletID"
+          ],
+          "properties": {
+            "walletID": {
+              "description": "Идентификатор кошелька",
+              "type": "string",
+              "maxLength": 40,
+              "minLength": 1
+            }
+          }
         }
       ]
     },

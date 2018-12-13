@@ -2766,6 +2766,7 @@ paths:
               enum:
                 - BankAccount
                 - InternationalBankAccount
+                - Wallet
         '400':
           $ref: '#/responses/DefaultLogicError'
         '401':
@@ -2796,6 +2797,7 @@ paths:
           enum:
             - BankAccount
             - InternationalBankAccount
+            - Wallet
       responses:
         '200':
           description: Идентификаторы расписаний выводов
@@ -5561,6 +5563,19 @@ definitions:
     allOf:
       - $ref: '#/definitions/PayoutToolDetails'
       - $ref: '#/definitions/InternationalBankAccount'
+  PayoutToolDetailsWalletInfo:
+    type: object
+    allOf:
+      - $ref: '#/definitions/PayoutToolDetails'
+      - type: object
+        required:
+          - walletID
+        properties:
+          walletID:
+            description: Идентификатор кошелька
+            type: string
+            maxLength: 40
+            minLength: 1
   PayoutToolParams:
     type: object
     required:
