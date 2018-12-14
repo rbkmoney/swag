@@ -13,8 +13,12 @@ properties:
     description: Продолжительность действия подписки
     type: object
     properties:
-      timeLimit:
-        $ref: '#/definitions/TimePeriod'
+      recurrentLimit:
+        description: Количество рекуррентных периодов, после которого действие подписки будет приостановлено.
+        type: integer
       retryLimit:
-        description: Количество попыток списания
+        description: | 
+        Количество попыток списания.
+
+        По истечении количества попыток подписка переходит в статус suspended.
         type: integer
