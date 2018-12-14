@@ -1194,8 +1194,8 @@ paths:
           required: false
           type: string
           enum:
-            - PayoutCard
             - PayoutAccount
+            - Wallet
       responses:
         '200':
           description: Найденные выплаты

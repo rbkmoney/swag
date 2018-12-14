@@ -1153,8 +1153,8 @@
             "required": false,
             "type": "string",
             "enum": [
-              "PayoutCard",
-              "PayoutAccount"
+              "PayoutAccount",
+              "Wallet"
             ]
           }
         ],
