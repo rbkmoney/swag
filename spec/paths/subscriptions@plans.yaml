@@ -6,6 +6,8 @@ get:
   parameters:
     - $ref: '#/parameters/requestID'
     - $ref: '#/parameters/deadline'
+    - $ref: '#/parameters/limit'
+    - $ref: '#/parameters/offset'
   responses:
     '200':
       description: Список планов
@@ -33,7 +35,7 @@ post:
       schema:
         $ref: '#/definitions/SubscriptionPlan'
   responses:
-    '200':
+    '201':
       description: План создан
       schema:
         $ref: '#/definitions/SubscriptionPlan'

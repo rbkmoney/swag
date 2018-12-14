@@ -1,16 +1,16 @@
 description: Период времени
 type: object
 required:
-  - metric
-  - amount
+  - unit
+  - number
 properties:
-  metric:
+  unit:
     description: Единица измерения
     type: string
     enum:
       - day
       - month
       - year
-  amount:
+  number:
     description: Количество
     type: integer
