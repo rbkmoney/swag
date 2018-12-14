@@ -1,12 +1,19 @@
 description: Статус подписки
 type: object
 readOnly: true
-discriminator: subStatus
 required:
-  - subStatus
+  - status
 properties:
-  subStatus:
+  status:
     type: string
     enum:
-      - SubscriptionActive
-      - SubscriptionInactive
+      - Active
+      - Inactive
+  reason:
+    type: string
+    description: Причина остановки подписки
+    enum:
+      - error
+      - client paused
+      - merchant paused
+      - period over

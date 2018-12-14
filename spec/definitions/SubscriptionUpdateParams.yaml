@@ -1,15 +1,13 @@
 desription: Изменение информации о подписке
 type: object
 properties:
-  plan:
-    $ref: '#/parameters/planID'
-  status:
-    $ref: '#/definitions/SubscriptionStatus'
-    readonly: true
+  planID:
+    description: Идентификатор плана подписки
+    type: string
   paymentResource:
       $ref: '#/definitions/PaymentResource'
   email:
-      description: 'Email, указанный при оплате'
+      description: Email
       type: string
       format: email
       maxLength: 100
