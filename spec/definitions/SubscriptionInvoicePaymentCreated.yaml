@@ -3,8 +3,8 @@ allOf:
   - $ref: '#/definitions/SubscriptionChange'
   - type: object
     required:
-      - plan
+      - paymentID
     properties:
-      plan:
-        description: Идентификатор плана подписки
+      paymentID:
+        description: Идентификатор платежа
         type: string

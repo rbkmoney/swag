@@ -8,9 +8,10 @@ properties:
     type: string
     enum:
       - SubscriptionCreated
-      - SubscriptionTrialStatusChanged
-      - RecurrentPayment
-      - ClientEmailChanged
-      - PaymentToolChanged
-      - SubscriptionPlanChanged
+      - SubscriptionInvoiceCreated
+      - SubscriptionInvoicePaymentCreated
+      - SubscriptionInvoicePaymentSuccess
+      - PaymentInteractionRequested
+      - SubscriptionClientInfoChanged
+      - SubscriptionPaymentToolChanged
       - SubscriptionStatusChanged
