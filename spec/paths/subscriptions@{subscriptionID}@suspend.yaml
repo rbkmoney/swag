@@ -10,10 +10,11 @@ put:
     - name: source
       description: Инициатор остановки подписки
       in: body
-      type: string
-      enum:
-        - merchant
-        - client
+      schema:
+        type: string
+        enum:
+          - merchant
+          - client
   responses:
     '204':
       description: Subscription suspended

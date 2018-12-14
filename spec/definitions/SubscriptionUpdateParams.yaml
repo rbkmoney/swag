@@ -6,8 +6,14 @@ properties:
     type: string
   paymentResource:
       $ref: '#/definitions/PaymentResource'
+  planRevision:
+    description: Версия плана подписки
+    type: integer
   email:
       description: Email
       type: string
       format: email
       maxLength: 100
+  metadata:
+    description: Связанные с инвойсом метаданные
+    type: object

@@ -4,7 +4,6 @@ required:
   - id
   - planId
   - createdAt
-  - endedAt
   - status
   - paymentResource
   - email
@@ -16,6 +15,9 @@ properties:
   planId:
     description: Идентификатор плана подписки
     type: string
+  planRevision:
+    description: Версия плана подписки. Используется последняя, если не указана
+    type: integer
   createdAt:
     description: Дата создания
     type: string
@@ -31,7 +33,10 @@ properties:
   paymentResource:
     $ref: '#/definitions/PaymentResource'
   email:
-      description: 'Email, указанный при оплате'
-      type: string
-      format: email
-      maxLength: 100
+    description: Email клиента
+    type: string
+    format: email
+    maxLength: 100
+  metadata:
+    description: Связанные с подпиской метаданные
+    type: object
