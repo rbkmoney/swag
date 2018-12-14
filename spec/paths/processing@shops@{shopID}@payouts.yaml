@@ -1,0 +1,68 @@
+get:
+  description: Получение данных по выплате
+  tags:
+    - Payouts
+  operationId: getPayout
+  parameters:
+    - $ref: '#/parameters/requestID'
+    - $ref: '#/parameters/deadline'
+    - name: payoutID
+      in: query
+      description: Идентификатор выплаты
+      required: false
+      type: string
+      maxLength: 40
+      minLength: 1
+  responses:
+    '200':
+      description: Найдена выплата
+      schema:
+        $ref: '#/definitions/Payout'
+    '404':
+      $ref: '#/responses/NotFound'
+    '401':
+      $ref: '#/responses/Unauthorized'
+    '400':
+      $ref: '#/responses/DefaultLogicError'
+
+post:
+  description: |
+    Создать новую выплату на кошелек и отправить её на
+    премодерацию.
+  operationId: createWalletPayout
+  tags:
+    - Payouts
+  parameters:
+    - $ref: '#/parameters/requestID'
+    - $ref: '#/parameters/deadline'
+    - name: claimChangeset
+      in: body
+      required: true
+      schema:
+        $ref: '#/definitions/PayoutParams'
+  responses:
+    '201':
+      description: Выплата создана
+      schema:
+        $ref: '#/definitions/PayoutID'
+    '401':
+      $ref: '#/responses/Unauthorized'
+    '400':
+      description: Ошибочные данные в заявке
+      schema:
+        type: object
+        required:
+          - code
+          - message
+        properties:
+          code:
+            description: |
+              [Код ошибки](#tag/Error-Codes)
+            type: string
+            enum:
+              - invalidShopID
+              - invalidPayoutID
+          message:
+            description: Человекочитаемое описание ошибки
+            type: string
+            example: invalid payout id

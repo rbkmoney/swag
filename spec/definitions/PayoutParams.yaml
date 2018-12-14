@@ -1,0 +1,35 @@
+type: object
+required:
+  - id
+  - shopID
+  - payoutToolID
+  - amount
+  - currency
+properties:
+  id:
+    description: Идентификатор выплаты
+    type: string
+  shopID:
+    description: Идентификатор магазина
+    type: string
+  payoutToolID:
+    description: Идентификатор инструмента выплаты
+    type: string
+  amount:
+    description: |
+        Сумма выплаты в минорных денежных
+        единицах, например в копейках в случае указания российских рублей в
+        качестве валюты.
+    type: integer
+    format: int64
+    minimum: 1
+  currency:
+    x-rebillyMerge:
+      - $ref: '#/definitions/Currency'
+  metadata:
+    description: |
+      Произвольный, специфичный для клиента API и непрозрачный для системы набор данных,
+      ассоциированных с данной выплатой
+    type: object
+    example:
+      payoutDesc: На всякие нужды
