@@ -29,3 +29,6 @@ allOf:
             - PaymentCancelled
             - PaymentRefunded
             - PaymentFailed
+            - PaymentRefundCreated
+            - PaymentRefundSucceeded
+            - PaymentRefundFailed
