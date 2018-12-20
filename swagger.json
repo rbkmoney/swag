@@ -6292,7 +6292,10 @@
                   "PaymentCaptured",
                   "PaymentCancelled",
                   "PaymentRefunded",
-                  "PaymentFailed"
+                  "PaymentFailed",
+                  "PaymentRefundCreated",
+                  "PaymentRefundSucceeded",
+                  "PaymentRefundFailed"
                 ]
               }
             }

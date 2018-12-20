@@ -4580,6 +4580,9 @@ definitions:
                 - PaymentCancelled
                 - PaymentRefunded
                 - PaymentFailed
+                - PaymentRefundCreated
+                - PaymentRefundSucceeded
+                - PaymentRefundFailed
   InvoiceTemplate:
     type: object
     required:
