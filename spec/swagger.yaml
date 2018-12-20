@@ -234,6 +234,14 @@ parameters:
     type: string
     maxLength: 40
     minLength: 1
+  payoutID:
+    name: payoutID
+    in: path
+    description: Идентификатор вывода
+    required: true
+    type: string
+    maxLength: 40
+    minLength: 1
   reportID:
     name: reportID
     in: path
