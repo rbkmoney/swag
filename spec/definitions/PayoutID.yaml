@@ -1,7 +1,2 @@
-type: object
-required:
-  - id
-properties:
-  id:
-    description: Идентификатор выплаты
-    type: string
+description: Идентификатор выплаты
+type: string

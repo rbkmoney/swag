@@ -7,8 +7,8 @@ required:
   - currency
 properties:
   id:
-    description: Идентификатор выплаты
-    type: string
+    x-rebillyMerge:
+      - $ref: '#/definitions/PayoutID'
   shopID:
     description: Идентификатор магазина
     type: string

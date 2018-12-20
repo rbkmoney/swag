@@ -44,11 +44,17 @@ post:
     '201':
       description: Выплата создана
       schema:
-        $ref: '#/definitions/PayoutID'
+        type: object
+        required:
+          - id
+        properties:
+          id:
+            x-rebillyMerge:
+              - $ref: '#/definitions/PayoutID'
     '401':
       $ref: '#/responses/Unauthorized'
     '400':
-      description: Ошибочные данные в заявке
+      description: Неверные данные
       schema:
         type: object
         required:
@@ -61,7 +67,8 @@ post:
             type: string
             enum:
               - invalidShopID
-              - invalidPayoutID
+              - invalidRequest
+              - invalidDeadline
           message:
             description: Человекочитаемое описание ошибки
             type: string
