@@ -35,7 +35,7 @@ post:
   parameters:
     - $ref: '#/parameters/requestID'
     - $ref: '#/parameters/deadline'
-    - name: claimChangeset
+    - name: payoutParams
       in: body
       required: true
       schema:
