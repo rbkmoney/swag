@@ -1,0 +1,23 @@
+put:
+  description: Добавить платежное средство
+  operationId: addPaymentMethod
+  tags:
+    - Subscriptions
+  parameters:
+    - $ref: '#/parameters/requestID'
+    - $ref: '#/parameters/deadline'
+    - $ref: '#/parameters/subscriptionID'
+    - name: PaymentResource
+      in: body
+      required: true
+      schema:
+        $ref: '#/definitions/PaymentResource'
+  responses:
+    '204':
+      description: Payment Method added
+    '404':
+      $ref: '#/responses/NotFound'
+    '401':
+      $ref: '#/responses/Unauthorized'
+    '400':
+      $ref: '#/responses/DefaultLogicError'

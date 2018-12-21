@@ -5,7 +5,6 @@ required:
   - planId
   - createdAt
   - status
-  - paymentResource
   - customerInfo
 properties: 
   id:
@@ -31,7 +30,9 @@ properties:
   status:
     $ref: '#/definitions/SubscriptionStatus'
   paymentResource:
-    $ref: '#/definitions/PaymentResource'
+    readOnly: true
+    allOf:
+      - $ref: '#/definitions/PaymentResource'
   customerInfo:
     $ref: '#/definitions/CustomerInfo'
   metadata:

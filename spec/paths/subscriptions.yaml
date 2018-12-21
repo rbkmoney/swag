@@ -21,7 +21,10 @@ get:
         $ref: '#/responses/DefaultLogicError'
 
 post:
-  description: Создать подписку
+  description: |
+    Создать подписку.  
+    После создания, к подписке должно быть привязано платежное средство при помощи метода addPaymentMethod,
+    в противном случае подписка будет удалена через некоторое время.
   operationId: createSubscription
   tags:
     - Subscriptions
