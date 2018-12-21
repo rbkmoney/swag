@@ -1,8 +1,8 @@
 post:
   description: |
-    Создать новую выплату на кошелек и отправить её на
+    Создать новую выплату и отправить её на
     премодерацию.
-  operationId: createWalletPayout
+  operationId: createPayout
   tags:
     - Payouts
   parameters:
