@@ -9,11 +9,8 @@ properties:
   planRevision:
     description: Версия плана подписки
     type: integer
-  email:
-      description: Email
-      type: string
-      format: email
-      maxLength: 100
+  customerInfo:
+    $ref: '#/definitions/CustomerInfo'
   metadata:
     description: Связанные с инвойсом метаданные
     type: object

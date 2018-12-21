@@ -1,0 +1,14 @@
+# So far we only require email, perhaps later we'll wanna know more about customers
+type: object
+description: Информация о клиенте
+required:
+  - email
+properties:
+  email:
+    description: Адрес электронной почты
+    type: string
+    format: email
+    maxLength: 100
+  metadata:
+    type: string
+    maxLength: 1000

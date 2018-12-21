@@ -6,7 +6,7 @@ required:
   - createdAt
   - status
   - paymentResource
-  - email
+  - customerInfo
 properties: 
   id:
     description: Идентификатор подписки
@@ -32,11 +32,8 @@ properties:
     $ref: '#/definitions/SubscriptionStatus'
   paymentResource:
     $ref: '#/definitions/PaymentResource'
-  email:
-    description: Email клиента
-    type: string
-    format: email
-    maxLength: 100
+  customerInfo:
+    $ref: '#/definitions/CustomerInfo'
   metadata:
     description: Связанные с подпиской метаданные
     type: object

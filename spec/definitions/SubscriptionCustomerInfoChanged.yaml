@@ -3,9 +3,7 @@ allOf:
   - $ref: '#/definitions/SubscriptionChange'
   - type: object
     required:
-      - email
+      - CustomerInfo
     properties:
-      email:
-        description: Email клиента
-        type: string
-        format: email
+      CustomerInfo:
+        $ref: '#/definitions/CustomerInfo'
