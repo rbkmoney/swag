@@ -39,7 +39,8 @@ post:
               [Код ошибки](#tag/Error-Codes)
             type: string
             enum:
-              - invalidShopID
+              - invalidPayoutTool
+              - invalidCash
               - invalidRequest
               - invalidDeadline
           message:
