@@ -7,14 +7,12 @@ put:
     - $ref: '#/parameters/requestID'
     - $ref: '#/parameters/deadline'
     - $ref: '#/parameters/subscriptionID'
-    - name: source
-      description: Инициатор остановки подписки
+    - name: reason
+      description: Причина остановки подписки
       in: body
       schema:
         type: string
-        enum:
-          - merchant
-          - client
+        maxLength: 100
   responses:
     '204':
       description: Subscription suspended

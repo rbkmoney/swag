@@ -9,24 +9,16 @@ get:
     - $ref: '#/parameters/fromTime'
     - $ref: '#/parameters/toTime'
     - $ref: '#/parameters/limit'
+    - $ref: '#/parameters/offset'
     - name: subscriptionStatus
       in: query
       description: Статус подписки для поиска
       required: false
       type: string
       enum:
-        - error
-        - customer paused
-        - merchant paused
-        - period over
-    - name: paymentMethod
-      in: query
-      description: Метод оплаты
-      required: false
-      type: string
-      enum:
-        - bankCard
-        - paymentTerminal
+      - active
+      - paused
+      - finished
     - name: subscriptionID
       in: query
       description: Идентификатор подписки
@@ -34,6 +26,18 @@ get:
       type: string
       maxLength: 40
       minLength: 1
+    - name: planID
+      in: query
+      description: Идентификатор плана подписки
+      required: false
+      type: string
+      maxLength: 40
+      minLength: 1
+    - name: planRevision
+      in: query
+      description: Версия плана подписки. Будут искаться все версии, если не указана
+      required: false
+      type: integer
     - name: payerEmail
       in: query
       description: 'Email, указанный при оплате'

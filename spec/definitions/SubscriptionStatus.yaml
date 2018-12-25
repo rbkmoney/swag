@@ -7,13 +7,10 @@ properties:
   status:
     type: string
     enum:
-      - Active
-      - Inactive
+      - active
+      - paused
+      - finished
   reason:
-    type: string
     description: Причина остановки подписки
-    enum:
-      - error
-      - customer paused
-      - merchant paused
-      - period over
+    type: string
+    maxLength: 100
