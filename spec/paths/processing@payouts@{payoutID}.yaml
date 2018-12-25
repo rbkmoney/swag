@@ -1,0 +1,20 @@
+get:
+  description: Получение данных по выплате
+  tags:
+    - Payouts
+  operationId: getPayout
+  parameters:
+    - $ref: '#/parameters/requestID'
+    - $ref: '#/parameters/deadline'
+    - $ref: '#/parameters/payoutID'
+  responses:
+    '200':
+      description: Найдена выплата
+      schema:
+        $ref: '#/definitions/Payout'
+    '404':
+      $ref: '#/responses/NotFound'
+    '401':
+      $ref: '#/responses/Unauthorized'
+    '400':
+      $ref: '#/responses/DefaultLogicError'

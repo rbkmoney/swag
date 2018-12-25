@@ -1,0 +1,43 @@
+post:
+  description: |
+    Создать новую выплату и отправить её на
+    премодерацию.
+  operationId: createPayout
+  tags:
+    - Payouts
+  parameters:
+    - $ref: '#/parameters/requestID'
+    - $ref: '#/parameters/deadline'
+    - name: payoutParams
+      in: body
+      required: true
+      schema:
+        $ref: '#/definitions/PayoutParams'
+  responses:
+    '201':
+      description: Выплата создана
+      schema:
+        $ref: '#/definitions/Payout'
+    '401':
+      $ref: '#/responses/Unauthorized'
+    '400':
+      description: Неверные данные
+      schema:
+        type: object
+        required:
+          - code
+          - message
+        properties:
+          code:
+            description: |
+              [Код ошибки](#tag/Error-Codes)
+            type: string
+            enum:
+              - invalidPayoutTool
+              - invalidCash
+              - invalidRequest
+              - invalidDeadline
+          message:
+            description: Человекочитаемое описание ошибки
+            type: string
+            example: invalid payout id
