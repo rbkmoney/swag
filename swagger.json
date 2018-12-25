@@ -184,6 +184,15 @@
       "maxLength": 40,
       "minLength": 1
     },
+    "payoutID": {
+      "name": "payoutID",
+      "in": "path",
+      "description": "Идентификатор вывода",
+      "required": true,
+      "type": "string",
+      "maxLength": 40,
+      "minLength": 1
+    },
     "reportID": {
       "name": "reportID",
       "in": "path",
@@ -3781,6 +3790,106 @@
           },
           "401": {
             "$ref": "#/responses/Unauthorized"
+          }
+        }
+      }
+    },
+    "/processing/payouts": {
+      "post": {
+        "description": "Создать новую выплату и отправить её на\nпремодерацию.\n",
+        "operationId": "createPayout",
+        "tags": [
+          "Payouts"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/parameters/requestID"
+          },
+          {
+            "$ref": "#/parameters/deadline"
+          },
+          {
+            "name": "payoutParams",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/PayoutParams"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Выплата создана",
+            "schema": {
+              "$ref": "#/definitions/Payout"
+            }
+          },
+          "400": {
+            "description": "Неверные данные",
+            "schema": {
+              "type": "object",
+              "required": [
+                "code",
+                "message"
+              ],
+              "properties": {
+                "code": {
+                  "description": "[Код ошибки](#tag/Error-Codes)\n",
+                  "type": "string",
+                  "enum": [
+                    "invalidPayoutTool",
+                    "invalidCash",
+                    "invalidRequest",
+                    "invalidDeadline"
+                  ]
+                },
+                "message": {
+                  "description": "Человекочитаемое описание ошибки",
+                  "type": "string",
+                  "example": "invalid payout id"
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/responses/Unauthorized"
+          }
+        }
+      }
+    },
+    "/processing/payouts/{payoutID}": {
+      "get": {
+        "description": "Получение данных по выплате",
+        "tags": [
+          "Payouts"
+        ],
+        "operationId": "getPayout",
+        "parameters": [
+          {
+            "$ref": "#/parameters/requestID"
+          },
+          {
+            "$ref": "#/parameters/deadline"
+          },
+          {
+            "$ref": "#/parameters/payoutID"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Найдена выплата",
+            "schema": {
+              "$ref": "#/definitions/Payout"
+            }
+          },
+          "400": {
+            "$ref": "#/responses/DefaultLogicError"
+          },
+          "401": {
+            "$ref": "#/responses/Unauthorized"
+          },
+          "404": {
+            "$ref": "#/responses/NotFound"
           }
         }
       }
@@ -7582,6 +7691,56 @@
           "type": "array",
           "items": {
             "$ref": "#/definitions/PayoutSummaryItem"
+          }
+        }
+      }
+    },
+    "PayoutID": {
+      "description": "Идентификатор выплаты",
+      "type": "string",
+      "maxLength": 40,
+      "minLength": 1
+    },
+    "PayoutParams": {
+      "type": "object",
+      "required": [
+        "id",
+        "shopID",
+        "payoutToolID",
+        "amount",
+        "currency"
+      ],
+      "properties": {
+        "id": {
+          "description": "Идентификатор выплаты",
+          "type": "string",
+          "maxLength": 40,
+          "minLength": 1
+        },
+        "shopID": {
+          "description": "Идентификатор магазина",
+          "type": "string"
+        },
+        "payoutToolID": {
+          "description": "Идентификатор инструмента выплаты",
+          "type": "string"
+        },
+        "amount": {
+          "description": "Сумма выплаты в минорных денежных\nединицах, например в копейках в случае указания российских рублей в\nкачестве валюты.\n",
+          "type": "integer",
+          "format": "int64",
+          "minimum": 1
+        },
+        "currency": {
+          "description": "Валюта, символьный код согласно [ISO 4217](http://www.iso.org/iso/home/standards/currency_codes.htm).",
+          "type": "string",
+          "pattern": "^[A-Z]{3}$"
+        },
+        "metadata": {
+          "description": "Произвольный, специфичный для клиента API и непрозрачный для системы набор данных,\nассоциированных с данной выплатой\n",
+          "type": "object",
+          "example": {
+            "payoutDesc": "На всякие нужды"
           }
         }
       }
