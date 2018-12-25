@@ -17,13 +17,7 @@ post:
     '201':
       description: Выплата создана
       schema:
-        type: object
-        required:
-          - id
-        properties:
-          id:
-            x-rebillyMerge:
-              - $ref: '#/definitions/PayoutID'
+        $ref: '#/definitions/Payout'
     '401':
       $ref: '#/responses/Unauthorized'
     '400':
