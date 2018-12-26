@@ -4,7 +4,6 @@ required:
   - shopID
   - createdAt
   - amount
-  - fee
   - currency
   - payoutToolDetails
 properties:
@@ -45,4 +44,13 @@ properties:
     type: array
     items:
       $ref: '#/definitions/PayoutSummaryItem'
-
+  status:
+    description: Статус выплаты
+    type: string
+  metadata:
+    description: |
+      Произвольный, специфичный для клиента API и непрозрачный для системы набор данных,
+      ассоциированных с данной выплатой
+    type: object
+    example:
+      payoutDesc: На всякие нужды
