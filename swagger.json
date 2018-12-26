@@ -7643,7 +7643,6 @@
         "shopID",
         "createdAt",
         "amount",
-        "fee",
         "currency",
         "payoutToolDetails"
       ],
@@ -7691,6 +7690,17 @@
           "type": "array",
           "items": {
             "$ref": "#/definitions/PayoutSummaryItem"
+          }
+        },
+        "status": {
+          "description": "Статус выплаты",
+          "type": "string"
+        },
+        "metadata": {
+          "description": "Произвольный, специфичный для клиента API и непрозрачный для системы набор данных,\nассоциированных с данной выплатой\n",
+          "type": "object",
+          "example": {
+            "payoutDesc": "Custom payout"
           }
         }
       }
@@ -7740,7 +7750,7 @@
           "description": "Произвольный, специфичный для клиента API и непрозрачный для системы набор данных,\nассоциированных с данной выплатой\n",
           "type": "object",
           "example": {
-            "payoutDesc": "На всякие нужды"
+            "payoutDesc": "Custom payout"
           }
         }
       }
