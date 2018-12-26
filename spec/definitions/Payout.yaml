@@ -53,4 +53,4 @@ properties:
       ассоциированных с данной выплатой
     type: object
     example:
-      payoutDesc: На всякие нужды
+      payoutDesc: weekly payout
