@@ -8,9 +8,5 @@ properties:
     enum:
       - SubscriptionCreated
       - SubscriptionInvoiceCreated
-      - SubscriptionInvoicePaymentCreated
-      - SubscriptionInvoicePaymentSuccess
-      - PaymentInteractionRequested
-      - SubscriptionCustomerInfoChanged
-      - SubscriptionPaymentToolChanged
+      - SubscriptionPayerChanged
       - SubscriptionStatusChanged

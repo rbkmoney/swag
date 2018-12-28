@@ -1,9 +1,0 @@
-type: object
-allOf:
-  - $ref: '#/definitions/SubscriptionChange'
-  - type: object
-    required:
-      - CustomerInfo
-    properties:
-      CustomerInfo:
-        $ref: '#/definitions/CustomerInfo'
