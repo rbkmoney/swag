@@ -4481,8 +4481,10 @@ definitions:
               - 0%
               - 10%
               - 18%
+              - 20%
               - 10/110
               - 18/118
+              - 20/120
   InvoiceParams:
     type: object
     required:
