@@ -5634,7 +5634,6 @@ definitions:
         description: Общая комиссия по данному типу операций над денежными средствами в минорных денежных единицах
         type: integer
         format: int64
-        minimum: 0
       currency:
         description: 'Валюта, символьный код согласно [ISO 4217](http://www.iso.org/iso/home/standards/currency_codes.htm).'
         type: string
