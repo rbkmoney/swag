@@ -21,7 +21,6 @@ properties:
     description: 'Общая комиссия по данному типу операций над денежными средствами в минорных денежных единицах'
     type: integer
     format: int64
-    minimum: 0
   currency:
     x-rebillyMerge:
       - $ref: '#/definitions/Currency'
