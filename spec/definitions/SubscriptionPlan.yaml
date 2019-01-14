@@ -35,14 +35,12 @@ properties:
   currency:
     x-rebillyMerge:
       - $ref: '#/definitions/Currency'
-  customerDescription:
-    description: Описание плана подписки для покупателя
+  description:
+    description: Описание плана подписки
     type: string
     maxLength: 1000
-  merchantDescription:
-    description: Описание плана подписки для мерчанта
-    type: string
-    maxLength: 1000
+  presentation:
+    $ref: '#/definitions/SubscriptionPlanPresentation'
   status:
     description: Статус плана
     type: string
