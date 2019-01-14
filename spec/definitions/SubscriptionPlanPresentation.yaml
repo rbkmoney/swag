@@ -1,4 +1,4 @@
-description: Детали презентации плана подписки
+description: Детали клиентской презентации плана подписки
 type: object
 required:
   - description
