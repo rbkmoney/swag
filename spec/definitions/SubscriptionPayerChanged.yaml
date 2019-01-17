@@ -6,4 +6,4 @@ allOf:
       - paymentResource
     properties:
       paymentResource:
-        $ref: '#/definitions/PaymentResource'
+        $ref: '#/definitions/PaymentResourcePayer'

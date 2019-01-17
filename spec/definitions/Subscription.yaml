@@ -29,10 +29,10 @@ properties:
     readOnly: true
   status:
     $ref: '#/definitions/SubscriptionStatus'
-  paymentResource:
+  PaymentResourcePayer:
     readOnly: true
     allOf:
-      - $ref: '#/definitions/PaymentResource'
+      - $ref: '#/definitions/PaymentResourcePayer'
   customerInfo:
     $ref: '#/definitions/CustomerInfo'
   metadata:

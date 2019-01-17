@@ -10,5 +10,4 @@ properties:
     format: email
     maxLength: 100
   metadata:
-    type: string
-    maxLength: 1000
+    type: object
