@@ -11,7 +11,7 @@ post:
     - name: capturePayment
       in: body
       description: Параметры подтверждения платежа
-      required  : true
+      required: true
       schema:
         $ref: '#/definitions/CaptureParams'
   responses:
