@@ -5,5 +5,5 @@ allOf:
     required:
       - paymentResource
     properties:
-      paymentResource:
+      payer:
         $ref: '#/definitions/PaymentResourcePayer'
