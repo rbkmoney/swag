@@ -10,10 +10,10 @@ post:
     - $ref: '#/parameters/paymentID'
     - name: capturePayment
       in: body
-      description: Произвольная причина совершения операции
-      required: true
+      description: Параметры подтверждения платежа
+      required  : true
       schema:
-        $ref: '#/definitions/Reason'
+        $ref: '#/definitions/CaptureParams'
   responses:
     '202':
       description: Запрос на подтверждение платежа принят
