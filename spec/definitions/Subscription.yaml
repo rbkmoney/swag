@@ -30,8 +30,9 @@ properties:
   status:
     $ref: '#/definitions/SubscriptionStatus'
   payer:
-    readOnly: true
-    $ref: '#/definitions/PaymentResourcePayer'
+    x-rebillyMerge:
+      - readOnly: true
+      - $ref: '#/definitions/PaymentResourcePayer'
   customerInfo:
     $ref: '#/definitions/CustomerInfo'
   metadata:

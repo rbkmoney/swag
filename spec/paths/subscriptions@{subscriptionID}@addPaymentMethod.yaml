@@ -7,11 +7,11 @@ put:
     - $ref: '#/parameters/requestID'
     - $ref: '#/parameters/deadline'
     - $ref: '#/parameters/subscriptionID'
-    - name: PaymentResource
+    - name: payer
       in: body
       required: true
       schema:
-        $ref: '#/definitions/PaymentResource'
+        $ref: '#/definitions/PaymentResourcePayer'
   responses:
     '204':
       description: Payment Method added

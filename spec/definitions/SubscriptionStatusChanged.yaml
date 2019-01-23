@@ -2,7 +2,7 @@ type: object
 allOf:
   - $ref: '#/definitions/SubscriptionChange'
   - type: object
-    desription: Новый статус подписки
+    description: Новый статус подписки
     required:
       - status
     properties:

@@ -3,7 +3,7 @@ allOf:
   - $ref: '#/definitions/SubscriptionChange'
   - type: object
     required:
-      - paymentResource
+      - payer
     properties:
       payer:
         $ref: '#/definitions/PaymentResourcePayer'
