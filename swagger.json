@@ -184,15 +184,6 @@
       "maxLength": 40,
       "minLength": 1
     },
-    "payoutID": {
-      "name": "payoutID",
-      "in": "path",
-      "description": "Идентификатор вывода",
-      "required": true,
-      "type": "string",
-      "maxLength": 40,
-      "minLength": 1
-    },
     "reportID": {
       "name": "reportID",
       "in": "path",
@@ -293,6 +284,24 @@
       "type": "string",
       "maxLength": 40,
       "minLength": 1
+    },
+    "planID": {
+      "name": "planID",
+      "in": "path",
+      "description": "Идентификатор плана подписки",
+      "required": true,
+      "type": "string",
+      "maxLength": 40,
+      "minLength": 1
+    },
+    "subscriptionID": {
+      "name": "subscriptionID",
+      "in": "path",
+      "description": "Идентификатор подписки",
+      "required": true,
+      "type": "string",
+      "maxLength": 40,
+      "minLength": 1
     }
   },
   "tags": [
@@ -314,7 +323,7 @@
     {
       "name": "Invoices",
       "x-displayName": "Инвойсы",
-      "description": "Инвойс - это базовая часть работы с платформой по приему платежей. Перед\nрендерингом платежной формы, запуском транзакций на списание денег,\nхолдированием средств на карте плательщика и запуском других подобных\nбизнес-процессов, необходимо создать инвойс и узнать его идентификатор.\n\nВ общем случае, инвойс является контейнером для платежей, данных о товарах\nи магазине. Инвойсы имеют настраиваемый ограниченный срок жизни. После\nистечения срока жизни состояние инвойса изменить невозможно.\n\n\n## Состояния и статусы инвойса\n\n### Таблица состояний инвойса:\n  | Состояние   | Обозначение   |  Описание  |\n  | -- | -- | -- |\n  | Не оплачен | `unpaid` | Инвойс создан, но финансовые обязательства ещё не погашены. |\n  | Отменён | `cancelled` | Инвойс отменён с указанием причины, все обязательства по нему недействительны. |\n  | Оплачен | `paid` | Финансовые обязательства по инвойсу погашены, но товары или услуги плательщику ещё не предоставлены. |\n  | Погашен | `fulfilled` | Все обязательства, как плательщика, так и мерчанта, погашены. |\n  | Возмещён | `refunded` | Мерчанту не удалось выполнить свои обязательства, и финансовые обязательства плательщика были возмещены. |\n\nВ узлах диаграммы указаны статусы инвойса, стрелки помечены процессами,\nуспешное завершение которых порождает переход из одного статуса в другой.\n\n![Invoice State diagram](wsd/img/invoice.svg)\n\n## Метаданные инвойса\n\nПлатформа предоставляет вам возможность заполнить и сохранить любые\nнеобходимые метаданные в структуре инвойса. Данные описываются массивом\nJSON. В дальнейшем платформа предоставит вам эти данные при запросе данных\nинвойса по его ID либо пришлет в асинхронном режиме на webhook,\nустановленный для соответствующего магазине, если он есть.\n\n## События инвойса\n\nМы используем event-based, или событийную архитектуру для любого изменения\nсостояния данных в платформе. События, которые генерируют участники\nпроцесса привязываются к объектам системы, и таким образом позволяют\nузнать конечное состояние данных объекта. В системе можно получить как\nполный список событий, приведших к определенному состоянию данных, так и\nпоследнее событие, описывающее текущее состояние объекта. Например, для\nтого, чтобы узнать состояние инвойса, и таким образом принять решение об\nотгрузке товара или предоставлении услуги плательщику, можно запросить у\nплатформы все события, произошедшие в рамках указанного ID инвойса, либо\nсамое последнее из них.\n\n## Authorization\n\nОперации:\n\n* создания инвойса,\n\n* отмены ивнвойса,\n\n* погашения инвойса,\n\n* получения *нового* токена доступа к инвойсу (уже после создания инвойса)\n\n\nавторизуются вашим API-ключем.\n\n### Токен доступа к инвойсу\n\nТокен доступа к инвойсу авторизует ограниченное количество операций,\nнеобходимых для проведения [платежей](#tag/Payments) по указанному\nинвойсу, в частности:\n\n* [токенизация](#tag/Tokens) платёжных инструментов,\n\n* создание платежей по этому и только этому инвойсу,\n\n* получение состояния и событий этого инвойса.\n\n\nСрок действия токена составляет 3 суток от момента создания, после\nистечения которого использовать его для авторизации операций будет более\nневозможно.\n"
+      "description": "Инвойс - это базовая часть работы с платформой по приему платежей. Перед рендерингом платежной формы, запуском транзакций на списание денег, холдированием средств на карте плательщика и запуском других подобных бизнес-процессов, необходимо создать инвойс и узнать его идентификатор.\nВ общем случае, инвойс является контейнером для платежей, данных о товарах и магазине. Инвойсы имеют настраиваемый ограниченный срок жизни. После истечения срока жизни состояние инвойса изменить невозможно.\n\n## Состояния и статусы инвойса\nТаблица состояний инвойса:\n  |    |    |    |\n  | -- | -- | -- |\n  | Не оплачен | `unpaid` | Инвойс создан, но финансовые обязательства ещё не погашены. |\n  | Отменён | `cancelled` | Инвойс отменён с указанием причины, все обязательства по нему недействительны. |\n  | Оплачен | `paid` | Финансовые обязательства по инвойсу погашены, но товары или услуги плательщику ещё не предоставлены. |\n  | Погашен | `fulfilled` | Все обязательства, как плательщика, так и мерчанта, погашены. |\n  | Возмещён | `refunded` | Мерчанту не удалось выполнить свои обязательства, и финансовые обязательства плательщика были возмещены. |\n\nВ узлах диаграммы указаны статусы инвойса, стрелки помечены процессами, успешное завершение которых порождает переход из одного статуса в другой.\n![Invoice State diagram](wsd/img/invoice.svg)\n## Метаданные инвойса\nПлатформа предоставляет вам возможность заполнить и сохранить любые необходимые метаданные в структуре инвойса. Данные описываются массивом JSON. В дальнейшем платформа предоставит вам эти данные при запросе данных инвойса по его ID либо пришлет в асинхронном режиме на webhook, установленный для соответствующего магазине, если он есть.\n## События инвойса\nМы используем event-based, или событийную архитектуру для любого изменения состояния данных в платформе. События, которые генерируют участники процесса привязываются к объектам системы, и таким образом позволяют узнать конечное состояние данных объекта. В системе можно получить как полный список событий, приведших к определенному состоянию данных, так и последнее событие, описывающее текущее состояние объекта. Например, для того, чтобы узнать состояние инвойса, и таким образом принять решение об отгрузке товара или предоставлении услуги плательщику, можно запросить у платформы все события, произошедшие в рамках указанного ID инвойса, либо самое последнее из них.\n## Authorization\nОперации:\n* создания инвойса,\n* отмены инвойса,\n* погашения инвойса,\n* получения *нового* токена доступа к инвойсу (уже после создания инвойса)\n\nавторизуются вашим API-ключем.\n### Токен доступа к инвойсу\nТокен доступа к инвойсу авторизует ограниченное количество операций, необходимых для проведения [платежей](#tag/Payments) по указанному инвойсу, в частности:\n* [токенизация](#tag/Tokens) платёжных инструментов,\n* создание платежей по этому и только этому инвойсу,\n* получение состояния и событий этого инвойса.\n\nСрок действия токена составляет 3 суток от момента создания, после истечения которого использовать его для авторизации операций будет более невозможно.\n"
     },
     {
       "name": "InvoiceTemplates",
@@ -380,6 +389,11 @@
       "name": "Reports",
       "x-displayName": "Отчеты",
       "description": "Один раз в отчетный период платформа автоматически подготавливает и размещает документы в формате XLSX с разбиением по магазину активной категории. Также, каждый документ будет подписан [квалифицированной ЭЦП](http://minsvyaz.ru/ru/appeals/faq/31/). Данная подпись является юридически значимой и позволяет полностью отказаться от бумажного документооборота.\n"
+    },
+    {
+      "name": "Subscriptions",
+      "x-displayName": "Подписки",
+      "description": "Платформа предоставляет возможность работать с системой  подписок - правил автоматизации списаний денег с платежных  инструментов плательщиков без участия последних.\n"
     },
     {
       "name": "Error Codes",
@@ -1162,8 +1176,8 @@
             "required": false,
             "type": "string",
             "enum": [
-              "PayoutAccount",
-              "Wallet"
+              "PayoutCard",
+              "PayoutAccount"
             ]
           }
         ],
@@ -1278,6 +1292,175 @@
                   "type": "array",
                   "items": {
                     "$ref": "#/definitions/RefundSearchResult"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/responses/DefaultLogicError"
+          },
+          "401": {
+            "$ref": "#/responses/Unauthorized"
+          },
+          "404": {
+            "$ref": "#/responses/NotFound"
+          }
+        }
+      }
+    },
+    "/analytics/subscriptions": {
+      "get": {
+        "description": "Поиск инвойсов",
+        "tags": [
+          "Search"
+        ],
+        "operationId": "searchSubscriptions",
+        "parameters": [
+          {
+            "$ref": "#/parameters/requestID"
+          },
+          {
+            "$ref": "#/parameters/deadline"
+          },
+          {
+            "$ref": "#/parameters/fromTime"
+          },
+          {
+            "$ref": "#/parameters/toTime"
+          },
+          {
+            "$ref": "#/parameters/limit"
+          },
+          {
+            "$ref": "#/parameters/offset"
+          },
+          {
+            "name": "subscriptionStatus",
+            "in": "query",
+            "description": "Статус подписки для поиска",
+            "required": false,
+            "type": "string",
+            "enum": [
+              "active",
+              "paused",
+              "finished"
+            ]
+          },
+          {
+            "name": "subscriptionID",
+            "in": "query",
+            "description": "Идентификатор подписки",
+            "required": false,
+            "type": "string",
+            "maxLength": 40,
+            "minLength": 1
+          },
+          {
+            "name": "planID",
+            "in": "query",
+            "description": "Идентификатор плана подписки",
+            "required": false,
+            "type": "string",
+            "maxLength": 40,
+            "minLength": 1
+          },
+          {
+            "name": "planRevision",
+            "in": "query",
+            "description": "Версия плана подписки. Будут искаться все версии, если не указана",
+            "required": false,
+            "type": "integer"
+          },
+          {
+            "name": "payerEmail",
+            "in": "query",
+            "description": "Email, указанный при оплате",
+            "required": false,
+            "type": "string",
+            "format": "email",
+            "maxLength": 100
+          },
+          {
+            "name": "payerIP",
+            "in": "query",
+            "description": "IP-адрес плательщика",
+            "required": false,
+            "type": "string",
+            "format": "ip-address",
+            "maxLength": 45
+          },
+          {
+            "name": "bankCardTokenProvider",
+            "in": "query",
+            "required": false,
+            "description": "Провайдер платежных токенов",
+            "type": "string",
+            "enum": [
+              "applepay",
+              "googlepay",
+              "samsungpay"
+            ]
+          },
+          {
+            "name": "bankCardPaymentSystem",
+            "in": "query",
+            "required": false,
+            "description": "Платежная система",
+            "type": "string",
+            "enum": [
+              "visa",
+              "mastercard",
+              "visaelectron",
+              "maestro",
+              "forbrugsforeningen",
+              "dankort",
+              "amex",
+              "dinersclub",
+              "discover",
+              "unionpay",
+              "jcb",
+              "nspkmir"
+            ]
+          },
+          {
+            "name": "bin",
+            "in": "query",
+            "description": "BIN банка-эмитента карты",
+            "required": false,
+            "type": "string",
+            "pattern": "^\\d{6,8}$"
+          },
+          {
+            "name": "lastDigits",
+            "in": "query",
+            "description": "Последние цифры номера карты",
+            "required": false,
+            "type": "string",
+            "pattern": "^\\d{2,4}$"
+          },
+          {
+            "name": "continuationToken",
+            "in": "query",
+            "required": false,
+            "description": "Токен, сигнализирующий о том, что в ответе передана только часть данных.\nДля получения следующей части нужно повторно обратиться к сервису, указав тот-же набор условий и полученый токен.\nЕсли токена нет, получена последняя часть данных.\n",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Найденные подписки",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "continuationToken": {
+                  "description": "Токен, сигнализирующий о том, что в ответе передана только часть данных.\nДля получения следующей части нужно повторно обратиться к сервису, указав тот-же набор условий и полученый токен.\nЕсли токена нет, получена последняя часть данных.\n",
+                  "type": "string"
+                },
+                "result": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/definitions/Subscription"
                   }
                 }
               }
@@ -3675,8 +3858,7 @@
                 "type": "string",
                 "enum": [
                   "BankAccount",
-                  "InternationalBankAccount",
-                  "Wallet"
+                  "InternationalBankAccount"
                 ]
               }
             }
@@ -3726,8 +3908,7 @@
             "type": "string",
             "enum": [
               "BankAccount",
-              "InternationalBankAccount",
-              "Wallet"
+              "InternationalBankAccount"
             ]
           }
         ],
@@ -3790,106 +3971,6 @@
           },
           "401": {
             "$ref": "#/responses/Unauthorized"
-          }
-        }
-      }
-    },
-    "/processing/payouts": {
-      "post": {
-        "description": "Создать новую выплату и отправить её на\nпремодерацию.\n",
-        "operationId": "createPayout",
-        "tags": [
-          "Payouts"
-        ],
-        "parameters": [
-          {
-            "$ref": "#/parameters/requestID"
-          },
-          {
-            "$ref": "#/parameters/deadline"
-          },
-          {
-            "name": "payoutParams",
-            "in": "body",
-            "required": true,
-            "schema": {
-              "$ref": "#/definitions/PayoutParams"
-            }
-          }
-        ],
-        "responses": {
-          "201": {
-            "description": "Выплата создана",
-            "schema": {
-              "$ref": "#/definitions/Payout"
-            }
-          },
-          "400": {
-            "description": "Неверные данные",
-            "schema": {
-              "type": "object",
-              "required": [
-                "code",
-                "message"
-              ],
-              "properties": {
-                "code": {
-                  "description": "[Код ошибки](#tag/Error-Codes)\n",
-                  "type": "string",
-                  "enum": [
-                    "invalidPayoutTool",
-                    "invalidCash",
-                    "invalidRequest",
-                    "invalidDeadline"
-                  ]
-                },
-                "message": {
-                  "description": "Человекочитаемое описание ошибки",
-                  "type": "string",
-                  "example": "invalid payout id"
-                }
-              }
-            }
-          },
-          "401": {
-            "$ref": "#/responses/Unauthorized"
-          }
-        }
-      }
-    },
-    "/processing/payouts/{payoutID}": {
-      "get": {
-        "description": "Получение данных по выплате",
-        "tags": [
-          "Payouts"
-        ],
-        "operationId": "getPayout",
-        "parameters": [
-          {
-            "$ref": "#/parameters/requestID"
-          },
-          {
-            "$ref": "#/parameters/deadline"
-          },
-          {
-            "$ref": "#/parameters/payoutID"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Найдена выплата",
-            "schema": {
-              "$ref": "#/definitions/Payout"
-            }
-          },
-          "400": {
-            "$ref": "#/responses/DefaultLogicError"
-          },
-          "401": {
-            "$ref": "#/responses/Unauthorized"
-          },
-          "404": {
-            "$ref": "#/responses/NotFound"
           }
         }
       }
@@ -4492,6 +4573,341 @@
             "schema": {
               "$ref": "#/definitions/ReportLink"
             }
+          },
+          "400": {
+            "$ref": "#/responses/DefaultLogicError"
+          },
+          "401": {
+            "$ref": "#/responses/Unauthorized"
+          },
+          "404": {
+            "$ref": "#/responses/NotFound"
+          }
+        }
+      }
+    },
+    "/subscriptions": {
+      "get": {
+        "description": "Получить список всех подписок",
+        "operationId": "getSubscriptions",
+        "tags": [
+          "Subscriptions"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/parameters/requestID"
+          },
+          {
+            "$ref": "#/parameters/deadline"
+          },
+          {
+            "$ref": "#/parameters/limit"
+          },
+          {
+            "$ref": "#/parameters/offset"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Список подписок",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Subscription"
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/responses/DefaultLogicError"
+          },
+          "401": {
+            "$ref": "#/responses/Unauthorized"
+          }
+        }
+      },
+      "post": {
+        "description": "Создать подписку.  \nПосле создания, к подписке должно быть привязано платежное средство при помощи метода addPaymentMethod,\nв противном случае подписка будет удалена через некоторое время.\n",
+        "operationId": "createSubscription",
+        "tags": [
+          "Subscriptions"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/parameters/requestID"
+          },
+          {
+            "$ref": "#/parameters/deadline"
+          },
+          {
+            "name": "subscriptionParams",
+            "description": "Параметры создаваемой подписки",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Subscription"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Подписка создана",
+            "schema": {
+              "$ref": "#/definitions/Subscription"
+            }
+          },
+          "400": {
+            "$ref": "#/responses/DefaultLogicError"
+          },
+          "401": {
+            "$ref": "#/responses/Unauthorized"
+          }
+        }
+      }
+    },
+    "/subscriptions/{subscriptionID}": {
+      "get": {
+        "description": "Получить данные подписки по её идентификатору.",
+        "operationId": "getSubscriptionByID",
+        "tags": [
+          "Subscriptions"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/parameters/requestID"
+          },
+          {
+            "$ref": "#/parameters/deadline"
+          },
+          {
+            "$ref": "#/parameters/subscriptionID"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Данные подписки",
+            "schema": {
+              "$ref": "#/definitions/Subscription"
+            }
+          },
+          "400": {
+            "$ref": "#/responses/DefaultLogicError"
+          },
+          "401": {
+            "$ref": "#/responses/Unauthorized"
+          },
+          "404": {
+            "$ref": "#/responses/NotFound"
+          }
+        }
+      },
+      "patch": {
+        "description": "Модифицировать данные подписки по её идентификатору.",
+        "operationId": "updateSubscriptionByID",
+        "tags": [
+          "Subscriptions"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/parameters/requestID"
+          },
+          {
+            "$ref": "#/parameters/deadline"
+          },
+          {
+            "$ref": "#/parameters/subscriptionID"
+          },
+          {
+            "name": "SubscriptionsParams",
+            "description": "Параметры изменения плана подписки",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/SubscriptionUpdateParams"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Подписка изменена",
+            "schema": {
+              "$ref": "#/definitions/Subscription"
+            }
+          },
+          "400": {
+            "$ref": "#/responses/DefaultLogicError"
+          },
+          "401": {
+            "$ref": "#/responses/Unauthorized"
+          },
+          "404": {
+            "$ref": "#/responses/NotFound"
+          }
+        }
+      }
+    },
+    "/subscriptions/{subscriptionID}/activate": {
+      "put": {
+        "description": "Возобновить действие подписки",
+        "operationId": "activateSubscription",
+        "tags": [
+          "Subscriptions"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/parameters/requestID"
+          },
+          {
+            "$ref": "#/parameters/deadline"
+          },
+          {
+            "$ref": "#/parameters/subscriptionID"
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Subscription activated"
+          },
+          "400": {
+            "$ref": "#/responses/DefaultLogicError"
+          },
+          "401": {
+            "$ref": "#/responses/Unauthorized"
+          },
+          "404": {
+            "$ref": "#/responses/NotFound"
+          }
+        }
+      }
+    },
+    "/subscriptions/{subscriptionID}/addPaymentMethod": {
+      "put": {
+        "description": "Добавить платежное средство",
+        "operationId": "addPaymentMethod",
+        "tags": [
+          "Subscriptions"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/parameters/requestID"
+          },
+          {
+            "$ref": "#/parameters/deadline"
+          },
+          {
+            "$ref": "#/parameters/subscriptionID"
+          },
+          {
+            "name": "payer",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/PaymentResourcePayer"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Payment Method added"
+          },
+          "400": {
+            "$ref": "#/responses/DefaultLogicError"
+          },
+          "401": {
+            "$ref": "#/responses/Unauthorized"
+          },
+          "404": {
+            "$ref": "#/responses/NotFound"
+          }
+        }
+      }
+    },
+    "/subscriptions/{subscriptionID}/events": {
+      "get": {
+        "description": "Получить историю указанной подписки в виде набора событий.",
+        "tags": [
+          "Subscriptions"
+        ],
+        "operationId": "getSubscriptionEvents",
+        "parameters": [
+          {
+            "$ref": "#/parameters/requestID"
+          },
+          {
+            "$ref": "#/parameters/deadline"
+          },
+          {
+            "$ref": "#/parameters/subscriptionID"
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "description": "Лимит выборки",
+            "required": true,
+            "type": "integer",
+            "format": "int32",
+            "minimum": 1
+          },
+          {
+            "name": "eventID",
+            "in": "query",
+            "description": "Идентификатор события.\n\nВсе события, возникшие в системе _после_ указанного, попадут в выборку.\n",
+            "required": false,
+            "type": "integer",
+            "format": "int32"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Набор событий",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/SubscriptionEvent"
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/responses/DefaultLogicError"
+          },
+          "401": {
+            "$ref": "#/responses/Unauthorized"
+          },
+          "404": {
+            "$ref": "#/responses/NotFound"
+          }
+        }
+      }
+    },
+    "/subscriptions/{subscriptionID}/suspend": {
+      "put": {
+        "description": "Приостановить действие подписки",
+        "operationId": "suspendSubscription",
+        "tags": [
+          "Subscriptions"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/parameters/requestID"
+          },
+          {
+            "$ref": "#/parameters/deadline"
+          },
+          {
+            "$ref": "#/parameters/subscriptionID"
+          },
+          {
+            "name": "reason",
+            "description": "Причина остановки подписки",
+            "in": "body",
+            "schema": {
+              "type": "string",
+              "maxLength": 100
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Subscription suspended"
           },
           "400": {
             "$ref": "#/responses/DefaultLogicError"
@@ -5550,6 +5966,24 @@
         }
       }
     },
+    "CustomerInfo": {
+      "type": "object",
+      "description": "Информация о клиенте",
+      "required": [
+        "email"
+      ],
+      "properties": {
+        "email": {
+          "description": "Адрес электронной почты",
+          "type": "string",
+          "format": "email",
+          "maxLength": 100
+        },
+        "metadata": {
+          "type": "object"
+        }
+      }
+    },
     "CustomerPayer": {
       "type": "object",
       "description": "Многоразовое платежное средство",
@@ -6185,10 +6619,8 @@
                 "0%",
                 "10%",
                 "18%",
-                "20%",
                 "10/110",
-                "18/118",
-                "20/120"
+                "18/118"
               ]
             }
           }
@@ -6403,10 +6835,7 @@
                   "PaymentCaptured",
                   "PaymentCancelled",
                   "PaymentRefunded",
-                  "PaymentFailed",
-                  "PaymentRefundCreated",
-                  "PaymentRefundSucceeded",
-                  "PaymentRefundFailed"
+                  "PaymentFailed"
                 ]
               }
             }
@@ -7645,6 +8074,7 @@
         "shopID",
         "createdAt",
         "amount",
+        "fee",
         "currency",
         "payoutToolDetails"
       ],
@@ -7693,67 +8123,6 @@
           "items": {
             "$ref": "#/definitions/PayoutSummaryItem"
           }
-        },
-        "status": {
-          "description": "Статус выплаты",
-          "type": "string"
-        },
-        "metadata": {
-          "description": "Произвольный, специфичный для клиента API и непрозрачный для системы набор данных,\nассоциированных с данной выплатой\n",
-          "type": "object",
-          "example": {
-            "payoutDesc": "Custom payout"
-          }
-        }
-      }
-    },
-    "PayoutID": {
-      "description": "Идентификатор выплаты",
-      "type": "string",
-      "maxLength": 40,
-      "minLength": 1
-    },
-    "PayoutParams": {
-      "type": "object",
-      "required": [
-        "id",
-        "shopID",
-        "payoutToolID",
-        "amount",
-        "currency"
-      ],
-      "properties": {
-        "id": {
-          "description": "Идентификатор выплаты",
-          "type": "string",
-          "maxLength": 40,
-          "minLength": 1
-        },
-        "shopID": {
-          "description": "Идентификатор магазина",
-          "type": "string"
-        },
-        "payoutToolID": {
-          "description": "Идентификатор инструмента выплаты",
-          "type": "string"
-        },
-        "amount": {
-          "description": "Сумма выплаты в минорных денежных\nединицах, например в копейках в случае указания российских рублей в\nкачестве валюты.\n",
-          "type": "integer",
-          "format": "int64",
-          "minimum": 1
-        },
-        "currency": {
-          "description": "Валюта, символьный код согласно [ISO 4217](http://www.iso.org/iso/home/standards/currency_codes.htm).",
-          "type": "string",
-          "pattern": "^[A-Z]{3}$"
-        },
-        "metadata": {
-          "description": "Произвольный, специфичный для клиента API и непрозрачный для системы набор данных,\nассоциированных с данной выплатой\n",
-          "type": "object",
-          "example": {
-            "payoutDesc": "Custom payout"
-          }
         }
       }
     },
@@ -7779,7 +8148,8 @@
         "fee": {
           "description": "Общая комиссия по данному типу операций над денежными средствами в минорных денежных единицах",
           "type": "integer",
-          "format": "int64"
+          "format": "int64",
+          "minimum": 0
         },
         "currency": {
           "description": "Валюта, символьный код согласно [ISO 4217](http://www.iso.org/iso/home/standards/currency_codes.htm).",
@@ -7876,28 +8246,6 @@
         },
         {
           "$ref": "#/definitions/InternationalBankAccount"
-        }
-      ]
-    },
-    "PayoutToolDetailsWalletInfo": {
-      "type": "object",
-      "allOf": [
-        {
-          "$ref": "#/definitions/PayoutToolDetails"
-        },
-        {
-          "type": "object",
-          "required": [
-            "walletID"
-          ],
-          "properties": {
-            "walletID": {
-              "description": "Идентификатор кошелька",
-              "type": "string",
-              "maxLength": 40,
-              "minLength": 1
-            }
-          }
         }
       ]
     },
@@ -8895,6 +9243,264 @@
         },
         "subError": {
           "$ref": "#/definitions/SubError"
+        }
+      }
+    },
+    "Subscription": {
+      "description": "Описание подписки",
+      "type": "object",
+      "required": [
+        "id",
+        "planId",
+        "createdAt",
+        "status",
+        "customerInfo"
+      ],
+      "properties": {
+        "id": {
+          "description": "Идентификатор подписки",
+          "type": "string",
+          "readOnly": true
+        },
+        "planId": {
+          "description": "Идентификатор плана подписки",
+          "type": "string"
+        },
+        "planRevision": {
+          "description": "Версия плана подписки. Используется последняя, если не указана",
+          "type": "integer"
+        },
+        "createdAt": {
+          "description": "Дата создания",
+          "type": "string",
+          "format": "date-time",
+          "readOnly": true
+        },
+        "endedAt": {
+          "description": "Дата окончания",
+          "type": "string",
+          "format": "date-time",
+          "readOnly": true
+        },
+        "status": {
+          "$ref": "#/definitions/SubscriptionStatus"
+        },
+        "payer": {
+          "readOnly": true,
+          "type": "object",
+          "description": "Одноразовое платежное средство",
+          "allOf": [
+            {
+              "$ref": "#/definitions/Payer"
+            },
+            {
+              "$ref": "#/definitions/PaymentResource"
+            },
+            {
+              "type": "object",
+              "required": [
+                "contactInfo"
+              ],
+              "properties": {
+                "contactInfo": {
+                  "$ref": "#/definitions/ContactInfo"
+                }
+              }
+            }
+          ]
+        },
+        "customerInfo": {
+          "$ref": "#/definitions/CustomerInfo"
+        },
+        "metadata": {
+          "description": "Связанные с подпиской метаданные",
+          "type": "object"
+        }
+      }
+    },
+    "SubscriptionChange": {
+      "type": "object",
+      "discriminator": "changeType",
+      "required": [
+        "changeType"
+      ],
+      "properties": {
+        "changeType": {
+          "type": "string",
+          "enum": [
+            "SubscriptionCreated",
+            "SubscriptionInvoiceCreated",
+            "SubscriptionPayerChanged",
+            "SubscriptionStatusChanged"
+          ]
+        }
+      }
+    },
+    "SubscriptionCreated": {
+      "type": "object",
+      "allOf": [
+        {
+          "$ref": "#/definitions/SubscriptionChange"
+        },
+        {
+          "type": "object",
+          "required": [
+            "subscription"
+          ],
+          "properties": {
+            "subscription": {
+              "$ref": "#/definitions/Subscription"
+            }
+          }
+        }
+      ]
+    },
+    "SubscriptionEvent": {
+      "type": "object",
+      "required": [
+        "id",
+        "createdAt",
+        "changes"
+      ],
+      "properties": {
+        "id": {
+          "type": "integer"
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "changes": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/SubscriptionChange"
+          }
+        }
+      }
+    },
+    "SubscriptionInvoiceCreated": {
+      "type": "object",
+      "allOf": [
+        {
+          "$ref": "#/definitions/SubscriptionChange"
+        },
+        {
+          "type": "object",
+          "required": [
+            "invoiceID"
+          ],
+          "properties": {
+            "invoiceID": {
+              "description": "Идентификатор инвойса",
+              "type": "string"
+            }
+          }
+        }
+      ]
+    },
+    "SubscriptionPayerChanged": {
+      "type": "object",
+      "allOf": [
+        {
+          "$ref": "#/definitions/SubscriptionChange"
+        },
+        {
+          "type": "object",
+          "required": [
+            "payer"
+          ],
+          "properties": {
+            "payer": {
+              "$ref": "#/definitions/PaymentResourcePayer"
+            }
+          }
+        }
+      ]
+    },
+    "SubscriptionPlanChanged": {
+      "type": "object",
+      "allOf": [
+        {
+          "$ref": "#/definitions/SubscriptionChange"
+        },
+        {
+          "type": "object",
+          "required": [
+            "plan"
+          ],
+          "properties": {
+            "plan": {
+              "description": "Идентификатор плана подписки",
+              "type": "string"
+            }
+          }
+        }
+      ]
+    },
+    "SubscriptionStatus": {
+      "description": "Статус подписки",
+      "type": "object",
+      "readOnly": true,
+      "required": [
+        "status"
+      ],
+      "properties": {
+        "status": {
+          "type": "string",
+          "enum": [
+            "active",
+            "paused",
+            "finished"
+          ]
+        },
+        "reason": {
+          "description": "Причина остановки подписки",
+          "type": "string",
+          "maxLength": 100
+        }
+      }
+    },
+    "SubscriptionStatusChanged": {
+      "type": "object",
+      "allOf": [
+        {
+          "$ref": "#/definitions/SubscriptionChange"
+        },
+        {
+          "type": "object",
+          "description": "Новый статус подписки",
+          "required": [
+            "status"
+          ],
+          "properties": {
+            "status": {
+              "$ref": "#/definitions/SubscriptionStatus"
+            }
+          }
+        }
+      ]
+    },
+    "SubscriptionUpdateParams": {
+      "description": "Изменение информации о подписке",
+      "type": "object",
+      "properties": {
+        "planID": {
+          "description": "Идентификатор плана подписки",
+          "type": "string"
+        },
+        "payer": {
+          "$ref": "#/definitions/PaymentResourcePayer"
+        },
+        "planRevision": {
+          "description": "Версия плана подписки",
+          "type": "integer"
+        },
+        "customerInfo": {
+          "$ref": "#/definitions/CustomerInfo"
+        },
+        "metadata": {
+          "description": "Связанные с инвойсом метаданные",
+          "type": "object"
         }
       }
     },
