@@ -7,8 +7,9 @@ required:
   - updatedAt
   - revision
   - currency
+  - amount
+  - schedule
   - status
-  - recurrent
 properties:
   id:
     description: Идентификатор плана подписки
@@ -47,9 +48,30 @@ properties:
     enum:
       - active
       - inactive
+  schedule:
+    description: Периодичность списаний по подписке
+    allOf:
+      - $ref: '#/definitions/TimePeriod'
+  lifetime:
+    description: |
+      Продолжительность действия подписки
+
+      Eсли данное поле оставить пустым лимит повторных попыток списания будет установлен автоматически.
+    type: object
+    properties:
+      recurrentLimit:
+        description: Количество рекуррентных периодов, после которого действие подписки будет приостановлено.
+        type: integer
+      retryLimit:
+        description: |
+          Количество попыток списания.
+
+          По истечении количества попыток подписка переходит в статус suspended.
+        type: integer
+  amount:
+    description: Cумма повторяемого платежа
+    type: integer
   activation:
     $ref: '#/definitions/SubscriptionPlanActivation'
-  recurrent:
-    $ref: '#/definitions/SubscriptionPlanRecurrent'
   trial:
     $ref: '#/definitions/SubscriptionPlanTrial'

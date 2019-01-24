@@ -9,7 +9,8 @@ properties:
     description: Альтернативная сумма платежа
     type: integer
   duration:
-    $ref: '#/definitions/TimePeriod'
+    description: Количество рекуррентных периодов, для которых будет действовать альтернативная сумма платежа
+    type: integer
   enabled:
     description: Активность правила
     type: boolean
