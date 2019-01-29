@@ -36,6 +36,9 @@ properties:
   currency:
     x-rebillyMerge:
       - $ref: '#/definitions/Currency'
+  amount:
+    description: Cумма повторяемого платежа
+    type: integer
   description:
     description: Описание плана подписки
     type: string
@@ -59,18 +62,16 @@ properties:
       Eсли данное поле оставить пустым лимит повторных попыток списания будет установлен автоматически.
     type: object
     properties:
-      recurrentLimit:
+      durationLimit:
         description: Количество рекуррентных периодов, после которого действие подписки будет приостановлено.
         type: integer
+        minimum: 1
       retryLimit:
         description: |
           Количество попыток списания.
 
           По истечении количества попыток подписка переходит в статус suspended.
         type: integer
-  amount:
-    description: Cумма повторяемого платежа
-    type: integer
   activation:
     $ref: '#/definitions/SubscriptionPlanActivation'
   trial:

@@ -28,9 +28,10 @@ properties:
     description: Продолжительность действия подписки
     type: object
     properties:
-      recurrentLimit:
+      durationLimit:
         description: Количество рекуррентных периодов, после которого действие подписки будет приостановлено.
         type: integer
+        minimum: 1
       retryLimit:
         description: |
           Количество попыток списания.

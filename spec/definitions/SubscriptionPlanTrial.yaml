@@ -11,6 +11,7 @@ properties:
   duration:
     description: Количество рекуррентных периодов, для которых будет действовать альтернативная сумма платежа
     type: integer
+    minimum: 1
   enabled:
     description: Активность правила
     type: boolean
