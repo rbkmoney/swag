@@ -39,6 +39,7 @@ properties:
   amount:
     description: Cумма повторяемого платежа
     type: integer
+    minimum: 1
   description:
     description: Описание плана подписки
     type: string
@@ -62,16 +63,17 @@ properties:
       Eсли данное поле оставить пустым лимит повторных попыток списания будет установлен автоматически.
     type: object
     properties:
-      durationLimit:
+      duration:
         description: Количество рекуррентных периодов, после которого действие подписки будет приостановлено.
         type: integer
         minimum: 1
-      retryLimit:
+      retries:
         description: |
           Количество попыток списания.
 
           По истечении количества попыток подписка переходит в статус suspended.
         type: integer
+        minimum: 0
   activation:
     $ref: '#/definitions/SubscriptionPlanActivation'
   trial:
