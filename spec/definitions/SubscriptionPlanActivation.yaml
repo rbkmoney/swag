@@ -1,0 +1,13 @@
+description: Правила подключения подписки
+type: object
+required:
+  - amount
+  - enabled
+properties:
+  amount:
+    description: Сумма платежа за подключение
+    type: integer
+    minimum: 1
+  enabled:
+    description: Активность правила
+    type: boolean

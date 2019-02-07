@@ -323,6 +323,14 @@ parameters:
     type: string
     maxLength: 40
     minLength: 1
+  planID:
+    name: planID
+    in: path
+    description: Идентификатор плана подписки
+    required: true
+    type: string
+    maxLength: 40
+    minLength: 1
 tags:
   - name: Parties
     x-displayName: Участники
@@ -872,3 +880,5 @@ tags:
 
       Если вы получили ошибку, которой нет в данном описании, обратитесь в
       техническую поддержку.
+  - name: SubscriptionPlans
+    x-displayName: Планы подписок
