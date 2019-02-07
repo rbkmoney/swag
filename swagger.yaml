@@ -277,6 +277,14 @@ parameters:
     type: string
     maxLength: 40
     minLength: 1
+  planID:
+    name: planID
+    in: path
+    description: Идентификатор плана подписки
+    required: true
+    type: string
+    maxLength: 40
+    minLength: 1
 tags:
   - name: Parties
     x-displayName: Участники
@@ -631,6 +639,8 @@ tags:
       }
       ```
       Если вы получили ошибку, которой нет в данном описании, обратитесь в техническую поддержку.
+  - name: SubscriptionPlans
+    x-displayName: Планы подписок
 paths:
   '/analytics/shops/{shopID}/customers/stats/payment_method':
     get:
@@ -3165,6 +3175,122 @@ paths:
           $ref: '#/responses/Unauthorized'
         '404':
           $ref: '#/responses/NotFound'
+  /subscriptions/plans:
+    get:
+      description: Получить список всех планов
+      operationId: getPlans
+      tags:
+        - SubscriptionPlans
+      parameters:
+        - $ref: '#/parameters/requestID'
+        - $ref: '#/parameters/deadline'
+        - $ref: '#/parameters/limit'
+        - $ref: '#/parameters/offset'
+      responses:
+        '200':
+          description: Список планов
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/SubscriptionPlan'
+        '400':
+          $ref: '#/responses/DefaultLogicError'
+        '401':
+          $ref: '#/responses/Unauthorized'
+    post:
+      description: Создать новый план
+      operationId: createPlan
+      tags:
+        - SubscriptionPlans
+      parameters:
+        - $ref: '#/parameters/requestID'
+        - $ref: '#/parameters/deadline'
+        - name: planParams
+          description: Параметры создаваемого плана
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/SubscriptionPlan'
+      responses:
+        '201':
+          description: План создан
+          schema:
+            $ref: '#/definitions/SubscriptionPlan'
+        '400':
+          $ref: '#/responses/DefaultLogicError'
+        '401':
+          $ref: '#/responses/Unauthorized'
+  '/subscriptions/plans/{planID}':
+    get:
+      description: Получить данные плана подписки по его идентификатору.
+      operationId: getPlanById
+      tags:
+        - SubscriptionPlans
+      parameters:
+        - $ref: '#/parameters/requestID'
+        - $ref: '#/parameters/deadline'
+        - $ref: '#/parameters/planID'
+      responses:
+        '200':
+          description: Данные плана
+          schema:
+            $ref: '#/definitions/SubscriptionPlan'
+        '400':
+          $ref: '#/responses/DefaultLogicError'
+        '401':
+          $ref: '#/responses/Unauthorized'
+        '404':
+          $ref: '#/responses/NotFound'
+    patch:
+      description: |
+        Модифицировать данные плана подписки.
+
+        При внесении изменений в существущий план подписки
+        её условия остаются неизменными для уже подписанных клиентов.
+      operationId: updatePlan
+      tags:
+        - SubscriptionPlans
+      parameters:
+        - $ref: '#/parameters/requestID'
+        - $ref: '#/parameters/deadline'
+        - $ref: '#/parameters/planID'
+        - name: planParams
+          description: Параметры изменения плана подписки
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/SubscriptionPlanUpdateParams'
+      responses:
+        '200':
+          description: План изменен
+          schema:
+            $ref: '#/definitions/SubscriptionPlan'
+        '400':
+          $ref: '#/responses/DefaultLogicError'
+        '401':
+          $ref: '#/responses/Unauthorized'
+        '404':
+          $ref: '#/responses/NotFound'
+    delete:
+      description: |
+        Удалить план подписки по его идентификатору.
+
+        При удалении плана подписки все подписки использующие этот
+        план будут автоматически остановлены по истечении рекуррентного периода.
+      operationId: deletePlan
+      tags:
+        - SubscriptionPlans
+      parameters:
+        - $ref: '#/parameters/requestID'
+        - $ref: '#/parameters/deadline'
+        - $ref: '#/parameters/planID'
+      responses:
+        '204':
+          description: План удален
+        '400':
+          $ref: '#/responses/DefaultLogicError'
+        '401':
+          $ref: '#/responses/Unauthorized'
 definitions:
   AccessToken:
     type: object
@@ -6216,6 +6342,199 @@ definitions:
         type: string
       subError:
         $ref: '#/definitions/SubError'
+  SubscriptionPlan:
+    description: Описание плана подписки
+    type: object
+    required:
+      - id
+      - name
+      - createdAt
+      - updatedAt
+      - revision
+      - currency
+      - amount
+      - schedule
+      - status
+    properties:
+      id:
+        description: Идентификатор плана подписки
+        type: string
+        readOnly: true
+      name:
+        description: Название плана подписки
+        type: string
+        maxLength: 100
+      createdAt:
+        description: Дата создания
+        type: string
+        format: date-time
+        readOnly: true
+      updatedAt:
+        description: Дата последнего изменения
+        type: string
+        format: date-time
+        readOnly: true
+      revision:
+        description: Ревизия плана
+        type: integer
+        readOnly: true
+      currency:
+        description: 'Валюта, символьный код согласно [ISO 4217](http://www.iso.org/iso/home/standards/currency_codes.htm).'
+        type: string
+        pattern: '^[A-Z]{3}$'
+      amount:
+        description: Cумма повторяемого платежа
+        type: integer
+        minimum: 1
+      description:
+        description: Описание плана подписки
+        type: string
+        maxLength: 1000
+      presentation:
+        $ref: '#/definitions/SubscriptionPlanPresentation'
+      status:
+        description: Статус плана
+        type: string
+        enum:
+          - active
+          - inactive
+      schedule:
+        description: Периодичность списаний по подписке
+        allOf:
+          - $ref: '#/definitions/TimePeriod'
+      lifetime:
+        description: |
+          Продолжительность действия подписки
+
+          Eсли данное поле оставить пустым лимит повторных попыток списания будет установлен автоматически.
+        type: object
+        properties:
+          duration:
+            description: 'Количество рекуррентных периодов, после которого действие подписки будет приостановлено.'
+            type: integer
+            minimum: 1
+          retries:
+            description: |
+              Количество попыток списания.
+
+              По истечении количества попыток подписка переходит в статус suspended.
+            type: integer
+            minimum: 0
+      activation:
+        $ref: '#/definitions/SubscriptionPlanActivation'
+      trial:
+        $ref: '#/definitions/SubscriptionPlanTrial'
+  SubscriptionPlanActivation:
+    description: Правила подключения подписки
+    type: object
+    required:
+      - amount
+      - enabled
+    properties:
+      amount:
+        description: Сумма платежа за подключение
+        type: integer
+        minimum: 1
+      enabled:
+        description: Активность правила
+        type: boolean
+  SubscriptionPlanPresentation:
+    description: Детали клиентской презентации плана подписки
+    type: object
+    required:
+      - description
+    properties:
+      description:
+        description: Описание плана подписки
+        type: string
+        maxLength: 1000
+  SubscriptionPlanTrial:
+    description: Правила триального периода подписки
+    type: object
+    required:
+      - amount
+      - duration
+      - enabled
+    properties:
+      amount:
+        description: Альтернативная сумма платежа
+        type: integer
+        minimum: 0
+      duration:
+        description: 'Количество рекуррентных периодов, для которых будет действовать альтернативная сумма платежа'
+        type: integer
+        minimum: 1
+      enabled:
+        description: Активность правила
+        type: boolean
+  SubscriptionPlanUpdateParams:
+    description: Изменения плана подписки
+    type: object
+    properties:
+      name:
+        description: Название плана подписки
+        type: string
+        maxLength: 100
+      currency:
+        description: 'Валюта, символьный код согласно [ISO 4217](http://www.iso.org/iso/home/standards/currency_codes.htm).'
+        type: string
+        pattern: '^[A-Z]{3}$'
+      amount:
+        description: Cумма повторяемого платежа
+        type: integer
+        minimum: 1
+      description:
+        description: Описание плана подписки
+        type: string
+        maxLength: 1000
+      presentation:
+        $ref: '#/definitions/SubscriptionPlanPresentation'
+      status:
+        description: Статус плана
+        type: string
+        enum:
+          - active
+          - inactive
+      schedule:
+        description: Периодичность списаний по подписке
+        allOf:
+          - $ref: '#/definitions/TimePeriod'
+      lifetime:
+        description: Продолжительность действия подписки
+        type: object
+        properties:
+          duration:
+            description: 'Количество рекуррентных периодов, после которого действие подписки будет приостановлено.'
+            type: integer
+            minimum: 1
+          retries:
+            description: |
+              Количество попыток списания.
+
+              По истечении количества попыток подписка переходит в статус suspended.
+            type: integer
+            minimum: 0
+      activation:
+        $ref: '#/definitions/SubscriptionPlanActivation'
+      trial:
+        $ref: '#/definitions/SubscriptionPlanTrial'
+  TimePeriod:
+    description: Период времени
+    type: object
+    required:
+      - unit
+      - number
+    properties:
+      unit:
+        description: Единица измерения
+        type: string
+        enum:
+          - day
+          - month
+          - year
+      number:
+        description: Количество
+        type: integer
   TokenizedCardData:
     type: object
     allOf:
