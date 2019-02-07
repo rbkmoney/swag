@@ -2,25 +2,19 @@ type: object
 required:
   - id
   - shopID
-  - createdAt
+  - payoutToolID
   - amount
   - currency
-  - payoutToolDetails
 properties:
   id:
-    description: Идентификатор выплаты
-    type: string
+    x-rebillyMerge:
+      - $ref: '#/definitions/PayoutID'
   shopID:
     description: Идентификатор магазина
     type: string
-  createdAt:
-    description: Дата и время создания
+  payoutToolID:
+    description: Идентификатор инструмента выплаты
     type: string
-    format: date-time
-  cancellationDetails:
-    description: Детали отмены выплаты
-    type: string
-    maxLength: 1000
   amount:
     description: |
         Сумма выплаты в минорных денежных
@@ -29,24 +23,9 @@ properties:
     type: integer
     format: int64
     minimum: 1
-  fee:
-    description: 'Комиссия системы, в минорных денежных единицах'
-    type: integer
-    format: int64
-    minimum: 0
   currency:
     x-rebillyMerge:
       - $ref: '#/definitions/Currency'
-  payoutToolDetails:
-    $ref: '#/definitions/PayoutToolDetails'
-  payoutSummary:
-    description: Описание части суммы вывода, сгруппированное по типу операций над денежными средствами
-    type: array
-    items:
-      $ref: '#/definitions/PayoutSummaryItem'
-  status:
-    description: Статус выплаты
-    type: string
   metadata:
     description: |
       Произвольный, специфичный для клиента API и непрозрачный для системы набор данных,

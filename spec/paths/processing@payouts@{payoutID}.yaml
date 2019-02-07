@@ -1,19 +1,17 @@
 get:
-  description: Скачать файл
+  description: Получение данных по выплате
   tags:
-    - Reports
-  operationId: downloadFile
+    - Payouts
+  operationId: getPayout
   parameters:
     - $ref: '#/parameters/requestID'
     - $ref: '#/parameters/deadline'
-    - $ref: '#/parameters/shopID'
-    - $ref: '#/parameters/reportID'
-    - $ref: '#/parameters/fileID'
+    - $ref: '#/parameters/payoutID'
   responses:
     '200':
-      description: Download link
+      description: Найдена выплата
       schema:
-        $ref: '#/definitions/ReportLink'
+        $ref: '#/definitions/Payout'
     '404':
       $ref: '#/responses/NotFound'
     '401':
