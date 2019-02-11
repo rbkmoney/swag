@@ -1,5 +1,8 @@
 post:
-  description: Подтвердить указанный платеж.
+  description: >
+    Подтвердить указанный платеж.
+    В случае передачи суммы подтверждения, меньшей, чем оригинальная,
+    оставшаяся часть платежа будет возвращена.(см. [Варианты проведения оплаты](#tag/Payments))
   tags:
     - Payments
   operationId: capturePayment
@@ -10,15 +13,17 @@ post:
     - $ref: '#/parameters/paymentID'
     - name: capturePayment
       in: body
-      description: Произвольная причина совершения операции
+      description: Параметры подтверждения платежа
       required: true
       schema:
-        $ref: '#/definitions/Reason'
+        $ref: '#/definitions/CaptureParams'
   responses:
     '202':
       description: Запрос на подтверждение платежа принят
     '404':
       $ref: '#/responses/NotFound'
+    '401':
+      $ref: '#/responses/Unauthorized'
     '400':
       description: Ошибка подтверждения платежа
       schema:
@@ -37,6 +42,9 @@ post:
               - invalidPartyStatus
               - invalidShopStatus
               - invalidRequest
+              - invalidDeadline
+              - inconsistentCaptureCurrency
+              - amountExceededCaptureBalance
           message:
             description: Человекочитаемое описание ошибки
             type: string

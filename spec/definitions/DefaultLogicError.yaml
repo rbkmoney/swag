@@ -1,0 +1,15 @@
+type: object
+required:
+  - code
+  - message
+properties:
+  code:
+    description: |
+      [Код ошибки](#tag/Error-Codes)
+    type: string
+    enum:
+      - invalidRequest
+      - invalidDeadline
+  message:
+    description: Человекочитаемое описание ошибки
+    type: string

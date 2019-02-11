@@ -18,6 +18,8 @@ post:
       description: Отчет создан
       schema:
         $ref: '#/definitions/Report'
+    '401':
+      $ref: '#/responses/Unauthorized'
     '400':
       description: Ошибочные данные для генерации
       schema:
@@ -33,6 +35,7 @@ post:
             enum:
               - invalidShopID
               - invalidRequest
+              - invalidDeadline
           message:
             description: Человекочитаемое описание ошибки
             type: string
@@ -56,6 +59,8 @@ get:
         type: array
         items:
           $ref: '#/definitions/Report'
+    '401':
+      $ref: '#/responses/Unauthorized'
     '400':
       description: Ошибочные данные для получения
       schema:
@@ -71,6 +76,7 @@ get:
             enum:
               - limitExceeded
               - invalidRequest
+              - invalidDeadline
           message:
             description: Человекочитаемое описание ошибки
             type: string

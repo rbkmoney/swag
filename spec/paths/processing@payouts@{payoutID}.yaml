@@ -1,18 +1,17 @@
 get:
-  description: |
-    Получить заявку по её идентификатору.
-  operationId: getClaimByID
+  description: Получение данных по выплате
   tags:
-    - Claims
+    - Payouts
+  operationId: getPayout
   parameters:
     - $ref: '#/parameters/requestID'
     - $ref: '#/parameters/deadline'
-    - $ref: '#/parameters/claimID'
+    - $ref: '#/parameters/payoutID'
   responses:
     '200':
-      description: Данные заявки
+      description: Найдена выплата
       schema:
-        $ref: '#/definitions/Claim'
+        $ref: '#/definitions/Payout'
     '404':
       $ref: '#/responses/NotFound'
     '401':

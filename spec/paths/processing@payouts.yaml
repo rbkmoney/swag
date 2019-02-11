@@ -1,26 +1,27 @@
 post:
-  description: Создать новый инвойс.
+  description: |
+    Создать новую выплату и отправить её на
+    премодерацию.
+  operationId: createPayout
   tags:
-    - Invoices
-  operationId: createInvoice
+    - Payouts
   parameters:
     - $ref: '#/parameters/requestID'
     - $ref: '#/parameters/deadline'
-    - name: invoiceParams
-      description: Параметры создаваемого инвойса
+    - name: payoutParams
       in: body
       required: true
       schema:
-        $ref: '#/definitions/InvoiceParams'
+        $ref: '#/definitions/PayoutParams'
   responses:
     '201':
-      description: Инвойс создан
+      description: Выплата создана
       schema:
-        $ref: '#/definitions/InvoiceAndToken'
+        $ref: '#/definitions/Payout'
     '401':
       $ref: '#/responses/Unauthorized'
     '400':
-      description: Ошибочные данные для создания инвойса
+      description: Неверные данные
       schema:
         type: object
         required:
@@ -32,14 +33,11 @@ post:
               [Код ошибки](#tag/Error-Codes)
             type: string
             enum:
-              - invalidShopID
+              - invalidPayoutTool
+              - invalidCash
               - invalidRequest
               - invalidDeadline
-              - invalidPartyStatus
-              - invalidShopStatus
-              - invalidInvoiceCart
-              - invalidInvoiceCost
           message:
             description: Человекочитаемое описание ошибки
             type: string
-            example: Shop not found
+            example: invalid payout id

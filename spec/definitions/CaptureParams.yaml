@@ -1,0 +1,17 @@
+type: object
+allOf:
+  - $ref: '#/definitions/Reason'
+  - type: object
+    description: Данные подтверждаемой суммы платежа
+    properties:
+      amount:
+        description: |
+          Подтверждаемая сумма платежа, в минорных денежных единицах,
+          например в копейках в случае указания российских рублей в качестве
+          валюты.
+        type: integer
+        format: int64
+        minimum: 1
+      currency:
+        x-rebillyMerge:
+          - $ref: '#/definitions/Currency'
