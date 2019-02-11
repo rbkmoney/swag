@@ -285,6 +285,14 @@ parameters:
     type: string
     maxLength: 40
     minLength: 1
+  subscriptionID:
+    name: subscriptionID
+    in: path
+    description: Идентификатор подписки
+    required: true
+    type: string
+    maxLength: 40
+    minLength: 1
 tags:
   - name: Parties
     x-displayName: Участники
@@ -327,7 +335,7 @@ tags:
       ## Authorization
       Операции:
       * создания инвойса,
-      * отмены ивнвойса,
+      * отмены инвойса,
       * погашения инвойса,
       * получения *нового* токена доступа к инвойсу (уже после создания инвойса)
 
@@ -413,6 +421,10 @@ tags:
     x-displayName: Отчеты
     description: |
       Один раз в отчетный период платформа автоматически подготавливает и размещает документы в формате XLSX с разбиением по магазину активной категории. Также, каждый документ будет подписан [квалифицированной ЭЦП](http://minsvyaz.ru/ru/appeals/faq/31/). Данная подпись является юридически значимой и позволяет полностью отказаться от бумажного документооборота.
+  - name: Subscriptions
+    x-displayName: Подписки
+    description: |
+      Платформа предоставляет возможность работать с системой  подписок - правил автоматизации списаний денег с платежных  инструментов плательщиков без участия последних.
   - name: Error Codes
     x-displayName: Коды ошибок
     description: |
@@ -1235,6 +1247,130 @@ paths:
                 type: array
                 items:
                   $ref: '#/definitions/RefundSearchResult'
+        '400':
+          $ref: '#/responses/DefaultLogicError'
+        '401':
+          $ref: '#/responses/Unauthorized'
+        '404':
+          $ref: '#/responses/NotFound'
+  /analytics/subscriptions:
+    get:
+      description: Поиск инвойсов
+      tags:
+        - Search
+      operationId: searchSubscriptions
+      parameters:
+        - $ref: '#/parameters/requestID'
+        - $ref: '#/parameters/deadline'
+        - $ref: '#/parameters/fromTime'
+        - $ref: '#/parameters/toTime'
+        - $ref: '#/parameters/limit'
+        - $ref: '#/parameters/offset'
+        - name: subscriptionStatus
+          in: query
+          description: Статус подписки для поиска
+          required: false
+          type: string
+          enum:
+            - active
+            - paused
+            - finished
+        - name: subscriptionID
+          in: query
+          description: Идентификатор подписки
+          required: false
+          type: string
+          maxLength: 40
+          minLength: 1
+        - name: planID
+          in: query
+          description: Идентификатор плана подписки
+          required: false
+          type: string
+          maxLength: 40
+          minLength: 1
+        - name: planRevision
+          in: query
+          description: 'Версия плана подписки. Будут искаться все версии, если не указана'
+          required: false
+          type: integer
+        - name: payerEmail
+          in: query
+          description: 'Email, указанный при оплате'
+          required: false
+          type: string
+          format: email
+          maxLength: 100
+        - name: payerIP
+          in: query
+          description: IP-адрес плательщика
+          required: false
+          type: string
+          format: ip-address
+          maxLength: 45
+        - name: bankCardTokenProvider
+          in: query
+          required: false
+          description: Провайдер платежных токенов
+          type: string
+          enum:
+            - applepay
+            - googlepay
+            - samsungpay
+        - name: bankCardPaymentSystem
+          in: query
+          required: false
+          description: Платежная система
+          type: string
+          enum:
+            - visa
+            - mastercard
+            - visaelectron
+            - maestro
+            - forbrugsforeningen
+            - dankort
+            - amex
+            - dinersclub
+            - discover
+            - unionpay
+            - jcb
+            - nspkmir
+        - name: bin
+          in: query
+          description: BIN банка-эмитента карты
+          required: false
+          type: string
+          pattern: '^\d{6,8}$'
+        - name: lastDigits
+          in: query
+          description: Последние цифры номера карты
+          required: false
+          type: string
+          pattern: '^\d{2,4}$'
+        - name: continuationToken
+          in: query
+          required: false
+          description: |
+            Токен, сигнализирующий о том, что в ответе передана только часть данных.
+            Для получения следующей части нужно повторно обратиться к сервису, указав тот-же набор условий и полученый токен.
+            Если токена нет, получена последняя часть данных.
+          type: string
+      responses:
+        '200':
+          description: Найденные подписки
+          schema:
+            type: object
+            properties:
+              continuationToken:
+                description: |
+                  Токен, сигнализирующий о том, что в ответе передана только часть данных.
+                  Для получения следующей части нужно повторно обратиться к сервису, указав тот-же набор условий и полученый токен.
+                  Если токена нет, получена последняя часть данных.
+                type: string
+              result:
+                type: array
+                items:
+                  $ref: '#/definitions/Subscription'
         '400':
           $ref: '#/responses/DefaultLogicError'
         '401':
@@ -3175,6 +3311,208 @@ paths:
           $ref: '#/responses/Unauthorized'
         '404':
           $ref: '#/responses/NotFound'
+  /subscriptions:
+    get:
+      description: Получить список всех подписок
+      operationId: getSubscriptions
+      tags:
+        - Subscriptions
+      parameters:
+        - $ref: '#/parameters/requestID'
+        - $ref: '#/parameters/deadline'
+        - $ref: '#/parameters/limit'
+        - $ref: '#/parameters/offset'
+      responses:
+        '200':
+          description: Список подписок
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Subscription'
+        '400':
+          $ref: '#/responses/DefaultLogicError'
+        '401':
+          $ref: '#/responses/Unauthorized'
+    post:
+      description: |
+        Создать подписку.  
+        После создания, к подписке должно быть привязано платежное средство при помощи метода addPaymentMethod,
+        в противном случае подписка будет удалена через некоторое время.
+      operationId: createSubscription
+      tags:
+        - Subscriptions
+      parameters:
+        - $ref: '#/parameters/requestID'
+        - $ref: '#/parameters/deadline'
+        - name: subscriptionParams
+          description: Параметры создаваемой подписки
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/Subscription'
+      responses:
+        '201':
+          description: Подписка создана
+          schema:
+            $ref: '#/definitions/Subscription'
+        '400':
+          $ref: '#/responses/DefaultLogicError'
+        '401':
+          $ref: '#/responses/Unauthorized'
+  '/subscriptions/{subscriptionID}':
+    get:
+      description: Получить данные подписки по её идентификатору.
+      operationId: getSubscriptionByID
+      tags:
+        - Subscriptions
+      parameters:
+        - $ref: '#/parameters/requestID'
+        - $ref: '#/parameters/deadline'
+        - $ref: '#/parameters/subscriptionID'
+      responses:
+        '200':
+          description: Данные подписки
+          schema:
+            $ref: '#/definitions/Subscription'
+        '400':
+          $ref: '#/responses/DefaultLogicError'
+        '401':
+          $ref: '#/responses/Unauthorized'
+        '404':
+          $ref: '#/responses/NotFound'
+    patch:
+      description: Модифицировать данные подписки по её идентификатору.
+      operationId: updateSubscriptionByID
+      tags:
+        - Subscriptions
+      parameters:
+        - $ref: '#/parameters/requestID'
+        - $ref: '#/parameters/deadline'
+        - $ref: '#/parameters/subscriptionID'
+        - name: SubscriptionsParams
+          description: Параметры изменения плана подписки
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/SubscriptionUpdateParams'
+      responses:
+        '200':
+          description: Подписка изменена
+          schema:
+            $ref: '#/definitions/Subscription'
+        '400':
+          $ref: '#/responses/DefaultLogicError'
+        '401':
+          $ref: '#/responses/Unauthorized'
+        '404':
+          $ref: '#/responses/NotFound'
+  '/subscriptions/{subscriptionID}/activate':
+    put:
+      description: Возобновить действие подписки
+      operationId: activateSubscription
+      tags:
+        - Subscriptions
+      parameters:
+        - $ref: '#/parameters/requestID'
+        - $ref: '#/parameters/deadline'
+        - $ref: '#/parameters/subscriptionID'
+      responses:
+        '204':
+          description: Subscription activated
+        '400':
+          $ref: '#/responses/DefaultLogicError'
+        '401':
+          $ref: '#/responses/Unauthorized'
+        '404':
+          $ref: '#/responses/NotFound'
+  '/subscriptions/{subscriptionID}/addPaymentMethod':
+    put:
+      description: Добавить платежное средство
+      operationId: addPaymentMethod
+      tags:
+        - Subscriptions
+      parameters:
+        - $ref: '#/parameters/requestID'
+        - $ref: '#/parameters/deadline'
+        - $ref: '#/parameters/subscriptionID'
+        - name: payer
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/PaymentResourcePayer'
+      responses:
+        '204':
+          description: Payment Method added
+        '400':
+          $ref: '#/responses/DefaultLogicError'
+        '401':
+          $ref: '#/responses/Unauthorized'
+        '404':
+          $ref: '#/responses/NotFound'
+  '/subscriptions/{subscriptionID}/events':
+    get:
+      description: Получить историю указанной подписки в виде набора событий.
+      tags:
+        - Subscriptions
+      operationId: getSubscriptionEvents
+      parameters:
+        - $ref: '#/parameters/requestID'
+        - $ref: '#/parameters/deadline'
+        - $ref: '#/parameters/subscriptionID'
+        - name: limit
+          in: query
+          description: Лимит выборки
+          required: true
+          type: integer
+          format: int32
+          minimum: 1
+        - name: eventID
+          in: query
+          description: |
+            Идентификатор события.
+
+            Все события, возникшие в системе _после_ указанного, попадут в выборку.
+          required: false
+          type: integer
+          format: int32
+      responses:
+        '200':
+          description: Набор событий
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/SubscriptionEvent'
+        '400':
+          $ref: '#/responses/DefaultLogicError'
+        '401':
+          $ref: '#/responses/Unauthorized'
+        '404':
+          $ref: '#/responses/NotFound'
+  '/subscriptions/{subscriptionID}/suspend':
+    put:
+      description: Приостановить действие подписки
+      operationId: suspendSubscription
+      tags:
+        - Subscriptions
+      parameters:
+        - $ref: '#/parameters/requestID'
+        - $ref: '#/parameters/deadline'
+        - $ref: '#/parameters/subscriptionID'
+        - name: reason
+          description: Причина остановки подписки
+          in: body
+          schema:
+            type: string
+            maxLength: 100
+      responses:
+        '204':
+          description: Subscription suspended
+        '400':
+          $ref: '#/responses/DefaultLogicError'
+        '401':
+          $ref: '#/responses/Unauthorized'
+        '404':
+          $ref: '#/responses/NotFound'
   /subscriptions/plans:
     get:
       description: Получить список всех планов
@@ -4016,6 +4354,19 @@ definitions:
         type: array
         items:
           $ref: '#/definitions/CustomerChange'
+  CustomerInfo:
+    type: object
+    description: Информация о клиенте
+    required:
+      - email
+    properties:
+      email:
+        description: Адрес электронной почты
+        type: string
+        format: email
+        maxLength: 100
+      metadata:
+        type: object
   CustomerPayer:
     type: object
     description: Многоразовое платежное средство
@@ -6342,6 +6693,116 @@ definitions:
         type: string
       subError:
         $ref: '#/definitions/SubError'
+  Subscription:
+    description: Описание подписки
+    type: object
+    required:
+      - id
+      - planId
+      - createdAt
+      - status
+      - customerInfo
+    properties:
+      id:
+        description: Идентификатор подписки
+        type: string
+        readOnly: true
+      planId:
+        description: Идентификатор плана подписки
+        type: string
+      planRevision:
+        description: 'Версия плана подписки. Используется последняя, если не указана'
+        type: integer
+      createdAt:
+        description: Дата создания
+        type: string
+        format: date-time
+        readOnly: true
+      endedAt:
+        description: Дата окончания
+        type: string
+        format: date-time
+        readOnly: true
+      status:
+        $ref: '#/definitions/SubscriptionStatus'
+      payer:
+        readOnly: true
+        type: object
+        description: Одноразовое платежное средство
+        allOf:
+          - $ref: '#/definitions/Payer'
+          - $ref: '#/definitions/PaymentResource'
+          - type: object
+            required:
+              - contactInfo
+            properties:
+              contactInfo:
+                $ref: '#/definitions/ContactInfo'
+      customerInfo:
+        $ref: '#/definitions/CustomerInfo'
+      metadata:
+        description: Связанные с подпиской метаданные
+        type: object
+  SubscriptionChange:
+    type: object
+    discriminator: changeType
+    required:
+      - changeType
+    properties:
+      changeType:
+        type: string
+        enum:
+          - SubscriptionCreated
+          - SubscriptionInvoiceCreated
+          - SubscriptionPayerChanged
+          - SubscriptionStatusChanged
+  SubscriptionCreated:
+    type: object
+    allOf:
+      - $ref: '#/definitions/SubscriptionChange'
+      - type: object
+        required:
+          - subscription
+        properties:
+          subscription:
+            $ref: '#/definitions/Subscription'
+  SubscriptionEvent:
+    type: object
+    required:
+      - id
+      - createdAt
+      - changes
+    properties:
+      id:
+        type: integer
+      createdAt:
+        type: string
+        format: date-time
+      changes:
+        type: array
+        items:
+          $ref: '#/definitions/SubscriptionChange'
+  SubscriptionInvoiceCreated:
+    type: object
+    allOf:
+      - $ref: '#/definitions/SubscriptionChange'
+      - type: object
+        required:
+          - invoiceID
+        properties:
+          invoiceID:
+            description: Идентификатор инвойса
+            type: string
+  SubscriptionPayerChanged:
+    type: object
+    allOf:
+      - $ref: '#/definitions/SubscriptionChange'
+      - type: object
+        required:
+          - payer
+        properties:
+          payer:
+            $ref: '#/definitions/PaymentResourcePayer'
   SubscriptionPlan:
     description: Описание плана подписки
     type: object
@@ -6438,6 +6899,17 @@ definitions:
       enabled:
         description: Активность правила
         type: boolean
+  SubscriptionPlanChanged:
+    type: object
+    allOf:
+      - $ref: '#/definitions/SubscriptionChange'
+      - type: object
+        required:
+          - plan
+        properties:
+          plan:
+            description: Идентификатор плана подписки
+            type: string
   SubscriptionPlanPresentation:
     description: Детали клиентской презентации плана подписки
     type: object
@@ -6518,6 +6990,51 @@ definitions:
         $ref: '#/definitions/SubscriptionPlanActivation'
       trial:
         $ref: '#/definitions/SubscriptionPlanTrial'
+  SubscriptionStatus:
+    description: Статус подписки
+    type: object
+    readOnly: true
+    required:
+      - status
+    properties:
+      status:
+        type: string
+        enum:
+          - active
+          - paused
+          - finished
+      reason:
+        description: Причина остановки подписки
+        type: string
+        maxLength: 100
+  SubscriptionStatusChanged:
+    type: object
+    allOf:
+      - $ref: '#/definitions/SubscriptionChange'
+      - type: object
+        description: Новый статус подписки
+        required:
+          - status
+        properties:
+          status:
+            $ref: '#/definitions/SubscriptionStatus'
+  SubscriptionUpdateParams:
+    description: Изменение информации о подписке
+    type: object
+    properties:
+      planID:
+        description: Идентификатор плана подписки
+        type: string
+      payer:
+        $ref: '#/definitions/PaymentResourcePayer'
+      planRevision:
+        description: Версия плана подписки
+        type: integer
+      customerInfo:
+        $ref: '#/definitions/CustomerInfo'
+      metadata:
+        description: Связанные с инвойсом метаданные
+        type: object
   TimePeriod:
     description: Период времени
     type: object
