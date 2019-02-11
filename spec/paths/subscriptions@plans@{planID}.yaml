@@ -1,0 +1,72 @@
+get:
+  description: Получить данные плана подписки по его идентификатору.
+  operationId: getPlanById
+  tags:
+    - SubscriptionPlans
+  parameters:
+    - $ref: '#/parameters/requestID'
+    - $ref: '#/parameters/deadline'
+    - $ref: '#/parameters/planID'
+  responses:
+    '200':
+      description: Данные плана
+      schema:
+          $ref: '#/definitions/SubscriptionPlan'
+    '404':
+      $ref: '#/responses/NotFound'
+    '401':
+      $ref: '#/responses/Unauthorized'
+    '400':
+      $ref: '#/responses/DefaultLogicError'
+
+patch:
+  description: |
+    Модифицировать данные плана подписки.
+
+    При внесении изменений в существущий план подписки
+    её условия остаются неизменными для уже подписанных клиентов.
+  operationId: updatePlan
+  tags:
+    - SubscriptionPlans
+  parameters:
+    - $ref: '#/parameters/requestID'
+    - $ref: '#/parameters/deadline'
+    - $ref: '#/parameters/planID'
+    - name: planParams
+      description: Параметры изменения плана подписки
+      in: body
+      required: true
+      schema:
+        $ref: '#/definitions/SubscriptionPlanUpdateParams'
+  responses:
+    '200':
+      description: План изменен
+      schema:
+        $ref: '#/definitions/SubscriptionPlan'
+    '404':
+      $ref: '#/responses/NotFound'
+    '401':
+      $ref: '#/responses/Unauthorized'
+    '400':
+      $ref: '#/responses/DefaultLogicError'
+
+delete:
+  description: |
+    Удалить план подписки по его идентификатору.
+
+    При удалении плана подписки все подписки использующие этот
+    план будут автоматически остановлены по истечении рекуррентного периода.
+  operationId: deletePlan
+  tags:
+    - SubscriptionPlans
+  parameters:
+    - $ref: '#/parameters/requestID'
+    - $ref: '#/parameters/deadline'
+    - $ref: '#/parameters/planID'
+  responses:
+    '204':
+      description: План удален
+    '401':
+      $ref: '#/responses/Unauthorized'
+    '400':
+      $ref: '#/responses/DefaultLogicError'

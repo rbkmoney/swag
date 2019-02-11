@@ -1,0 +1,9 @@
+description: Детали клиентской презентации плана подписки
+type: object
+required:
+  - description
+properties:
+  description:
+    description: Описание плана подписки
+    type: string
+    maxLength: 1000

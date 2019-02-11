@@ -1,0 +1,80 @@
+description: Описание плана подписки
+type: object
+required:
+  - id
+  - name
+  - createdAt
+  - updatedAt
+  - revision
+  - currency
+  - amount
+  - schedule
+  - status
+properties:
+  id:
+    description: Идентификатор плана подписки
+    type: string
+    readOnly: true
+  name:
+    description: Название плана подписки
+    type: string
+    maxLength: 100
+  createdAt:
+    description: Дата создания
+    type: string
+    format: date-time
+    readOnly: true
+  updatedAt:
+    description: Дата последнего изменения
+    type: string
+    format: date-time
+    readOnly: true
+  revision:
+    description: Ревизия плана
+    type: integer
+    readOnly: true
+  currency:
+    x-rebillyMerge:
+      - $ref: '#/definitions/Currency'
+  amount:
+    description: Cумма повторяемого платежа
+    type: integer
+    minimum: 1
+  description:
+    description: Описание плана подписки
+    type: string
+    maxLength: 1000
+  presentation:
+    $ref: '#/definitions/SubscriptionPlanPresentation'
+  status:
+    description: Статус плана
+    type: string
+    enum:
+      - active
+      - inactive
+  schedule:
+    description: Периодичность списаний по подписке
+    allOf:
+      - $ref: '#/definitions/TimePeriod'
+  lifetime:
+    description: |
+      Продолжительность действия подписки
+
+      Eсли данное поле оставить пустым лимит повторных попыток списания будет установлен автоматически.
+    type: object
+    properties:
+      duration:
+        description: Количество рекуррентных периодов, после которого действие подписки будет приостановлено.
+        type: integer
+        minimum: 1
+      retries:
+        description: |
+          Количество попыток списания.
+
+          По истечении количества попыток подписка переходит в статус suspended.
+        type: integer
+        minimum: 0
+  activation:
+    $ref: '#/definitions/SubscriptionPlanActivation'
+  trial:
+    $ref: '#/definitions/SubscriptionPlanTrial'
