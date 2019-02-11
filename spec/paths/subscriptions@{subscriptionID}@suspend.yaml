@@ -1,0 +1,24 @@
+put:
+  description: Приостановить действие подписки
+  operationId: suspendSubscription
+  tags:
+    - Subscriptions
+  parameters:
+    - $ref: '#/parameters/requestID'
+    - $ref: '#/parameters/deadline'
+    - $ref: '#/parameters/subscriptionID'
+    - name: reason
+      description: Причина остановки подписки
+      in: body
+      schema:
+        type: string
+        maxLength: 100
+  responses:
+    '204':
+      description: Subscription suspended
+    '404':
+      $ref: '#/responses/NotFound'
+    '401':
+      $ref: '#/responses/Unauthorized'
+    '400':
+      $ref: '#/responses/DefaultLogicError'

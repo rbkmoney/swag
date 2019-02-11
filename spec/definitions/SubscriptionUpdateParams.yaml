@@ -1,0 +1,16 @@
+description: Изменение информации о подписке
+type: object
+properties:
+  planID:
+    description: Идентификатор плана подписки
+    type: string
+  payer:
+      $ref: '#/definitions/PaymentResourcePayer'
+  planRevision:
+    description: Версия плана подписки
+    type: integer
+  customerInfo:
+    $ref: '#/definitions/CustomerInfo'
+  metadata:
+    description: Связанные с инвойсом метаданные
+    type: object

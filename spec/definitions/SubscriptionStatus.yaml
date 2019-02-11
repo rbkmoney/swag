@@ -1,0 +1,16 @@
+description: Статус подписки
+type: object
+readOnly: true
+required:
+  - status
+properties:
+  status:
+    type: string
+    enum:
+      - active
+      - paused
+      - finished
+  reason:
+    description: Причина остановки подписки
+    type: string
+    maxLength: 100

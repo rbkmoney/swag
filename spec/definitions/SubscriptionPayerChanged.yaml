@@ -1,0 +1,9 @@
+type: object
+allOf:
+  - $ref: '#/definitions/SubscriptionChange'
+  - type: object
+    required:
+      - payer
+    properties:
+      payer:
+        $ref: '#/definitions/PaymentResourcePayer'

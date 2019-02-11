@@ -1,0 +1,48 @@
+get:
+  description: Получить список всех подписок
+  operationId: getSubscriptions
+  tags:
+    - Subscriptions
+  parameters:
+    - $ref: '#/parameters/requestID'
+    - $ref: '#/parameters/deadline'
+    - $ref: '#/parameters/limit'
+    - $ref: '#/parameters/offset'
+  responses:
+    '200':
+      description: Список подписок
+      schema: 
+        type: array
+        items:
+          $ref:  '#/definitions/Subscription'
+    '401':
+        $ref: '#/responses/Unauthorized'
+    '400':
+        $ref: '#/responses/DefaultLogicError'
+
+post:
+  description: |
+    Создать подписку.  
+    После создания, к подписке должно быть привязано платежное средство при помощи метода addPaymentMethod,
+    в противном случае подписка будет удалена через некоторое время.
+  operationId: createSubscription
+  tags:
+    - Subscriptions
+  parameters:
+    - $ref: '#/parameters/requestID'
+    - $ref: '#/parameters/deadline'
+    - name: subscriptionParams
+      description: Параметры создаваемой подписки
+      in: body
+      required: true
+      schema:
+        $ref: '#/definitions/Subscription'
+  responses:
+    '201':
+      description: Подписка создана
+      schema:
+        $ref: '#/definitions/Subscription'
+    '401':
+      $ref: '#/responses/Unauthorized'
+    '400':
+      $ref: '#/responses/DefaultLogicError'

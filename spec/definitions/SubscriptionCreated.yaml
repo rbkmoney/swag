@@ -1,0 +1,9 @@
+type: object
+allOf:
+  - $ref: '#/definitions/SubscriptionChange'
+  - type: object
+    required:
+      - subscription
+    properties:
+      subscription:
+        $ref: '#/definitions/Subscription'

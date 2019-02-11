@@ -1,0 +1,47 @@
+get:
+  description: Получить данные подписки по её идентификатору.
+  operationId: getSubscriptionByID
+  tags:
+    - Subscriptions
+  parameters:
+    - $ref: '#/parameters/requestID'
+    - $ref: '#/parameters/deadline'
+    - $ref: '#/parameters/subscriptionID'
+  responses:
+    '200':
+      description: Данные подписки
+      schema:
+          $ref: '#/definitions/Subscription'
+    '404':
+      $ref: '#/responses/NotFound'
+    '401':
+      $ref: '#/responses/Unauthorized'
+    '400':
+      $ref: '#/responses/DefaultLogicError'
+
+patch:
+  description: Модифицировать данные подписки по её идентификатору.
+  operationId: updateSubscriptionByID
+  tags:
+    - Subscriptions
+  parameters:
+    - $ref: '#/parameters/requestID'
+    - $ref: '#/parameters/deadline'
+    - $ref: '#/parameters/subscriptionID'
+    - name: SubscriptionsParams
+      description: Параметры изменения плана подписки
+      in: body
+      required: true
+      schema:
+        $ref: '#/definitions/SubscriptionUpdateParams'
+  responses:
+    '200':
+      description: Подписка изменена
+      schema:
+        $ref: '#/definitions/Subscription'
+    '404':
+      $ref: '#/responses/NotFound'
+    '401':
+      $ref: '#/responses/Unauthorized'
+    '400':
+      $ref: '#/responses/DefaultLogicError'

@@ -1,0 +1,100 @@
+get:
+  description: Поиск инвойсов
+  tags:
+    - Search
+  operationId: searchSubscriptions
+  parameters:
+    - $ref: '#/parameters/requestID'
+    - $ref: '#/parameters/deadline'
+    - $ref: '#/parameters/fromTime'
+    - $ref: '#/parameters/toTime'
+    - $ref: '#/parameters/limit'
+    - $ref: '#/parameters/offset'
+    - name: subscriptionStatus
+      in: query
+      description: Статус подписки для поиска
+      required: false
+      type: string
+      enum:
+      - active
+      - paused
+      - finished
+    - name: subscriptionID
+      in: query
+      description: Идентификатор подписки
+      required: false
+      type: string
+      maxLength: 40
+      minLength: 1
+    - name: planID
+      in: query
+      description: Идентификатор плана подписки
+      required: false
+      type: string
+      maxLength: 40
+      minLength: 1
+    - name: planRevision
+      in: query
+      description: Версия плана подписки. Будут искаться все версии, если не указана
+      required: false
+      type: integer
+    - name: payerEmail
+      in: query
+      description: 'Email, указанный при оплате'
+      required: false
+      type: string
+      format: email
+      maxLength: 100
+    - name: payerIP
+      in: query
+      description: IP-адрес плательщика
+      required: false
+      type: string
+      format: ip-address
+      maxLength: 45
+    - x-rebillyMerge:
+      - name: bankCardTokenProvider
+        in: query
+        required: false
+      - $ref: '#/definitions/BankCardTokenProvider'
+    - x-rebillyMerge:
+      - name: bankCardPaymentSystem
+        in: query
+        required: false
+      - $ref: '#/definitions/BankCardPaymentSystem'
+    - name: bin
+      in: query
+      description: BIN банка-эмитента карты
+      required: false
+      type: string
+      pattern: '^\d{6,8}$'
+    - name: lastDigits
+      in: query
+      description: Последние цифры номера карты
+      required: false
+      type: string
+      pattern: '^\d{2,4}$'
+    - x-rebillyMerge:
+      - name: continuationToken
+        in: query
+        required: false
+      - $ref: '#/definitions/ContinuationToken'
+  responses:
+    '200':
+      description: Найденные подписки
+      schema:
+        type: object
+        properties:
+          continuationToken:
+            x-rebillyMerge:
+              - $ref: '#/definitions/ContinuationToken'
+          result:
+            type: array
+            items:
+              $ref: '#/definitions/Subscription'
+    '404':
+      $ref: '#/responses/NotFound'
+    '401':
+      $ref: '#/responses/Unauthorized'
+    '400':
+      $ref: '#/responses/DefaultLogicError'

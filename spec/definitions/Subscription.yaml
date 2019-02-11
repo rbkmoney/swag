@@ -1,0 +1,40 @@
+description: Описание подписки
+type: object
+required: 
+  - id
+  - planId
+  - createdAt
+  - status
+  - customerInfo
+properties: 
+  id:
+    description: Идентификатор подписки
+    type: string
+    readOnly: true
+  planId:
+    description: Идентификатор плана подписки
+    type: string
+  planRevision:
+    description: Версия плана подписки. Используется последняя, если не указана
+    type: integer
+  createdAt:
+    description: Дата создания
+    type: string
+    format: date-time
+    readOnly: true
+  endedAt:
+    description: Дата окончания
+    type: string
+    format: date-time
+    readOnly: true
+  status:
+    $ref: '#/definitions/SubscriptionStatus'
+  payer:
+    x-rebillyMerge:
+      - readOnly: true
+      - $ref: '#/definitions/PaymentResourcePayer'
+  customerInfo:
+    $ref: '#/definitions/CustomerInfo'
+  metadata:
+    description: Связанные с подпиской метаданные
+    type: object

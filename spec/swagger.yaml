@@ -331,6 +331,15 @@ parameters:
     type: string
     maxLength: 40
     minLength: 1
+  subscriptionID:
+    name: subscriptionID
+    in: path
+    description: Идентификатор подписки
+    required: true
+    type: string
+    maxLength: 40
+    minLength: 1
+
 tags:
   - name: Parties
     x-displayName: Участники
@@ -439,7 +448,7 @@ tags:
 
       * создания инвойса,
 
-      * отмены ивнвойса,
+      * отмены инвойса,
 
       * погашения инвойса,
 
@@ -637,6 +646,12 @@ tags:
       ЭЦП](http://minsvyaz.ru/ru/appeals/faq/31/). Данная подпись является
       юридически значимой и позволяет полностью отказаться от бумажного
       документооборота.
+  - name: Subscriptions
+    x-displayName: Подписки
+    description: >
+      Платформа предоставляет возможность работать с системой 
+      подписок - правил автоматизации списаний денег с платежных 
+      инструментов плательщиков без участия последних.
   - name: Error Codes
     x-displayName: Коды ошибок
     description: >
