@@ -6899,17 +6899,6 @@ definitions:
       enabled:
         description: Активность правила
         type: boolean
-  SubscriptionPlanChanged:
-    type: object
-    allOf:
-      - $ref: '#/definitions/SubscriptionChange'
-      - type: object
-        required:
-          - plan
-        properties:
-          plan:
-            description: Идентификатор плана подписки
-            type: string
   SubscriptionPlanPresentation:
     description: Детали клиентской презентации плана подписки
     type: object
