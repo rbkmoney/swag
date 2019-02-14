@@ -6,7 +6,6 @@ allOf:
     required:
       - cardNumber
       - expDate
-      - cvv
     properties:
       cardNumber:
         description: Номер банковской карты
