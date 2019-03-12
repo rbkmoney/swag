@@ -3,13 +3,12 @@ type: object
 required:
   - fingerprint
 properties:
+  fingerprint:
+    description: Уникальный отпечаток user agent'а плательщика
+    type: string
+    maxLength: 1000
   ip:
     description: IP-адрес плательщика
     type: string
     format: ip-address
     maxLength: 45
-    readOnly: true
-  fingerprint:
-    description: Уникальный отпечаток user agent'а плательщика
-    type: string
-    maxLength: 1000
