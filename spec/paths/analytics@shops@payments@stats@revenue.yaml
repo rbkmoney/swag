@@ -20,9 +20,9 @@ get:
         type: array
         items:
           $ref: '#/definitions/PaymentRevenueStat'
-    '404':
-      $ref: '#/responses/NotFound'
-    '401':
-      $ref: '#/responses/Unauthorized'
     '400':
       $ref: '#/responses/DefaultLogicError'
+    '401':
+      $ref: '#/responses/Unauthorized'
+    '404':
+      $ref: '#/responses/NotFound'
