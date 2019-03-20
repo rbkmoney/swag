@@ -6,7 +6,13 @@ get:
   parameters:
     - $ref: '#/parameters/requestID'
     - $ref: '#/parameters/deadline'
-    - $ref: '#/parameters/shopID'
+    - name: shopID
+      in: path
+      description: Идентификатор магазина
+      required: true
+      type: string
+      maxLength: 40
+      minLength: 1
     - $ref: '#/parameters/reportID'
   responses:
     '200':
