@@ -6,7 +6,7 @@ get:
   parameters:
     - $ref: '#/parameters/requestID'
     - $ref: '#/parameters/deadline'
-    - $ref: '#/parameters/shopID'
+    - $ref: '#/parameters/shopIDquery'
     - $ref: '#/parameters/fromTime'
     - $ref: '#/parameters/toTime'
     - $ref: '#/parameters/limit'
@@ -52,9 +52,9 @@ get:
             type: array
             items:
               $ref: '#/definitions/RefundSearchResult'
-    '400':
-      $ref: '#/responses/DefaultLogicError'
-    '401':
-      $ref: '#/responses/Unauthorized'
     '404':
       $ref: '#/responses/NotFound'
+    '401':
+      $ref: '#/responses/Unauthorized'
+    '400':
+      $ref: '#/responses/DefaultLogicError'

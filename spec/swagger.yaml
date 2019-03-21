@@ -143,11 +143,19 @@ parameters:
     required: true
     type: integer
     format: int32
-  shopID:
+  shopIDquery:
     name: shopID
     in: query
     description: Идентификатор магазина
     required: false
+    type: string
+    maxLength: 40
+    minLength: 1
+  shopIDpath:
+    name: shopID
+    in: path
+    description: Идентификатор магазина
+    required: true
     type: string
     maxLength: 40
     minLength: 1

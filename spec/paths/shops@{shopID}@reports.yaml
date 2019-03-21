@@ -4,15 +4,9 @@ post:
     - Reports
   operationId: createReport
   parameters:
-    - name: shopID
-      in: path
-      description: Идентификатор магазина
-      required: true
-      type: string
-      maxLength: 40
-      minLength: 1
     - $ref: '#/parameters/requestID'
     - $ref: '#/parameters/deadline'
+    - $ref: '#/parameters/shopIDpath'
     - name: createReport
       in: body
       description: Параметры генерации отчета
@@ -55,13 +49,7 @@ get:
   parameters:
     - $ref: '#/parameters/requestID'
     - $ref: '#/parameters/deadline'
-    - name: shopID
-      in: path
-      description: Идентификатор магазина
-      required: true
-      type: string
-      maxLength: 40
-      minLength: 1
+    - $ref: '#/parameters/shopIDpath'
     - $ref: '#/parameters/fromTime'
     - $ref: '#/parameters/toTime'
   responses:

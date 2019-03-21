@@ -6,13 +6,7 @@ put:
   parameters:
     - $ref: '#/parameters/requestID'
     - $ref: '#/parameters/deadline'
-    - name: shopID
-      in: path
-      description: Идентификатор магазина
-      required: true
-      type: string
-      maxLength: 40
-      minLength: 1
+    - $ref: '#/parameters/shopIDpath'
   responses:
     '204':
       description: Shop activated
