@@ -143,7 +143,7 @@ parameters:
     required: true
     type: integer
     format: int32
-  shopIDquery:
+  shopIDQuery:
     name: shopID
     in: query
     description: Идентификатор магазина
@@ -151,7 +151,7 @@ parameters:
     type: string
     maxLength: 40
     minLength: 1
-  shopIDpath:
+  shopIDPath:
     name: shopID
     in: path
     description: Идентификатор магазина

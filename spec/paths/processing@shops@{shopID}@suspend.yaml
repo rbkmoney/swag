@@ -8,7 +8,7 @@ put:
   parameters:
     - $ref: '#/parameters/requestID'
     - $ref: '#/parameters/deadline'
-    - $ref: '#/parameters/shopIDpath'
+    - $ref: '#/parameters/shopIDPath'
   responses:
     '204':
       description: Shop suspended

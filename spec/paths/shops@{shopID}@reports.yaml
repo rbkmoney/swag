@@ -6,7 +6,7 @@ post:
   parameters:
     - $ref: '#/parameters/requestID'
     - $ref: '#/parameters/deadline'
-    - $ref: '#/parameters/shopIDpath'
+    - $ref: '#/parameters/shopIDPath'
     - name: createReport
       in: body
       description: Параметры генерации отчета
@@ -49,7 +49,7 @@ get:
   parameters:
     - $ref: '#/parameters/requestID'
     - $ref: '#/parameters/deadline'
-    - $ref: '#/parameters/shopIDpath'
+    - $ref: '#/parameters/shopIDPath'
     - $ref: '#/parameters/fromTime'
     - $ref: '#/parameters/toTime'
   responses:
