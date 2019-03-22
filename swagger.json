@@ -12,7 +12,7 @@
     }
   },
   "host": "api.rbk.money",
-  "basePath": "/v2",
+  "basePath": "/v3",
   "schemes": [
     "https"
   ],
@@ -86,7 +86,16 @@
       "type": "integer",
       "format": "int32"
     },
-    "shopID": {
+    "shopIDQuery": {
+      "name": "shopID",
+      "in": "query",
+      "description": "Идентификатор магазина",
+      "required": false,
+      "type": "string",
+      "maxLength": 40,
+      "minLength": 1
+    },
+    "shopIDPath": {
       "name": "shopID",
       "in": "path",
       "description": "Идентификатор магазина",
@@ -388,7 +397,7 @@
     }
   ],
   "paths": {
-    "/analytics/shops/{shopID}/customers/stats/payment_method": {
+    "/analytics/customers/stats/payment_method": {
       "get": {
         "description": "Получить статистику по платежным средствам за определённое время.\n",
         "tags": [
@@ -403,7 +412,7 @@
             "$ref": "#/parameters/deadline"
           },
           {
-            "$ref": "#/parameters/shopID"
+            "$ref": "#/parameters/shopIDQuery"
           },
           {
             "$ref": "#/parameters/fromTime"
@@ -450,7 +459,7 @@
         }
       }
     },
-    "/analytics/shops/{shopID}/customers/stats/rate": {
+    "/analytics/customers/stats/rate": {
       "get": {
         "description": "Получить статистику по уникальным плательщикам за определённое время.\n",
         "tags": [
@@ -465,7 +474,7 @@
             "$ref": "#/parameters/deadline"
           },
           {
-            "$ref": "#/parameters/shopID"
+            "$ref": "#/parameters/shopIDQuery"
           },
           {
             "$ref": "#/parameters/fromTime"
@@ -493,7 +502,7 @@
         }
       }
     },
-    "/analytics/shops/{shopID}/invoices": {
+    "/analytics/invoices": {
       "get": {
         "description": "Поиск инвойсов",
         "tags": [
@@ -508,7 +517,7 @@
             "$ref": "#/parameters/deadline"
           },
           {
-            "$ref": "#/parameters/shopID"
+            "$ref": "#/parameters/shopIDQuery"
           },
           {
             "$ref": "#/parameters/fromTime"
@@ -738,7 +747,7 @@
         }
       }
     },
-    "/analytics/shops/{shopID}/payments": {
+    "/analytics/payments": {
       "get": {
         "description": "Поиск платежей",
         "tags": [
@@ -753,7 +762,7 @@
             "$ref": "#/parameters/deadline"
           },
           {
-            "$ref": "#/parameters/shopID"
+            "$ref": "#/parameters/shopIDQuery"
           },
           {
             "$ref": "#/parameters/fromTime"
@@ -961,9 +970,9 @@
         }
       }
     },
-    "/analytics/shops/{shopID}/payments/stats/conversion": {
+    "/analytics/payments/stats/conversion": {
       "get": {
-        "description": "Получить статистику конверсии платежей магазина за определённое время.\n",
+        "description": "Получить статистику конверсии платежей за определённое время.\n",
         "tags": [
           "Analytics"
         ],
@@ -976,7 +985,7 @@
             "$ref": "#/parameters/deadline"
           },
           {
-            "$ref": "#/parameters/shopID"
+            "$ref": "#/parameters/shopIDQuery"
           },
           {
             "$ref": "#/parameters/fromTime"
@@ -1013,7 +1022,7 @@
         }
       }
     },
-    "/analytics/shops/{shopID}/payments/stats/geo": {
+    "/analytics/payments/stats/geo": {
       "get": {
         "description": "Получить статистику по геопозициям плательщиков за определённое время.\n",
         "tags": [
@@ -1028,7 +1037,7 @@
             "$ref": "#/parameters/deadline"
           },
           {
-            "$ref": "#/parameters/shopID"
+            "$ref": "#/parameters/shopIDQuery"
           },
           {
             "$ref": "#/parameters/fromTime"
@@ -1065,9 +1074,9 @@
         }
       }
     },
-    "/analytics/shops/{shopID}/payments/stats/revenue": {
+    "/analytics/payments/stats/revenue": {
       "get": {
-        "description": "Получить статистику по сумме платежей магазина за определенное время, в том\nчисле за вычетом комиссии системы.\n",
+        "description": "Получить статистику по сумме платежей за определенное время, в том\nчисле за вычетом комиссии системы.\n",
         "tags": [
           "Analytics"
         ],
@@ -1080,7 +1089,7 @@
             "$ref": "#/parameters/deadline"
           },
           {
-            "$ref": "#/parameters/shopID"
+            "$ref": "#/parameters/shopIDQuery"
           },
           {
             "$ref": "#/parameters/fromTime"
@@ -1117,7 +1126,7 @@
         }
       }
     },
-    "/analytics/shops/{shopID}/payouts": {
+    "/analytics/payouts": {
       "get": {
         "description": "Поиск выплат",
         "tags": [
@@ -1132,7 +1141,7 @@
             "$ref": "#/parameters/deadline"
           },
           {
-            "$ref": "#/parameters/shopID"
+            "$ref": "#/parameters/shopIDQuery"
           },
           {
             "$ref": "#/parameters/fromTime"
@@ -1197,7 +1206,7 @@
         }
       }
     },
-    "/analytics/shops/{shopID}/refunds": {
+    "/analytics/refunds": {
       "get": {
         "description": "Поиск возвратов",
         "tags": [
@@ -1212,7 +1221,7 @@
             "$ref": "#/parameters/deadline"
           },
           {
-            "$ref": "#/parameters/shopID"
+            "$ref": "#/parameters/shopIDQuery"
           },
           {
             "$ref": "#/parameters/fromTime"
@@ -3987,7 +3996,7 @@
             "$ref": "#/parameters/deadline"
           },
           {
-            "$ref": "#/parameters/shopID"
+            "$ref": "#/parameters/shopIDPath"
           }
         ],
         "responses": {
@@ -4024,7 +4033,7 @@
             "$ref": "#/parameters/deadline"
           },
           {
-            "$ref": "#/parameters/shopID"
+            "$ref": "#/parameters/shopIDPath"
           }
         ],
         "responses": {
@@ -4058,7 +4067,7 @@
             "$ref": "#/parameters/deadline"
           },
           {
-            "$ref": "#/parameters/shopID"
+            "$ref": "#/parameters/shopIDPath"
           }
         ],
         "responses": {
@@ -4309,7 +4318,7 @@
             "$ref": "#/parameters/deadline"
           },
           {
-            "$ref": "#/parameters/shopID"
+            "$ref": "#/parameters/shopIDPath"
           },
           {
             "name": "createReport",
@@ -4373,7 +4382,7 @@
             "$ref": "#/parameters/deadline"
           },
           {
-            "$ref": "#/parameters/shopID"
+            "$ref": "#/parameters/shopIDPath"
           },
           {
             "$ref": "#/parameters/fromTime"
@@ -4439,7 +4448,7 @@
             "$ref": "#/parameters/deadline"
           },
           {
-            "$ref": "#/parameters/shopID"
+            "$ref": "#/parameters/shopIDPath"
           },
           {
             "$ref": "#/parameters/reportID"
@@ -4479,7 +4488,7 @@
             "$ref": "#/parameters/deadline"
           },
           {
-            "$ref": "#/parameters/shopID"
+            "$ref": "#/parameters/shopIDPath"
           },
           {
             "$ref": "#/parameters/reportID"

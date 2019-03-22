@@ -36,7 +36,7 @@ info:
     email: support@rbk.money
     url: 'https://api.rbk.money'
 host: api.rbk.money
-basePath: /v2
+basePath: /v3
 schemes:
   - https
 consumes:
@@ -101,7 +101,15 @@ parameters:
     required: true
     type: integer
     format: int32
-  shopID:
+  shopIDQuery:
+    name: shopID
+    in: query
+    description: Идентификатор магазина
+    required: false
+    type: string
+    maxLength: 40
+    minLength: 1
+  shopIDPath:
     name: shopID
     in: path
     description: Идентификатор магазина
@@ -689,7 +697,7 @@ tags:
       ```
       Если вы получили ошибку, которой нет в данном описании, обратитесь в техническую поддержку.
 paths:
-  '/analytics/shops/{shopID}/customers/stats/payment_method':
+  /analytics/customers/stats/payment_method:
     get:
       description: |
         Получить статистику по платежным средствам за определённое время.
@@ -699,7 +707,7 @@ paths:
       parameters:
         - $ref: '#/parameters/requestID'
         - $ref: '#/parameters/deadline'
-        - $ref: '#/parameters/shopID'
+        - $ref: '#/parameters/shopIDQuery'
         - $ref: '#/parameters/fromTime'
         - $ref: '#/parameters/toTime'
         - $ref: '#/parameters/splitUnit'
@@ -724,7 +732,7 @@ paths:
           $ref: '#/responses/Unauthorized'
         '404':
           $ref: '#/responses/NotFound'
-  '/analytics/shops/{shopID}/customers/stats/rate':
+  /analytics/customers/stats/rate:
     get:
       description: |
         Получить статистику по уникальным плательщикам за определённое время.
@@ -734,7 +742,7 @@ paths:
       parameters:
         - $ref: '#/parameters/requestID'
         - $ref: '#/parameters/deadline'
-        - $ref: '#/parameters/shopID'
+        - $ref: '#/parameters/shopIDQuery'
         - $ref: '#/parameters/fromTime'
         - $ref: '#/parameters/toTime'
       responses:
@@ -748,7 +756,7 @@ paths:
           $ref: '#/responses/Unauthorized'
         '404':
           $ref: '#/responses/NotFound'
-  '/analytics/shops/{shopID}/invoices':
+  /analytics/invoices:
     get:
       description: Поиск инвойсов
       tags:
@@ -757,7 +765,7 @@ paths:
       parameters:
         - $ref: '#/parameters/requestID'
         - $ref: '#/parameters/deadline'
-        - $ref: '#/parameters/shopID'
+        - $ref: '#/parameters/shopIDQuery'
         - $ref: '#/parameters/fromTime'
         - $ref: '#/parameters/toTime'
         - $ref: '#/parameters/limit'
@@ -930,7 +938,7 @@ paths:
           $ref: '#/responses/Unauthorized'
         '404':
           $ref: '#/responses/NotFound'
-  '/analytics/shops/{shopID}/payments':
+  /analytics/payments:
     get:
       description: Поиск платежей
       tags:
@@ -939,7 +947,7 @@ paths:
       parameters:
         - $ref: '#/parameters/requestID'
         - $ref: '#/parameters/deadline'
-        - $ref: '#/parameters/shopID'
+        - $ref: '#/parameters/shopIDQuery'
         - $ref: '#/parameters/fromTime'
         - $ref: '#/parameters/toTime'
         - $ref: '#/parameters/limit'
@@ -1095,17 +1103,17 @@ paths:
           $ref: '#/responses/Unauthorized'
         '404':
           $ref: '#/responses/NotFound'
-  '/analytics/shops/{shopID}/payments/stats/conversion':
+  /analytics/payments/stats/conversion:
     get:
       description: |
-        Получить статистику конверсии платежей магазина за определённое время.
+        Получить статистику конверсии платежей за определённое время.
       tags:
         - Analytics
       operationId: getPaymentConversionStats
       parameters:
         - $ref: '#/parameters/requestID'
         - $ref: '#/parameters/deadline'
-        - $ref: '#/parameters/shopID'
+        - $ref: '#/parameters/shopIDQuery'
         - $ref: '#/parameters/fromTime'
         - $ref: '#/parameters/toTime'
         - $ref: '#/parameters/splitUnit'
@@ -1123,7 +1131,7 @@ paths:
           $ref: '#/responses/Unauthorized'
         '404':
           $ref: '#/responses/NotFound'
-  '/analytics/shops/{shopID}/payments/stats/geo':
+  /analytics/payments/stats/geo:
     get:
       description: |
         Получить статистику по геопозициям плательщиков за определённое время.
@@ -1133,7 +1141,7 @@ paths:
       parameters:
         - $ref: '#/parameters/requestID'
         - $ref: '#/parameters/deadline'
-        - $ref: '#/parameters/shopID'
+        - $ref: '#/parameters/shopIDQuery'
         - $ref: '#/parameters/fromTime'
         - $ref: '#/parameters/toTime'
         - $ref: '#/parameters/splitUnit'
@@ -1151,10 +1159,10 @@ paths:
           $ref: '#/responses/Unauthorized'
         '404':
           $ref: '#/responses/NotFound'
-  '/analytics/shops/{shopID}/payments/stats/revenue':
+  /analytics/payments/stats/revenue:
     get:
       description: |
-        Получить статистику по сумме платежей магазина за определенное время, в том
+        Получить статистику по сумме платежей за определенное время, в том
         числе за вычетом комиссии системы.
       tags:
         - Analytics
@@ -1162,7 +1170,7 @@ paths:
       parameters:
         - $ref: '#/parameters/requestID'
         - $ref: '#/parameters/deadline'
-        - $ref: '#/parameters/shopID'
+        - $ref: '#/parameters/shopIDQuery'
         - $ref: '#/parameters/fromTime'
         - $ref: '#/parameters/toTime'
         - $ref: '#/parameters/splitUnit'
@@ -1180,7 +1188,7 @@ paths:
           $ref: '#/responses/Unauthorized'
         '404':
           $ref: '#/responses/NotFound'
-  '/analytics/shops/{shopID}/payouts':
+  /analytics/payouts:
     get:
       description: Поиск выплат
       tags:
@@ -1189,7 +1197,7 @@ paths:
       parameters:
         - $ref: '#/parameters/requestID'
         - $ref: '#/parameters/deadline'
-        - $ref: '#/parameters/shopID'
+        - $ref: '#/parameters/shopIDQuery'
         - $ref: '#/parameters/fromTime'
         - $ref: '#/parameters/toTime'
         - $ref: '#/parameters/limit'
@@ -1227,7 +1235,7 @@ paths:
           $ref: '#/responses/Unauthorized'
         '404':
           $ref: '#/responses/NotFound'
-  '/analytics/shops/{shopID}/refunds':
+  /analytics/refunds:
     get:
       description: Поиск возвратов
       tags:
@@ -1236,7 +1244,7 @@ paths:
       parameters:
         - $ref: '#/parameters/requestID'
         - $ref: '#/parameters/deadline'
-        - $ref: '#/parameters/shopID'
+        - $ref: '#/parameters/shopIDQuery'
         - $ref: '#/parameters/fromTime'
         - $ref: '#/parameters/toTime'
         - $ref: '#/parameters/limit'
@@ -2976,7 +2984,7 @@ paths:
       parameters:
         - $ref: '#/parameters/requestID'
         - $ref: '#/parameters/deadline'
-        - $ref: '#/parameters/shopID'
+        - $ref: '#/parameters/shopIDPath'
       responses:
         '200':
           description: Shop found
@@ -2997,7 +3005,7 @@ paths:
       parameters:
         - $ref: '#/parameters/requestID'
         - $ref: '#/parameters/deadline'
-        - $ref: '#/parameters/shopID'
+        - $ref: '#/parameters/shopIDPath'
       responses:
         '204':
           description: Shop activated
@@ -3018,7 +3026,7 @@ paths:
       parameters:
         - $ref: '#/parameters/requestID'
         - $ref: '#/parameters/deadline'
-        - $ref: '#/parameters/shopID'
+        - $ref: '#/parameters/shopIDPath'
       responses:
         '204':
           description: Shop suspended
@@ -3173,7 +3181,7 @@ paths:
       parameters:
         - $ref: '#/parameters/requestID'
         - $ref: '#/parameters/deadline'
-        - $ref: '#/parameters/shopID'
+        - $ref: '#/parameters/shopIDPath'
         - name: createReport
           in: body
           description: Параметры генерации отчета
@@ -3215,7 +3223,7 @@ paths:
       parameters:
         - $ref: '#/parameters/requestID'
         - $ref: '#/parameters/deadline'
-        - $ref: '#/parameters/shopID'
+        - $ref: '#/parameters/shopIDPath'
         - $ref: '#/parameters/fromTime'
         - $ref: '#/parameters/toTime'
       responses:
@@ -3256,7 +3264,7 @@ paths:
       parameters:
         - $ref: '#/parameters/requestID'
         - $ref: '#/parameters/deadline'
-        - $ref: '#/parameters/shopID'
+        - $ref: '#/parameters/shopIDPath'
         - $ref: '#/parameters/reportID'
       responses:
         '200':
@@ -3278,7 +3286,7 @@ paths:
       parameters:
         - $ref: '#/parameters/requestID'
         - $ref: '#/parameters/deadline'
-        - $ref: '#/parameters/shopID'
+        - $ref: '#/parameters/shopIDPath'
         - $ref: '#/parameters/reportID'
         - $ref: '#/parameters/fileID'
       responses:
