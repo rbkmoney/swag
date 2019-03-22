@@ -1,6 +1,6 @@
 get:
   description: |
-    Получить статистику конверсии платежей магазина за определённое время.
+    Получить статистику конверсии платежей за определённое время.
   tags:
     - Analytics
   operationId: getPaymentConversionStats
