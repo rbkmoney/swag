@@ -1,6 +1,6 @@
 get:
   description: |
-    Получить статистику по сумме платежей магазина за определенное время, в том
+    Получить статистику по сумме платежей за определенное время, в том
     числе за вычетом комиссии системы.
   tags:
     - Analytics
@@ -8,7 +8,7 @@ get:
   parameters:
     - $ref: '#/parameters/requestID'
     - $ref: '#/parameters/deadline'
-    - $ref: '#/parameters/shopID'
+    - $ref: '#/parameters/shopIDQuery'
     - $ref: '#/parameters/fromTime'
     - $ref: '#/parameters/toTime'
     - $ref: '#/parameters/splitUnit'

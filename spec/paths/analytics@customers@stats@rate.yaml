@@ -1,5 +1,5 @@
 get:
-  description: >
+  description: |
     Получить статистику по уникальным плательщикам за определённое время.
   tags:
     - Analytics
@@ -7,7 +7,7 @@ get:
   parameters:
     - $ref: '#/parameters/requestID'
     - $ref: '#/parameters/deadline'
-    - $ref: '#/parameters/shopID'
+    - $ref: '#/parameters/shopIDQuery'
     - $ref: '#/parameters/fromTime'
     - $ref: '#/parameters/toTime'
   responses:

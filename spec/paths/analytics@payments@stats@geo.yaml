@@ -1,24 +1,24 @@
 get:
   description: |
-    Получить статистику конверсии платежей магазина за определённое время.
+    Получить статистику по геопозициям плательщиков за определённое время.
   tags:
     - Analytics
-  operationId: getPaymentConversionStats
+  operationId: getPaymentGeoStats
   parameters:
     - $ref: '#/parameters/requestID'
     - $ref: '#/parameters/deadline'
-    - $ref: '#/parameters/shopID'
+    - $ref: '#/parameters/shopIDQuery'
     - $ref: '#/parameters/fromTime'
     - $ref: '#/parameters/toTime'
     - $ref: '#/parameters/splitUnit'
     - $ref: '#/parameters/splitSize'
   responses:
     '200':
-      description: Статистика конверсии платежей
+      description: Статистика по геопозициям плательщиков
       schema:
         type: array
         items:
-          $ref: '#/definitions/PaymentConversionStat'
+          $ref: '#/definitions/PaymentGeoStat'
     '404':
       $ref: '#/responses/NotFound'
     '401':
