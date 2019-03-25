@@ -13,6 +13,8 @@ allOf:
       id:
         description: Идентификатор платежа
         type: string
+      externalID:
+        $ref: '#/definitions/ExternalID'
       invoiceID:
         description: 'Идентификатор инвойса, в рамках которого был создан платеж'
         type: string
