@@ -17,6 +17,8 @@ allOf:
       shopID:
         description: Идентификатор магазина
         type: string
+      externalID:
+        $ref: '#/definitions/ExternalID'
       createdAt:
         description: Дата и время создания
         type: string

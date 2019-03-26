@@ -3,6 +3,8 @@ required:
   - flow
   - payer
 properties:
+  externalID:
+    $ref: '#/definitions/ExternalID'
   flow:
     $ref: '#/definitions/PaymentFlow'
   payer:
