@@ -1,5 +1,6 @@
 type: object
 allOf:
+  - $ref: '#/definitions/CustomerBindingStatus'
   - type: object
     required:
       - id
@@ -10,4 +11,3 @@ allOf:
         type: string
       paymentResource:
         $ref: '#/definitions/PaymentResource'
-  - $ref: '#/definitions/CustomerBindingStatus'

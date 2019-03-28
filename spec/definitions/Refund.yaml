@@ -1,5 +1,6 @@
 type: object
 allOf:
+  - $ref: '#/definitions/RefundStatus'
   - type: object
     required:
       - id
@@ -28,4 +29,3 @@ allOf:
       reason:
         description: Причина осуществления возврата
         type: string
-  - $ref: '#/definitions/RefundStatus'

@@ -1,5 +1,6 @@
 type: object
 allOf:
+  - $ref: '#/definitions/PaymentStatus'
   - type: object
     required:
       - id
@@ -43,4 +44,3 @@ allOf:
         x-rebillyMerge:
           - $ref: '#/definitions/PaymentMakeRecurrent'
           - readOnly: true
-  - $ref: '#/definitions/PaymentStatus'

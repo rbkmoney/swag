@@ -1,5 +1,6 @@
 type: object
 allOf:
+  - $ref: '#/definitions/InvoiceStatus'
   - type: object
     required:
       - id
@@ -53,4 +54,3 @@ allOf:
       metadata:
         description: Связанные с инвойсом метаданные
         type: object
-  - $ref: '#/definitions/InvoiceStatus'
