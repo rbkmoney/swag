@@ -1,13 +1,13 @@
 type: object
-allOf:
+required:
+    - id
+    - paymentResource
+properties:
+    id:
+      description: Идентификатор привязки
+      type: string
+    paymentResource:
+      $ref: '#/definitions/PaymentResource'
+
+x-merge-properties:
   - $ref: '#/definitions/CustomerBindingStatus'
-  - type: object
-    required:
-      - id
-      - paymentResource
-    properties:
-      id:
-        description: Идентификатор привязки
-        type: string
-      paymentResource:
-        $ref: '#/definitions/PaymentResource'

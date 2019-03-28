@@ -1,31 +1,31 @@
 type: object
-allOf:
+required:
+  - id
+  - createdAt
+  - amount
+  - currency
+properties:
+  id:
+    description: Идентификатор возврата
+    type: string
+  createdAt:
+    description: Дата и время осуществления
+    type: string
+    format: date-time
+  amount:
+    description: >
+      Сумма возврата, в минорных денежных единицах,
+      например в копейках в случае указания российских рублей в качестве
+      валюты.
+    type: integer
+    format: int64
+    minimum: 1
+  currency:
+    x-rebillyMerge:
+      - $ref: '#/definitions/Currency'
+  reason:
+    description: Причина осуществления возврата
+    type: string
+
+x-merge-properties:
   - $ref: '#/definitions/RefundStatus'
-  - type: object
-    required:
-      - id
-      - createdAt
-      - amount
-      - currency
-    properties:
-      id:
-        description: Идентификатор возврата
-        type: string
-      createdAt:
-        description: Дата и время осуществления
-        type: string
-        format: date-time
-      amount:
-        description: >
-          Сумма возврата, в минорных денежных единицах,
-          например в копейках в случае указания российских рублей в качестве
-          валюты.
-        type: integer
-        format: int64
-        minimum: 1
-      currency:
-        x-rebillyMerge:
-          - $ref: '#/definitions/Currency'
-      reason:
-        description: Причина осуществления возврата
-        type: string
