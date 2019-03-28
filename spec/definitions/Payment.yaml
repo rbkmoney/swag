@@ -1,42 +1,46 @@
 type: object
-required:
-  - id
-  - invoiceID
-  - createdAt
-  - amount
-  - currency
-  - payer
-properties:
-  id:
-    description: Идентификатор платежа
-    type: string
-  externalID:
-    $ref: '#/definitions/ExternalID'
-  invoiceID:
-    description: 'Идентификатор инвойса, в рамках которого был создан платеж'
-    type: string
-  createdAt:
-    description: Дата и время создания
-    type: string
-    format: date-time
-  amount:
-    description: >
-      Стоимость предлагаемых товаров или услуг, в минорных денежных
-      единицах,
-
-      например в копейках в случае указания российских рублей в качестве
-      валюты.
-    type: integer
-    format: int64
-    minimum: 1
-  currency:
-    x-rebillyMerge:
-      - $ref: '#/definitions/Currency'
-  payer:
-    $ref: '#/definitions/Payer'
-  makeRecurrent:
-    x-rebillyMerge:
-      - $ref: '#/definitions/PaymentMakeRecurrent'
-
 x-merge-properties:
+  - type: object
+    required:
+      - id
+      - invoiceID
+      - createdAt
+      - amount
+      - currency
+      - flow
+      - payer
+    properties:
+      id:
+        description: Идентификатор платежа
+        type: string
+      externalID:
+        $ref: '#/definitions/ExternalID'
+      invoiceID:
+        description: 'Идентификатор инвойса, в рамках которого был создан платеж'
+        type: string
+      createdAt:
+        description: Дата и время создания
+        type: string
+        format: date-time
+      amount:
+        description: >
+          Стоимость предлагаемых товаров или услуг, в минорных денежных
+          единицах,
+
+          например в копейках в случае указания российских рублей в качестве
+          валюты.
+        type: integer
+        format: int64
+        minimum: 1
+      currency:
+        x-rebillyMerge:
+          - $ref: '#/definitions/Currency'
+      flow:
+        $ref: '#/definitions/PaymentFlow'
+      payer:
+        $ref: '#/definitions/Payer'
+      makeRecurrent:
+        x-rebillyMerge:
+          - $ref: '#/definitions/PaymentMakeRecurrent'
+          - readOnly: true
   - $ref: '#/definitions/PaymentStatus'

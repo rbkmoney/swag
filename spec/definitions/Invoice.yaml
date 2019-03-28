@@ -1,56 +1,56 @@
 type: object
-required:
-  - id
-  - shopID
-  - createdAt
-  - dueDate
-  - amount
-  - currency
-  - product
-  - metadata
-properties:
-  id:
-    description: Идентификатор инвойса
-    type: string
-  shopID:
-    description: Идентификатор магазина
-    type: string
-  externalID:
-    $ref: '#/definitions/ExternalID'
-  createdAt:
-    description: Дата и время создания
-    type: string
-    format: date-time
-  dueDate:
-    description: Дата и время окончания действия
-    type: string
-    format: date-time
-  amount:
-    description: |
-      Стоимость предлагаемых товаров или услуг, в минорных денежных единицах,
-      например в копейках в случае указания российских рублей в качестве валюты.
-    type: integer
-    format: int64
-    minimum: 1
-  currency:
-    x-rebillyMerge:
-      - $ref: '#/definitions/Currency'
-  product:
-    description: Наименование предлагаемых товаров или услуг
-    type: string
-    maxLength: 100
-  description:
-    description: Описание предлагаемых товаров или услуг
-    type: string
-    maxLength: 1000
-  invoiceTemplateID:
-    description: Идентификатор шаблона (для инвойсов, созданных по шаблону).
-    type: string
-  cart:
-    $ref: '#/definitions/InvoiceCart'
-  metadata:
-    description: Связанные с инвойсом метаданные
-    type: object
-
 x-merge-properties:
+  - type: object
+    required:
+      - id
+      - shopID
+      - createdAt
+      - dueDate
+      - amount
+      - currency
+      - product
+      - metadata
+    properties:
+      id:
+        description: Идентификатор инвойса
+        type: string
+      shopID:
+        description: Идентификатор магазина
+        type: string
+      externalID:
+        $ref: '#/definitions/ExternalID'
+      createdAt:
+        description: Дата и время создания
+        type: string
+        format: date-time
+      dueDate:
+        description: Дата и время окончания действия
+        type: string
+        format: date-time
+      amount:
+        description: |
+          Стоимость предлагаемых товаров или услуг, в минорных денежных единицах,
+          например в копейках в случае указания российских рублей в качестве валюты.
+        type: integer
+        format: int64
+        minimum: 1
+      currency:
+        x-rebillyMerge:
+          - $ref: '#/definitions/Currency'
+      product:
+        description: Наименование предлагаемых товаров или услуг
+        type: string
+        maxLength: 100
+      description:
+        description: Описание предлагаемых товаров или услуг
+        type: string
+        maxLength: 1000
+      invoiceTemplateID:
+        description: Идентификатор шаблона (для инвойсов, созданных по шаблону).
+        type: string
+      cart:
+        $ref: '#/definitions/InvoiceCart'
+      metadata:
+        description: Связанные с инвойсом метаданные
+        type: object
   - $ref: '#/definitions/InvoiceStatus'
