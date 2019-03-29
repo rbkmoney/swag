@@ -3923,18 +3923,25 @@ definitions:
         $ref: '#/definitions/AccessToken'
   CustomerBinding:
     type: object
-    allOf:
-      - type: object
-        required:
-          - id
-          - paymentResource
-        properties:
-          id:
-            description: Идентификатор привязки
-            type: string
-          paymentResource:
-            $ref: '#/definitions/PaymentResource'
-      - $ref: '#/definitions/CustomerBindingStatus'
+    required:
+      - id
+      - paymentResource
+      - status
+    properties:
+      id:
+        description: Идентификатор привязки
+        type: string
+      paymentResource:
+        $ref: '#/definitions/PaymentResource'
+      status:
+        description: Статус привязки
+        type: string
+        enum:
+          - pending
+          - succeeded
+          - failed
+      error:
+        $ref: '#/definitions/CustomerBindingError'
   CustomerBindingError:
     description: 'Описание ошибки, возникшей в процессе привязки'
     type: object
@@ -4333,62 +4340,72 @@ definitions:
             maxLength: 100
   Invoice:
     type: object
-    allOf:
-      - type: object
-        required:
-          - id
-          - shopID
-          - createdAt
-          - dueDate
-          - amount
-          - currency
-          - product
-          - metadata
-        properties:
-          id:
-            description: Идентификатор инвойса
-            type: string
-          shopID:
-            description: Идентификатор магазина
-            type: string
-          externalID:
-            $ref: '#/definitions/ExternalID'
-          createdAt:
-            description: Дата и время создания
-            type: string
-            format: date-time
-          dueDate:
-            description: Дата и время окончания действия
-            type: string
-            format: date-time
-          amount:
-            description: |
-              Стоимость предлагаемых товаров или услуг, в минорных денежных единицах,
-              например в копейках в случае указания российских рублей в качестве валюты.
-            type: integer
-            format: int64
-            minimum: 1
-          currency:
-            description: 'Валюта, символьный код согласно [ISO 4217](http://www.iso.org/iso/home/standards/currency_codes.htm).'
-            type: string
-            pattern: '^[A-Z]{3}$'
-          product:
-            description: Наименование предлагаемых товаров или услуг
-            type: string
-            maxLength: 100
-          description:
-            description: Описание предлагаемых товаров или услуг
-            type: string
-            maxLength: 1000
-          invoiceTemplateID:
-            description: 'Идентификатор шаблона (для инвойсов, созданных по шаблону).'
-            type: string
-          cart:
-            $ref: '#/definitions/InvoiceCart'
-          metadata:
-            description: Связанные с инвойсом метаданные
-            type: object
-      - $ref: '#/definitions/InvoiceStatus'
+    required:
+      - id
+      - shopID
+      - createdAt
+      - dueDate
+      - amount
+      - currency
+      - product
+      - metadata
+      - status
+    properties:
+      id:
+        description: Идентификатор инвойса
+        type: string
+      shopID:
+        description: Идентификатор магазина
+        type: string
+      externalID:
+        $ref: '#/definitions/ExternalID'
+      createdAt:
+        description: Дата и время создания
+        type: string
+        format: date-time
+      dueDate:
+        description: Дата и время окончания действия
+        type: string
+        format: date-time
+      amount:
+        description: |
+          Стоимость предлагаемых товаров или услуг, в минорных денежных единицах,
+          например в копейках в случае указания российских рублей в качестве валюты.
+        type: integer
+        format: int64
+        minimum: 1
+      currency:
+        description: 'Валюта, символьный код согласно [ISO 4217](http://www.iso.org/iso/home/standards/currency_codes.htm).'
+        type: string
+        pattern: '^[A-Z]{3}$'
+      product:
+        description: Наименование предлагаемых товаров или услуг
+        type: string
+        maxLength: 100
+      description:
+        description: Описание предлагаемых товаров или услуг
+        type: string
+        maxLength: 1000
+      invoiceTemplateID:
+        description: 'Идентификатор шаблона (для инвойсов, созданных по шаблону).'
+        type: string
+      cart:
+        $ref: '#/definitions/InvoiceCart'
+      metadata:
+        description: Связанные с инвойсом метаданные
+        type: object
+      status:
+        description: Статус инвойса
+        type: string
+        enum:
+          - unpaid
+          - cancelled
+          - paid
+          - fulfilled
+      reason:
+        description: Причина отмены или погашения инвойса
+        type: string
+        maxLength: 1000
   InvoiceAndToken:
     type: object
     required:
@@ -4974,52 +4991,62 @@ definitions:
       - payerType
   Payment:
     type: object
-    allOf:
-      - type: object
-        required:
-          - id
-          - invoiceID
-          - createdAt
-          - amount
-          - currency
-          - flow
-          - payer
-        properties:
-          id:
-            description: Идентификатор платежа
-            type: string
-          externalID:
-            $ref: '#/definitions/ExternalID'
-          invoiceID:
-            description: 'Идентификатор инвойса, в рамках которого был создан платеж'
-            type: string
-          createdAt:
-            description: Дата и время создания
-            type: string
-            format: date-time
-          amount:
-            description: |
-              Стоимость предлагаемых товаров или услуг, в минорных денежных единицах,
-              например в копейках в случае указания российских рублей в качестве валюты.
-            type: integer
-            format: int64
-            minimum: 1
-          currency:
-            description: 'Валюта, символьный код согласно [ISO 4217](http://www.iso.org/iso/home/standards/currency_codes.htm).'
-            type: string
-            pattern: '^[A-Z]{3}$'
-          flow:
-            $ref: '#/definitions/PaymentFlow'
-          payer:
-            $ref: '#/definitions/Payer'
-          makeRecurrent:
-            description: |
-              Признак создания родительского рекуррентного платежа.
-              Успешно проведеный платеж с этим признаком можно использовать как родительский в других рекуррентных платежах.
-            type: boolean
-            default: false
-            readOnly: true
-      - $ref: '#/definitions/PaymentStatus'
+    required:
+      - id
+      - invoiceID
+      - createdAt
+      - amount
+      - currency
+      - flow
+      - payer
+      - status
+    properties:
+      id:
+        description: Идентификатор платежа
+        type: string
+      externalID:
+        $ref: '#/definitions/ExternalID'
+      invoiceID:
+        description: 'Идентификатор инвойса, в рамках которого был создан платеж'
+        type: string
+      createdAt:
+        description: Дата и время создания
+        type: string
+        format: date-time
+      amount:
+        description: |
+          Стоимость предлагаемых товаров или услуг, в минорных денежных единицах,
+          например в копейках в случае указания российских рублей в качестве валюты.
+        type: integer
+        format: int64
+        minimum: 1
+      currency:
+        description: 'Валюта, символьный код согласно [ISO 4217](http://www.iso.org/iso/home/standards/currency_codes.htm).'
+        type: string
+        pattern: '^[A-Z]{3}$'
+      flow:
+        $ref: '#/definitions/PaymentFlow'
+      payer:
+        $ref: '#/definitions/Payer'
+      makeRecurrent:
+        description: |
+          Признак создания родительского рекуррентного платежа.
+          Успешно проведеный платеж с этим признаком можно использовать как родительский в других рекуррентных платежах.
+        type: boolean
+        default: false
+        readOnly: true
+      status:
+        description: Статус платежа
+        type: string
+        enum:
+          - pending
+          - processed
+          - captured
+          - cancelled
+          - refunded
+          - failed
+      error:
+        $ref: '#/definitions/PaymentError'
   PaymentConversionStat:
     type: object
     required:
@@ -5813,35 +5840,55 @@ definitions:
             $ref: '#/definitions/BrowserRequest'
   Refund:
     type: object
-    allOf:
-      - type: object
+    required:
+      - id
+      - createdAt
+      - amount
+      - currency
+      - status
+    properties:
+      id:
+        description: Идентификатор возврата
+        type: string
+      createdAt:
+        description: Дата и время осуществления
+        type: string
+        format: date-time
+      amount:
+        description: |
+          Сумма возврата, в минорных денежных единицах, например в копейках в случае указания российских рублей в качестве валюты.
+        type: integer
+        format: int64
+        minimum: 1
+      currency:
+        description: 'Валюта, символьный код согласно [ISO 4217](http://www.iso.org/iso/home/standards/currency_codes.htm).'
+        type: string
+        pattern: '^[A-Z]{3}$'
+      reason:
+        description: Причина осуществления возврата
+        type: string
+      status:
+        description: Статус возврата
+        type: string
+        enum:
+          - pending
+          - succeeded
+          - failed
+      error:
+        description: |
+          Данные ошибки, возникшей в процессе проведения возврата, в случае если
+          возврат был неуспешен
+        type: object
         required:
-          - id
-          - createdAt
-          - amount
-          - currency
+          - code
+          - message
         properties:
-          id:
-            description: Идентификатор возврата
+          code:
+            description: 'Код ошибки, пригодный для обработки автоматическими системами'
             type: string
-          createdAt:
-            description: Дата и время осуществления
+          message:
+            description: 'Описание ошибки, пригодное для восприятия человеком'
             type: string
-            format: date-time
-          amount:
-            description: |
-              Сумма возврата, в минорных денежных единицах, например в копейках в случае указания российских рублей в качестве валюты.
-            type: integer
-            format: int64
-            minimum: 1
-          currency:
-            description: 'Валюта, символьный код согласно [ISO 4217](http://www.iso.org/iso/home/standards/currency_codes.htm).'
-            type: string
-            pattern: '^[A-Z]{3}$'
-          reason:
-            description: Причина осуществления возврата
-            type: string
-      - $ref: '#/definitions/RefundStatus'
   RefundParams:
     type: object
     properties:
