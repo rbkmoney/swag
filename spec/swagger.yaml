@@ -112,7 +112,7 @@ responses:
     schema:
       $ref: '#/definitions/DefaultLogicError'
   ExternalIDConflict:
-    description: Переданный ключ идемпотентности был использован ранее с другими параметрами запроса
+    description: Переданное значение `externalID` уже использовалось вами ранее с другимим параметрами запроса
 parameters:
   accountID:
     name: accountID
