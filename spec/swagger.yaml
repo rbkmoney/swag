@@ -111,6 +111,8 @@ responses:
     description: Неверные данные
     schema:
       $ref: '#/definitions/DefaultLogicError'
+  ExternalIDConflict:
+    description: Переданное значение `externalID` уже использовалось вами ранее с другимим параметрами запроса
 parameters:
   accountID:
     name: accountID

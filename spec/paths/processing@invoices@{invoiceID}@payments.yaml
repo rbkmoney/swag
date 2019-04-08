@@ -73,3 +73,5 @@ post:
             description: Человекочитаемое описание ошибки
             type: string
             example: Invalid invoice status
+    '409':
+      $ref: '#/responses/ExternalIDConflict'
