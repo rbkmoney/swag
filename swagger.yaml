@@ -70,6 +70,8 @@ responses:
     description: Неверные данные
     schema:
       $ref: '#/definitions/DefaultLogicError'
+  ExternalIDConflict:
+    description: Переданное значение `externalID` уже использовалось вами ранее с другимим параметрами запроса
 parameters:
   accountID:
     name: accountID
@@ -2079,6 +2081,8 @@ paths:
           $ref: '#/responses/Unauthorized'
         '404':
           $ref: '#/responses/NotFound'
+        '409':
+          $ref: '#/responses/ExternalIDConflict'
   '/processing/invoice-templates/{invoiceTemplateID}/payment-methods':
     get:
       description: Получить доступные для инвойса методы оплаты по шаблону инвойса.
@@ -2148,6 +2152,8 @@ paths:
                 example: Shop not found
         '401':
           $ref: '#/responses/Unauthorized'
+        '409':
+          $ref: '#/responses/ExternalIDConflict'
   '/processing/invoices/{invoiceID}':
     get:
       description: Получить данные инвойса по его идентификатору.
@@ -2372,6 +2378,8 @@ paths:
           $ref: '#/responses/Unauthorized'
         '404':
           $ref: '#/responses/NotFound'
+        '409':
+          $ref: '#/responses/ExternalIDConflict'
   '/processing/invoices/{invoiceID}/payments/{paymentID}':
     get:
       description: Получить данные платежа по указанному инвойсу.

@@ -50,6 +50,9 @@
       "schema": {
         "$ref": "#/definitions/DefaultLogicError"
       }
+    },
+    "ExternalIDConflict": {
+      "description": "Переданное значение `externalID` уже использовалось вами ранее с другимим параметрами запроса"
     }
   },
   "parameters": {
@@ -2552,6 +2555,9 @@
           },
           "404": {
             "$ref": "#/responses/NotFound"
+          },
+          "409": {
+            "$ref": "#/responses/ExternalIDConflict"
           }
         }
       }
@@ -2659,6 +2665,9 @@
           },
           "401": {
             "$ref": "#/responses/Unauthorized"
+          },
+          "409": {
+            "$ref": "#/responses/ExternalIDConflict"
           }
         }
       }
@@ -3013,6 +3022,9 @@
           },
           "404": {
             "$ref": "#/responses/NotFound"
+          },
+          "409": {
+            "$ref": "#/responses/ExternalIDConflict"
           }
         }
       }
