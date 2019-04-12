@@ -15,3 +15,5 @@ allOf:
       currency:
         x-rebillyMerge:
           - $ref: '#/definitions/Currency'
+      cart:
+        $ref: '#/definitions/InvoiceCart'

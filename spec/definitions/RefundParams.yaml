@@ -1,4 +1,8 @@
 type: object
+required:
+  - amount
+  - currency
+  - reason
 properties:
   amount:
     description: |
@@ -15,4 +19,5 @@ properties:
     description: Причина совершения возврата
     type: string
     maxLength: 1000
-
+  cart:
+    $ref: '#/definitions/InvoiceCart'

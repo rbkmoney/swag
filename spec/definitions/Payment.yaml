@@ -43,4 +43,6 @@ x-merge-properties:
         x-rebillyMerge:
           - $ref: '#/definitions/PaymentMakeRecurrent'
           - readOnly: true
+      cart:
+        $ref: '#/definitions/InvoiceCart'
   - $ref: '#/definitions/PaymentStatus'

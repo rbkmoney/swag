@@ -28,4 +28,6 @@ x-merge-properties:
       reason:
         description: Причина осуществления возврата
         type: string
+      cart:
+        $ref: '#/definitions/InvoiceCart'
   - $ref: '#/definitions/RefundStatus'
