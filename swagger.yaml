@@ -2863,6 +2863,8 @@ paths:
           $ref: '#/responses/DefaultLogicError'
         '401':
           $ref: '#/responses/Unauthorized'
+        '409':
+          $ref: '#/responses/ExternalIDConflict'
   /processing/payouts:
     post:
       description: |
@@ -5329,6 +5331,8 @@ definitions:
       - paymentTool
       - clientInfo
     properties:
+      externalID:
+        $ref: '#/definitions/ExternalID'
       paymentTool:
         $ref: '#/definitions/PaymentTool'
       clientInfo:

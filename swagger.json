@@ -3804,6 +3804,9 @@
           },
           "401": {
             "$ref": "#/responses/Unauthorized"
+          },
+          "409": {
+            "$ref": "#/responses/ExternalIDConflict"
           }
         }
       }
@@ -7325,6 +7328,9 @@
         "clientInfo"
       ],
       "properties": {
+        "externalID": {
+          "$ref": "#/definitions/ExternalID"
+        },
         "paymentTool": {
           "$ref": "#/definitions/PaymentTool"
         },
