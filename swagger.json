@@ -52,7 +52,10 @@
       }
     },
     "ExternalIDConflict": {
-      "description": "Переданное значение `externalID` уже использовалось вами ранее с другими параметрами запроса"
+      "description": "Переданное значение `externalID` уже использовалось вами ранее с другими параметрами запроса",
+      "schema": {
+        "$ref": "#/definitions/ExternalIDConflictError"
+      }
     }
   },
   "parameters": {
@@ -5793,6 +5796,28 @@
       "type": "string",
       "maxLength": 40,
       "minLength": 1
+    },
+    "ExternalIDConflictError": {
+      "type": "object",
+      "required": [
+        "externalID"
+      ],
+      "properties": {
+        "externalID": {
+          "description": "Переданное значение `externalID`, для которого обнаружен конфликт параметров запроса",
+          "type": "string",
+          "maxLength": 40,
+          "minLength": 1
+        },
+        "id": {
+          "description": "Идентификатор сущности, созданной предыдущим запросом с указанным `externalID`",
+          "type": "string"
+        },
+        "message": {
+          "description": "Человекочитаемое описание ошибки",
+          "type": "string"
+        }
+      }
     },
     "FileMeta": {
       "type": "object",
