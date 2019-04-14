@@ -113,6 +113,8 @@ responses:
       $ref: '#/definitions/DefaultLogicError'
   ExternalIDConflict:
     description: Переданное значение `externalID` уже использовалось вами ранее с другими параметрами запроса
+    schema:
+      $ref: '#/definitions/ExternalIDConflictError'
 parameters:
   accountID:
     name: accountID
