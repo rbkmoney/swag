@@ -3,6 +3,8 @@ required:
   - paymentTool
   - clientInfo
 properties:
+  externalID:
+    $ref: '#/definitions/ExternalID'
   paymentTool:
     $ref: '#/definitions/PaymentTool'
   clientInfo:
