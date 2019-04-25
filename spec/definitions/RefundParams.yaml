@@ -1,8 +1,4 @@
 type: object
-required:
-  - amount
-  - currency
-  - reason
 properties:
   amount:
     description: |
