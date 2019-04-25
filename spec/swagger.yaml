@@ -81,7 +81,7 @@ securityDefinitions:
     name: Authorization
     in: header
     description: >
-      Для аутентификации вызовов мы используем [JWT](https://jwt.io).
+      Для авторизации вызовов мы используем [JWT](https://jwt.io).
       Cоответствующий ключ передается в заголовке.
 
       ```shell
@@ -89,12 +89,23 @@ securityDefinitions:
       ```
 
       Посмотреть ваш API-ключ вы можете в [личном
-      кабинете](https://dashboard.rbk.money/).
+      кабинете](https://dashboard.rbk.money/). 
+
+
+      Обратите внимание, что API-ключ должен использоваться исключительно для межсерверного взаимодействия.
+
+      Для авторизации запросов, выполняемых из контекста браузера плательщика (например, токенизация платежных данных методом [createPaymentResource](https://developer.rbk.money/api/#operation/createPaymentResource)) используйте полученный при вызове [createInvoice](https://developer.rbk.money/api/#operation/createInvoice) `invoiceAccessToken`, либо создайте его напрямую, вызвав метод [createInvoiceAccessToken](https://developer.rbk.money/api/#operation/createInvoiceAccessToken). 
+
+
+      При попытке вызова [createPaymentResource](https://developer.rbk.money/api/#operation/createPaymentResource) с ключом, отличным от invoiceAccessToken, платформа вернет ошибку авторизации со статусом HTTP/401.
 
 
       Ключи не разделяются на тестовые и боевые, ваш API ключ открывает доступ
       ко всем функциям платформы. Для тестовых транзакций используйте ID
       тестовых магазинов.
+
+
+
 
 
       Помните, что вы никому не должны передавать ваш API ключ!
@@ -113,6 +124,8 @@ responses:
       $ref: '#/definitions/DefaultLogicError'
   ExternalIDConflict:
     description: Переданное значение `externalID` уже использовалось вами ранее с другими параметрами запроса
+    schema:
+      $ref: '#/definitions/ExternalIDConflictError'
 parameters:
   accountID:
     name: accountID
@@ -444,7 +457,7 @@ tags:
       * получения *нового* токена доступа к инвойсу (уже после создания инвойса)
 
 
-      авторизуются вашим API-ключем.
+      авторизуются вашим API-ключом.
 
       ### Токен доступа к инвойсу
 
@@ -480,7 +493,7 @@ tags:
       ## Authorization
 
       Создание, модификация и удаление шаблона инвойса авторизуются вашим
-      API-ключем.
+      API-ключом.
 
       ### Токен доступа к шаблону инвойса
 
@@ -556,7 +569,7 @@ tags:
       ## Authorization
 
       Запросы API платежей авторизуются либо токеном доступа к инвойсу, по
-      которому создан платеж, либо вашим API-ключем.
+      которому создан платеж, либо вашим API-ключом.
   - name: Tokens
     x-displayName: Платежные токены
     description: >
