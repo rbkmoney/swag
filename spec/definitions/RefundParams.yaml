@@ -16,4 +16,6 @@ properties:
     type: string
     maxLength: 1000
   cart:
-    $ref: '#/definitions/InvoiceCart'
+    x-rebillyMerge:
+      - $ref: '#/definitions/InvoiceCart'
+      - description: Корзина с набором позиций **возвращаемых** товаров или услуг
