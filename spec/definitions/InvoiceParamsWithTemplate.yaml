@@ -1,5 +1,7 @@
 type: object
 properties:
+  externalID:
+    $ref: '#/definitions/ExternalID'
   amount:
     description: |
       Стоимость предлагаемых товаров или услуг, в минорных денежных единицах,
