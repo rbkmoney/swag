@@ -114,7 +114,7 @@ responses:
     schema:
       $ref: '#/definitions/DefaultLogicError'
   ExternalIDConflict:
-    description: Переданное значение `externalID` уже использовалось вами ранее с другими параметрами запроса
+    description: Переданное значение внешнего идентификатора уже использовалось вами ранее с другими параметрами запроса
     schema:
       $ref: '#/definitions/ExternalIDConflictError'
 parameters:
