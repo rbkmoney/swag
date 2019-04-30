@@ -60,4 +60,6 @@ allOf:
         x-rebillyMerge:
           - $ref: '#/definitions/PaymentMakeRecurrent'
           - readOnly: true
-
+      metadata:
+        description: Связанные с платежом метаданные
+        type: object
