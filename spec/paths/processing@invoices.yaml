@@ -43,3 +43,5 @@ post:
             description: Человекочитаемое описание ошибки
             type: string
             example: Shop not found
+    '409':
+      $ref: '#/responses/ExternalIDConflict'

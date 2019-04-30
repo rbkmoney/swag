@@ -43,3 +43,5 @@ post:
             description: Человекочитаемое описание ошибки
             type: string
             example: Invalid party status
+    '409':
+      $ref: '#/responses/ExternalIDConflict'
