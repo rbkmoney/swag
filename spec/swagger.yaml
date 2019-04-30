@@ -89,12 +89,12 @@ securityDefinitions:
       ```
 
       Посмотреть ваш API-ключ вы можете в [личном
-      кабинете](https://dashboard.rbk.money/). 
+      кабинете](https://dashboard.rbk.money/).
 
 
       Обратите внимание, что API-ключ должен использоваться исключительно для межсерверного взаимодействия.
 
-      Для авторизации запросов, выполняемых из контекста браузера плательщика (например, токенизация платежных данных методом [createPaymentResource](https://developer.rbk.money/api/#operation/createPaymentResource)) используйте полученный при вызове [createInvoice](https://developer.rbk.money/api/#operation/createInvoice) `invoiceAccessToken`, либо создайте его напрямую, вызвав метод [createInvoiceAccessToken](https://developer.rbk.money/api/#operation/createInvoiceAccessToken). 
+      Для авторизации запросов, выполняемых из контекста браузера плательщика (например, токенизация платежных данных методом [createPaymentResource](https://developer.rbk.money/api/#operation/createPaymentResource)) используйте полученный при вызове [createInvoice](https://developer.rbk.money/api/#operation/createInvoice) `invoiceAccessToken`, либо создайте его напрямую, вызвав метод [createInvoiceAccessToken](https://developer.rbk.money/api/#operation/createInvoiceAccessToken).
 
 
       При попытке вызова [createPaymentResource](https://developer.rbk.money/api/#operation/createPaymentResource) с ключом, отличным от invoiceAccessToken, платформа вернет ошибку авторизации со статусом HTTP/401.
@@ -423,13 +423,14 @@ tags:
 
       ![Invoice State diagram](wsd/img/invoice.svg)
 
-      ## Метаданные инвойса
+      ## Метаданные инвойса и плтежа
 
       Платформа предоставляет вам возможность заполнить и сохранить любые
-      необходимые метаданные в структуре инвойса. Данные описываются массивом
-      JSON. В дальнейшем платформа предоставит вам эти данные при запросе данных
-      инвойса по его ID либо пришлет в асинхронном режиме на webhook,
-      установленный для соответствующего магазине, если он есть.
+      необходимые метаданные как в структуре инвойса, так и в структуре любого платежа
+      этого инвойса. Данные описываются массивом JSON. В дальнейшем платформа предоставит
+      вам эти данные при запросе данных инвойса или платежа по его идентификатору
+      либо пришлет в асинхронном режиме на webhook, установленный для соответствующего
+      магазина, если он есть.
 
       ## События инвойса
 
