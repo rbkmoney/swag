@@ -71,6 +71,10 @@ responses:
     description: Неверные данные
     schema:
       $ref: '#/definitions/DefaultLogicError'
+  ExternalIDConflict:
+    description: Переданное значение внешнего идентификатора уже использовалось вами ранее с другими параметрами запроса
+    schema:
+      $ref: '#/definitions/ExternalIDConflictError'
 parameters:
   accountID:
     name: accountID
@@ -2088,6 +2092,8 @@ paths:
           $ref: '#/responses/Unauthorized'
         '404':
           $ref: '#/responses/NotFound'
+        '409':
+          $ref: '#/responses/ExternalIDConflict'
   '/processing/invoice-templates/{invoiceTemplateID}/payment-methods':
     get:
       description: Получить доступные для инвойса методы оплаты по шаблону инвойса.
@@ -2157,6 +2163,8 @@ paths:
                 example: Shop not found
         '401':
           $ref: '#/responses/Unauthorized'
+        '409':
+          $ref: '#/responses/ExternalIDConflict'
   '/processing/invoices/{invoiceID}':
     get:
       description: Получить данные инвойса по его идентификатору.
@@ -2381,6 +2389,8 @@ paths:
           $ref: '#/responses/Unauthorized'
         '404':
           $ref: '#/responses/NotFound'
+        '409':
+          $ref: '#/responses/ExternalIDConflict'
   '/processing/invoices/{invoiceID}/payments/{paymentID}':
     get:
       description: Получить данные платежа по указанному инвойсу.
@@ -2864,6 +2874,8 @@ paths:
           $ref: '#/responses/DefaultLogicError'
         '401':
           $ref: '#/responses/Unauthorized'
+        '409':
+          $ref: '#/responses/ExternalIDConflict'
   /processing/payouts:
     post:
       description: |
@@ -4170,6 +4182,29 @@ definitions:
               идентификатора кошелька Visa QIWI Wallet.
             pattern: '^\+\d{4,15}$'
             example: '+79876543210'
+  ExternalID:
+    description: |
+      Уникальный в рамках платформы идентификатор сущности для данного участника.
+      Используется для обеспечения идемпотентности запроса.
+    type: string
+    maxLength: 40
+    minLength: 1
+  ExternalIDConflictError:
+    type: object
+    required:
+      - externalID
+    properties:
+      externalID:
+        description: 'Переданное значение `externalID`, для которого обнаружен конфликт параметров запроса'
+        type: string
+        maxLength: 40
+        minLength: 1
+      id:
+        description: 'Идентификатор сущности, созданной предыдущим запросом с указанным `externalID`'
+        type: string
+      message:
+        description: Человекочитаемое описание ошибки
+        type: string
   FileMeta:
     type: object
     required:
@@ -4532,6 +4567,8 @@ definitions:
         type: string
         maxLength: 40
         minLength: 1
+      externalID:
+        $ref: '#/definitions/ExternalID'
       dueDate:
         description: |
           Дата и время окончания действия инвойса, после наступления которых его
@@ -4568,6 +4605,8 @@ definitions:
   InvoiceParamsWithTemplate:
     type: object
     properties:
+      externalID:
+        $ref: '#/definitions/ExternalID'
       amount:
         description: |
           Стоимость предлагаемых товаров или услуг, в минорных денежных единицах,
@@ -5228,6 +5267,8 @@ definitions:
       - flow
       - payer
     properties:
+      externalID:
+        $ref: '#/definitions/ExternalID'
       flow:
         $ref: '#/definitions/PaymentFlow'
       payer:
@@ -5285,6 +5326,8 @@ definitions:
       - paymentTool
       - clientInfo
     properties:
+      externalID:
+        $ref: '#/definitions/ExternalID'
       paymentTool:
         $ref: '#/definitions/PaymentTool'
       clientInfo:

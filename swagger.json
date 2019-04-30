@@ -50,6 +50,12 @@
       "schema": {
         "$ref": "#/definitions/DefaultLogicError"
       }
+    },
+    "ExternalIDConflict": {
+      "description": "Переданное значение внешнего идентификатора уже использовалось вами ранее с другими параметрами запроса",
+      "schema": {
+        "$ref": "#/definitions/ExternalIDConflictError"
+      }
     }
   },
   "parameters": {
@@ -2561,6 +2567,9 @@
           },
           "404": {
             "$ref": "#/responses/NotFound"
+          },
+          "409": {
+            "$ref": "#/responses/ExternalIDConflict"
           }
         }
       }
@@ -2668,6 +2677,9 @@
           },
           "401": {
             "$ref": "#/responses/Unauthorized"
+          },
+          "409": {
+            "$ref": "#/responses/ExternalIDConflict"
           }
         }
       }
@@ -3022,6 +3034,9 @@
           },
           "404": {
             "$ref": "#/responses/NotFound"
+          },
+          "409": {
+            "$ref": "#/responses/ExternalIDConflict"
           }
         }
       }
@@ -3801,6 +3816,9 @@
           },
           "401": {
             "$ref": "#/responses/Unauthorized"
+          },
+          "409": {
+            "$ref": "#/responses/ExternalIDConflict"
           }
         }
       }
@@ -5777,6 +5795,34 @@
         }
       ]
     },
+    "ExternalID": {
+      "description": "Уникальный в рамках платформы идентификатор сущности для данного участника.\nИспользуется для обеспечения идемпотентности запроса.\n",
+      "type": "string",
+      "maxLength": 40,
+      "minLength": 1
+    },
+    "ExternalIDConflictError": {
+      "type": "object",
+      "required": [
+        "externalID"
+      ],
+      "properties": {
+        "externalID": {
+          "description": "Переданное значение `externalID`, для которого обнаружен конфликт параметров запроса",
+          "type": "string",
+          "maxLength": 40,
+          "minLength": 1
+        },
+        "id": {
+          "description": "Идентификатор сущности, созданной предыдущим запросом с указанным `externalID`",
+          "type": "string"
+        },
+        "message": {
+          "description": "Человекочитаемое описание ошибки",
+          "type": "string"
+        }
+      }
+    },
     "FileMeta": {
       "type": "object",
       "required": [
@@ -6245,6 +6291,9 @@
           "maxLength": 40,
           "minLength": 1
         },
+        "externalID": {
+          "$ref": "#/definitions/ExternalID"
+        },
         "dueDate": {
           "description": "Дата и время окончания действия инвойса, после наступления которых его\nуже невозможно будет оплатить\n",
           "type": "string",
@@ -6283,6 +6332,9 @@
     "InvoiceParamsWithTemplate": {
       "type": "object",
       "properties": {
+        "externalID": {
+          "$ref": "#/definitions/ExternalID"
+        },
         "amount": {
           "description": "Стоимость предлагаемых товаров или услуг, в минорных денежных единицах,\nнапример в копейках в случае указания российских рублей в качестве валюты.\n",
           "type": "integer",
@@ -7198,6 +7250,9 @@
         "payer"
       ],
       "properties": {
+        "externalID": {
+          "$ref": "#/definitions/ExternalID"
+        },
         "flow": {
           "$ref": "#/definitions/PaymentFlow"
         },
@@ -7280,6 +7335,9 @@
         "clientInfo"
       ],
       "properties": {
+        "externalID": {
+          "$ref": "#/definitions/ExternalID"
+        },
         "paymentTool": {
           "$ref": "#/definitions/PaymentTool"
         },
