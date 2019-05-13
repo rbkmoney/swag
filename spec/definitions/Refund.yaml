@@ -29,5 +29,7 @@ x-merge-properties:
         description: Причина осуществления возврата
         type: string
       cart:
-        $ref: '#/definitions/InvoiceCart'
+        x-rebillyMerge:
+          - $ref: '#/definitions/InvoiceCart'
+          - description: Новая корзина с набором позиций **предоставляемых** товаров или услуг
   - $ref: '#/definitions/RefundStatus'
