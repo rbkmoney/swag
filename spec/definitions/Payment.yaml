@@ -14,7 +14,8 @@ x-merge-properties:
         description: Идентификатор платежа
         type: string
       externalID:
-        $ref: '#/definitions/ExternalID'
+        x-rebillyMerge:
+          - $ref: '#/definitions/ExternalID'
       invoiceID:
         description: 'Идентификатор инвойса, в рамках которого был создан платеж'
         type: string
