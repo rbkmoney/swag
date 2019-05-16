@@ -4,7 +4,8 @@ required:
   - clientInfo
 properties:
   externalID:
-    $ref: '#/definitions/ExternalID'
+    x-rebillyMerge:
+      - $ref: '#/definitions/ExternalID'
   paymentTool:
     $ref: '#/definitions/PaymentTool'
   clientInfo:
