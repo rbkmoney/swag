@@ -4395,7 +4395,13 @@ definitions:
         description: Идентификатор магазина
         type: string
       externalID:
-        $ref: '#/definitions/ExternalID'
+        description: |
+          Уникальный в рамках платформы идентификатор сущности для данного участника.
+
+          Используется для обеспечения идемпотентности запроса.
+        type: string
+        maxLength: 40
+        minLength: 1
       createdAt:
         description: Дата и время создания
         type: string
@@ -4588,7 +4594,13 @@ definitions:
         maxLength: 40
         minLength: 1
       externalID:
-        $ref: '#/definitions/ExternalID'
+        description: |
+          Уникальный в рамках платформы идентификатор сущности для данного участника.
+
+          Используется для обеспечения идемпотентности запроса.
+        type: string
+        maxLength: 40
+        minLength: 1
       dueDate:
         description: |
           Дата и время окончания действия инвойса, после наступления которых его
@@ -4626,7 +4638,13 @@ definitions:
     type: object
     properties:
       externalID:
-        $ref: '#/definitions/ExternalID'
+        description: |
+          Уникальный в рамках платформы идентификатор сущности для данного участника.
+
+          Используется для обеспечения идемпотентности запроса.
+        type: string
+        maxLength: 40
+        minLength: 1
       amount:
         description: |
           Стоимость предлагаемых товаров или услуг, в минорных денежных единицах,
@@ -5042,7 +5060,13 @@ definitions:
         description: Идентификатор платежа
         type: string
       externalID:
-        $ref: '#/definitions/ExternalID'
+        description: |
+          Уникальный в рамках платформы идентификатор сущности для данного участника.
+
+          Используется для обеспечения идемпотентности запроса.
+        type: string
+        maxLength: 40
+        minLength: 1
       invoiceID:
         description: 'Идентификатор инвойса, в рамках которого был создан платеж'
         type: string
@@ -5303,7 +5327,13 @@ definitions:
       - payer
     properties:
       externalID:
-        $ref: '#/definitions/ExternalID'
+        description: |
+          Уникальный в рамках платформы идентификатор сущности для данного участника.
+
+          Используется для обеспечения идемпотентности запроса.
+        type: string
+        maxLength: 40
+        minLength: 1
       flow:
         $ref: '#/definitions/PaymentFlow'
       payer:
@@ -5365,7 +5395,13 @@ definitions:
       - clientInfo
     properties:
       externalID:
-        $ref: '#/definitions/ExternalID'
+        description: |
+          Уникальный в рамках платформы идентификатор сущности для данного участника.
+
+          Используется для обеспечения идемпотентности запроса.
+        type: string
+        maxLength: 40
+        minLength: 1
       paymentTool:
         $ref: '#/definitions/PaymentTool'
       clientInfo:
