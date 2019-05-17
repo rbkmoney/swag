@@ -4836,6 +4836,15 @@
               "description": "Валюта, символьный код согласно [ISO 4217](http://www.iso.org/iso/home/standards/currency_codes.htm).",
               "type": "string",
               "pattern": "^[A-Z]{3}$"
+            },
+            "cart": {
+              "description": "Корзина с набором позиций **предоставляемых** товаров или услуг",
+              "type": "array",
+              "minItems": 1,
+              "maxItems": 100,
+              "items": {
+                "$ref": "#/definitions/InvoiceLine"
+              }
             }
           }
         }
@@ -6129,7 +6138,7 @@
       }
     },
     "InvoiceCart": {
-      "description": "Корзина с набором позиций продаваемых товаров или услуг\n",
+      "description": "Корзина с набором позиций товаров или услуг\n",
       "type": "array",
       "minItems": 1,
       "maxItems": 100,
@@ -6215,7 +6224,7 @@
           "maxLength": 1000
         },
         "quantity": {
-          "description": "Количество единиц товаров или услуг, предлагаемых на продажу в этой\nпозиции\n",
+          "description": "Количество единиц товаров или услуг, предлагаемых в этой\nпозиции\n",
           "type": "integer",
           "format": "int64",
           "minimum": 1,
@@ -7520,6 +7529,9 @@
               "type": "boolean",
               "default": false,
               "readOnly": true
+            },
+            "cart": {
+              "$ref": "#/definitions/InvoiceCart"
             }
           }
         }
@@ -8178,6 +8190,15 @@
           "description": "Причина осуществления возврата",
           "type": "string"
         },
+        "cart": {
+          "description": "Итоговая корзина предоставляемых товаров и услуг, которая должна формироваться из корзины инвойса исключением позиций, по которым производился возврат. Сумма корзины должна совпадать с суммой платежа за вычетом суммы возврата.\n",
+          "type": "array",
+          "minItems": 1,
+          "maxItems": 100,
+          "items": {
+            "$ref": "#/definitions/InvoiceLine"
+          }
+        },
         "status": {
           "description": "Статус возврата",
           "type": "string",
@@ -8225,6 +8246,15 @@
           "description": "Причина совершения возврата",
           "type": "string",
           "maxLength": 1000
+        },
+        "cart": {
+          "description": "Итоговая корзина предоставляемых товаров и услуг, которая должна формироваться из корзины инвойса исключением позиций, по которым производится возврат. Сумма корзины должна совпадать с суммой платежа за вычетом суммы осуществляемого возврата.\n",
+          "type": "array",
+          "minItems": 1,
+          "maxItems": 100,
+          "items": {
+            "$ref": "#/definitions/InvoiceLine"
+          }
         }
       }
     },
