@@ -63,6 +63,7 @@ post:
               - invalidPartyStatus
               - invalidShopStatus
               - invalidContractStatus
+              - invalidInvoiceCart
               - operationNotPermitted
               - invalidPaymentStatus
               - insufficentAccountBalance
