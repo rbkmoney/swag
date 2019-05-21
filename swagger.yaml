@@ -2500,6 +2500,7 @@ paths:
                   - invalidShopStatus
                   - invalidRequest
                   - invalidDeadline
+                  - invalidInvoiceCart
                   - inconsistentCaptureCurrency
                   - amountExceededCaptureBalance
               message:
@@ -2571,6 +2572,7 @@ paths:
                   - invalidPartyStatus
                   - invalidShopStatus
                   - invalidContractStatus
+                  - invalidInvoiceCart
                   - operationNotPermitted
                   - invalidPaymentStatus
                   - insufficentAccountBalance
