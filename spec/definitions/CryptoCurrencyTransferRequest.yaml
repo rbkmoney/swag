@@ -1,0 +1,26 @@
+type: object
+allOf:
+  - $ref: '#/definitions/UserInteraction'
+  - type: object
+    required:
+      - cryptoAddress
+      - symbolicCode
+    properties:
+      cryptoAddress:
+        description: Адрес криптовалютного кошелька
+        type: string
+        example: '2NBjv8rkUViGXAQar7n2BsdZjNQgupKtdPJ'
+      symbolicCode:
+        description: Символьный код криптовалюты
+        type: string
+        example: 'BTC'
+      numerator:
+        description: |
+          Часть суммы выплаты, расположенная в числителе рационального числа
+        type: integer
+        format: int64
+      denominator:
+        description: |
+          Часть суммы выплаты, расположенная в знаменателе рационального числа
+        type: integer
+        format: int64

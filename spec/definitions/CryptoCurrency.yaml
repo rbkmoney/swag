@@ -1,0 +1,9 @@
+description: Криптовалюта
+type: string
+enum:
+  - Bitcoin
+  - Litecoin
+  - BitcoinCash
+  - Ripple
+  - Ethereum
+  - Zcash
