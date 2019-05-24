@@ -60,4 +60,6 @@ allOf:
         x-rebillyMerge:
           - $ref: '#/definitions/PaymentMakeRecurrent'
           - readOnly: true
+      cart:
+        $ref: '#/definitions/InvoiceCart'
 

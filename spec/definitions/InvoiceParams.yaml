@@ -12,7 +12,8 @@ properties:
     maxLength: 40
     minLength: 1
   externalID:
-    $ref: '#/definitions/ExternalID'
+    x-rebillyMerge:
+      - $ref: '#/definitions/ExternalID'
   dueDate:
     description: |
       Дата и время окончания действия инвойса, после наступления которых его
