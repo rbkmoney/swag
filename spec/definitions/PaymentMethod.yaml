@@ -8,4 +8,4 @@ properties:
       - BankCard
       - PaymentTerminal
       - DigitalWallet
-      - CryptoCurrency
+      - CryptoCurrencyPaymentMethod

@@ -9,6 +9,6 @@ properties:
       - PaymentTerminalData
       - DigitalWalletData
       - TokenizedCardData
-      - CryptoCurrency
+      - CryptoCurrencyPaymentTool
 required:
   - paymentToolType

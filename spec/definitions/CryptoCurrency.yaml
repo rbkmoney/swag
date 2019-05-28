@@ -1,4 +1,4 @@
-description: Криптовалюта
+description: Тип криптовалюты
 type: string
 enum:
   - Bitcoin
