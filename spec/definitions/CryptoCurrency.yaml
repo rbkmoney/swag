@@ -1,9 +1,9 @@
 description: Тип криптовалюты
 type: string
 enum:
-  - Bitcoin
-  - Litecoin
-  - BitcoinCash
-  - Ripple
-  - Ethereum
-  - Zcash
+  - bitcoin
+  - litecoin
+  - bitcoinCash
+  - ripple
+  - ethereum
+  - zcash

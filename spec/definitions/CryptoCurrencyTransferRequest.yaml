@@ -17,5 +17,5 @@ allOf:
         example: 'BTC'
       cryptoAmount:
         description: Сумма денежных средств в криптовалюте
-        type: number
-        format: double
+        type: string
+        example: '0.0012'

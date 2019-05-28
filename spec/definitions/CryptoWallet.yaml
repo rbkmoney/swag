@@ -1,4 +1,4 @@
 type: object
 allOf:
   - $ref: '#/definitions/PaymentMethod'
-  - $ref: '#/definitions/CryptoCurrencyDetails'
+  - $ref: '#/definitions/CryptoWalletDetails'
