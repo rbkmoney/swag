@@ -3911,6 +3911,63 @@ definitions:
         type: integer
         format: int64
         minimum: 1
+  CryptoCurrency:
+    description: Тип криптовалюты
+    type: string
+    enum:
+      - bitcoin
+      - litecoin
+      - bitcoinCash
+      - ripple
+      - ethereum
+      - zcash
+  CryptoCurrencyTransferRequest:
+    type: object
+    allOf:
+      - $ref: '#/definitions/UserInteraction'
+      - type: object
+        required:
+          - cryptoAddress
+          - symbolicCode
+          - cryptoAmount
+        properties:
+          cryptoAddress:
+            description: Адрес криптовалютного кошелька
+            type: string
+            example: 2NBjv8rkUViGXAQar7n2BsdZjNQgupKtdPJ
+          symbolicCode:
+            description: Символьный код криптовалюты
+            type: string
+            example: BTC
+          cryptoAmount:
+            description: Сумма денежных средств в криптовалюте
+            type: string
+            example: '0.0012'
+            pattern: '^[0-9]+[.][0-9]+$'
+  CryptoWallet:
+    type: object
+    allOf:
+      - $ref: '#/definitions/PaymentMethod'
+      - $ref: '#/definitions/CryptoWalletDetails'
+  CryptoWalletData:
+    type: object
+    allOf:
+      - $ref: '#/definitions/PaymentTool'
+      - $ref: '#/definitions/CryptoWalletDetails'
+  CryptoWalletDetails:
+    required:
+      - cryptoCurrency
+    properties:
+      cryptoCurrency:
+        description: Тип криптовалюты
+        type: string
+        enum:
+          - bitcoin
+          - litecoin
+          - bitcoinCash
+          - ripple
+          - ethereum
+          - zcash
   Currency:
     description: 'Валюта, символьный код согласно [ISO 4217](http://www.iso.org/iso/home/standards/currency_codes.htm).'
     type: string
@@ -5280,6 +5337,7 @@ definitions:
           - BankCard
           - PaymentTerminal
           - DigitalWallet
+          - CryptoWallet
   PaymentMethodBankCardStat:
     type: object
     allOf:
@@ -5642,6 +5700,7 @@ definitions:
           - PaymentTerminalData
           - DigitalWalletData
           - TokenizedCardData
+          - CryptoWalletData
     required:
       - paymentToolType
   PaymentToolDetails:
@@ -5660,6 +5719,11 @@ definitions:
     allOf:
       - $ref: '#/definitions/PaymentToolDetails'
       - $ref: '#/definitions/BankCardDetails'
+  PaymentToolDetailsCryptoWallet:
+    type: object
+    allOf:
+      - $ref: '#/definitions/PaymentToolDetails'
+      - $ref: '#/definitions/CryptoWalletDetails'
   PaymentToolDetailsDigitalWallet:
     type: object
     allOf:
