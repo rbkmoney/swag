@@ -1,0 +1,25 @@
+get:
+  description: Получить платёж по указанному внешнему идентификатору.
+  tags:
+    - Payments
+  operationId: getPaymentByExternalID
+  parameters:
+    - $ref: '#/parameters/requestID'
+    - $ref: '#/parameters/deadline'
+    - name: externalID
+      description: Внешний идентификатор инвойса
+      in: query
+      required: true
+      schema:
+        $ref: '#/definitions/ExternalID'
+  responses:
+    '200':
+      description: Платёж
+      schema:
+        $ref: '#/definitions/Payment'
+    '404':
+      $ref: '#/responses/NotFound'
+    '401':
+      $ref: '#/responses/Unauthorized'
+    '400':
+      $ref: '#/responses/DefaultLogicError'
