@@ -7,7 +7,7 @@ get:
     - $ref: '#/parameters/requestID'
     - $ref: '#/parameters/deadline'
     - name: externalID
-      description: Внешний идентификатор инвойса
+      description: Внешний идентификатор платежа
       in: query
       required: true
       type: string
