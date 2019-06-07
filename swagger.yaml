@@ -2878,6 +2878,33 @@ paths:
           $ref: '#/responses/Unauthorized'
         '409':
           $ref: '#/responses/ExternalIDConflict'
+  /processing/payments:
+    get:
+      description: Получить платёж по указанному внешнему идентификатору.
+      tags:
+        - Payments
+      operationId: getPaymentByExternalID
+      parameters:
+        - $ref: '#/parameters/requestID'
+        - $ref: '#/parameters/deadline'
+        - name: externalID
+          description: Внешний идентификатор платежа
+          in: query
+          required: true
+          type: string
+          maxLength: 40
+          minLength: 1
+      responses:
+        '200':
+          description: Платёж
+          schema:
+            $ref: '#/definitions/Payment'
+        '400':
+          $ref: '#/responses/DefaultLogicError'
+        '401':
+          $ref: '#/responses/Unauthorized'
+        '404':
+          $ref: '#/responses/NotFound'
   /processing/payouts:
     post:
       description: |
