@@ -1,5 +1,5 @@
 type: object
-allOf:
+x-merge-properties:
   - type: object
     required:
       - id
@@ -28,4 +28,11 @@ allOf:
       reason:
         description: Причина осуществления возврата
         type: string
+      cart:
+        x-rebillyMerge:
+          - $ref: '#/definitions/InvoiceCart'
+          - description: >
+              Итоговая корзина предоставляемых товаров и услуг, которая должна формироваться
+              из корзины инвойса исключением позиций, по которым производился возврат.
+              Сумма корзины должна совпадать с суммой платежа за вычетом суммы возврата.
   - $ref: '#/definitions/RefundStatus'

@@ -1,5 +1,5 @@
 type: object
-allOf:
+x-merge-properties:
   - type: object
     required:
       - id
@@ -13,6 +13,9 @@ allOf:
       id:
         description: Идентификатор платежа
         type: string
+      externalID:
+        x-rebillyMerge:
+          - $ref: '#/definitions/ExternalID'
       invoiceID:
         description: 'Идентификатор инвойса, в рамках которого был создан платеж'
         type: string
@@ -41,4 +44,7 @@ allOf:
         x-rebillyMerge:
           - $ref: '#/definitions/PaymentMakeRecurrent'
           - readOnly: true
+      metadata:
+        description: Связанные с платежом метаданные
+        type: object
   - $ref: '#/definitions/PaymentStatus'

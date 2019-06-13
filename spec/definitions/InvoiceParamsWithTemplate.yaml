@@ -1,5 +1,8 @@
 type: object
 properties:
+  externalID:
+    x-rebillyMerge:
+      - $ref: '#/definitions/ExternalID'
   amount:
     description: |
       Стоимость предлагаемых товаров или услуг, в минорных денежных единицах,

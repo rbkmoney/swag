@@ -1,0 +1,6 @@
+required:
+  - cryptoCurrency
+properties:
+  cryptoCurrency:
+    x-rebillyMerge:
+      - $ref: '#/definitions/CryptoCurrency'

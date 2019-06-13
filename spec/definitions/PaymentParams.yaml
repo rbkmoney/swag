@@ -3,6 +3,9 @@ required:
   - flow
   - payer
 properties:
+  externalID:
+    x-rebillyMerge:
+      - $ref: '#/definitions/ExternalID'
   flow:
     $ref: '#/definitions/PaymentFlow'
   payer:
@@ -10,3 +13,6 @@ properties:
   makeRecurrent:
     x-rebillyMerge:
       - $ref: '#/definitions/PaymentMakeRecurrent'
+  metadata:
+    description: Метаданные, которые необходимо связать с платежом
+    type: object
