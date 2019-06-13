@@ -1,6 +1,4 @@
 type: object
-required:
-  - id
 properties:
   id:
     description: Идентификатор транзакции
@@ -10,6 +8,6 @@ properties:
   rrn:
     description: 'Retrieval Reference Number'
     type: string
-  aac:
+  approval_code:
     description: 'Authorization Approval Code'
     type: string
