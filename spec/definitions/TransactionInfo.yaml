@@ -1,0 +1,15 @@
+type: object
+required:
+  - id
+properties:
+  id:
+    description: Идентификатор транзакции
+    type: string
+  timestamp:
+    type: string
+  rrn:
+    description: 'Retrieval Reference Number'
+    type: string
+  aac:
+    description: 'Authorization Approval Code'
+    type: string
