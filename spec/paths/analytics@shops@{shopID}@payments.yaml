@@ -109,6 +109,8 @@ get:
       description: 'Authorization Approval Code'
       required: false
       type: string
+      maxLength: 40
+      minLength: 1
     - x-rebillyMerge:
       - name: bankCardTokenProvider
         in: query
