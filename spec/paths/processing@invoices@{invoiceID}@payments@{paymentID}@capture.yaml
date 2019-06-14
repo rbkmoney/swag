@@ -43,6 +43,7 @@ post:
               - invalidShopStatus
               - invalidRequest
               - invalidDeadline
+              - invalidInvoiceCart
               - inconsistentCaptureCurrency
               - amountExceededCaptureBalance
           message:
