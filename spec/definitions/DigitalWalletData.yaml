@@ -9,3 +9,6 @@ allOf:
         type: string
         enum:
           - DigitalWalletQIWI
+      accessToken:
+        type: string
+        description: Авторизационный токен
