@@ -4295,6 +4295,9 @@ definitions:
               идентификатора кошелька Visa QIWI Wallet.
             pattern: '^\+\d{4,15}$'
             example: '+79876543210'
+          accessToken:
+            type: string
+            description: Авторизационный токен
   ExternalID:
     description: |
       Уникальный в рамках платформы идентификатор сущности для данного участника.
