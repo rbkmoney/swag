@@ -892,18 +892,18 @@ paths:
             - unionpay
             - jcb
             - nspkmir
-        - name: bin
+        - name: first6
           in: query
-          description: BIN банка-эмитента карты
+          description: Первые 6 цифр номера карты
           required: false
           type: string
-          pattern: '^\d{6,8}$'
-        - name: lastDigits
+          pattern: '^\d{6}$'
+        - name: last4
           in: query
-          description: Последние цифры номера карты
+          description: Последние 4 цифры номера карты
           required: false
           type: string
-          pattern: '^\d{2,4}$'
+          pattern: '^\d{4}$'
         - name: paymentAmount
           in: query
           description: Сумма платежа
@@ -1037,18 +1037,18 @@ paths:
           type: string
           maxLength: 40
           minLength: 1
-        - name: bin
+        - name: first6
           in: query
-          description: BIN банка-эмитента карты
+          description: Первые 6 цифр номера карты
           required: false
           type: string
-          pattern: '^\d{6,8}$'
-        - name: lastDigits
+          pattern: '^\d{6}$'
+        - name: last4
           in: query
-          description: Последние цифры номера карты
+          description: Последние 4 цифры номера карты
           required: false
           type: string
-          pattern: '^\d{2,4}$'
+          pattern: '^\d{4}$'
         - name: bankCardTokenProvider
           in: query
           required: false
