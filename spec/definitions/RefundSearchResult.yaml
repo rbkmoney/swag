@@ -11,4 +11,7 @@ allOf:
       paymentID:
         description: Идентификатор платежа
         type: string
+      transactionInfo:
+        description: 'Информация о транзакции'
+        $ref: '#/definitions/TransactionInfo'
   - $ref: '#/definitions/Refund'
