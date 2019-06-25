@@ -40,6 +40,19 @@ get:
         - pending
         - succeeded
         - failed
+    - name: rrn
+      in: query
+      description: 'Retrieval Reference Number'
+      required: false
+      type: string
+      pattern: '^\d{12}$'
+    - name: approval_code
+      in: query
+      description: 'Authorization Approval Code'
+      required: false
+      type: string
+      maxLength: 40
+      minLength: 1
   responses:
     '200':
       description: Найденные возвраты
