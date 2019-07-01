@@ -896,6 +896,23 @@
             "pattern": "^\\d{4}$"
           },
           {
+            "name": "rrn",
+            "in": "query",
+            "description": "Retrieval Reference Number",
+            "required": false,
+            "type": "string",
+            "pattern": "^\\d{12}$"
+          },
+          {
+            "name": "approval_code",
+            "in": "query",
+            "description": "Authorization Approval Code",
+            "required": false,
+            "type": "string",
+            "maxLength": 40,
+            "minLength": 1
+          },
+          {
             "name": "bankCardTokenProvider",
             "in": "query",
             "required": false,
@@ -7479,6 +7496,10 @@
               "type": "string",
               "format": "date-time"
             },
+            "transactionInfo": {
+              "description": "Информация о транзакции",
+              "$ref": "#/definitions/TransactionInfo"
+            },
             "makeRecurrent": {
               "description": "Признак создания родительского рекуррентного платежа.\nУспешно проведеный платеж с этим признаком можно использовать как родительский в других рекуррентных платежах.\n",
               "type": "boolean",
@@ -9023,6 +9044,26 @@
           ]
         }
       ]
+    },
+    "TransactionInfo": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "description": "Идентификатор транзакции",
+          "type": "string"
+        },
+        "timestamp": {
+          "type": "string"
+        },
+        "rrn": {
+          "description": "Retrieval Reference Number",
+          "type": "string"
+        },
+        "approval_code": {
+          "description": "Authorization Approval Code",
+          "type": "string"
+        }
+      }
     },
     "UserInteraction": {
       "type": "object",
