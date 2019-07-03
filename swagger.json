@@ -9059,7 +9059,7 @@
           "description": "Retrieval Reference Number",
           "type": "string"
         },
-        "approval_code": {
+        "approvalCode": {
           "description": "Authorization Approval Code",
           "type": "string"
         }
