@@ -104,7 +104,7 @@ get:
       required: false
       type: string
       pattern: '^\d{12}$'
-    - name: approval_code
+    - name: approvalCode
       in: query
       description: 'Authorization Approval Code'
       required: false
