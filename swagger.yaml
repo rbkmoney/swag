@@ -1055,7 +1055,7 @@ paths:
           required: false
           type: string
           pattern: '^\d{12}$'
-        - name: approval_code
+        - name: approvalCode
           in: query
           description: Authorization Approval Code
           required: false
@@ -6528,11 +6528,6 @@ definitions:
   TransactionInfo:
     type: object
     properties:
-      id:
-        description: Идентификатор транзакции
-        type: string
-      timestamp:
-        type: string
       rrn:
         description: Retrieval Reference Number
         type: string
