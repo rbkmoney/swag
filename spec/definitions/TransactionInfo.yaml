@@ -1,0 +1,8 @@
+type: object
+properties:
+  rrn:
+    description: 'Retrieval Reference Number'
+    type: string
+  approvalCode:
+    description: 'Authorization Approval Code'
+    type: string

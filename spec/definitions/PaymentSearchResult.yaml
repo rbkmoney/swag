@@ -56,6 +56,9 @@ allOf:
         description: Дата и время изменения статуса платежа
         type: string
         format: date-time
+      transactionInfo:
+        description: 'Информация о транзакции'
+        $ref: '#/definitions/TransactionInfo'
       makeRecurrent:
         x-rebillyMerge:
           - $ref: '#/definitions/PaymentMakeRecurrent'
