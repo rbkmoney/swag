@@ -11,3 +11,5 @@ allOf:
         $ref: '#/definitions/ContactInfo'
       recurrentParentPayment:
         $ref: '#/definitions/PaymentRecurrentParent'
+      paymentTool:
+        $ref: '#/definitions/PaymentTool'
