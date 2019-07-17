@@ -4,7 +4,5 @@ properties:
   payerType:
     description: Тип платежного средства
     type: string
-  paymentTool:
-    $ref: '#/definitions/PaymentTool'
 required:
   - payerType
