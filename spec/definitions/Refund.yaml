@@ -10,6 +10,9 @@ allOf:
       id:
         description: Идентификатор возврата
         type: string
+      externalID:
+        x-rebillyMerge:
+          - $ref: '#/definitions/ExternalID'
       createdAt:
         description: Дата и время осуществления
         type: string

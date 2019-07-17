@@ -74,3 +74,5 @@ post:
             description: Человекочитаемое описание ошибки
             type: string
             example: Operation not permitted
+    '409':
+      $ref: '#/responses/ExternalIDConflict'
