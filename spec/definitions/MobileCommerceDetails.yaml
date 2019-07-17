@@ -7,7 +7,7 @@ properties:
     description: Номер мобильного телефона
     type: string
     pattern: '^\d{4,15}$'
-    example: '+79114360102'
+    example: '79114360102'
   operator:
     x-rebillyMerge:
       - $ref: '#/definitions/MobileCommerceOperator'

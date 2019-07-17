@@ -2,7 +2,7 @@ description: Мобильный оператор
 type: string
 enum:
   - mts
-  - megafone
+  - megafon
   - tele2
   - yota
   - beeline
