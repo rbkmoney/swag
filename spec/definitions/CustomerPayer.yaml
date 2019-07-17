@@ -11,5 +11,9 @@ allOf:
         type: string
         maxLength: 40
         minLength: 1
-      paymentTool:
-        $ref: '#/definitions/PaymentTool'
+      paymentToolToken:
+        description: Токен платежного средства, предоставленного плательщиком
+        type: string
+        maxLength: 1000
+      paymentToolDetails:
+        $ref: '#/definitions/PaymentToolDetails'
