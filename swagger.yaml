@@ -2601,6 +2601,8 @@ paths:
           $ref: '#/responses/Unauthorized'
         '404':
           $ref: '#/responses/NotFound'
+        '409':
+          $ref: '#/responses/ExternalIDConflict'
   '/processing/invoices/{invoiceID}/payments/{paymentID}/refunds/{refundID}':
     get:
       description: Получить данные определённого возврата указанного платежа.
@@ -6072,6 +6074,14 @@ definitions:
       id:
         description: Идентификатор возврата
         type: string
+      externalID:
+        description: |
+          Уникальный в рамках платформы идентификатор сущности для данного участника.
+
+          Используется для обеспечения идемпотентности запроса.
+        type: string
+        maxLength: 40
+        minLength: 1
       createdAt:
         description: Дата и время осуществления
         type: string
@@ -6122,6 +6132,14 @@ definitions:
   RefundParams:
     type: object
     properties:
+      externalID:
+        description: |
+          Уникальный в рамках платформы идентификатор сущности для данного участника.
+
+          Используется для обеспечения идемпотентности запроса.
+        type: string
+        maxLength: 40
+        minLength: 1
       amount:
         description: |
           Сумма возврата, в минорных денежных единицах,

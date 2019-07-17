@@ -3353,6 +3353,9 @@
           },
           "404": {
             "$ref": "#/responses/NotFound"
+          },
+          "409": {
+            "$ref": "#/responses/ExternalIDConflict"
           }
         }
       }
@@ -8361,6 +8364,12 @@
           "description": "Идентификатор возврата",
           "type": "string"
         },
+        "externalID": {
+          "description": "Уникальный в рамках платформы идентификатор сущности для данного участника.\n\nИспользуется для обеспечения идемпотентности запроса.\n",
+          "type": "string",
+          "maxLength": 40,
+          "minLength": 1
+        },
         "createdAt": {
           "description": "Дата и время осуществления",
           "type": "string",
@@ -8422,6 +8431,12 @@
     "RefundParams": {
       "type": "object",
       "properties": {
+        "externalID": {
+          "description": "Уникальный в рамках платформы идентификатор сущности для данного участника.\n\nИспользуется для обеспечения идемпотентности запроса.\n",
+          "type": "string",
+          "maxLength": 40,
+          "minLength": 1
+        },
         "amount": {
           "description": "Сумма возврата, в минорных денежных единицах,\nнапример в копейках в случае указания российских рублей в качестве\nвалюты.\n",
           "type": "integer",
