@@ -1,0 +1,16 @@
+type: object
+description: Телефонный номер согласно (E.164 — рекомендация ITU-T)
+required:
+  - cc
+  - ctn
+properties:
+  cc:
+    description: Код страны (1-3 цифры)
+    type: string
+    pattern: '^\d{1,3}$'
+    example: "7"
+  ctn:
+    description: Номер абонента
+    type: string
+    pattern: '^\d{10,12}$'
+    example: "9214560102"

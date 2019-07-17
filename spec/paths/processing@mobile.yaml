@@ -1,0 +1,42 @@
+post:
+  description: |
+    Определение сотового оператора по номеру телефона
+  operationId: getOperator
+  tags:
+    - MobileCommerce
+  parameters:
+    - $ref: '#/parameters/requestID'
+    - $ref: '#/parameters/deadline'
+    - name: mobilePhone
+      in: body
+      required: true
+      schema:
+        $ref: '#/definitions/MobileCommercePhone'
+  responses:
+    '201':
+      description: Мобильный оператор
+      schema:
+        type: object
+        required:
+          - operator
+        properties:
+          operator:
+            $ref: '#/definitions/MobileCommerceOperator'
+    '400':
+      description: Ошибочные данные
+      schema:
+        type: object
+        required:
+          - code
+          - message
+        properties:
+          code:
+            description: |
+              [Код ошибки]
+            type: string
+            enum:
+              - badPhoneFormat
+              - operatorNotFound
+          message:
+            description: Человекочитаемое описание ошибки
+            type: string
