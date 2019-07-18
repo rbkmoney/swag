@@ -1,8 +1,8 @@
 get:
-  description: Получить все возвраты указанного платежа.
+  description: Получить все возвратные платежи по указанному платежу.
   tags:
     - Payments
-  operationId: getRefunds
+  operationId: getChargebacks
   parameters:
     - $ref: '#/parameters/requestID'
     - $ref: '#/parameters/deadline'
@@ -10,11 +10,11 @@ get:
     - $ref: '#/parameters/paymentID'
   responses:
     '200':
-      description: Данные возвратов по платежу
+      description: Данные возвратных платежей по платежу
       schema:
         type: array
         items:
-          $ref: '#/definitions/Refund'
+          $ref: '#/definitions/Chargeback'
     '404':
       $ref: '#/responses/NotFound'
     '401':
@@ -23,32 +23,32 @@ get:
       $ref: '#/responses/DefaultLogicError'
 
 post:
-  description: Создать возврат указанного платежа
+  description: Создать возвратный платёж указанного платежа
   tags:
     - Payments
-  operationId: createRefund
+  operationId: createChargeback
   parameters:
     - $ref: '#/parameters/requestID'
     - $ref: '#/parameters/deadline'
     - $ref: '#/parameters/invoiceID'
     - $ref: '#/parameters/paymentID'
-    - name: refundParams
-      description: Параметры создаваемого возврата платежа
+    - name: chargebackParams
+      description: Параметры создаваемого возвратного платежа
       in: body
       required: true
       schema:
-        $ref: '#/definitions/RefundParams'
+        $ref: '#/definitions/ChargebackParams'
   responses:
     '201':
-      description: Возврат создан
+      description: Возвратный платёж создан
       schema:
-        $ref: '#/definitions/Refund'
+        $ref: '#/definitions/Chargeback'
     '404':
       $ref: '#/responses/NotFound'
     '401':
       $ref: '#/responses/Unauthorized'
     '400':
-      description: Ошибочные данные для возврата
+      description: Ошибочные данные для возвратного платежа
       schema:
         type: object
         required:
@@ -71,7 +71,6 @@ post:
               - inconsistentRefundCurrency
               - invalidRequest
               - invalidDeadline
-              - chargebackInProgress
           message:
             description: Человекочитаемое описание ошибки
             type: string
