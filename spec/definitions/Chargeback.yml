@@ -1,0 +1,38 @@
+type: object
+x-merge-properties:
+  - type: object
+    required:
+      - id
+      - createdAt
+      - amount
+      - currency
+    properties:
+      id:
+        description: Идентификатор возвратного платежа
+        type: string
+      createdAt:
+        description: Дата и время осуществления
+        type: string
+        format: date-time
+      amount:
+        description: >
+          Сумма возвратного платежа, в минорных денежных единицах,
+          например в копейках в случае указания российских рублей в качестве
+          валюты.
+        type: integer
+        format: int64
+        minimum: 1
+      currency:
+        x-rebillyMerge:
+          - $ref: '#/definitions/Currency'
+      reasonCode:
+        description: Код причины возвратного платежа
+        type: string
+      cart:
+        x-rebillyMerge:
+          - $ref: '#/definitions/InvoiceCart'
+          - description: >
+              Итоговая корзина предоставляемых товаров и услуг, которая должна формироваться
+              из корзины инвойса исключением позиций, по которым производился возврат.
+              Сумма корзины должна совпадать с суммой платежа за вычетом суммы возврата.
+  - $ref: '#/definitions/ChargebackStatus'
