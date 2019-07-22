@@ -1,0 +1,53 @@
+get:
+  description: Получить данные определённого возвратного платежа указанного платежа.
+  tags:
+    - Payments
+  operationId: getChargebackByID
+  parameters:
+    - $ref: '#/parameters/requestID'
+    - $ref: '#/parameters/deadline'
+    - $ref: '#/parameters/invoiceID'
+    - $ref: '#/parameters/paymentID'
+    - $ref: '#/parameters/refundID'
+  responses:
+    '200':
+      description: Данные возвратного платежа
+      schema:
+        $ref: '#/definitions/Chargeback'
+    '404':
+      $ref: '#/responses/NotFound'
+    '401':
+      $ref: '#/responses/Unauthorized'
+    '400':
+      $ref: '#/responses/DefaultLogicError'
+
+post:
+  description: Обновить данные определённого возвратного платежа указанного платежа.
+  tags:
+    - Payments
+  operationId: updateChargebackStatus
+  parameters:
+    - $ref: '#/parameters/requestID'
+    - $ref: '#/parameters/deadline'
+    - $ref: '#/parameters/invoiceID'
+    - $ref: '#/parameters/paymentID'
+    - $ref: '#/parameters/refundID'
+    - name: status
+      description: Параметры создаваемого возвратного платежа
+      in: body
+      required: true
+      enum:
+        - rejected
+        - accepted
+        - fulfilled
+  responses:
+    '200':
+      description: Данные возвратного платежа
+      schema:
+        $ref: '#/definitions/Chargeback'
+    '404':
+      $ref: '#/responses/NotFound'
+    '401':
+      $ref: '#/responses/Unauthorized'
+    '400':
+      $ref: '#/responses/DefaultLogicError'
