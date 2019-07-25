@@ -11,7 +11,7 @@ x-merge-properties:
         description: Идентификатор возвратного платежа
         type: string
       createdAt:
-        description: Дата и время осуществления
+        description: Дата и время создания
         type: string
         format: date-time
       amount:
@@ -28,11 +28,11 @@ x-merge-properties:
       reasonCode:
         description: Код причины возвратного платежа
         type: string
-      cart:
-        x-rebillyMerge:
-          - $ref: '#/definitions/InvoiceCart'
-          - description: >
-              Итоговая корзина предоставляемых товаров и услуг, которая должна формироваться
-              из корзины инвойса исключением позиций, по которым производился возврат.
-              Сумма корзины должна совпадать с суммой платежа за вычетом суммы возврата.
-  - $ref: '#/definitions/ChargebackStatus'
+      # cart:
+      #   x-rebillyMerge:
+      #     - $ref: '#/definitions/InvoiceCart'
+      #     - description: >
+      #         Итоговая корзина предоставляемых товаров и услуг, которая должна формироваться
+      #         из корзины инвойса исключением позиций, по которым производился возврат.
+      #         Сумма корзины должна совпадать с суммой платежа за вычетом суммы возврата.
+  # - $ref: '#/definitions/ChargebackStatus'
