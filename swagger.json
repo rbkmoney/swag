@@ -5077,7 +5077,8 @@
         "id",
         "createdAt",
         "amount",
-        "currency"
+        "currency",
+        "reasonCode"
       ],
       "properties": {
         "id": {
