@@ -8,7 +8,7 @@ get:
     - $ref: '#/parameters/deadline'
     - $ref: '#/parameters/invoiceID'
     - $ref: '#/parameters/paymentID'
-    - $ref: '#/parameters/refundID'
+    - $ref: '#/parameters/chargebackID'
   responses:
     '200':
       description: Данные возвратного платежа
@@ -31,7 +31,7 @@ post:
     - $ref: '#/parameters/deadline'
     - $ref: '#/parameters/invoiceID'
     - $ref: '#/parameters/paymentID'
-    - $ref: '#/parameters/refundID'
+    - $ref: '#/parameters/chargebackID'
     - name: status
       description: Параметры создаваемого возвратного платежа
       in: body
