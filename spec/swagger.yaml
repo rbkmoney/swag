@@ -188,6 +188,14 @@ parameters:
     type: string
     maxLength: 40
     minLength: 1
+  chargebackID:
+    name: refundID
+    in: path
+    description: Идентификатор возвратного платежа в рамках платежа
+    required: true
+    type: string
+    maxLength: 40
+    minLength: 1
   contractID:
     name: contractID
     in: path
