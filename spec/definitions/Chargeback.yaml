@@ -6,6 +6,7 @@ x-merge-properties:
       - createdAt
       - amount
       - currency
+      - reasonCode
     properties:
       id:
         description: Идентификатор возвратного платежа
