@@ -40,6 +40,13 @@ get:
         - pending
         - succeeded
         - failed
+    - name: exludedShops
+      in: query
+      description: ID магазинов, исключаемых из поиска
+      required: false
+      type: array
+      items:
+        type: string
   responses:
     '200':
       description: Найденные возвраты
