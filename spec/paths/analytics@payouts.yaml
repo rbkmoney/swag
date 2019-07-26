@@ -28,7 +28,7 @@ get:
         - Wallet
     - name: exludedShops
       in: query
-      description: ID магазинов, исключаемых из поиска
+      description: Идентификаторы магазинов, исключаемых из поиска
       required: false
       type: array
       items:
