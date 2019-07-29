@@ -3286,6 +3286,85 @@
             "$ref": "#/responses/NotFound"
           }
         }
+      },
+      "post": {
+        "description": "Создать возвратный платёж указанного платежа",
+        "tags": [
+          "Payments"
+        ],
+        "operationId": "createChargeback",
+        "parameters": [
+          {
+            "$ref": "#/parameters/requestID"
+          },
+          {
+            "$ref": "#/parameters/deadline"
+          },
+          {
+            "$ref": "#/parameters/invoiceID"
+          },
+          {
+            "$ref": "#/parameters/paymentID"
+          },
+          {
+            "name": "chargebackParams",
+            "description": "Параметры создаваемого возвратного платежа",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/ChargebackParams"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Возвратный платёж создан",
+            "schema": {
+              "$ref": "#/definitions/Chargeback"
+            }
+          },
+          "400": {
+            "description": "Ошибочные данные для возвратного платежа",
+            "schema": {
+              "type": "object",
+              "required": [
+                "code",
+                "message"
+              ],
+              "properties": {
+                "code": {
+                  "description": "[Код ошибки](#tag/Error-Codes)\n",
+                  "type": "string",
+                  "enum": [
+                    "invalidPartyStatus",
+                    "invalidShopStatus",
+                    "invalidContractStatus",
+                    "operationNotPermitted",
+                    "invalidPaymentStatus",
+                    "insufficentAccountBalance",
+                    "invoicePaymentAmountExceeded",
+                    "invalidRequest",
+                    "invalidDeadline"
+                  ]
+                },
+                "message": {
+                  "description": "Человекочитаемое описание ошибки",
+                  "type": "string",
+                  "example": "Operation not permitted"
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/responses/Unauthorized"
+          },
+          "404": {
+            "$ref": "#/responses/NotFound"
+          },
+          "409": {
+            "$ref": "#/responses/ExternalIDConflict"
+          }
+        }
       }
     },
     "/processing/invoices/{invoiceID}/payments/{paymentID}/chargebacks/{chargebackID}": {
@@ -3327,6 +3406,59 @@
           },
           "404": {
             "$ref": "#/responses/NotFound"
+          }
+        }
+      },
+      "post": {
+        "description": "Обновить данные определённого возвратного платежа указанного платежа.",
+        "tags": [
+          "Payments"
+        ],
+        "operationId": "updateChargeback",
+        "parameters": [
+          {
+            "$ref": "#/parameters/requestID"
+          },
+          {
+            "$ref": "#/parameters/deadline"
+          },
+          {
+            "$ref": "#/parameters/invoiceID"
+          },
+          {
+            "$ref": "#/parameters/paymentID"
+          },
+          {
+            "$ref": "#/parameters/chargebackID"
+          },
+          {
+            "name": "chargebackParams",
+            "description": "Параметры изменяеомго возвратного платежа",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/ChargebackParams"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Данные возвратного платежа",
+            "schema": {
+              "$ref": "#/definitions/Chargeback"
+            }
+          },
+          "400": {
+            "$ref": "#/responses/DefaultLogicError"
+          },
+          "401": {
+            "$ref": "#/responses/Unauthorized"
+          },
+          "404": {
+            "$ref": "#/responses/NotFound"
+          },
+          "409": {
+            "$ref": "#/responses/ExternalIDConflict"
           }
         }
       }
@@ -5103,7 +5235,8 @@
         },
         "reasonCode": {
           "description": "Код причины возвратного платежа",
-          "type": "string"
+          "type": "string",
+          "maxLength": 1000
         }
       }
     },
@@ -5126,14 +5259,23 @@
           "type": "string",
           "maxLength": 1000
         },
-        "cart": {
-          "description": "Итоговая корзина предоставляемых товаров и услуг, которая должна формироваться из корзины инвойса исключением позиций, по которым производится возврат. Сумма корзины должна совпадать с суммой платежа за вычетом суммы осуществляемого возврата.\n",
-          "type": "array",
-          "minItems": 1,
-          "maxItems": 100,
-          "items": {
-            "$ref": "#/definitions/InvoiceLine"
-          }
+        "comment": {
+          "description": "Комментарий к изменению",
+          "type": "string",
+          "maxLength": 1000
+        },
+        "status": {
+          "enum": [
+            "chargeback_created",
+            "chargeback_awaiting_merchant",
+            "chargeback_awaiting_issuer",
+            "pre_arbitration_created",
+            "pre_arbitration_awaiting_merchant",
+            "pre_arbitration_awaiting_issuer",
+            "arbitration_started",
+            "won",
+            "lost"
+          ]
         }
       }
     },
