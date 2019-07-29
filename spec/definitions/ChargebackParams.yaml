@@ -15,12 +15,18 @@ properties:
     description: Код причины возвратного платежа
     type: string
     maxLength: 1000
-  cart:
-    x-rebillyMerge:
-      - $ref: '#/definitions/InvoiceCart'
-      - description: >
-          Итоговая корзина предоставляемых товаров и услуг, которая должна формироваться
-          из корзины инвойса исключением позиций, по которым производится возврат.
-          Сумма корзины должна совпадать с суммой платежа за вычетом суммы осуществляемого
-          возврата.
-
+  comment:
+    description: Комментарий к изменению
+    type: string
+    maxLength: 1000
+  status:
+    enum:
+      - chargeback_created
+      - chargeback_awaiting_merchant
+      - chargeback_awaiting_issuer
+      - pre_arbitration_created
+      - pre_arbitration_awaiting_merchant
+      - pre_arbitration_awaiting_issuer
+      - arbitration_started
+      - won
+      - lost
