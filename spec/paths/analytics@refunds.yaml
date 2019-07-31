@@ -40,7 +40,7 @@ get:
         - pending
         - succeeded
         - failed
-    - name: exludedShops
+    - name: excludedShops
       in: query
       description: Идентификаторы магазинов, исключаемых из поиска
       required: false

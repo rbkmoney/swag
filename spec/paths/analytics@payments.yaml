@@ -128,7 +128,7 @@ get:
       type: integer
       format: int64
       minimum: 1
-    - name: exludedShops
+    - name: excludedShops
       in: query
       description: Идентификаторы магазинов, исключаемых из поиска
       required: false
