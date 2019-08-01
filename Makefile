@@ -5,7 +5,7 @@ UTILS_PATH := build_utils
 TEMPLATES_PATH := .
 
 # Name of the service
-SERVICE_NAME := swag-v2
+SERVICE_NAME := common-api
 # Service image default tag
 SERVICE_IMAGE_TAG ?= $(shell git rev-parse HEAD)
 # The tag for service image to be pushed with
