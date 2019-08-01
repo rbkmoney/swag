@@ -1,5 +1,5 @@
 #!groovy
-build('swag-v2', 'docker-host') {
+build('common-api', 'docker-host') {
     checkoutRepo()
     loadBuildUtils()
 
