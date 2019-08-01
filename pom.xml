@@ -169,6 +169,7 @@
                 </plugins>
             </build>
         </profile>
+
         <profile>
             <id>client</id>
             <build>
