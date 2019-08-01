@@ -19,7 +19,7 @@
     </description>
 
     <properties>
-        <default.package>com.rbkmoney.swag.swag_v2</default.package>
+        <default.package>com.rbkmoney.swag.common_api</default.package>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <swagger-annotations-version>1.5.21</swagger-annotations-version>
         <jodatime-version>2.7</jodatime-version>
