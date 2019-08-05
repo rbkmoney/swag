@@ -918,6 +918,13 @@ paths:
           type: integer
           format: int64
           minimum: 1
+        - name: excludedShops
+          in: query
+          description: 'Идентификаторы магазинов, исключаемых из поиска'
+          required: false
+          type: array
+          items:
+            type: string
         - name: continuationToken
           in: query
           required: false
@@ -1096,6 +1103,13 @@ paths:
           type: integer
           format: int64
           minimum: 1
+        - name: excludedShops
+          in: query
+          description: 'Идентификаторы магазинов, исключаемых из поиска'
+          required: false
+          type: array
+          items:
+            type: string
         - name: continuationToken
           in: query
           required: false
@@ -1240,6 +1254,21 @@ paths:
           enum:
             - PayoutAccount
             - Wallet
+        - name: excludedShops
+          in: query
+          description: 'Идентификаторы магазинов, исключаемых из поиска'
+          required: false
+          type: array
+          items:
+            type: string
+        - name: continuationToken
+          in: query
+          required: false
+          description: |
+            Токен, сигнализирующий о том, что в ответе передана только часть данных.
+            Для получения следующей части нужно повторно обратиться к сервису, указав тот-же набор условий и полученый токен.
+            Если токена нет, получена последняя часть данных.
+          type: string
       responses:
         '200':
           description: Найденные выплаты
@@ -1248,6 +1277,12 @@ paths:
             properties:
               totalCount:
                 type: integer
+              continuationToken:
+                description: |
+                  Токен, сигнализирующий о том, что в ответе передана только часть данных.
+                  Для получения следующей части нужно повторно обратиться к сервису, указав тот-же набор условий и полученый токен.
+                  Если токена нет, получена последняя часть данных.
+                type: string
               result:
                 type: array
                 items:
@@ -1301,6 +1336,21 @@ paths:
             - pending
             - succeeded
             - failed
+        - name: excludedShops
+          in: query
+          description: 'Идентификаторы магазинов, исключаемых из поиска'
+          required: false
+          type: array
+          items:
+            type: string
+        - name: continuationToken
+          in: query
+          required: false
+          description: |
+            Токен, сигнализирующий о том, что в ответе передана только часть данных.
+            Для получения следующей части нужно повторно обратиться к сервису, указав тот-же набор условий и полученый токен.
+            Если токена нет, получена последняя часть данных.
+          type: string
       responses:
         '200':
           description: Найденные возвраты
@@ -1309,6 +1359,12 @@ paths:
             properties:
               totalCount:
                 type: integer
+              continuationToken:
+                description: |
+                  Токен, сигнализирующий о том, что в ответе передана только часть данных.
+                  Для получения следующей части нужно повторно обратиться к сервису, указав тот-же набор условий и полученый токен.
+                  Если токена нет, получена последняя часть данных.
+                type: string
               result:
                 type: array
                 items:

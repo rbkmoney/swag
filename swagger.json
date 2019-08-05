@@ -715,6 +715,16 @@
             "minimum": 1
           },
           {
+            "name": "excludedShops",
+            "in": "query",
+            "description": "Идентификаторы магазинов, исключаемых из поиска",
+            "required": false,
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          {
             "name": "continuationToken",
             "in": "query",
             "required": false,
@@ -953,6 +963,16 @@
             "type": "integer",
             "format": "int64",
             "minimum": 1
+          },
+          {
+            "name": "excludedShops",
+            "in": "query",
+            "description": "Идентификаторы магазинов, исключаемых из поиска",
+            "required": false,
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
           },
           {
             "name": "continuationToken",
@@ -1197,6 +1217,23 @@
               "PayoutAccount",
               "Wallet"
             ]
+          },
+          {
+            "name": "excludedShops",
+            "in": "query",
+            "description": "Идентификаторы магазинов, исключаемых из поиска",
+            "required": false,
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "continuationToken",
+            "in": "query",
+            "required": false,
+            "description": "Токен, сигнализирующий о том, что в ответе передана только часть данных.\nДля получения следующей части нужно повторно обратиться к сервису, указав тот-же набор условий и полученый токен.\nЕсли токена нет, получена последняя часть данных.\n",
+            "type": "string"
           }
         ],
         "responses": {
@@ -1207,6 +1244,10 @@
               "properties": {
                 "totalCount": {
                   "type": "integer"
+                },
+                "continuationToken": {
+                  "description": "Токен, сигнализирующий о том, что в ответе передана только часть данных.\nДля получения следующей части нужно повторно обратиться к сервису, указав тот-же набор условий и полученый токен.\nЕсли токена нет, получена последняя часть данных.\n",
+                  "type": "string"
                 },
                 "result": {
                   "type": "array",
@@ -1295,6 +1336,23 @@
               "succeeded",
               "failed"
             ]
+          },
+          {
+            "name": "excludedShops",
+            "in": "query",
+            "description": "Идентификаторы магазинов, исключаемых из поиска",
+            "required": false,
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "continuationToken",
+            "in": "query",
+            "required": false,
+            "description": "Токен, сигнализирующий о том, что в ответе передана только часть данных.\nДля получения следующей части нужно повторно обратиться к сервису, указав тот-же набор условий и полученый токен.\nЕсли токена нет, получена последняя часть данных.\n",
+            "type": "string"
           }
         ],
         "responses": {
@@ -1305,6 +1363,10 @@
               "properties": {
                 "totalCount": {
                   "type": "integer"
+                },
+                "continuationToken": {
+                  "description": "Токен, сигнализирующий о том, что в ответе передана только часть данных.\nДля получения следующей части нужно повторно обратиться к сервису, указав тот-же набор условий и полученый токен.\nЕсли токена нет, получена последняя часть данных.\n",
+                  "type": "string"
                 },
                 "result": {
                   "type": "array",
