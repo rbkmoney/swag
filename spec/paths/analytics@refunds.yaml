@@ -40,6 +40,18 @@ get:
         - pending
         - succeeded
         - failed
+    - name: excludedShops
+      in: query
+      description: Идентификаторы магазинов, исключаемых из поиска
+      required: false
+      type: array
+      items:
+        type: string
+    - x-rebillyMerge:
+      - name: continuationToken
+        in: query
+        required: false
+      - $ref: '#/definitions/ContinuationToken'
   responses:
     '200':
       description: Найденные возвраты
@@ -48,6 +60,9 @@ get:
         properties:
           totalCount:
             type: integer
+          continuationToken:
+            x-rebillyMerge:
+              - $ref: '#/definitions/ContinuationToken'
           result:
             type: array
             items:
