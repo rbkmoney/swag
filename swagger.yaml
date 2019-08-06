@@ -4143,6 +4143,14 @@ definitions:
             type: string
             maxLength: 40
             minLength: 1
+          paymentToolToken:
+            readOnly: true
+            description: 'Токен платежного средства, предоставленного плательщиком'
+            type: string
+            maxLength: 1000
+          paymentToolDetails:
+            readOnly: true
+            $ref: '#/definitions/PaymentToolDetails'
   CustomersTopic:
     description: |
       Область охвата, включающая события по плательщикам в рамках определённого
@@ -5919,6 +5927,14 @@ definitions:
             $ref: '#/definitions/ContactInfo'
           recurrentParentPayment:
             $ref: '#/definitions/PaymentRecurrentParent'
+          paymentToolToken:
+            readOnly: true
+            description: 'Токен платежного средства, предоставленного плательщиком'
+            type: string
+            maxLength: 1000
+          paymentToolDetails:
+            readOnly: true
+            $ref: '#/definitions/PaymentToolDetails'
   Redirect:
     type: object
     allOf:

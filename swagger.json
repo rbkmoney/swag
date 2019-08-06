@@ -5699,6 +5699,16 @@
               "type": "string",
               "maxLength": 40,
               "minLength": 1
+            },
+            "paymentToolToken": {
+              "readOnly": true,
+              "description": "Токен платежного средства, предоставленного плательщиком",
+              "type": "string",
+              "maxLength": 1000
+            },
+            "paymentToolDetails": {
+              "readOnly": true,
+              "$ref": "#/definitions/PaymentToolDetails"
             }
           }
         }
@@ -8167,6 +8177,16 @@
             },
             "recurrentParentPayment": {
               "$ref": "#/definitions/PaymentRecurrentParent"
+            },
+            "paymentToolToken": {
+              "readOnly": true,
+              "description": "Токен платежного средства, предоставленного плательщиком",
+              "type": "string",
+              "maxLength": 1000
+            },
+            "paymentToolDetails": {
+              "readOnly": true,
+              "$ref": "#/definitions/PaymentToolDetails"
             }
           }
         }
