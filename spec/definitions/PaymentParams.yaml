@@ -10,9 +10,9 @@ properties:
     $ref: '#/definitions/PaymentFlow'
   payer:
     $ref: '#/definitions/Payer'
-  businessDeadline:
+  PaymentDeadline:
     x-rebillyMerge:
-      - $ref: '#/definitions/BusinessDeadline'
+      - $ref: '#/definitions/PaymentDeadline'
   makeRecurrent:
     x-rebillyMerge:
       - $ref: '#/definitions/PaymentMakeRecurrent'
