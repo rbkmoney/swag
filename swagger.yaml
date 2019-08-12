@@ -3605,6 +3605,9 @@ definitions:
       requestType:
         description: Тип браузерной операции
         type: string
+        enum:
+          - BrowserGetRequest
+          - BrowserPostRequest
   CaptureParams:
     type: object
     allOf:
@@ -4883,6 +4886,9 @@ definitions:
     properties:
       templateType:
         type: string
+        enum:
+          - InvoiceTemplateSingleLine
+          - InvoiceTemplateMultiLine
   InvoiceTemplateLineCost:
     type: object
     discriminator: costType
@@ -5087,6 +5093,10 @@ definitions:
       payerType:
         description: Тип платежного средства
         type: string
+        enum:
+          - CustomerPayer
+          - PaymentResourcePayer
+          - RecurrentPayer
     required:
       - payerType
   Payment:
@@ -5347,6 +5357,8 @@ definitions:
       statType:
         description: Тип статистики по методу оплаты
         type: string
+        enum:
+          - PaymentMethodBankCardStat
   PaymentParams:
     type: object
     required:
@@ -6494,6 +6506,8 @@ definitions:
       locationType:
         description: Тип местоположения
         type: string
+        enum:
+          - ShopLocationUrl
   ShopLocationChange:
     description: Изменение местоположения магазина
     type: object
