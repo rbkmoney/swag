@@ -7,3 +7,5 @@ properties:
   locationType:
     description: Тип местоположения
     type: string
+    enum:
+      - ShopLocationUrl

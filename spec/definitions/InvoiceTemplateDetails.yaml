@@ -5,3 +5,6 @@ required:
 properties:
   templateType:
     type: string
+    enum:
+      - InvoiceTemplateSingleLine
+      - InvoiceTemplateMultiLine
