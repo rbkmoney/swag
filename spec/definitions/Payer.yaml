@@ -4,5 +4,9 @@ properties:
   payerType:
     description: Тип платежного средства
     type: string
+    enum:
+      - CustomerPayer
+      - PaymentResourcePayer
+      - RecurrentPayer
 required:
   - payerType

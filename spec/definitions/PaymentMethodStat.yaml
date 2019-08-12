@@ -6,3 +6,5 @@ properties:
   statType:
     description: Тип статистики по методу оплаты
     type: string
+    enum:
+      - PaymentMethodBankCardStat
