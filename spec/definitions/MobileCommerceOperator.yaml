@@ -1,8 +1,0 @@
-description: Мобильный оператор
-type: string
-enum:
-  - mts
-  - megafon
-  - tele2
-  - yota
-  - beeline

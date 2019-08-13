@@ -8,6 +8,3 @@ properties:
     type: string
     pattern: '^\d{4,15}$'
     example: '79114360102'
-  operator:
-    x-rebillyMerge:
-      - $ref: '#/definitions/MobileCommerceOperator'

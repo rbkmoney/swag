@@ -15,4 +15,4 @@ properties:
     description: Номер абонента
     type: string
     pattern: '^\d{10,12}$'
-    example: "9214560102"
+    example: "0001234567"
