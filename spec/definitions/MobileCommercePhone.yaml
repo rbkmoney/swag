@@ -1,5 +1,7 @@
 type: object
-description: Телефонный номер согласно (E.164 — рекомендация ITU-T)
+description: >
+    Телефонный номер,
+    согласно рекомендации ITU-T [E.164](https://ru.wikipedia.org/wiki/E.164)
 required:
   - cc
   - ctn

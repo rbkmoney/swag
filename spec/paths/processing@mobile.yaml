@@ -1,17 +1,29 @@
-post:
+get:
   description: |
     Определение сотового оператора по номеру телефона
-  operationId: getOperator
+  operationId: getMobileOperator
   tags:
     - MobileCommerce
   parameters:
     - $ref: '#/parameters/requestID'
     - $ref: '#/parameters/deadline'
-    - name: mobilePhone
-      in: body
+    - name: cc
+      in: query
+      description: >-
+        Код страны,
+        согласно рекомендации ITU-T [E.164](https://ru.wikipedia.org/wiki/E.164)
       required: true
-      schema:
-        $ref: '#/definitions/MobileCommercePhone'
+      type: string
+      pattern: '^\d{1,3}$'
+    - name:  ctn
+      in: query
+      description: >-
+        Сотовый номер абонента,
+        согласно рекомендации ITU-T [E.164](https://ru.wikipedia.org/wiki/E.164)
+      required: true
+      type: string
+      pattern: '^\d{10,12}$'
+      example: "9214560102"
   responses:
     '201':
       description: Мобильный оператор
