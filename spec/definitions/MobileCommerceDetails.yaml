@@ -1,7 +1,6 @@
 discriminator: mobileCommerceDetailsType
 required:
   - phoneNumber
-  - operator
 properties:
   phoneNumber:
     description: Номер мобильного телефона
