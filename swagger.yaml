@@ -5132,6 +5132,46 @@ definitions:
         type: string
       message:
         type: string
+  MobileCommerceData:
+    type: object
+    allOf:
+      - $ref: '#/definitions/PaymentTool'
+      - type: object
+        required:
+          - mobilePhone
+        description: Мобильная коммерция
+        discriminator: mobileCommerceType
+        properties:
+          mobilePhone:
+            $ref: '#/definitions/MobileCommercePhone'
+  MobileCommerceDetails:
+    discriminator: mobileCommerceDetailsType
+    required:
+      - phoneNumber
+    properties:
+      phoneNumber:
+        description: Номер мобильного телефона
+        type: string
+        pattern: '^\d{4,15}$'
+        example: '79114360102'
+  MobileCommercePhone:
+    type: object
+    description: |
+      Телефонный номер, согласно рекомендации ITU-T [E.164](https://ru.wikipedia.org/wiki/E.164)
+    required:
+      - cc
+      - ctn
+    properties:
+      cc:
+        description: Код страны (1-3 цифры)
+        type: string
+        pattern: '^\d{1,3}$'
+        example: '7'
+      ctn:
+        description: Номер абонента
+        type: string
+        pattern: '^\d{10,12}$'
+        example: '0001234567'
   Party:
     type: object
     required:
@@ -5772,6 +5812,7 @@ definitions:
           - DigitalWalletData
           - TokenizedCardData
           - CryptoWalletData
+          - MobileCommerceData
     required:
       - paymentToolType
   PaymentToolDetails:
@@ -5800,6 +5841,11 @@ definitions:
     allOf:
       - $ref: '#/definitions/PaymentToolDetails'
       - $ref: '#/definitions/DigitalWalletDetails'
+  PaymentToolDetailsMobileCommerce:
+    type: object
+    allOf:
+      - $ref: '#/definitions/PaymentToolDetails'
+      - $ref: '#/definitions/MobileCommerceDetails'
   PaymentToolDetailsPaymentTerminal:
     type: object
     allOf:
