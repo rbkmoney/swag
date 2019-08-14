@@ -1,4 +1,3 @@
-discriminator: mobileCommerceDetailsType
 required:
   - phoneNumber
 properties:
