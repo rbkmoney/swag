@@ -7191,6 +7191,13 @@
         }
       }
     },
+    "PaymentDeadline": {
+      "type": "string",
+      "description": "Максимальное время обработки платежа",
+      "maxLength": 40,
+      "minLength": 1,
+      "example": "10s"
+    },
     "PaymentError": {
       "description": "[Ошибка, возникшая в процессе проведения платежа](#tag/Error-Codes)\n",
       "type": "object",
@@ -7471,6 +7478,13 @@
         },
         "payer": {
           "$ref": "#/definitions/Payer"
+        },
+        "PaymentDeadline": {
+          "type": "string",
+          "description": "Максимальное время обработки платежа",
+          "maxLength": 40,
+          "minLength": 1,
+          "example": "10s"
         },
         "makeRecurrent": {
           "description": "Признак создания родительского рекуррентного платежа.\nУспешно проведеный платеж с этим признаком можно использовать как родительский в других рекуррентных платежах.\n",

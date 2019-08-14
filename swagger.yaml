@@ -5253,6 +5253,12 @@ definitions:
       conversion:
         description: Значение конверсии
         type: number
+  PaymentDeadline:
+    type: string
+    description: Максимальное время обработки платежа
+    maxLength: 40
+    minLength: 1
+    example: 10s
   PaymentError:
     description: |
       [Ошибка, возникшая в процессе проведения платежа](#tag/Error-Codes)
@@ -5461,6 +5467,12 @@ definitions:
         $ref: '#/definitions/PaymentFlow'
       payer:
         $ref: '#/definitions/Payer'
+      PaymentDeadline:
+        type: string
+        description: Максимальное время обработки платежа
+        maxLength: 40
+        minLength: 1
+        example: 10s
       makeRecurrent:
         description: |
           Признак создания родительского рекуррентного платежа.
