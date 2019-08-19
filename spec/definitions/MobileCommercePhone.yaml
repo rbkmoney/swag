@@ -16,3 +16,4 @@ properties:
     type: string
     pattern: '^\d{10,12}$'
     example: "0001234567"
+
