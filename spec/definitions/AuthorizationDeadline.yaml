@@ -1,5 +1,5 @@
 type: string
-description: Максимальное время обработки платежа
+description: Максимальное время авторизации платежа
 maxLength: 40
 minLength: 1
 example: 30m

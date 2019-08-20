@@ -12,7 +12,7 @@ properties:
     $ref: '#/definitions/Payer'
   authorizationDeadline:
     x-rebillyMerge:
-      - $ref: '#/definitions/PaymentDeadline'
+      - $ref: '#/definitions/AuthorizationDeadline'
   makeRecurrent:
     x-rebillyMerge:
       - $ref: '#/definitions/PaymentMakeRecurrent'
