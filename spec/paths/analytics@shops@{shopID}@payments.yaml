@@ -103,7 +103,7 @@ get:
       description: 'Retrieval Reference Number'
       required: false
       type: string
-      pattern: '^\d{12}$'
+      pattern: '^[a-zA-Z0-9]{12}$'
     - name: approvalCode
       in: query
       description: 'Authorization Approval Code'
