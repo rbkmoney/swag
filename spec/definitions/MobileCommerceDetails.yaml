@@ -1,0 +1,8 @@
+required:
+  - phoneNumber
+properties:
+  phoneNumber:
+    description: Маскированый номер мобильного телефона
+    type: string
+    pattern: '^\+\d\*{1,10}\d{2,4}$'
+    example: '+7******0102'
