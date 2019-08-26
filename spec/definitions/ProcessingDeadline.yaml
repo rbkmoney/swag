@@ -2,4 +2,4 @@ type: string
 description: Максимальное время обработки платежа
 maxLength: 40
 minLength: 1
-example: 10s
+example: 30m
