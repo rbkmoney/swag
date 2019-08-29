@@ -5604,6 +5604,7 @@
           "description": "Статус привязки",
           "type": "string",
           "enum": [
+            "creating",
             "pending",
             "succeeded",
             "failed"
@@ -5695,6 +5696,7 @@
           "description": "Статус привязки",
           "type": "string",
           "enum": [
+            "creating",
             "pending",
             "succeeded",
             "failed"
