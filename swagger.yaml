@@ -4085,7 +4085,6 @@ definitions:
         description: Статус привязки
         type: string
         enum:
-          - creating
           - pending
           - succeeded
           - failed
@@ -4145,7 +4144,6 @@ definitions:
         description: Статус привязки
         type: string
         enum:
-          - creating
           - pending
           - succeeded
           - failed
