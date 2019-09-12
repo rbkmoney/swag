@@ -67,6 +67,7 @@ post:
               - invalidContractStatus
               - invalidPaymentToolToken
               - invalidPaymentSession
+              - invalidProcessingDeadline
               - invalidRecurrentParent
               - operationNotPermitted
           message:
