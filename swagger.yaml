@@ -511,6 +511,7 @@ tags:
         | **invalidPaymentStatus**         | Неверный [статус платежа](#tag/Payments). Например, при попытке [подтвердить](#operation/capturePayment) неуспешный платёж.           |
         | **invalidPaymentResource**       | Не поддерживаемый системой или не подключенный в рамках действующего договора платежный инструмент.                                   |
         | **invalidPaymentToolToken**      | Неверное содержимое токена платёжного инструмента.                                                                                    |
+        | **invalidProcessingDeadline**    | Неверный формат ограничения времени авторизации платежа.                                                                              |
         | **invalidPaymentSession**        | Невернoе содержимое платёжной сессии.                                                                                                 |
         | **invalidRecurrentParent**       | Невернo указан родительский рекуррентный платеж.                                                                                      |
         | **insufficentAccountBalance**    | Недостаточный объём денежных средств на счёте магазина, например, для проведения возврата.                                            |
@@ -2408,6 +2409,7 @@ paths:
                   - invalidContractStatus
                   - invalidPaymentToolToken
                   - invalidPaymentSession
+                  - invalidProcessingDeadline
                   - invalidRecurrentParent
                   - operationNotPermitted
               message:
