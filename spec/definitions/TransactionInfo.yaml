@@ -3,6 +3,7 @@ properties:
   rrn:
     description: 'Retrieval Reference Number'
     type: string
+    pattern: '^[a-zA-Z0-9]{12}$'
   approvalCode:
     description: 'Authorization Approval Code'
     type: string
