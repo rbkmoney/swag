@@ -38,6 +38,13 @@ get:
       required: false
       type: string
       pattern: '^[a-zA-Z0-9]{12}$'
+    - name: approvalCode
+      in: query
+      description: 'Authorization Approval Code'
+      required: false
+      type: string
+      maxLength: 40
+      minLength: 1
     - name: refundStatus
       in: query
       description: Статус возврата
