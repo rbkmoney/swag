@@ -32,6 +32,12 @@ get:
       type: string
       maxLength: 40
       minLength: 1
+    - name: rrn
+      in: query
+      description: 'Retrieval Reference Number'
+      required: false
+      type: string
+      pattern: '^[a-zA-Z0-9]{12}$'
     - name: refundStatus
       in: query
       description: Статус возврата
