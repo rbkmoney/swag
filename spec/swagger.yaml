@@ -171,6 +171,23 @@ parameters:
     type: string
     maxLength: 40
     minLength: 1
+  shopIDPathOpt:
+    name: shopID
+    in: query
+    description: Идентификатор магазина
+    required: false
+    type: string
+    maxLength: 40
+    minLength: 1
+  reportType:
+    name: reportType
+    in: query
+    description: Тип отчета
+    required: true
+    type: string
+    enum:
+      - provisionOfService
+      - paymentRegistry
   invoiceTemplateID:
     name: invoiceTemplateID
     in: path

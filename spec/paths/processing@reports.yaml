@@ -6,13 +6,10 @@ post:
   parameters:
     - $ref: '#/parameters/requestID'
     - $ref: '#/parameters/deadline'
-    - $ref: '#/parameters/shopIDPath'
-    - name: createReport
-      in: body
-      description: Параметры генерации отчета
-      required: true
-      schema:
-        $ref: '#/definitions/ReportParams'
+    - $ref: '#/parameters/fromTime'
+    - $ref: '#/parameters/toTime'
+    - $ref: '#/parameters/reportType'
+    - $ref: '#/parameters/shopIDPathOpt'
   responses:
     '201':
       description: Отчет создан
@@ -49,9 +46,19 @@ get:
   parameters:
     - $ref: '#/parameters/requestID'
     - $ref: '#/parameters/deadline'
-    - $ref: '#/parameters/shopIDPath'
     - $ref: '#/parameters/fromTime'
     - $ref: '#/parameters/toTime'
+    - name: reportTypes
+      description: Типы отчетов
+      in: query
+      required: true
+      type: array
+      items:
+        type: string
+        enum:
+          - provisionOfService
+          - paymentRegistry
+    - $ref: '#/parameters/shopIDPathOpt'
   responses:
     '200':
       description: Найденные отчеты

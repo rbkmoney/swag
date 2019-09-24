@@ -1,18 +1,19 @@
 get:
-  description: Получить отчет по данному идентификатору
+  description: Скачать файл
   tags:
     - Reports
-  operationId: getReport
+  operationId: downloadFile
   parameters:
     - $ref: '#/parameters/requestID'
     - $ref: '#/parameters/deadline'
-    - $ref: '#/parameters/shopIDPath'
     - $ref: '#/parameters/reportID'
+    - $ref: '#/parameters/fileID'
+    - $ref: '#/parameters/shopIDPathOpt'
   responses:
     '200':
-      description: Найденный отчет
+      description: Download link
       schema:
-        $ref: '#/definitions/Report'
+        $ref: '#/definitions/ReportLink'
     '404':
       $ref: '#/responses/NotFound'
     '401':

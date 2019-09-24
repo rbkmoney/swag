@@ -30,12 +30,17 @@ properties:
     enum:
       - pending
       - created
-  type:
+  reportType:
     description: Тип отчета
     type: string
     enum:
       - provisionOfService
       - paymentRegistry
+  shopId:
+    description: Идентификатор магазина
+    type: string
+    maxLength: 40
+    minLength: 1
   files:
     type: array
     items:
