@@ -15,7 +15,7 @@ get:
       minLength: 1
   responses:
     '200':
-      description: Платёж
+      description: Данные возврата
       schema:
         $ref: '#/definitions/Refund'
     '404':
