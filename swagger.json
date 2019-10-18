@@ -3905,95 +3905,6 @@
         }
       }
     },
-    "/processing/payments/{externalID}/refunds": {
-      "get": {
-        "description": "Получить список возвратов по указанному внешнему идентификатору платежа.",
-        "tags": [
-          "Payments"
-        ],
-        "operationId": "getRefundsByExternalID",
-        "parameters": [
-          {
-            "$ref": "#/parameters/requestID"
-          },
-          {
-            "$ref": "#/parameters/deadline"
-          },
-          {
-            "name": "externalID",
-            "description": "Внешний идентификатор платежа",
-            "in": "path",
-            "required": true,
-            "type": "string",
-            "maxLength": 40,
-            "minLength": 1
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Данные возвратов по платежу",
-            "schema": {
-              "type": "array",
-              "items": {
-                "$ref": "#/definitions/Refund"
-              }
-            }
-          },
-          "400": {
-            "$ref": "#/responses/DefaultLogicError"
-          },
-          "401": {
-            "$ref": "#/responses/Unauthorized"
-          },
-          "404": {
-            "$ref": "#/responses/NotFound"
-          }
-        }
-      }
-    },
-    "/processing/payments/refunds": {
-      "get": {
-        "description": "Получить возврат по указанному внешнему идентификатору.",
-        "tags": [
-          "Payments"
-        ],
-        "operationId": "getRefundByExternalID",
-        "parameters": [
-          {
-            "$ref": "#/parameters/requestID"
-          },
-          {
-            "$ref": "#/parameters/deadline"
-          },
-          {
-            "name": "externalID",
-            "description": "Внешний идентификатор возврата",
-            "in": "query",
-            "required": true,
-            "type": "string",
-            "maxLength": 40,
-            "minLength": 1
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Данные возврата",
-            "schema": {
-              "$ref": "#/definitions/Refund"
-            }
-          },
-          "400": {
-            "$ref": "#/responses/DefaultLogicError"
-          },
-          "401": {
-            "$ref": "#/responses/Unauthorized"
-          },
-          "404": {
-            "$ref": "#/responses/NotFound"
-          }
-        }
-      }
-    },
     "/processing/payouts": {
       "post": {
         "description": "Создать новую выплату и отправить её на\nпремодерацию.\n",
@@ -4080,6 +3991,49 @@
             "description": "Найдена выплата",
             "schema": {
               "$ref": "#/definitions/Payout"
+            }
+          },
+          "400": {
+            "$ref": "#/responses/DefaultLogicError"
+          },
+          "401": {
+            "$ref": "#/responses/Unauthorized"
+          },
+          "404": {
+            "$ref": "#/responses/NotFound"
+          }
+        }
+      }
+    },
+    "/processing/refunds": {
+      "get": {
+        "description": "Получить возврат по указанному внешнему идентификатору.",
+        "tags": [
+          "Payments"
+        ],
+        "operationId": "getRefundByExternalID",
+        "parameters": [
+          {
+            "$ref": "#/parameters/requestID"
+          },
+          {
+            "$ref": "#/parameters/deadline"
+          },
+          {
+            "name": "externalID",
+            "description": "Внешний идентификатор возврата",
+            "in": "query",
+            "required": true,
+            "type": "string",
+            "maxLength": 40,
+            "minLength": 1
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Данные возврата",
+            "schema": {
+              "$ref": "#/definitions/Refund"
             }
           },
           "400": {
