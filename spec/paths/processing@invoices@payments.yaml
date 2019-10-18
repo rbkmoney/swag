@@ -1,0 +1,28 @@
+get:
+  description: Получить платежи по внешнему идентификатору инвойса.
+  tags:
+    - Payments
+  operationId: getPaymentsByExternalID
+  parameters:
+    - $ref: '#/parameters/requestID'
+    - $ref: '#/parameters/deadline'
+    - name: externalID
+      description: Внешний идентификатор инвойса
+      in: query
+      required: true
+      type: string
+      maxLength: 40
+      minLength: 1
+  responses:
+    '200':
+      description: Данные платежей по инвойсу
+      schema:
+        type: array
+        items:
+          $ref: '#/definitions/Payment'
+    '404':
+      $ref: '#/responses/NotFound'
+    '401':
+      $ref: '#/responses/Unauthorized'
+    '400':
+      $ref: '#/responses/DefaultLogicError'
