@@ -2651,7 +2651,7 @@
       "get": {
         "description": "Получить инвойс по указанному внешнему идентификатору.",
         "tags": [
-          "Payments"
+          "Invoices"
         ],
         "operationId": "getInvoiceByExternalID",
         "parameters": [
