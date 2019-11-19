@@ -1,5 +1,6 @@
 type: object
 allOf:
+  - $ref: '#/definitions/PaymentMethod'
   - type: object
     required:
       - providers
