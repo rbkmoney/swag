@@ -3,9 +3,9 @@ allOf:
   - $ref: '#/definitions/PaymentMethod'
   - type: object
     required:
-      - providers
+      - operators
     properties:
-      providers:
+      operators:
         description: Список операторов мобильной связи
         type: array
         items:
