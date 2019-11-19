@@ -5215,6 +5215,26 @@ definitions:
         type: string
       message:
         type: string
+  MobileCommerce:
+    type: object
+    allOf:
+      - $ref: '#/definitions/PaymentMethod'
+      - type: object
+        required:
+          - operators
+        properties:
+          operators:
+            description: Список операторов мобильной связи
+            type: array
+            items:
+              description: Оператор сотовой связи
+              type: string
+              enum:
+                - mts
+                - beeline
+                - megafone
+                - tele2
+                - yota
   MobileCommerceData:
     type: object
     allOf:
@@ -5254,6 +5274,15 @@ definitions:
         type: string
         pattern: '^\d{10,12}$'
         example: '0001234567'
+  MobileOperator:
+    description: Оператор сотовой связи
+    type: string
+    enum:
+      - mts
+      - beeline
+      - megafone
+      - tele2
+      - yota
   Party:
     type: object
     required:
@@ -5516,6 +5545,7 @@ definitions:
           - PaymentTerminal
           - DigitalWallet
           - CryptoWallet
+          - MobileCommerce
   PaymentMethodBankCardStat:
     type: object
     allOf:
