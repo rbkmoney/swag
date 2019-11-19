@@ -1,0 +1,12 @@
+type: object
+allOf:
+  - type: object
+    required:
+      - providers
+    properties:
+      providers:
+        description: Список операторов мобильной связи
+        type: array
+        items:
+          x-rebillyMerge:
+            - $ref: '#/definitions/MobileOperator'
