@@ -5,7 +5,7 @@ allOf:
     required:
       - cryptoCurrencies
     properties:
-      providers:
+      cryptoCurrencies:
         description: Список криптовалют
         type: array
         items:
