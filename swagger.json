@@ -5598,7 +5598,28 @@
           "$ref": "#/definitions/PaymentMethod"
         },
         {
-          "$ref": "#/definitions/CryptoWalletDetails"
+          "type": "object",
+          "required": [
+            "cryptoCurrencies"
+          ],
+          "properties": {
+            "cryptoCurrencies": {
+              "description": "Список криптовалют",
+              "type": "array",
+              "items": {
+                "description": "Тип криптовалюты",
+                "type": "string",
+                "enum": [
+                  "bitcoin",
+                  "litecoin",
+                  "bitcoinCash",
+                  "ripple",
+                  "ethereum",
+                  "zcash"
+                ]
+              }
+            }
+          }
         }
       ]
     },
