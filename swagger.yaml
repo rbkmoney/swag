@@ -828,6 +828,8 @@ paths:
           type: string
           enum:
             - euroset
+            - alipay
+            - wechat
         - name: invoiceID
           in: query
           description: Идентификатор инвойса
@@ -1006,6 +1008,8 @@ paths:
           type: string
           enum:
             - euroset
+            - alipay
+            - wechat
         - name: invoiceID
           in: query
           description: Идентификатор инвойса
@@ -5863,6 +5867,8 @@ definitions:
               type: string
               enum:
                 - euroset
+                - alipay
+                - wechat
   PaymentTerminalData:
     type: object
     allOf:
@@ -5877,6 +5883,8 @@ definitions:
             type: string
             enum:
               - euroset
+              - alipay
+              - wechat
   PaymentTerminalDetails:
     required:
       - provider
@@ -5886,11 +5894,15 @@ definitions:
         type: string
         enum:
           - euroset
+          - alipay
+          - wechat
   PaymentTerminalProvider:
     description: Провайдер терминальной сети
     type: string
     enum:
       - euroset
+      - alipay
+      - wechat
   PaymentTerminalReceipt:
     type: object
     allOf:
