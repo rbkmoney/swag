@@ -47,6 +47,7 @@ get:
         - euroset
         - alipay
         - wechat
+        - zotapay
     - name: invoiceID
       in: query
       description: Идентификатор инвойса
