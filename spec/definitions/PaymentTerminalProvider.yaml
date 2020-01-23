@@ -4,3 +4,5 @@ enum:
   - euroset
   - alipay
   - wechat
+  - zotapay
+  - qps
