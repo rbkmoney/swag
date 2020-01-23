@@ -58,6 +58,7 @@ get:
         - alipay
         - wechat
         - zotapay
+        - qps
     - name: invoiceID
       in: query
       description: Идентификатор инвойса
