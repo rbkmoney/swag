@@ -830,6 +830,8 @@ paths:
             - euroset
             - alipay
             - wechat
+            - zotapay
+            - qps
         - name: invoiceID
           in: query
           description: Идентификатор инвойса
@@ -1010,6 +1012,8 @@ paths:
             - euroset
             - alipay
             - wechat
+            - zotapay
+            - qps
         - name: invoiceID
           in: query
           description: Идентификатор инвойса
@@ -5869,6 +5873,8 @@ definitions:
                 - euroset
                 - alipay
                 - wechat
+                - zotapay
+                - qps
   PaymentTerminalData:
     type: object
     allOf:
@@ -5885,6 +5891,8 @@ definitions:
               - euroset
               - alipay
               - wechat
+              - zotapay
+              - qps
   PaymentTerminalDetails:
     required:
       - provider
@@ -5896,6 +5904,8 @@ definitions:
           - euroset
           - alipay
           - wechat
+          - zotapay
+          - qps
   PaymentTerminalProvider:
     description: Провайдер терминальной сети
     type: string
@@ -5903,6 +5913,8 @@ definitions:
       - euroset
       - alipay
       - wechat
+      - zotapay
+      - qps
   PaymentTerminalReceipt:
     type: object
     allOf:

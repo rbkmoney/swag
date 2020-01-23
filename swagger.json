@@ -584,7 +584,9 @@
             "enum": [
               "euroset",
               "alipay",
-              "wechat"
+              "wechat",
+              "zotapay",
+              "qps"
             ]
           },
           {
@@ -826,7 +828,9 @@
             "enum": [
               "euroset",
               "alipay",
-              "wechat"
+              "wechat",
+              "zotapay",
+              "qps"
             ]
           },
           {
@@ -8035,7 +8039,9 @@
                 "enum": [
                   "euroset",
                   "alipay",
-                  "wechat"
+                  "wechat",
+                  "zotapay",
+                  "qps"
                 ]
               }
             }
@@ -8062,7 +8068,9 @@
               "enum": [
                 "euroset",
                 "alipay",
-                "wechat"
+                "wechat",
+                "zotapay",
+                "qps"
               ]
             }
           }
@@ -8080,7 +8088,9 @@
           "enum": [
             "euroset",
             "alipay",
-            "wechat"
+            "wechat",
+            "zotapay",
+            "qps"
           ]
         }
       }
@@ -8091,7 +8101,9 @@
       "enum": [
         "euroset",
         "alipay",
-        "wechat"
+        "wechat",
+        "zotapay",
+        "qps"
       ]
     },
     "PaymentTerminalReceipt": {
