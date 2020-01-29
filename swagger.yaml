@@ -6231,6 +6231,18 @@ definitions:
     maxLength: 40
     minLength: 1
     example: 30m
+  QrCodeDisplayRequest:
+    type: object
+    allOf:
+      - $ref: '#/definitions/UserInteraction'
+      - type: object
+        required:
+          - qrCode
+        properties:
+          qrCode:
+            description: 'Содержимое QR-кода, записанное в виде потока байт'
+            type: string
+            format: binary
   Reason:
     type: object
     required:
