@@ -55,6 +55,10 @@ get:
       type: string
       enum:
         - euroset
+        - alipay
+        - wechat
+        - zotapay
+        - qps
     - name: invoiceID
       in: query
       description: Идентификатор инвойса
@@ -118,6 +122,12 @@ get:
       required: false
       type: string
       pattern: '^\d{4}$'
+    - name: rrn
+      in: query
+      description: 'Retrieval Reference Number'
+      required: false
+      type: string
+      pattern: '^[a-zA-Z0-9]{12}$'
     - name: paymentAmount
       in: query
       description: Сумма платежа

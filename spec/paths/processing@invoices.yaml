@@ -1,3 +1,30 @@
+get:
+  description: Получить инвойс по указанному внешнему идентификатору.
+  tags:
+    - Invoices
+  operationId: getInvoiceByExternalID
+  parameters:
+    - $ref: '#/parameters/requestID'
+    - $ref: '#/parameters/deadline'
+    - name: externalID
+      description: Внешний идентификатор инвойса
+      in: query
+      required: true
+      type: string
+      maxLength: 40
+      minLength: 1
+  responses:
+    '200':
+      description: Инвойс
+      schema:
+        $ref: '#/definitions/Invoice'
+    '404':
+      $ref: '#/responses/NotFound'
+    '401':
+      $ref: '#/responses/Unauthorized'
+    '400':
+      $ref: '#/responses/DefaultLogicError'
+
 post:
   description: Создать новый инвойс.
   tags:

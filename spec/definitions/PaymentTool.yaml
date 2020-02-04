@@ -10,5 +10,6 @@ properties:
       - DigitalWalletData
       - TokenizedCardData
       - CryptoWalletData
+      - MobileCommerceData
 required:
   - paymentToolType
