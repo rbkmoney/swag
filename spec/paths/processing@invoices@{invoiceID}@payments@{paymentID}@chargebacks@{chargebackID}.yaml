@@ -20,35 +20,3 @@ get:
       $ref: '#/responses/Unauthorized'
     '400':
       $ref: '#/responses/DefaultLogicError'
-
-post:
-  description: Обновить данные определённого возвратного платежа указанного платежа.
-  tags:
-    - Payments
-  operationId: updateChargeback
-  parameters:
-    - $ref: '#/parameters/requestID'
-    - $ref: '#/parameters/deadline'
-    - $ref: '#/parameters/invoiceID'
-    - $ref: '#/parameters/paymentID'
-    - $ref: '#/parameters/chargebackID'
-    - name: chargebackParams
-      description: Параметры изменяеомго возвратного платежа
-      in: body
-      required: true
-      schema:
-        $ref: '#/definitions/ChargebackParams'
-  responses:
-    '200':
-      description: Данные возвратного платежа
-      schema:
-        $ref: '#/definitions/Chargeback'
-    '404':
-      $ref: '#/responses/NotFound'
-    '401':
-      $ref: '#/responses/Unauthorized'
-    '400':
-      $ref: '#/responses/DefaultLogicError'
-      # add codes?
-    '409':
-      $ref: '#/responses/ExternalIDConflict'
