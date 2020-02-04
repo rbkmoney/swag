@@ -2557,59 +2557,6 @@ paths:
           $ref: '#/responses/Unauthorized'
         '404':
           $ref: '#/responses/NotFound'
-    post:
-      description: Создать возвратный платёж указанного платежа
-      tags:
-        - Payments
-      operationId: createChargeback
-      parameters:
-        - $ref: '#/parameters/requestID'
-        - $ref: '#/parameters/deadline'
-        - $ref: '#/parameters/invoiceID'
-        - $ref: '#/parameters/paymentID'
-        - name: chargebackParams
-          description: Параметры создаваемого возвратного платежа
-          in: body
-          required: true
-          schema:
-            $ref: '#/definitions/ChargebackParams'
-      responses:
-        '201':
-          description: Возвратный платёж создан
-          schema:
-            $ref: '#/definitions/Chargeback'
-        '400':
-          description: Ошибочные данные для возвратного платежа
-          schema:
-            type: object
-            required:
-              - code
-              - message
-            properties:
-              code:
-                description: |
-                  [Код ошибки](#tag/Error-Codes)
-                type: string
-                enum:
-                  - invalidPartyStatus
-                  - invalidShopStatus
-                  - invalidContractStatus
-                  - operationNotPermitted
-                  - invalidPaymentStatus
-                  - insufficentAccountBalance
-                  - invoicePaymentAmountExceeded
-                  - invalidRequest
-                  - invalidDeadline
-              message:
-                description: Человекочитаемое описание ошибки
-                type: string
-                example: Operation not permitted
-        '401':
-          $ref: '#/responses/Unauthorized'
-        '404':
-          $ref: '#/responses/NotFound'
-        '409':
-          $ref: '#/responses/ExternalIDConflict'
   '/processing/invoices/{invoiceID}/payments/{paymentID}/chargebacks/{chargebackID}':
     get:
       description: Получить данные определённого возвратного платежа указанного платежа.
@@ -2633,36 +2580,6 @@ paths:
           $ref: '#/responses/Unauthorized'
         '404':
           $ref: '#/responses/NotFound'
-    post:
-      description: Обновить данные определённого возвратного платежа указанного платежа.
-      tags:
-        - Payments
-      operationId: updateChargeback
-      parameters:
-        - $ref: '#/parameters/requestID'
-        - $ref: '#/parameters/deadline'
-        - $ref: '#/parameters/invoiceID'
-        - $ref: '#/parameters/paymentID'
-        - $ref: '#/parameters/chargebackID'
-        - name: chargebackParams
-          description: Параметры изменяеомго возвратного платежа
-          in: body
-          required: true
-          schema:
-            $ref: '#/definitions/ChargebackParams'
-      responses:
-        '200':
-          description: Данные возвратного платежа
-          schema:
-            $ref: '#/definitions/Chargeback'
-        '400':
-          $ref: '#/responses/DefaultLogicError'
-        '401':
-          $ref: '#/responses/Unauthorized'
-        '404':
-          $ref: '#/responses/NotFound'
-        '409':
-          $ref: '#/responses/ExternalIDConflict'
   '/processing/invoices/{invoiceID}/payments/{paymentID}/refunds':
     get:
       description: Получить все возвраты указанного платежа.
@@ -3815,40 +3732,6 @@ definitions:
         description: Код причины возвратного платежа
         type: string
         maxLength: 1000
-  ChargebackParams:
-    type: object
-    properties:
-      amount:
-        description: |
-          Сумма возвратного платежа, в минорных денежных единицах,
-          например в копейках в случае указания российских рублей в качестве
-          валюты.
-        type: integer
-        format: int64
-        minimum: 1
-      currency:
-        description: 'Валюта, символьный код согласно [ISO 4217](http://www.iso.org/iso/home/standards/currency_codes.htm).'
-        type: string
-        pattern: '^[A-Z]{3}$'
-      reasonCode:
-        description: Код причины возвратного платежа
-        type: string
-        maxLength: 1000
-      comment:
-        description: Комментарий к изменению
-        type: string
-        maxLength: 1000
-      status:
-        enum:
-          - chargeback_created
-          - chargeback_awaiting_merchant
-          - chargeback_awaiting_issuer
-          - pre_arbitration_created
-          - pre_arbitration_awaiting_merchant
-          - pre_arbitration_awaiting_issuer
-          - arbitration_started
-          - won
-          - lost
   Claim:
     type: object
     discriminator: status
