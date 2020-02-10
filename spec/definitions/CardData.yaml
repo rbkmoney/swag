@@ -22,5 +22,6 @@ allOf:
       cardHolder:
         description: Имя держателя карты
         type: string
+        pattern: '^[A-Z .\-'']{2,26}$'
         minLength: 1
         maxLength: 100
