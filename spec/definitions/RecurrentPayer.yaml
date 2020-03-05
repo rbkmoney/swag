@@ -2,6 +2,7 @@ type: object
 description: Многоразовое платежное средство на основе другого платежа
 allOf:
   - $ref: '#/definitions/Payer'
+  - $ref: '#/definitions/PayerParams'
   - type: object
     required:
       - contactInfo
@@ -13,6 +14,7 @@ allOf:
         $ref: '#/definitions/PaymentRecurrentParent'
       paymentToolToken:
         readOnly: true
+        deprecated: true
         description: Токен платежного средства, предоставленного плательщиком
         type: string
         maxLength: 1000

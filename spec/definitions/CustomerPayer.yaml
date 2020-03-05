@@ -2,6 +2,7 @@ type: object
 description: Многоразовое платежное средство
 allOf:
   - $ref: '#/definitions/Payer'
+  - $ref: '#/definitions/PayerParams'
   - type: object
     required:
       - customerID
@@ -12,6 +13,7 @@ allOf:
         maxLength: 40
         minLength: 1
       paymentToolToken:
+        deprecated: true
         readOnly: true
         description: Токен платежного средства, предоставленного плательщиком
         type: string
