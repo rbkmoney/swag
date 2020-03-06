@@ -1,20 +1,16 @@
 type: object
 description: Данные одноразового платежного средства
 required:
-  - paymentSession
-  - paymentToolToken
   - contactInfo
 properties:
   paymentToolToken:
-    description: Токен платежного средства, предоставленного плательщиком
+    description: DEPRECATED! Токен платежного средства, предоставленного плательщиком
     type: string
     maxLength: 1000
-    deprecated: true
   paymentSession:
-    description: Идентификатор платежной сессии
+    description: DEPRECATED! Идентификатор платежной сессии
     type: string
     maxLength: 1000
-    deprecated: true
   paymentToolDetails:
     $ref: '#/definitions/PaymentToolDetails'
   clientInfo:

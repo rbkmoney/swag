@@ -14,8 +14,7 @@ allOf:
         $ref: '#/definitions/PaymentRecurrentParent'
       paymentToolToken:
         readOnly: true
-        deprecated: true
-        description: Токен платежного средства, предоставленного плательщиком
+        description: DEPRECATED! Токен платежного средства, предоставленного плательщиком
         type: string
         maxLength: 1000
       paymentToolDetails:
