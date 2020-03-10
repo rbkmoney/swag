@@ -22,6 +22,6 @@ allOf:
       cardHolder:
         description: Имя держателя карты
         type: string
-        pattern: '^\D+$'
+        pattern: '^\D.+$'
         minLength: 1
         maxLength: 100
