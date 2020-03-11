@@ -1,7 +1,5 @@
 type: object
 description: Данные одноразового платежного средства
-required:
-  - contactInfo
 properties:
   paymentToolToken:
     description: >
