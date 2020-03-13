@@ -5065,7 +5065,7 @@
             "cardHolder": {
               "description": "Имя держателя карты",
               "type": "string",
-              "pattern": "^[a-zA-Z][a-zA-Z0-9 .,'/-]+$",
+              "pattern": "^[[:alpha:][:space:][:punct:]]+$",
               "minLength": 1,
               "maxLength": 100
             }
