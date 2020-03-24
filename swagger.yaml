@@ -2601,7 +2601,7 @@ paths:
           $ref: '#/responses/NotFound'
   '/processing/invoices/{invoiceID}/payments/{paymentID}/chargebacks':
     get:
-      description: Получить все возвратные платежи по указанному платежу.
+      description: Получить все чарджбэки по указанному платежу.
       tags:
         - Payments
       operationId: getChargebacks
