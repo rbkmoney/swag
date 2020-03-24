@@ -2625,7 +2625,7 @@ paths:
           $ref: '#/responses/NotFound'
   '/processing/invoices/{invoiceID}/payments/{paymentID}/chargebacks/{chargebackID}':
     get:
-      description: Получить данные определённого возвратного платежа указанного платежа.
+      description: Получить данные определённого чарджбэка для указанного платежа.
       tags:
         - Payments
       operationId: getChargebackByID
