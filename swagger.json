@@ -5195,8 +5195,11 @@
         "id",
         "createdAt",
         "amount",
+        "levy",
         "currency",
-        "reasonCode"
+        "reasonCode",
+        "stage",
+        "status"
       ],
       "properties": {
         "id": {
@@ -5214,6 +5217,12 @@
           "format": "int64",
           "minimum": 1
         },
+        "levy": {
+          "description": "Сумма штрафа за чарджбэк, в минорных денежных единицах, например в копейках в случае указания российских рублей в качестве валюты.\n",
+          "type": "integer",
+          "format": "int64",
+          "minimum": 1
+        },
         "currency": {
           "description": "Валюта, символьный код согласно [ISO 4217](http://www.iso.org/iso/home/standards/currency_codes.htm).",
           "type": "string",
@@ -5223,6 +5232,25 @@
           "description": "Код причины возвратного платежа",
           "type": "string",
           "maxLength": 1000
+        },
+        "stage": {
+          "description": "Стадия чарджбэка",
+          "type": "string",
+          "enum": [
+            "chargeback",
+            "pre-arbitration",
+            "arbitration"
+          ]
+        },
+        "status": {
+          "description": "Статус чарджбэка",
+          "type": "string",
+          "enum": [
+            "pending",
+            "rejected",
+            "accepted",
+            "cancelled"
+          ]
         }
       }
     },
