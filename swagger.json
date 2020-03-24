@@ -803,6 +803,7 @@
               "captured",
               "cancelled",
               "refunded",
+              "charged_back",
               "failed"
             ]
           },
