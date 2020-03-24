@@ -5,8 +5,11 @@ x-merge-properties:
       - id
       - createdAt
       - amount
+      - levy
       - currency
       - reasonCode
+      - stage
+      - status
     properties:
       id:
         description: Идентификатор возвратного платежа
@@ -23,6 +26,14 @@ x-merge-properties:
         type: integer
         format: int64
         minimum: 1
+      levy:
+        description: >
+          Сумма штрафа за чарджбэк, в минорных денежных единицах,
+          например в копейках в случае указания российских рублей в качестве
+          валюты.
+        type: integer
+        format: int64
+        minimum: 1
       currency:
         x-rebillyMerge:
           - $ref: '#/definitions/Currency'
@@ -30,3 +41,18 @@ x-merge-properties:
         description: Код причины возвратного платежа
         type: string
         maxLength: 1000
+      stage:
+        description: Стадия чарджбэка
+        type: string
+        enum:
+          - chargeback
+          - pre-arbitration
+          - arbitration
+      status:
+        description: Статус чарджбэка
+        type: string
+        enum:
+          - pending
+          - rejected
+          - accepted
+          - cancelled
