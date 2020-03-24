@@ -1,5 +1,5 @@
 get:
-  description: Получить все возвратные платежи по указанному платежу.
+  description: Получить все чарджбэки по указанному платежу.
   tags:
     - Payments
   operationId: getChargebacks
