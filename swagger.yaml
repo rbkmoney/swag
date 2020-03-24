@@ -3801,7 +3801,7 @@ definitions:
     required:
       - id
       - createdAt
-      - amount
+      - body
       - levy
       - currency
       - reasonCode
@@ -3815,7 +3815,7 @@ definitions:
         description: Дата и время создания
         type: string
         format: date-time
-      amount:
+      body:
         description: |
           Сумма возвратного платежа, в минорных денежных единицах, например в копейках в случае указания российских рублей в качестве валюты.
         type: integer

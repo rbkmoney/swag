@@ -5196,7 +5196,7 @@
       "required": [
         "id",
         "createdAt",
-        "amount",
+        "body",
         "levy",
         "currency",
         "reasonCode",
@@ -5213,7 +5213,7 @@
           "type": "string",
           "format": "date-time"
         },
-        "amount": {
+        "body": {
           "description": "Сумма возвратного платежа, в минорных денежных единицах, например в копейках в случае указания российских рублей в качестве валюты.\n",
           "type": "integer",
           "format": "int64",
