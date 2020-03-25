@@ -3804,7 +3804,6 @@ definitions:
       - body
       - levy
       - currency
-      - reasonCode
       - stage
       - status
     properties:
