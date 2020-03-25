@@ -7,7 +7,6 @@ x-merge-properties:
       - body
       - levy
       - currency
-      - reasonCode
       - stage
       - status
     properties:
