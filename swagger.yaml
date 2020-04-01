@@ -996,7 +996,6 @@ paths:
             - captured
             - cancelled
             - refunded
-            - charged_back
             - failed
         - name: paymentFlow
           in: query
