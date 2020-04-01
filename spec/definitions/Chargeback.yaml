@@ -11,7 +11,7 @@ x-merge-properties:
       - status
     properties:
       id:
-        description: Идентификатор возвратного платежа
+        description: Идентификатор чарджбэка
         type: string
       createdAt:
         description: Дата и время создания
@@ -19,7 +19,7 @@ x-merge-properties:
         format: date-time
       body:
         description: >
-          Сумма возвратного платежа, в минорных денежных единицах,
+          Сумма чарджбэка, в минорных денежных единицах,
           например в копейках в случае указания российских рублей в качестве
           валюты.
         type: integer
@@ -37,7 +37,7 @@ x-merge-properties:
         x-rebillyMerge:
           - $ref: '#/definitions/Currency'
       reasonCode:
-        description: Код причины возвратного платежа
+        description: Код причины чарджбэка
         type: string
         maxLength: 1000
       stage:
