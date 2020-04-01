@@ -10,7 +10,7 @@ get:
     - $ref: '#/parameters/paymentID'
   responses:
     '200':
-      description: Данные возвратных платежей по платежу
+      description: Данные чарджбэков по платежу
       schema:
         type: array
         items:
