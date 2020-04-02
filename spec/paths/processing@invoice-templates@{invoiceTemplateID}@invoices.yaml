@@ -35,6 +35,7 @@ post:
               - invalidPartyStatus
               - invalidShopStatus
               - invalidRequest
+              - invoiceCostOutOfRange
           message:
             description: Человекочитаемое описание ошибки
             type: string
