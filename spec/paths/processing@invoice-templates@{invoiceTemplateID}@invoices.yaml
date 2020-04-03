@@ -39,7 +39,7 @@ post:
               - invalidShopStatus
               - invalidRequest
               - invalidDeadline
-              - invoiceCostOutOfRange
+              - invoiceTermsViolated
           message:
             description: Человекочитаемое описание ошибки
             type: string
