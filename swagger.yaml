@@ -3286,6 +3286,17 @@ paths:
                 example: Shop not found
         '401':
           $ref: '#/responses/Unauthorized'
+        '429':
+          description: Превышен лимит количества установленных webhook'ов
+          schema:
+            type: object
+            required:
+              - message
+            properties:
+              message:
+                description: Человекочитаемое описание ошибки
+                type: string
+                example: Webhook limit exceeded
     get:
       description: Получить набор установленных webhook'ов.
       tags:
