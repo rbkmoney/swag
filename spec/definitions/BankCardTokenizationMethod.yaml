@@ -1,0 +1,5 @@
+description: Метод токенизации
+type: string
+enum:
+  - dpan
+  - none

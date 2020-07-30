@@ -23,3 +23,5 @@ properties:
   tokenProvider:
     x-rebillyMerge:
       - $ref: '#/definitions/BankCardTokenProvider'
+  tokemizationMethod:
+      - $ref: '#/definitions/BankCardTokenizationMethod'
