@@ -5026,6 +5026,14 @@
             "googlepay",
             "samsungpay"
           ]
+        },
+        "tokenizationMethod": {
+          "description": "Метод токенизации",
+          "type": "string",
+          "enum": [
+            "dpan",
+            "none"
+          ]
         }
       }
     },
@@ -5045,6 +5053,14 @@
         "unionpay",
         "jcb",
         "nspkmir"
+      ]
+    },
+    "BankCardTokenizationMethod": {
+      "description": "Метод токенизации",
+      "type": "string",
+      "enum": [
+        "dpan",
+        "none"
       ]
     },
     "BankCardTokenProvider": {

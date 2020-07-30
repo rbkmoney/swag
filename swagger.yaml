@@ -3675,6 +3675,12 @@ definitions:
           - applepay
           - googlepay
           - samsungpay
+      tokenizationMethod:
+        description: Метод токенизации
+        type: string
+        enum:
+          - dpan
+          - none
   BankCardPaymentSystem:
     description: Платежная система
     type: string
@@ -3691,6 +3697,12 @@ definitions:
       - unionpay
       - jcb
       - nspkmir
+  BankCardTokenizationMethod:
+    description: Метод токенизации
+    type: string
+    enum:
+      - dpan
+      - none
   BankCardTokenProvider:
     description: Провайдер платежных токенов
     type: string
