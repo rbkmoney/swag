@@ -663,6 +663,7 @@ paths:
             - unionpay
             - jcb
             - nspkmir
+            - elo
         - name: bin
           in: query
           description: BIN банка-эмитента карты
@@ -836,6 +837,7 @@ paths:
             - unionpay
             - jcb
             - nspkmir
+            - elo
         - name: bin
           in: query
           description: BIN банка-эмитента карты
@@ -2833,6 +2835,7 @@ definitions:
                 - unionpay
                 - jcb
                 - nspkmir
+                - elo
           tokenProviders:
             description: Список провайдеров платежных токенов
             type: array
@@ -2876,6 +2879,7 @@ definitions:
           - unionpay
           - jcb
           - nspkmir
+          - elo
       tokenProvider:
         description: Провайдер платежных токенов
         type: string
@@ -2899,6 +2903,7 @@ definitions:
       - unionpay
       - jcb
       - nspkmir
+      - elo
   BankCardTokenProvider:
     description: Провайдер платежных токенов
     type: string
@@ -4554,6 +4559,7 @@ definitions:
               - unionpay
               - jcb
               - nspkmir
+              - elo
           profit:
             description: Прибыль магазина
             type: integer
