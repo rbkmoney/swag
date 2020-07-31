@@ -681,7 +681,8 @@
               "discover",
               "unionpay",
               "jcb",
-              "nspkmir"
+              "nspkmir",
+              "elo"
             ]
           },
           {
@@ -958,7 +959,8 @@
               "discover",
               "unionpay",
               "jcb",
-              "nspkmir"
+              "nspkmir",
+              "elo"
             ]
           },
           {
@@ -4958,7 +4960,8 @@
                   "discover",
                   "unionpay",
                   "jcb",
-                  "nspkmir"
+                  "nspkmir",
+                  "elo"
                 ]
               }
             },
@@ -5015,7 +5018,8 @@
             "discover",
             "unionpay",
             "jcb",
-            "nspkmir"
+            "nspkmir",
+            "elo"
           ]
         },
         "tokenProvider": {
@@ -5052,7 +5056,8 @@
         "discover",
         "unionpay",
         "jcb",
-        "nspkmir"
+        "nspkmir",
+        "elo"
       ]
     },
     "BankCardTokenizationMethod": {
@@ -7858,7 +7863,8 @@
                 "discover",
                 "unionpay",
                 "jcb",
-                "nspkmir"
+                "nspkmir",
+                "elo"
               ]
             },
             "profit": {

@@ -911,6 +911,7 @@ paths:
             - unionpay
             - jcb
             - nspkmir
+            - elo
         - name: first6
           in: query
           description: Первые 6 цифр номера карты
@@ -1118,6 +1119,7 @@ paths:
             - unionpay
             - jcb
             - nspkmir
+            - elo
         - name: paymentAmount
           in: query
           description: Сумма платежа
@@ -3622,6 +3624,7 @@ definitions:
                 - unionpay
                 - jcb
                 - nspkmir
+                - elo
           tokenProviders:
             description: Список провайдеров платежных токенов
             type: array
@@ -3668,6 +3671,7 @@ definitions:
           - unionpay
           - jcb
           - nspkmir
+          - elo
       tokenProvider:
         description: Провайдер платежных токенов
         type: string
@@ -3697,6 +3701,7 @@ definitions:
       - unionpay
       - jcb
       - nspkmir
+      - elo
   BankCardTokenizationMethod:
     description: Метод токенизации
     type: string
@@ -5742,6 +5747,7 @@ definitions:
               - unionpay
               - jcb
               - nspkmir
+              - elo
           profit:
             description: Прибыль магазина
             type: integer
