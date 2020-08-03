@@ -912,6 +912,7 @@ paths:
             - jcb
             - nspkmir
             - elo
+            - rupay
         - name: first6
           in: query
           description: Первые 6 цифр номера карты
@@ -1120,6 +1121,7 @@ paths:
             - jcb
             - nspkmir
             - elo
+            - rupay
         - name: paymentAmount
           in: query
           description: Сумма платежа
@@ -3625,6 +3627,7 @@ definitions:
                 - jcb
                 - nspkmir
                 - elo
+                - rupay
           tokenProviders:
             description: Список провайдеров платежных токенов
             type: array
@@ -3672,6 +3675,7 @@ definitions:
           - jcb
           - nspkmir
           - elo
+          - rupay
       tokenProvider:
         description: Провайдер платежных токенов
         type: string
@@ -3702,6 +3706,7 @@ definitions:
       - jcb
       - nspkmir
       - elo
+      - rupay
   BankCardTokenizationMethod:
     description: Метод токенизации
     type: string
@@ -5748,6 +5753,7 @@ definitions:
               - jcb
               - nspkmir
               - elo
+              - rupay
           profit:
             description: Прибыль магазина
             type: integer
