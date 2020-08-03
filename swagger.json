@@ -664,7 +664,8 @@
               "unionpay",
               "jcb",
               "nspkmir",
-              "elo"
+              "elo",
+              "rupay"
             ]
           },
           {
@@ -906,7 +907,8 @@
               "unionpay",
               "jcb",
               "nspkmir",
-              "elo"
+              "elo",
+              "rupay"
             ]
           },
           {
@@ -4009,7 +4011,8 @@
                   "unionpay",
                   "jcb",
                   "nspkmir",
-                  "elo"
+                  "elo",
+                  "rupay"
                 ]
               }
             },
@@ -4067,7 +4070,8 @@
             "unionpay",
             "jcb",
             "nspkmir",
-            "elo"
+            "elo",
+            "rupay"
           ]
         },
         "tokenProvider": {
@@ -4097,7 +4101,8 @@
         "unionpay",
         "jcb",
         "nspkmir",
-        "elo"
+        "elo",
+        "rupay"
       ]
     },
     "BankCardTokenProvider": {
@@ -6431,7 +6436,8 @@
                 "unionpay",
                 "jcb",
                 "nspkmir",
-                "elo"
+                "elo",
+                "rupay"
               ]
             },
             "profit": {
