@@ -71,6 +71,7 @@ post:
               - inconsistentRefundCurrency
               - invalidRequest
               - invalidDeadline
+              - chargebackInProgress
           message:
             description: Человекочитаемое описание ошибки
             type: string

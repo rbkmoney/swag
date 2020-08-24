@@ -1,4 +1,13 @@
 type: object
 allOf:
   - $ref: '#/definitions/PaymentMethod'
-  - $ref: '#/definitions/CryptoWalletDetails'
+  - type: object
+    required:
+      - cryptoCurrencies
+    properties:
+      cryptoCurrencies:
+        description: Список криптовалют
+        type: array
+        items:
+          x-rebillyMerge:
+            - $ref: '#/definitions/CryptoCurrency'

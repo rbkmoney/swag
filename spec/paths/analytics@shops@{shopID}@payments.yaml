@@ -45,6 +45,10 @@ get:
       type: string
       enum:
         - euroset
+        - alipay
+        - wechat
+        - zotapay
+        - qps
     - name: invoiceID
       in: query
       description: Идентификатор инвойса
