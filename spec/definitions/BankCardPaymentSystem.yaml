@@ -13,3 +13,5 @@ enum:
   - unionpay
   - jcb
   - nspkmir
+  - elo
+  - rupay
