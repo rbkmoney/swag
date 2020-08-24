@@ -1,0 +1,23 @@
+get:
+  description: Получить все чарджбэки по указанному платежу.
+  tags:
+    - Payments
+  operationId: getChargebacks
+  parameters:
+    - $ref: '#/parameters/requestID'
+    - $ref: '#/parameters/deadline'
+    - $ref: '#/parameters/invoiceID'
+    - $ref: '#/parameters/paymentID'
+  responses:
+    '200':
+      description: Данные чарджбэков по платежу
+      schema:
+        type: array
+        items:
+          $ref: '#/definitions/Chargeback'
+    '404':
+      $ref: '#/responses/NotFound'
+    '401':
+      $ref: '#/responses/Unauthorized'
+    '400':
+      $ref: '#/responses/DefaultLogicError'
