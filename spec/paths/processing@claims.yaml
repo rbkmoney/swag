@@ -17,6 +17,7 @@ get:
         - accepted
         - denied
         - revoked
+    - $ref: '#/parameters/partyID'
   responses:
     '200':
       description: Список найденных заявок
@@ -39,6 +40,7 @@ post:
   parameters:
     - $ref: '#/parameters/requestID'
     - $ref: '#/parameters/deadline'
+    # TODO: понять как положит сюда
     - name: claimChangeset
       in: body
       required: true

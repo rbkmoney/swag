@@ -8,6 +8,7 @@ get:
     - $ref: '#/parameters/requestID'
     - $ref: '#/parameters/deadline'
     - $ref: '#/parameters/claimID'
+    - $ref: '#/parameters/partyID'
   responses:
     '200':
       description: Данные заявки

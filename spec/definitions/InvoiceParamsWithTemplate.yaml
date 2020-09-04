@@ -13,6 +13,9 @@ properties:
   currency:
     x-rebillyMerge:
       - $ref: '#/definitions/Currency'
+  partyID:
+    x-rebillyMerge:
+      - $ref: '#/definitions/PartyID'
   metadata:
     description: 'Метаданные, которые необходимо связать с инвойсом'
     type: object

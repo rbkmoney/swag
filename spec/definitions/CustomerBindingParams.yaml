@@ -4,3 +4,6 @@ required:
 properties:
   paymentResource:
     $ref: '#/definitions/PaymentResource'
+  partyID:
+    x-rebillyMerge:
+      - $ref: '#/definitions/PartyID'

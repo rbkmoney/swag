@@ -30,6 +30,9 @@ properties:
     type: integer
     format: int64
     minimum: 1
+  partyID:
+    x-rebillyMerge:
+      - $ref: '#/definitions/PartyID'
   currency:
     x-rebillyMerge:
       - $ref: '#/definitions/Currency'

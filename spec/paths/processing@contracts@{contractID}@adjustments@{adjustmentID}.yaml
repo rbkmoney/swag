@@ -8,6 +8,7 @@ get:
     - $ref: '#/parameters/deadline'
     - $ref: '#/parameters/contractID'
     - $ref: '#/parameters/adjustmentID'
+    - $ref: '#/parameters/partyID'
   responses:
     '200':
       description: Данные поправки к договору
