@@ -354,6 +354,7 @@ parameters:
     in: path
     description: Уникальный в рамках платформы идентификатор участника. # TODO: rephrase
     required: true
+    type: string
 tags:
   - name: Parties
     x-displayName: Участники
