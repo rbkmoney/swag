@@ -349,6 +349,11 @@ parameters:
     type: string
     maxLength: 40
     minLength: 1
+  partyID:
+    name: partyID
+    in: path
+    description: Уникальный в рамках платформы идентификатор участника. # TODO: rephrase
+    required: true
 tags:
   - name: Parties
     x-displayName: Участники
