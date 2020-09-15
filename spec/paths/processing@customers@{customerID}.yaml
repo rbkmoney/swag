@@ -7,7 +7,6 @@ get:
     - $ref: '#/parameters/requestID'
     - $ref: '#/parameters/deadline'
     - $ref: '#/parameters/customerID'
-    - $ref: '#/parameters/partyID'
   responses:
     '200':
       description: Данные плательщика
@@ -29,7 +28,6 @@ delete:
     - $ref: '#/parameters/requestID'
     - $ref: '#/parameters/deadline'
     - $ref: '#/parameters/customerID'
-    - $ref: '#/parameters/partyID' # TODO: check if makes sense
   responses:
     '204':
       description: Плательщик удален

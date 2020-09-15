@@ -28,7 +28,6 @@ put:
     - $ref: '#/parameters/requestID'
     - $ref: '#/parameters/deadline'
     - $ref: '#/parameters/invoiceTemplateID'
-    - $ref: '#/parameters/partyID'
     - name: invoiceTemplateUpdateParams
       description: Параметры модифицируемого инвойса.
       in: body
@@ -76,7 +75,6 @@ delete:
     - $ref: '#/parameters/requestID'
     - $ref: '#/parameters/deadline'
     - $ref: '#/parameters/invoiceTemplateID'
-    # - $ref: '#/parameters/partyID' TODO
   responses:
     '204':
       description: Шаблон инвойса удален.

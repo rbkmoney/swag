@@ -8,11 +8,6 @@ post:
     - $ref: '#/parameters/requestID'
     - $ref: '#/parameters/deadline'
     - $ref: '#/parameters/customerID'
-    - name: partyID
-      in: body
-      required: false
-      schema:
-        $ref: '#/definitions/PartyID' # TODO: reapproach
   responses:
     '201':
       description: Токен для доступа создан

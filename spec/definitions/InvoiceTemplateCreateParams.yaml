@@ -17,9 +17,6 @@ properties:
     $ref: '#/definitions/LifetimeInterval'
   details:
     $ref: '#/definitions/InvoiceTemplateDetails'
-  partyID:
-    x-rebillyMerge:
-      - $ref: '#/definitions/PartyID'
   metadata:
     description: >
       Метаданные, которые будут связаны с инвойсом, созданным по шаблону, в

@@ -7,7 +7,6 @@ get:
     - $ref: '#/parameters/requestID'
     - $ref: '#/parameters/deadline'
     - $ref: '#/parameters/contractID'
-    - $ref: '#/parameters/partyID'
   responses:
     '200':
       description: Набор средств вывода

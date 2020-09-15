@@ -8,7 +8,6 @@ get:
     - $ref: '#/parameters/deadline'
     - $ref: '#/parameters/customerID'
     - $ref: '#/parameters/customerBindingID'
-    - $ref: '#/parameters/partyID'
   responses:
     '200':
       description: Данные привязки

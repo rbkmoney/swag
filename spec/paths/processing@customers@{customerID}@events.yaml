@@ -7,7 +7,6 @@ get:
     - $ref: '#/parameters/requestID'
     - $ref: '#/parameters/deadline'
     - $ref: '#/parameters/customerID'
-    - $ref: '#/parameters/partyID'
     - name: limit
       in: query
       description: Лимит выборки

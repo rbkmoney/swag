@@ -6,7 +6,6 @@ get:
   parameters:
     - $ref: '#/parameters/requestID'
     - $ref: '#/parameters/deadline'
-    - $ref: '#/parameters/partyID'
   responses:
     '200':
       description: List of contracts
