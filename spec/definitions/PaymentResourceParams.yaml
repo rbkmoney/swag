@@ -10,3 +10,5 @@ properties:
     $ref: '#/definitions/PaymentTool'
   clientInfo:
     $ref: '#/definitions/ClientInfo'
+  partyID:
+    $ref: '#/definitions/PartyID'

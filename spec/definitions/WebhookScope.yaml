@@ -12,3 +12,6 @@ properties:
     enum:
       - InvoicesTopic
       - CustomersTopic
+  partyID:
+    x-rebillyMerge:
+      - $ref: '#/definitions/PartyID'
