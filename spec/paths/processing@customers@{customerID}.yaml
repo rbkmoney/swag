@@ -7,6 +7,10 @@ get:
     - $ref: '#/parameters/requestID'
     - $ref: '#/parameters/deadline'
     - $ref: '#/parameters/customerID'
+    - name: partyID
+      in: query
+      schema:
+        $ref: '#/definitions/PartyID'
   responses:
     '200':
       description: Данные плательщика
