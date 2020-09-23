@@ -7,10 +7,6 @@ post:
     - $ref: '#/parameters/requestID'
     - $ref: '#/parameters/deadline'
     - $ref: '#/parameters/invoiceTemplateID'
-    - name: partyID
-      in: query
-      schema:
-        $ref: '#/definitions/PartyID'
     - name: invoiceParamsWithTemplate
       description: Параметры создаваемого инвойса
       in: body

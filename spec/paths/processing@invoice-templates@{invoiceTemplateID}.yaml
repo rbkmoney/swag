@@ -7,10 +7,11 @@ get:
     - $ref: '#/parameters/requestID'
     - $ref: '#/parameters/deadline'
     - $ref: '#/parameters/invoiceTemplateID'
-    - name: partyID
-      in: query
-      schema:
-        $ref: '#/definitions/PartyID'
+    - x-rebillyMerge:
+      - name: partyID
+        in: query
+        required: false
+      - $ref: '#/definitions/PartyID'
   responses:
     '200':
       description: Шаблон инвойса
