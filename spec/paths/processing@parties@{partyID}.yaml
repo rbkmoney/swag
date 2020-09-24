@@ -1,0 +1,17 @@
+get:
+  tags:
+    - Parties
+  operationId: getPartyByID
+  parameters:
+    - $ref: '#/parameters/requestID'
+    - $ref: '#/parameters/deadline'
+    - $ref: '#/parameters/partyID'
+  responses:
+    '200':
+      description: Party
+      schema:
+        $ref: '#/definitions/Party'
+    '401':
+      $ref: '#/responses/Unauthorized'
+    '400':
+      $ref: '#/responses/DefaultLogicError'

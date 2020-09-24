@@ -1,0 +1,16 @@
+put:
+  description: Activate party by ID
+  operationId: activatePartyByID
+  tags:
+    - Parties
+  parameters:
+    - $ref: '#/parameters/requestID'
+    - $ref: '#/parameters/deadline'
+    - $ref: '#/parameters/partyID'
+  responses:
+    '204':
+      description: Party activated
+    '401':
+      $ref: '#/responses/Unauthorized'
+    '400':
+      $ref: '#/responses/DefaultLogicError'
