@@ -27,8 +27,7 @@ properties:
     x-rebillyMerge:
       - $ref: '#/definitions/Currency'
   partyID:
-    x-rebillyMerge:
-      - $ref: '#/definitions/PartyID'
+    $ref: '#/definitions/PartyID'
   metadata:
     description: |
       Произвольный, специфичный для клиента API и непрозрачный для системы набор данных,

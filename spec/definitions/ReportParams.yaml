@@ -18,5 +18,4 @@ properties:
     type: string
     format: date-time
   partyID:
-    x-rebillyMerge:
-      - $ref: '#/definitions/PartyID'
+    $ref: '#/definitions/PartyID'
