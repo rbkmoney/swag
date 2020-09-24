@@ -17,3 +17,6 @@ properties:
     description: Конец временного отрезка
     type: string
     format: date-time
+  partyID:
+    x-rebillyMerge:
+      - $ref: '#/definitions/PartyID'
