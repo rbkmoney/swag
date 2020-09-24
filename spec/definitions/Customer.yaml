@@ -21,7 +21,8 @@ properties:
       - ready
       - unready
   partyID:
-    $ref: '#/definitions/PartyID'
+    x-rebillyMerge:
+      - $ref: '#/definitions/PartyID'
   metadata:
     description: Связанные с плательщиком метаданные
     type: object

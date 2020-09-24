@@ -13,4 +13,5 @@ properties:
       - InvoicesTopic
       - CustomersTopic
   partyID:
-    $ref: '#/definitions/PartyID'
+    x-rebillyMerge:
+      - $ref: '#/definitions/PartyID'

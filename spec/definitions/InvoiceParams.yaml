@@ -44,7 +44,8 @@ properties:
   cart:
     $ref: '#/definitions/InvoiceCart'
   partyID:
-    $ref: '#/definitions/PartyID'
+    x-rebillyMerge:
+      - $ref: '#/definitions/PartyID'
   metadata:
     description: 'Метаданные, которые необходимо связать с инвойсом'
     type: object

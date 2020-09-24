@@ -18,7 +18,8 @@ properties:
   details:
     $ref: '#/definitions/InvoiceTemplateDetails'
   partyID:
-    $ref: '#/definitions/PartyID'
+    x-rebillyMerge:
+      - $ref: '#/definitions/PartyID'
   metadata:
     description: >
       Метаданные, которые будут связаны с инвойсом, созданным по шаблону, в
