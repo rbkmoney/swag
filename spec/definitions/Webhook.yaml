@@ -15,6 +15,9 @@ properties:
     readOnly: true
   scope:
     $ref: '#/definitions/WebhookScope'
+  partyID:
+    x-rebillyMerge:
+      - $ref: '#/definitions/PartyID'
   url:
     description: |
       URL, на который будут поступать оповещения о произошедших событиях
