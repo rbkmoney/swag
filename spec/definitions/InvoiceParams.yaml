@@ -11,6 +11,9 @@ properties:
     type: string
     maxLength: 40
     minLength: 1
+  partyID:
+    x-rebillyMerge:
+      - $ref: '#/definitions/PartyID'
   externalID:
     x-rebillyMerge:
       - $ref: '#/definitions/ExternalID'
@@ -43,9 +46,6 @@ properties:
     maxLength: 1000
   cart:
     $ref: '#/definitions/InvoiceCart'
-  partyID:
-    x-rebillyMerge:
-      - $ref: '#/definitions/PartyID'
   metadata:
     description: 'Метаданные, которые необходимо связать с инвойсом'
     type: object
