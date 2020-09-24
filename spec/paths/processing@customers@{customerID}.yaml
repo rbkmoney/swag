@@ -7,11 +7,6 @@ get:
     - $ref: '#/parameters/requestID'
     - $ref: '#/parameters/deadline'
     - $ref: '#/parameters/customerID'
-    - x-rebillyMerge:
-      - name: partyID
-        in: query
-        required: false
-      - $ref: '#/definitions/PartyID'
   responses:
     '200':
       description: Данные плательщика
