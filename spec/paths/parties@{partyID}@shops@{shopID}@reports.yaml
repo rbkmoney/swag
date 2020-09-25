@@ -1,0 +1,84 @@
+post:
+  description: Сгенерировать отчет с указанным типом по магазину за указанный промежуток времени
+  tags:
+    - Reports
+  operationId: createReportForParty
+  parameters:
+    - $ref: '#/parameters/requestID'
+    - $ref: '#/parameters/deadline'
+    - $ref: '#/parameters/shopID'
+    - $ref: '#/parameters/partyID'
+    - name: createReport
+      in: body
+      description: Параметры генерации отчета
+      required: true
+      schema:
+        $ref: '#/definitions/ReportParams'
+  responses:
+    '201':
+      description: Отчет создан
+      schema:
+        $ref: '#/definitions/Report'
+    '401':
+      $ref: '#/responses/Unauthorized'
+    '400':
+      description: Ошибочные данные для генерации
+      schema:
+        type: object
+        required:
+          - code
+          - message
+        properties:
+          code:
+            description: |
+              [Код ошибки](#tag/Error-Codes)
+            type: string
+            enum:
+              - invalidShopID
+              - invalidRequest
+              - invalidDeadline
+          message:
+            description: Человекочитаемое описание ошибки
+            type: string
+            example: "Invalid shop id"
+
+get:
+  description: Получить список отчетов по данному магазину за период
+  tags:
+    - Reports
+  operationId: getReports
+  parameters:
+    - $ref: '#/parameters/requestID'
+    - $ref: '#/parameters/deadline'
+    - $ref: '#/parameters/shopID'
+    - $ref: '#/parameters/fromTime'
+    - $ref: '#/parameters/toTime'
+  responses:
+    '200':
+      description: Найденные отчеты
+      schema:
+        type: array
+        items:
+          $ref: '#/definitions/Report'
+    '401':
+      $ref: '#/responses/Unauthorized'
+    '400':
+      description: Ошибочные данные для получения
+      schema:
+        type: object
+        required:
+          - code
+          - message
+        properties:
+          code:
+            description: |
+              [Код ошибки](#tag/Error-Codes)
+            type: string
+            enum:
+              - limitExceeded
+              - invalidRequest
+              - invalidDeadline
+          message:
+            description: Человекочитаемое описание ошибки
+            type: string
+            example: "Max limit: 1000"
