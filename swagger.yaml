@@ -1371,206 +1371,6 @@ paths:
           $ref: '#/responses/Unauthorized'
         '404':
           $ref: '#/responses/NotFound'
-  '/parties/{partyID}/contracts':
-    get:
-      description: Получить данные всех договоров участника
-      operationId: getContractsForParty
-      tags:
-        - Contracts
-      parameters:
-        - $ref: '#/parameters/requestID'
-        - $ref: '#/parameters/deadline'
-        - $ref: '#/parameters/partyID'
-      responses:
-        '200':
-          description: List of contracts
-          schema:
-            type: array
-            items:
-              $ref: '#/definitions/Contract'
-        '400':
-          $ref: '#/responses/DefaultLogicError'
-        '401':
-          $ref: '#/responses/Unauthorized'
-  '/parties/{partyID}/contracts/{contractID}/adjustments':
-    get:
-      description: Получить данные всех поправок к указанному договору
-      operationId: getContractAdjustmentsForParty
-      tags:
-        - Contracts
-      parameters:
-        - $ref: '#/parameters/requestID'
-        - $ref: '#/parameters/deadline'
-        - $ref: '#/parameters/contractID'
-        - $ref: '#/parameters/partyID'
-      responses:
-        '200':
-          description: Набор поправок к договору
-          schema:
-            type: array
-            items:
-              $ref: '#/definitions/ContractAdjustment'
-        '400':
-          $ref: '#/responses/DefaultLogicError'
-        '401':
-          $ref: '#/responses/Unauthorized'
-        '404':
-          $ref: '#/responses/NotFound'
-  '/parties/{partyID}/contracts/{contractID}/adjustments/{adjustmentID}':
-    get:
-      description: Получить данные поправки к договору по её идентификатору
-      operationId: getContractAdjustmentByIDForParty
-      tags:
-        - Contracts
-      parameters:
-        - $ref: '#/parameters/requestID'
-        - $ref: '#/parameters/deadline'
-        - $ref: '#/parameters/contractID'
-        - $ref: '#/parameters/adjustmentID'
-        - $ref: '#/parameters/partyID'
-      responses:
-        '200':
-          description: Данные поправки к договору
-          schema:
-            $ref: '#/definitions/ContractAdjustment'
-        '400':
-          $ref: '#/responses/DefaultLogicError'
-        '401':
-          $ref: '#/responses/Unauthorized'
-        '404':
-          $ref: '#/responses/NotFound'
-  '/parties/{partyID}/contracts/{contractID}/payout_tools':
-    get:
-      description: Получить данные всех средств вывода
-      operationId: getPayoutToolsForParty
-      tags:
-        - Payouts
-      parameters:
-        - $ref: '#/parameters/requestID'
-        - $ref: '#/parameters/deadline'
-        - $ref: '#/parameters/contractID'
-        - $ref: '#/parameters/partyID'
-      responses:
-        '200':
-          description: Набор средств вывода
-          schema:
-            type: array
-            items:
-              $ref: '#/definitions/PayoutTool'
-        '400':
-          $ref: '#/responses/DefaultLogicError'
-        '401':
-          $ref: '#/responses/Unauthorized'
-        '404':
-          $ref: '#/responses/NotFound'
-  '/parties/{partyID}/contracts/{contractID}/payout_tools/{payoutToolID}':
-    get:
-      description: Получить данные средства вывода по его идентификатору
-      operationId: getPayoutToolByIDForParty
-      tags:
-        - Payouts
-      parameters:
-        - $ref: '#/parameters/requestID'
-        - $ref: '#/parameters/deadline'
-        - $ref: '#/parameters/contractID'
-        - $ref: '#/parameters/payoutToolID'
-        - $ref: '#/parameters/partyID'
-      responses:
-        '200':
-          description: Данные средства вывода
-          schema:
-            $ref: '#/definitions/PayoutTool'
-        '400':
-          $ref: '#/responses/DefaultLogicError'
-        '401':
-          $ref: '#/responses/Unauthorized'
-        '404':
-          $ref: '#/responses/NotFound'
-  '/parties/{partyID}/shops':
-    get:
-      description: Get all shops
-      operationId: getShopsForParty
-      tags:
-        - Shops
-      parameters:
-        - $ref: '#/parameters/requestID'
-        - $ref: '#/parameters/deadline'
-        - $ref: '#/parameters/partyID'
-      responses:
-        '200':
-          description: List of shops
-          schema:
-            type: array
-            items:
-              $ref: '#/definitions/Shop'
-        '400':
-          $ref: '#/responses/DefaultLogicError'
-        '401':
-          $ref: '#/responses/Unauthorized'
-  '/parties/{partyID}/shops/{shopID}':
-    get:
-      description: Get shop by id
-      operationId: getShopByIDForParty
-      tags:
-        - Shops
-      parameters:
-        - $ref: '#/parameters/requestID'
-        - $ref: '#/parameters/deadline'
-        - $ref: '#/parameters/shopID'
-        - $ref: '#/parameters/partyID'
-      responses:
-        '200':
-          description: Shop found
-          schema:
-            $ref: '#/definitions/Shop'
-        '400':
-          $ref: '#/responses/DefaultLogicError'
-        '401':
-          $ref: '#/responses/Unauthorized'
-        '404':
-          $ref: '#/responses/NotFound'
-  '/parties/{partyID}/shops/{shopID}/activate':
-    put:
-      description: Activate shop
-      operationId: activateShopForParty
-      tags:
-        - Shops
-      parameters:
-        - $ref: '#/parameters/requestID'
-        - $ref: '#/parameters/deadline'
-        - $ref: '#/parameters/shopID'
-        - $ref: '#/parameters/partyID'
-      responses:
-        '204':
-          description: Shop activated
-        '400':
-          $ref: '#/responses/DefaultLogicError'
-        '401':
-          $ref: '#/responses/Unauthorized'
-        '404':
-          $ref: '#/responses/NotFound'
-  '/parties/{partyID}/shops/{shopID}/suspend':
-    put:
-      description: |
-        Приостановить действие магазина. Этот тип заявок обрабатывается платформой
-        автоматически и исполняется сразу же после отправки.
-      operationId: suspendShopForParty
-      tags:
-        - Shops
-      parameters:
-        - $ref: '#/parameters/requestID'
-        - $ref: '#/parameters/deadline'
-        - $ref: '#/parameters/shopID'
-        - $ref: '#/parameters/partyID'
-      responses:
-        '204':
-          description: Shop suspended
-        '400':
-          $ref: '#/responses/DefaultLogicError'
-        '401':
-          $ref: '#/responses/Unauthorized'
-        '404':
-          $ref: '#/responses/NotFound'
   '/processing/accounts/{accountID}':
     get:
       description: Get account by ID
@@ -3056,6 +2856,258 @@ paths:
           $ref: '#/responses/DefaultLogicError'
         '401':
           $ref: '#/responses/Unauthorized'
+  '/processing/parties/{partyID}':
+    get:
+      tags:
+        - Parties
+      operationId: getPartyByID
+      parameters:
+        - $ref: '#/parameters/requestID'
+        - $ref: '#/parameters/deadline'
+        - $ref: '#/parameters/partyID'
+      responses:
+        '200':
+          description: Party
+          schema:
+            $ref: '#/definitions/Party'
+        '400':
+          $ref: '#/responses/DefaultLogicError'
+        '401':
+          $ref: '#/responses/Unauthorized'
+  '/processing/parties/{partyID}/activate':
+    put:
+      description: Activate party by ID
+      operationId: activatePartyByID
+      tags:
+        - Parties
+      parameters:
+        - $ref: '#/parameters/requestID'
+        - $ref: '#/parameters/deadline'
+        - $ref: '#/parameters/partyID'
+      responses:
+        '204':
+          description: Party activated
+        '400':
+          $ref: '#/responses/DefaultLogicError'
+        '401':
+          $ref: '#/responses/Unauthorized'
+  '/processing/parties/{partyID}/contracts':
+    get:
+      description: Получить данные всех договоров участника
+      operationId: getContractsForParty
+      tags:
+        - Contracts
+      parameters:
+        - $ref: '#/parameters/requestID'
+        - $ref: '#/parameters/deadline'
+        - $ref: '#/parameters/partyID'
+      responses:
+        '200':
+          description: List of contracts
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Contract'
+        '400':
+          $ref: '#/responses/DefaultLogicError'
+        '401':
+          $ref: '#/responses/Unauthorized'
+  '/processing/parties/{partyID}/contracts/{contractID}/adjustments':
+    get:
+      description: Получить данные всех поправок к указанному договору
+      operationId: getContractAdjustmentsForParty
+      tags:
+        - Contracts
+      parameters:
+        - $ref: '#/parameters/requestID'
+        - $ref: '#/parameters/deadline'
+        - $ref: '#/parameters/contractID'
+        - $ref: '#/parameters/partyID'
+      responses:
+        '200':
+          description: Набор поправок к договору
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/ContractAdjustment'
+        '400':
+          $ref: '#/responses/DefaultLogicError'
+        '401':
+          $ref: '#/responses/Unauthorized'
+        '404':
+          $ref: '#/responses/NotFound'
+  '/processing/parties/{partyID}/contracts/{contractID}/adjustments/{adjustmentID}':
+    get:
+      description: Получить данные поправки к договору по её идентификатору
+      operationId: getContractAdjustmentByIDForParty
+      tags:
+        - Contracts
+      parameters:
+        - $ref: '#/parameters/requestID'
+        - $ref: '#/parameters/deadline'
+        - $ref: '#/parameters/contractID'
+        - $ref: '#/parameters/adjustmentID'
+        - $ref: '#/parameters/partyID'
+      responses:
+        '200':
+          description: Данные поправки к договору
+          schema:
+            $ref: '#/definitions/ContractAdjustment'
+        '400':
+          $ref: '#/responses/DefaultLogicError'
+        '401':
+          $ref: '#/responses/Unauthorized'
+        '404':
+          $ref: '#/responses/NotFound'
+  '/processing/parties/{partyID}/contracts/{contractID}/payout_tools':
+    get:
+      description: Получить данные всех средств вывода
+      operationId: getPayoutToolsForParty
+      tags:
+        - Payouts
+      parameters:
+        - $ref: '#/parameters/requestID'
+        - $ref: '#/parameters/deadline'
+        - $ref: '#/parameters/contractID'
+        - $ref: '#/parameters/partyID'
+      responses:
+        '200':
+          description: Набор средств вывода
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/PayoutTool'
+        '400':
+          $ref: '#/responses/DefaultLogicError'
+        '401':
+          $ref: '#/responses/Unauthorized'
+        '404':
+          $ref: '#/responses/NotFound'
+  '/processing/parties/{partyID}/contracts/{contractID}/payout_tools/{payoutToolID}':
+    get:
+      description: Получить данные средства вывода по его идентификатору
+      operationId: getPayoutToolByIDForParty
+      tags:
+        - Payouts
+      parameters:
+        - $ref: '#/parameters/requestID'
+        - $ref: '#/parameters/deadline'
+        - $ref: '#/parameters/contractID'
+        - $ref: '#/parameters/payoutToolID'
+        - $ref: '#/parameters/partyID'
+      responses:
+        '200':
+          description: Данные средства вывода
+          schema:
+            $ref: '#/definitions/PayoutTool'
+        '400':
+          $ref: '#/responses/DefaultLogicError'
+        '401':
+          $ref: '#/responses/Unauthorized'
+        '404':
+          $ref: '#/responses/NotFound'
+  '/processing/parties/{partyID}/shops':
+    get:
+      description: Get all shops
+      operationId: getShopsForParty
+      tags:
+        - Shops
+      parameters:
+        - $ref: '#/parameters/requestID'
+        - $ref: '#/parameters/deadline'
+        - $ref: '#/parameters/partyID'
+      responses:
+        '200':
+          description: List of shops
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Shop'
+        '400':
+          $ref: '#/responses/DefaultLogicError'
+        '401':
+          $ref: '#/responses/Unauthorized'
+  '/processing/parties/{partyID}/shops/{shopID}':
+    get:
+      description: Get shop by id
+      operationId: getShopByIDForParty
+      tags:
+        - Shops
+      parameters:
+        - $ref: '#/parameters/requestID'
+        - $ref: '#/parameters/deadline'
+        - $ref: '#/parameters/shopID'
+        - $ref: '#/parameters/partyID'
+      responses:
+        '200':
+          description: Shop found
+          schema:
+            $ref: '#/definitions/Shop'
+        '400':
+          $ref: '#/responses/DefaultLogicError'
+        '401':
+          $ref: '#/responses/Unauthorized'
+        '404':
+          $ref: '#/responses/NotFound'
+  '/processing/parties/{partyID}/shops/{shopID}/activate':
+    put:
+      description: Activate shop
+      operationId: activateShopForParty
+      tags:
+        - Shops
+      parameters:
+        - $ref: '#/parameters/requestID'
+        - $ref: '#/parameters/deadline'
+        - $ref: '#/parameters/shopID'
+        - $ref: '#/parameters/partyID'
+      responses:
+        '204':
+          description: Shop activated
+        '400':
+          $ref: '#/responses/DefaultLogicError'
+        '401':
+          $ref: '#/responses/Unauthorized'
+        '404':
+          $ref: '#/responses/NotFound'
+  '/processing/parties/{partyID}/shops/{shopID}/suspend':
+    put:
+      description: |
+        Приостановить действие магазина. Этот тип заявок обрабатывается платформой
+        автоматически и исполняется сразу же после отправки.
+      operationId: suspendShopForParty
+      tags:
+        - Shops
+      parameters:
+        - $ref: '#/parameters/requestID'
+        - $ref: '#/parameters/deadline'
+        - $ref: '#/parameters/shopID'
+        - $ref: '#/parameters/partyID'
+      responses:
+        '204':
+          description: Shop suspended
+        '400':
+          $ref: '#/responses/DefaultLogicError'
+        '401':
+          $ref: '#/responses/Unauthorized'
+        '404':
+          $ref: '#/responses/NotFound'
+  '/processing/parties/{partyID}/suspend':
+    put:
+      description: Suspend party by ID
+      operationId: suspendPartyByID
+      tags:
+        - Parties
+      parameters:
+        - $ref: '#/parameters/requestID'
+        - $ref: '#/parameters/deadline'
+        - $ref: '#/parameters/partyID'
+      responses:
+        '204':
+          description: Party suspended
+        '400':
+          $ref: '#/responses/DefaultLogicError'
+        '401':
+          $ref: '#/responses/Unauthorized'
   /processing/payment-institutions:
     get:
       description: Получить список платёжных организаций
@@ -3994,11 +4046,6 @@ definitions:
             maxItems: 100
             items:
               $ref: '#/definitions/InvoiceLine'
-          partyID:
-            description: Уникальный в рамках платформы идентификатор участника.
-            type: string
-            minLength: 1
-            maxLength: 40
   CardData:
     type: object
     allOf:
@@ -4497,6 +4544,11 @@ definitions:
       shopID:
         description: Идентификатор магазина
         type: string
+      partyID:
+        description: Уникальный в рамках платформы идентификатор участника.
+        type: string
+        minLength: 1
+        maxLength: 40
       contactInfo:
         $ref: '#/definitions/ContactInfo'
       status:
@@ -4506,11 +4558,6 @@ definitions:
         enum:
           - ready
           - unready
-      partyID:
-        description: Уникальный в рамках платформы идентификатор участника.
-        type: string
-        minLength: 1
-        maxLength: 40
       metadata:
         description: Связанные с плательщиком метаданные
         type: object
@@ -4580,11 +4627,6 @@ definitions:
     properties:
       paymentResource:
         $ref: '#/definitions/PaymentResource'
-      partyID:
-        description: Уникальный в рамках платформы идентификатор участника.
-        type: string
-        minLength: 1
-        maxLength: 40
   CustomerBindingStarted:
     type: object
     allOf:
@@ -5191,6 +5233,11 @@ definitions:
         type: string
         maxLength: 40
         minLength: 1
+      partyID:
+        description: Уникальный в рамках платформы идентификатор участника.
+        type: string
+        minLength: 1
+        maxLength: 40
       externalID:
         description: |
           Уникальный в рамках платформы идентификатор сущности для данного участника.
@@ -5229,11 +5276,6 @@ definitions:
         maxLength: 1000
       cart:
         $ref: '#/definitions/InvoiceCart'
-      partyID:
-        description: Уникальный в рамках платформы идентификатор участника.
-        type: string
-        minLength: 1
-        maxLength: 40
       metadata:
         description: 'Метаданные, которые необходимо связать с инвойсом'
         type: object
@@ -5421,6 +5463,11 @@ definitions:
         type: string
         maxLength: 40
         minLength: 1
+      partyID:
+        description: Уникальный в рамках платформы идентификатор участника.
+        type: string
+        minLength: 1
+        maxLength: 40
       description:
         description: Описание предлагаемых товаров или услуг
         type: string
@@ -5429,11 +5476,6 @@ definitions:
         $ref: '#/definitions/LifetimeInterval'
       details:
         $ref: '#/definitions/InvoiceTemplateDetails'
-      partyID:
-        description: Уникальный в рамках платформы идентификатор участника.
-        type: string
-        minLength: 1
-        maxLength: 40
       metadata:
         description: |
           Метаданные, которые будут связаны с инвойсом, созданным по шаблону, в случае, если иные метаданные не указаны в запросе на создание инвойса.
@@ -6035,11 +6077,6 @@ definitions:
           Успешно проведеный платеж с этим признаком можно использовать как родительский в других рекуррентных платежах.
         type: boolean
         default: false
-      partyID:
-        description: Уникальный в рамках платформы идентификатор участника.
-        type: string
-        minLength: 1
-        maxLength: 40
       metadata:
         description: 'Метаданные, которые необходимо связать с платежом'
         type: object
@@ -6103,8 +6140,6 @@ definitions:
         $ref: '#/definitions/PaymentTool'
       clientInfo:
         $ref: '#/definitions/ClientInfo'
-      partyID:
-        $ref: '#/definitions/PartyID'
   PaymentResourcePayer:
     type: object
     description: Одноразовое платежное средство
@@ -6470,6 +6505,11 @@ definitions:
       shopID:
         description: Идентификатор магазина
         type: string
+      partyID:
+        description: Уникальный в рамках платформы идентификатор участника.
+        type: string
+        minLength: 1
+        maxLength: 40
       payoutToolID:
         description: Идентификатор инструмента выплаты
         type: string
@@ -6485,11 +6525,6 @@ definitions:
         description: 'Валюта, символьный код согласно [ISO 4217](http://www.iso.org/iso/home/standards/currency_codes.htm).'
         type: string
         pattern: '^[A-Z]{3}$'
-      partyID:
-        description: Уникальный в рамках платформы идентификатор участника.
-        type: string
-        minLength: 1
-        maxLength: 40
       metadata:
         description: |
           Произвольный, специфичный для клиента API и непрозрачный для системы набор данных,
@@ -6784,11 +6819,6 @@ definitions:
         maxItems: 100
         items:
           $ref: '#/definitions/InvoiceLine'
-      partyID:
-        description: Уникальный в рамках платформы идентификатор участника.
-        type: string
-        minLength: 1
-        maxLength: 40
   RefundSearchResult:
     type: object
     allOf:
@@ -6946,6 +6976,11 @@ definitions:
         description: Конец временного отрезка
         type: string
         format: date-time
+      partyID:
+        description: Уникальный в рамках платформы идентификатор участника.
+        type: string
+        minLength: 1
+        maxLength: 40
   Representative:
     description: ЕИО/Представитель
     type: object
@@ -7448,6 +7483,11 @@ definitions:
         readOnly: true
       scope:
         $ref: '#/definitions/WebhookScope'
+      partyID:
+        description: Уникальный в рамках платформы идентификатор участника.
+        type: string
+        minLength: 1
+        maxLength: 40
       url:
         description: |
           URL, на который будут поступать оповещения о произошедших событиях
@@ -7477,8 +7517,3 @@ definitions:
         enum:
           - InvoicesTopic
           - CustomersTopic
-      partyID:
-        description: Уникальный в рамках платформы идентификатор участника.
-        type: string
-        minLength: 1
-        maxLength: 40
