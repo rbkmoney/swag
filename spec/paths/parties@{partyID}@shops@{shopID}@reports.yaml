@@ -41,6 +41,8 @@ post:
             description: Человекочитаемое описание ошибки
             type: string
             example: "Invalid shop id"
+    '404':
+      $ref: '#/responses/NotFound'
 
 get:
   description: Получить список отчетов по данному магазину за период

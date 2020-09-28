@@ -14,3 +14,5 @@ put:
       $ref: '#/responses/Unauthorized'
     '400':
       $ref: '#/responses/DefaultLogicError'
+    '404':
+      $ref: '#/responses/NotFound'
