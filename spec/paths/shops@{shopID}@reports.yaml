@@ -36,6 +36,8 @@ post:
               - invalidShopID
               - invalidRequest
               - invalidDeadline
+              - missingPartyID
+              - ambigiousPartyID
           message:
             description: Человекочитаемое описание ошибки
             type: string
