@@ -47,7 +47,7 @@ post:
               - invalidRequest
               - invalidDeadline
               - missingPartyID
-              - ambigiousPartyID
+              - ambiguousPartyID
           message:
             description: Человекочитаемое описание ошибки
             type: string
