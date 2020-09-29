@@ -20,6 +20,8 @@ post:
         $ref: '#/definitions/Report'
     '401':
       $ref: '#/responses/Unauthorized'
+    '404':
+      $ref: '#/responses/NotFound'
     '400':
       description: Ошибочные данные для генерации
       schema:
@@ -36,8 +38,6 @@ post:
               - invalidShopID
               - invalidRequest
               - invalidDeadline
-              - missingPartyID
-              - ambigiousPartyID
           message:
             description: Человекочитаемое описание ошибки
             type: string
@@ -63,6 +63,8 @@ get:
           $ref: '#/definitions/Report'
     '401':
       $ref: '#/responses/Unauthorized'
+    '404':
+      $ref: '#/responses/NotFound'
     '400':
       description: Ошибочные данные для получения
       schema:
