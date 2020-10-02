@@ -67,6 +67,7 @@ post:
               - invalidInvoiceCart
               - invalidInvoiceCost
               - invoiceTermsViolated
+              - ambiguousPartyID
           message:
             description: Человекочитаемое описание ошибки
             type: string
