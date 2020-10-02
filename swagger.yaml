@@ -540,6 +540,7 @@ tags:
         | **invalidDeadline**              | Неверный формат времени.                                                                                                              |
         | **chargebackInProgress**         | Попытка возврата при открытом возвратном платеже.                                                                                     |
         | **invalidRequest**               | Прочие неверные данные запроса.                                                                                                       |
+        | **ambiguousPartyID**             | Невозможно однозначно определить идентификатор участника, укажите идентификатор в запросе явно.                                       |
 
       ## Общие ошибки
       Ошибки возникающие при попытках совершения операций с незарегистрированными в системе объектами. Имеют вид
@@ -1371,6 +1372,140 @@ paths:
           $ref: '#/responses/Unauthorized'
         '404':
           $ref: '#/responses/NotFound'
+  '/parties/{partyID}/shops/{shopID}/reports':
+    post:
+      description: Сгенерировать отчет с указанным типом по магазину за указанный промежуток времени
+      tags:
+        - Reports
+      operationId: createReportForParty
+      parameters:
+        - $ref: '#/parameters/requestID'
+        - $ref: '#/parameters/deadline'
+        - $ref: '#/parameters/shopID'
+        - $ref: '#/parameters/partyID'
+        - name: createReport
+          in: body
+          description: Параметры генерации отчета
+          required: true
+          schema:
+            $ref: '#/definitions/ReportParams'
+      responses:
+        '201':
+          description: Отчет создан
+          schema:
+            $ref: '#/definitions/Report'
+        '400':
+          description: Ошибочные данные для генерации
+          schema:
+            type: object
+            required:
+              - code
+              - message
+            properties:
+              code:
+                description: |
+                  [Код ошибки](#tag/Error-Codes)
+                type: string
+                enum:
+                  - invalidShopID
+                  - invalidRequest
+                  - invalidDeadline
+              message:
+                description: Человекочитаемое описание ошибки
+                type: string
+                example: Invalid shop id
+        '401':
+          $ref: '#/responses/Unauthorized'
+        '404':
+          $ref: '#/responses/NotFound'
+    get:
+      description: Получить список отчетов по данному магазину за период
+      tags:
+        - Reports
+      operationId: getReportsForParty
+      parameters:
+        - $ref: '#/parameters/requestID'
+        - $ref: '#/parameters/deadline'
+        - $ref: '#/parameters/shopID'
+        - $ref: '#/parameters/fromTime'
+        - $ref: '#/parameters/toTime'
+        - $ref: '#/parameters/partyID'
+      responses:
+        '200':
+          description: Найденные отчеты
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Report'
+        '400':
+          description: Ошибочные данные для получения
+          schema:
+            type: object
+            required:
+              - code
+              - message
+            properties:
+              code:
+                description: |
+                  [Код ошибки](#tag/Error-Codes)
+                type: string
+                enum:
+                  - limitExceeded
+                  - invalidRequest
+                  - invalidDeadline
+              message:
+                description: Человекочитаемое описание ошибки
+                type: string
+                example: 'Max limit: 1000'
+        '401':
+          $ref: '#/responses/Unauthorized'
+  '/parties/{partyID}/shops/{shopID}/reports/{reportID}':
+    get:
+      description: Получить отчет по данному идентификатору
+      tags:
+        - Reports
+      operationId: getReportForParty
+      parameters:
+        - $ref: '#/parameters/requestID'
+        - $ref: '#/parameters/deadline'
+        - $ref: '#/parameters/shopID'
+        - $ref: '#/parameters/reportID'
+        - $ref: '#/parameters/partyID'
+      responses:
+        '200':
+          description: Найденный отчет
+          schema:
+            $ref: '#/definitions/Report'
+        '400':
+          $ref: '#/responses/DefaultLogicError'
+        '401':
+          $ref: '#/responses/Unauthorized'
+        '404':
+          $ref: '#/responses/NotFound'
+  '/parties/{partyID}/shops/{shopID}/reports/{reportID}/files/{fileID}/download':
+    get:
+      description: Скачать файл
+      tags:
+        - Reports
+      operationId: downloadFileForParty
+      parameters:
+        - $ref: '#/parameters/requestID'
+        - $ref: '#/parameters/deadline'
+        - $ref: '#/parameters/shopID'
+        - $ref: '#/parameters/partyID'
+        - $ref: '#/parameters/reportID'
+        - $ref: '#/parameters/fileID'
+      responses:
+        '200':
+          description: Download link
+          schema:
+            $ref: '#/definitions/ReportLink'
+        '400':
+          $ref: '#/responses/DefaultLogicError'
+        '401':
+          $ref: '#/responses/Unauthorized'
+        '404':
+          $ref: '#/responses/NotFound'
   '/processing/accounts/{accountID}':
     get:
       description: Get account by ID
@@ -1749,6 +1884,7 @@ paths:
                   - invalidShopStatus
                   - invalidRequest
                   - invalidDeadline
+                  - ambiguousPartyID
               message:
                 description: Человекочитаемое описание ошибки
                 type: string
@@ -2007,6 +2143,7 @@ paths:
                   - invalidPartyStatus
                   - invalidShopStatus
                   - invalidInvoiceCart
+                  - ambiguousPartyID
               message:
                 description: Человекочитаемое описание ошибки
                 type: string
@@ -2256,6 +2393,7 @@ paths:
                   - invalidInvoiceCart
                   - invalidInvoiceCost
                   - invoiceTermsViolated
+                  - ambiguousPartyID
               message:
                 description: Человекочитаемое описание ошибки
                 type: string
@@ -2874,6 +3012,8 @@ paths:
           $ref: '#/responses/DefaultLogicError'
         '401':
           $ref: '#/responses/Unauthorized'
+        '404':
+          $ref: '#/responses/NotFound'
   '/processing/parties/{partyID}/activate':
     put:
       description: Activate party by ID
@@ -2891,6 +3031,8 @@ paths:
           $ref: '#/responses/DefaultLogicError'
         '401':
           $ref: '#/responses/Unauthorized'
+        '404':
+          $ref: '#/responses/NotFound'
   '/processing/parties/{partyID}/contracts':
     get:
       description: Получить данные всех договоров участника
@@ -2912,6 +3054,30 @@ paths:
           $ref: '#/responses/DefaultLogicError'
         '401':
           $ref: '#/responses/Unauthorized'
+        '404':
+          $ref: '#/responses/NotFound'
+  '/processing/parties/{partyID}/contracts/{contractID}':
+    get:
+      description: Получить данные договора по его ID
+      operationId: getContractByIDForParty
+      tags:
+        - Contracts
+      parameters:
+        - $ref: '#/parameters/requestID'
+        - $ref: '#/parameters/deadline'
+        - $ref: '#/parameters/contractID'
+        - $ref: '#/parameters/partyID'
+      responses:
+        '200':
+          description: Contract found
+          schema:
+            $ref: '#/definitions/Contract'
+        '400':
+          $ref: '#/responses/DefaultLogicError'
+        '401':
+          $ref: '#/responses/Unauthorized'
+        '404':
+          $ref: '#/responses/NotFound'
   '/processing/parties/{partyID}/contracts/{contractID}/adjustments':
     get:
       description: Получить данные всех поправок к указанному договору
@@ -3027,6 +3193,8 @@ paths:
           $ref: '#/responses/DefaultLogicError'
         '401':
           $ref: '#/responses/Unauthorized'
+        '404':
+          $ref: '#/responses/NotFound'
   '/processing/parties/{partyID}/shops/{shopID}':
     get:
       description: Get shop by id
@@ -3108,6 +3276,8 @@ paths:
           $ref: '#/responses/DefaultLogicError'
         '401':
           $ref: '#/responses/Unauthorized'
+        '404':
+          $ref: '#/responses/NotFound'
   /processing/payment-institutions:
     get:
       description: Получить список платёжных организаций
@@ -3345,6 +3515,7 @@ paths:
                   - invalidCash
                   - invalidRequest
                   - invalidDeadline
+                  - ambiguousPartyID
               message:
                 description: Человекочитаемое описание ошибки
                 type: string
@@ -3542,6 +3713,7 @@ paths:
                   - invalidShopID
                   - invalidRequest
                   - invalidDeadline
+                  - ambiguousPartyID
               message:
                 description: Человекочитаемое описание ошибки
                 type: string
@@ -3696,6 +3868,8 @@ paths:
                 example: Invalid shop id
         '401':
           $ref: '#/responses/Unauthorized'
+        '404':
+          $ref: '#/responses/NotFound'
     get:
       description: Получить список отчетов по данному магазину за период
       tags:
@@ -3736,6 +3910,8 @@ paths:
                 example: 'Max limit: 1000'
         '401':
           $ref: '#/responses/Unauthorized'
+        '404':
+          $ref: '#/responses/NotFound'
   '/shops/{shopID}/reports/{reportID}':
     get:
       description: Получить отчет по данному идентификатору
@@ -6976,11 +7152,6 @@ definitions:
         description: Конец временного отрезка
         type: string
         format: date-time
-      partyID:
-        description: Уникальный в рамках платформы идентификатор участника.
-        type: string
-        minLength: 1
-        maxLength: 40
   Representative:
     description: ЕИО/Представитель
     type: object
