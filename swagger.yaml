@@ -517,7 +517,7 @@ tags:
         | **invalidPartyStatus**           | Ваш участник заблокирован или его операции приостановлены. В последнем случае вы можете их [возобновить](#operation/activateMyParty). |
         | **invalidShopStatus**            | Ваш магазин заблокирован или его операции приостановлены. В последнем случае вы можете их [возобновить](#operation/activateShop).     |
         | **invalidContractStatus**        | Ваш договор более не имеет силы, по причине истечения срока действия или расторжения.                                                 |
-        | **invalidShopID**                | Указан идентификатор несуществующего магазина.                                                                                        |
+        | **invalidShopID**                | Магазин с указанным идентификатором не существует или недоступен.                                                                    |
         | **invalidInvoiceCost**           | Стоимость инвойса не указана или неверна, в частности, не равна стоимости позиций в корзине.                                          |
         | **invalidInvoiceCart**           | Некорректная корзина в инвойсе, Например, пустая.                                                                                     |
         | **invalidInvoiceStatus**         | Неверный [статус инвойса](#tag/Invoices). Например, при попытке [оплатить](#operation/createPayment) отменённый инвойс.               |
@@ -540,6 +540,7 @@ tags:
         | **invalidDeadline**              | Неверный формат времени.                                                                                                              |
         | **chargebackInProgress**         | Попытка возврата при открытом возвратном платеже.                                                                                     |
         | **invalidRequest**               | Прочие неверные данные запроса.                                                                                                       |
+        | **invalidPartyID**               | Участник с указанным идентификатором не существует или недоступен.                                                                  |
         | **ambiguousPartyID**             | Невозможно однозначно определить идентификатор участника, укажите идентификатор в запросе явно.                                       |
 
       ## Общие ошибки
@@ -1879,6 +1880,7 @@ paths:
                 type: string
                 enum:
                   - operationNotPermitted
+                  - invalidPartyID
                   - invalidShopID
                   - invalidPartyStatus
                   - invalidShopStatus
@@ -2137,6 +2139,7 @@ paths:
                   [Код ошибки](#tag/Error-Codes)
                 type: string
                 enum:
+                  - invalidPartyID
                   - invalidRequest
                   - invalidDeadline
                   - invalidShopID
@@ -2385,6 +2388,7 @@ paths:
                   [Код ошибки](#tag/Error-Codes)
                 type: string
                 enum:
+                  - invalidPartyID
                   - invalidShopID
                   - invalidRequest
                   - invalidDeadline
@@ -2397,7 +2401,7 @@ paths:
               message:
                 description: Человекочитаемое описание ошибки
                 type: string
-                example: Shop not found
+                example: Shop not found or inaccessible
         '401':
           $ref: '#/responses/Unauthorized'
         '409':
@@ -3511,6 +3515,7 @@ paths:
                   [Код ошибки](#tag/Error-Codes)
                 type: string
                 enum:
+                  - invalidPartyID
                   - invalidPayoutTool
                   - invalidCash
                   - invalidRequest
@@ -3710,6 +3715,7 @@ paths:
                   [Код ошибки](#tag/Error-Codes)
                 type: string
                 enum:
+                  - invalidPartyID
                   - invalidShopID
                   - invalidRequest
                   - invalidDeadline
@@ -3717,7 +3723,7 @@ paths:
               message:
                 description: Человекочитаемое описание ошибки
                 type: string
-                example: Shop not found
+                example: Shop not found or inaccessible
         '401':
           $ref: '#/responses/Unauthorized'
         '429':
