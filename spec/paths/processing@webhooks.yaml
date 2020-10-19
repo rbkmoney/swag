@@ -43,6 +43,7 @@ post:
               [Код ошибки](#tag/Error-Codes)
             type: string
             enum:
+              - invalidPartyID
               - invalidShopID
               - invalidRequest
               - invalidDeadline
@@ -50,7 +51,7 @@ post:
           message:
             description: Человекочитаемое описание ошибки
             type: string
-            example: Shop not found
+            example: Shop not found or inaccessible
 
 get:
   description: Получить набор установленных webhook'ов.

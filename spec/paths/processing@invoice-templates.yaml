@@ -32,6 +32,7 @@ post:
               [Код ошибки](#tag/Error-Codes)
             type: string
             enum:
+              - invalidPartyID
               - invalidRequest
               - invalidDeadline
               - invalidShopID
