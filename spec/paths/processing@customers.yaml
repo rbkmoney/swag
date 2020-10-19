@@ -33,6 +33,7 @@ post:
             type: string
             enum:
               - operationNotPermitted
+              - invalidPartyID
               - invalidShopID
               - invalidPartyStatus
               - invalidShopStatus
