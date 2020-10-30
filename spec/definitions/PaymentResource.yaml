@@ -18,3 +18,8 @@ properties:
     allOf:
       - $ref: '#/definitions/ClientInfo'
       - readOnly: true
+  validUntil:
+    description: Дата и время, до наступления которых платежный токен остается действительным
+    type: string
+    format: date-time
+    readOnly: true
