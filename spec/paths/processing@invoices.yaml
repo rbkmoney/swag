@@ -59,6 +59,7 @@ post:
               [Код ошибки](#tag/Error-Codes)
             type: string
             enum:
+              - invalidPartyID
               - invalidShopID
               - invalidRequest
               - invalidDeadline
@@ -67,9 +68,10 @@ post:
               - invalidInvoiceCart
               - invalidInvoiceCost
               - invoiceTermsViolated
+              - ambiguousPartyID
           message:
             description: Человекочитаемое описание ошибки
             type: string
-            example: Shop not found
+            example: Shop not found or inaccessible
     '409':
       $ref: '#/responses/ExternalIDConflict'

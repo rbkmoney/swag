@@ -1,0 +1,22 @@
+get:
+  description: Get all shops
+  operationId: getShopsForParty
+  tags:
+    - Shops
+  parameters:
+    - $ref: '#/parameters/requestID'
+    - $ref: '#/parameters/deadline'
+    - $ref: '#/parameters/partyID'
+  responses:
+    '200':
+      description: List of shops
+      schema:
+        type: array
+        items:
+          $ref: '#/definitions/Shop'
+    '401':
+      $ref: '#/responses/Unauthorized'
+    '400':
+      $ref: '#/responses/DefaultLogicError'
+    '404':
+      $ref: '#/responses/NotFound'

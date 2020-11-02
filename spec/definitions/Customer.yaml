@@ -11,6 +11,9 @@ properties:
   shopID:
     description: Идентификатор магазина
     type: string
+  partyID:
+    x-rebillyMerge:
+      - $ref: '#/definitions/PartyID'
   contactInfo:
     $ref: '#/definitions/ContactInfo'
   status:
