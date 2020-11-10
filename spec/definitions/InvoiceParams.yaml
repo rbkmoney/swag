@@ -1,15 +1,11 @@
 type: object
 required:
-  - id
   - shopID
   - dueDate
   - currency
   - product
   - metadata
 properties:
-  id:
-    x-rebillyMerge:
-      - $ref: '#/definitions/InvoiceID'
   shopID:
     description: Идентификатор магазина
     type: string

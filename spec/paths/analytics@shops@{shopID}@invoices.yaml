@@ -150,9 +150,7 @@ get:
     - name: invoiceIDs
       in: query
       description: Список инвойсов
-      type: array
-      items:
-        $ref: '#/definitions/InvoiceID'
+      type: string
   responses:
     '200':
       description: Найденные инвойсы
