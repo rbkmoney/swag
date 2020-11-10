@@ -53,6 +53,12 @@ get:
         - pending
         - succeeded
         - failed
+    - name: invoiceIDs
+      in: query
+      description: Список инвойсов
+      type: array
+      items:
+        $ref: '#/definitions/Invoice'
   responses:
     '200':
       description: Найденные возвраты

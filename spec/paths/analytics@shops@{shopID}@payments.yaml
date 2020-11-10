@@ -137,6 +137,12 @@ get:
         in: query
         required: false
       - $ref: '#/definitions/ContinuationToken'
+    - name: invoiceIDs
+      in: query
+      description: Список инвойсов
+      type: array
+      items:
+        $ref: '#/definitions/Invoice'
   responses:
     '200':
       description: Найденные платежи
