@@ -1,4 +1,0 @@
-description: Идентификатор инвойса
-type: string
-maxLength: 40
-minLength: 1
