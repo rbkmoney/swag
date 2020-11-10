@@ -152,7 +152,7 @@ get:
       description: Список инвойсов
       type: array
       items:
-        $ref: '#/definitions/Invoice'
+        $ref: '#/definitions/InvoiceID'
   responses:
     '200':
       description: Найденные инвойсы
