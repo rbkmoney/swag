@@ -665,7 +665,8 @@
               "jcb",
               "nspkmir",
               "elo",
-              "rupay"
+              "rupay",
+              "dummy"
             ]
           },
           {
@@ -908,7 +909,8 @@
               "jcb",
               "nspkmir",
               "elo",
-              "rupay"
+              "rupay",
+              "dummy"
             ]
           },
           {
@@ -4012,7 +4014,8 @@
                   "jcb",
                   "nspkmir",
                   "elo",
-                  "rupay"
+                  "rupay",
+                  "dummy"
                 ]
               }
             },
@@ -4071,7 +4074,8 @@
             "jcb",
             "nspkmir",
             "elo",
-            "rupay"
+            "rupay",
+            "dummy"
           ]
         },
         "tokenProvider": {
@@ -4102,7 +4106,8 @@
         "jcb",
         "nspkmir",
         "elo",
-        "rupay"
+        "rupay",
+        "dummy"
       ]
     },
     "BankCardTokenProvider": {
@@ -6437,7 +6442,8 @@
                 "jcb",
                 "nspkmir",
                 "elo",
-                "rupay"
+                "rupay",
+                "dummy"
               ]
             },
             "profit": {
