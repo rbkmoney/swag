@@ -921,6 +921,7 @@ paths:
             - nspkmir
             - elo
             - rupay
+            - dummy
         - name: first6
           in: query
           description: Первые 6 цифр номера карты
@@ -1130,6 +1131,7 @@ paths:
             - nspkmir
             - elo
             - rupay
+            - dummy
         - name: paymentAmount
           in: query
           description: Сумма платежа
@@ -4068,6 +4070,7 @@ definitions:
                 - nspkmir
                 - elo
                 - rupay
+                - dummy
           tokenProviders:
             description: Список провайдеров платежных токенов
             type: array
@@ -4116,6 +4119,7 @@ definitions:
           - nspkmir
           - elo
           - rupay
+          - dummy
       tokenProvider:
         description: Провайдер платежных токенов
         type: string
@@ -4147,6 +4151,7 @@ definitions:
       - nspkmir
       - elo
       - rupay
+      - dummy
   BankCardTokenizationMethod:
     description: Метод токенизации
     type: string
@@ -6214,6 +6219,7 @@ definitions:
               - nspkmir
               - elo
               - rupay
+              - dummy
           profit:
             description: Прибыль магазина
             type: integer
