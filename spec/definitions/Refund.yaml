@@ -6,7 +6,6 @@ x-merge-properties:
       - createdAt
       - amount
       - currency
-      - shopID
     properties:
       id:
         description: Идентификатор возврата
@@ -29,11 +28,6 @@ x-merge-properties:
       currency:
         x-rebillyMerge:
           - $ref: '#/definitions/Currency'
-      shopID:
-        description: Идентификатор магазина
-        type: string
-        maxLength: 40
-        minLength: 1
       reason:
         description: Причина осуществления возврата
         type: string
