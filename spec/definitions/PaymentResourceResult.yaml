@@ -1,0 +1,11 @@
+type: object
+allOf:
+  - $ref: '#/definitions/PaymentResource'
+  - type: object
+    properties:
+      validUntil:
+        description: Дата и время, до наступления которых токен платежного средства остается действительным
+        type: string
+        format: date-time
+        readOnly: true
+
