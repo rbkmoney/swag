@@ -1,0 +1,25 @@
+description: Физическое лицо под юрисдикцией РФ
+type: object
+allOf:
+  - $ref: '#/definitions/PrivateEntity'
+  - type: object
+    required:
+      - firstName
+      - secondName
+      - middleName
+      - contactInfo
+    properties:
+      firstName:
+        description: Имя
+        type: string
+        maxLength: 200
+      secondName:
+        description: Фамилия
+        type: string
+        maxLength: 200
+      middleName:
+        description: Отчество
+        type: string
+        maxLength: 200
+      contactInfo:
+        $ref: '#/definitions/ContactInfo'
