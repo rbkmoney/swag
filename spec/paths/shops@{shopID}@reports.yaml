@@ -12,12 +12,9 @@ get:
     '200':
       description: Найденные отчеты
       schema:
-        type: object
-        properties:
-          result:
-            type: array
-            items:
-              $ref: '#/definitions/Report'
+        type: array
+        items:
+          $ref: '#/definitions/Report'
     '400':
       description: Ошибочные данные для получения
       schema:

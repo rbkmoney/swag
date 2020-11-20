@@ -1,4 +1,4 @@
-description: Контактные данные плательщика
+description: Контактные данные
 type: object
 properties:
   email:
