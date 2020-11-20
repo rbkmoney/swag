@@ -2,11 +2,12 @@ post:
   description: Сгенерировать отчет с указанным типом по магазину за указанный промежуток времени
   tags:
     - Reports
-  operationId: createReport
+  operationId: createReportForParty
   parameters:
     - $ref: '#/parameters/requestID'
     - $ref: '#/parameters/deadline'
     - $ref: '#/parameters/shopID'
+    - $ref: '#/parameters/partyID'
     - name: createReport
       in: body
       description: Параметры генерации отчета
@@ -20,8 +21,6 @@ post:
         $ref: '#/definitions/Report'
     '401':
       $ref: '#/responses/Unauthorized'
-    '404':
-      $ref: '#/responses/NotFound'
     '400':
       description: Ошибочные данные для генерации
       schema:
@@ -42,18 +41,21 @@ post:
             description: Человекочитаемое описание ошибки
             type: string
             example: "Invalid shop id"
+    '404':
+      $ref: '#/responses/NotFound'
 
 get:
   description: Получить список отчетов по данному магазину за период
   tags:
     - Reports
-  operationId: getReports
+  operationId: getReportsForParty
   parameters:
     - $ref: '#/parameters/requestID'
     - $ref: '#/parameters/deadline'
     - $ref: '#/parameters/shopID'
     - $ref: '#/parameters/fromTime'
     - $ref: '#/parameters/toTime'
+    - $ref: '#/parameters/partyID'
   responses:
     '200':
       description: Найденные отчеты
@@ -63,8 +65,6 @@ get:
           $ref: '#/definitions/Report'
     '401':
       $ref: '#/responses/Unauthorized'
-    '404':
-      $ref: '#/responses/NotFound'
     '400':
       description: Ошибочные данные для получения
       schema:

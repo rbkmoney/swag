@@ -32,12 +32,14 @@ post:
               [Код ошибки](#tag/Error-Codes)
             type: string
             enum:
+              - invalidPartyID
               - invalidRequest
               - invalidDeadline
               - invalidShopID
               - invalidPartyStatus
               - invalidShopStatus
               - invalidInvoiceCart
+              - ambiguousPartyID
           message:
             description: Человекочитаемое описание ошибки
             type: string

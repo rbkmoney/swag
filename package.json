@@ -6,15 +6,14 @@
     "connect": "^3.4.1",
     "cors": "^2.7.1",
     "deploy-to-gh-pages": "^1.1.0",
-    "gulp": "^3.9.1",
     "gulp-connect": "^4.2.0",
     "gulp-util": "^3.0.7",
+    "json-merge-patch": "^0.2.3",
     "npm": "^5.7.1",
     "portfinder": "^1.0.3",
     "shelljs": "^0.7.0",
     "swagger-repo": "^1.0.0",
-    "swagger-ui": "^2.1.4",
-    "json-merge-patch": "^0.2.3"
+    "swagger-ui": "^2.1.4"
   },
   "private": true,
   "scripts": {
@@ -22,5 +21,8 @@
     "swagger": "swagger-repo",
     "test": "swagger-repo validate",
     "start": "gulp serve"
+  },
+  "devDependencies": {
+    "gulp": "github:gulpjs/gulp"
   }
 }
