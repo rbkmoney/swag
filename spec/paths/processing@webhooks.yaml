@@ -17,19 +17,6 @@ post:
       description: Webhook установлен
       schema:
         $ref: '#/definitions/Webhook'
-    '401':
-      $ref: '#/responses/Unauthorized'
-    '429':
-      description: Превышен лимит количества установленных webhook'ов
-      schema:
-        type: object
-        required:
-          - message
-        properties:
-          message:
-            description: Человекочитаемое описание ошибки
-            type: string
-            example: Webhook limit exceeded
     '400':
       description: Ошибочные данные webhook'а
       schema:
@@ -52,7 +39,21 @@ post:
             description: Человекочитаемое описание ошибки
             type: string
             example: Shop not found or inaccessible
-
+    '401':
+      $ref: '#/responses/Unauthorized'
+    '404':
+      $ref: '#/responses/NotFound'
+    '429':
+      description: Превышен лимит количества установленных webhook'ов
+      schema:
+        type: object
+        required:
+          - message
+        properties:
+          message:
+            description: Человекочитаемое описание ошибки
+            type: string
+            example: Webhook limit exceeded
 get:
   description: Получить набор установленных webhook'ов.
   tags:
@@ -68,7 +69,7 @@ get:
         type: array
         items:
           $ref: '#/definitions/Webhook'
-    '401':
-      $ref: '#/responses/Unauthorized'
     '400':
       $ref: '#/responses/DefaultLogicError'
+    '401':
+      $ref: '#/responses/Unauthorized'

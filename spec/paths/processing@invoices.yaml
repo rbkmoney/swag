@@ -18,13 +18,12 @@ get:
       description: Инвойс
       schema:
         $ref: '#/definitions/Invoice'
-    '404':
-      $ref: '#/responses/NotFound'
-    '401':
-      $ref: '#/responses/Unauthorized'
     '400':
       $ref: '#/responses/DefaultLogicError'
-
+    '401':
+      $ref: '#/responses/Unauthorized'
+    '404':
+      $ref: '#/responses/NotFound'
 post:
   description: Создать новый инвойс.
   tags:
@@ -44,8 +43,6 @@ post:
       description: Инвойс создан
       schema:
         $ref: '#/definitions/InvoiceAndToken'
-    '401':
-      $ref: '#/responses/Unauthorized'
     '400':
       description: Ошибочные данные для создания инвойса
       schema:
@@ -73,5 +70,9 @@ post:
             description: Человекочитаемое описание ошибки
             type: string
             example: Shop not found or inaccessible
+    '401':
+      $ref: '#/responses/Unauthorized'
+    '404':
+      $ref: '#/responses/NotFound'
     '409':
       $ref: '#/responses/ExternalIDConflict'
