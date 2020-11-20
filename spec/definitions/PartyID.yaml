@@ -1,0 +1,4 @@
+description: Уникальный в рамках платформы идентификатор участника. # TODO: rephrase
+type: string
+minLength: 1
+maxLength: 40

@@ -9,6 +9,9 @@ properties:
     type: string
     maxLength: 40
     minLength: 1
+  partyID:
+    x-rebillyMerge:
+      - $ref: '#/definitions/PartyID'
   description:
     description: Описание предлагаемых товаров или услуг
     type: string

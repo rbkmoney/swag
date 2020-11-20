@@ -1,0 +1,22 @@
+get:
+  description: Получить данные всех договоров участника
+  operationId: getContractsForParty
+  tags:
+    - Contracts
+  parameters:
+    - $ref: '#/parameters/requestID'
+    - $ref: '#/parameters/deadline'
+    - $ref: '#/parameters/partyID'
+  responses:
+    '200':
+      description: List of contracts
+      schema:
+        type: array
+        items:
+          $ref: '#/definitions/Contract'
+    '401':
+      $ref: '#/responses/Unauthorized'
+    '400':
+      $ref: '#/responses/DefaultLogicError'
+    '404':
+      $ref: '#/responses/NotFound'

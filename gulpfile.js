@@ -10,8 +10,34 @@ const swaggerRepo = require('swagger-repo');
 const DIST_DIR = 'web_deploy';
 const SPEC_DIR = 'spec';
 
-gulp.task('serve', ['build', 'watch', 'edit'], function () {
-    portfinder.getPort({port: 3000}, function (err, port) {
+
+gulp.task('build', function (cb) {
+    exec('npm run build', function (err, stdout, stderr) {
+        console.log(stderr);
+        cb(err);
+    });
+});
+
+
+gulp.task('edit', function () {
+    portfinder.getPort({ port: 5000 }, function (err, port) {
+        let app = connect();
+        app.use(swaggerRepo.swaggerEditorMiddleware());
+        app.listen(port);
+        util.log(util.colors.green('swagger-editor started http://localhost:' + port));
+    });
+});
+
+gulp.task('reload', gulp.series('build', function () {
+    gulp.src(DIST_DIR).pipe(gulpConnect.reload())
+}));
+
+gulp.task('watch', function () {
+    gulp.watch([`${SPEC_DIR}/**/*`, 'web/**/*'], gulp.series('reload'));
+});
+
+gulp.task('serve', gulp.parallel('build', 'edit', 'watch', function () {
+    portfinder.getPort({ port: 3000 }, function (err, port) {
         gulpConnect.server({
             root: [DIST_DIR],
             livereload: true,
@@ -23,28 +49,4 @@ gulp.task('serve', ['build', 'watch', 'edit'], function () {
             }
         });
     });
-});
-
-gulp.task('edit', function () {
-    portfinder.getPort({port: 5000}, function (err, port) {
-        let app = connect();
-        app.use(swaggerRepo.swaggerEditorMiddleware());
-        app.listen(port);
-        util.log(util.colors.green('swagger-editor started http://localhost:' + port));
-    });
-});
-
-gulp.task('build', function (cb) {
-    exec('npm run build', function (err, stdout, stderr) {
-        console.log(stderr);
-        cb(err);
-    });
-});
-
-gulp.task('reload', ['build'], function () {
-    gulp.src(DIST_DIR).pipe(gulpConnect.reload())
-});
-
-gulp.task('watch', function () {
-    gulp.watch([`${SPEC_DIR}/**/*`, 'web/**/*'], ['reload']);
-});
+}));

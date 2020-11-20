@@ -1,0 +1,21 @@
+put:
+  description: |
+    Приостановить действие магазина. Этот тип заявок обрабатывается платформой
+    автоматически и исполняется сразу же после отправки.
+  operationId: suspendShopForParty
+  tags:
+    - Shops
+  parameters:
+    - $ref: '#/parameters/requestID'
+    - $ref: '#/parameters/deadline'
+    - $ref: '#/parameters/shopID'
+    - $ref: '#/parameters/partyID'
+  responses:
+    '204':
+      description: Shop suspended
+    '404':
+      $ref: '#/responses/NotFound'
+    '401':
+      $ref: '#/responses/Unauthorized'
+    '400':
+      $ref: '#/responses/DefaultLogicError'
