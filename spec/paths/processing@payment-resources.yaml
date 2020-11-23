@@ -20,7 +20,7 @@ post:
     '201':
       description: Токен и сессия созданы
       schema:
-        $ref: '#/definitions/PaymentResource'
+        $ref: '#/definitions/PaymentResourceResult'
     '401':
       $ref: '#/responses/Unauthorized'
     '400':
