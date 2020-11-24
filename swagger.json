@@ -602,7 +602,8 @@
               "alipay",
               "wechat",
               "zotapay",
-              "qps"
+              "qps",
+              "uzcard"
             ]
           },
           {
@@ -849,7 +850,8 @@
               "alipay",
               "wechat",
               "zotapay",
-              "qps"
+              "qps",
+              "uzcard"
             ]
           },
           {
@@ -9058,7 +9060,8 @@
                   "alipay",
                   "wechat",
                   "zotapay",
-                  "qps"
+                  "qps",
+                  "uzcard"
                 ]
               }
             }
@@ -9087,7 +9090,8 @@
                 "alipay",
                 "wechat",
                 "zotapay",
-                "qps"
+                "qps",
+                "uzcard"
               ]
             }
           }
@@ -9107,7 +9111,8 @@
             "alipay",
             "wechat",
             "zotapay",
-            "qps"
+            "qps",
+            "uzcard"
           ]
         }
       }
@@ -9120,7 +9125,8 @@
         "alipay",
         "wechat",
         "zotapay",
-        "qps"
+        "qps",
+        "uzcard"
       ]
     },
     "PaymentTerminalReceipt": {

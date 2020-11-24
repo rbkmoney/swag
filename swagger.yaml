@@ -850,6 +850,7 @@ paths:
             - wechat
             - zotapay
             - qps
+            - uzcard
         - name: invoiceID
           in: query
           description: Идентификатор инвойса
@@ -1035,6 +1036,7 @@ paths:
             - wechat
             - zotapay
             - qps
+            - uzcard
         - name: invoiceID
           in: query
           description: Идентификатор инвойса
@@ -6501,6 +6503,7 @@ definitions:
                 - wechat
                 - zotapay
                 - qps
+                - uzcard
   PaymentTerminalData:
     type: object
     allOf:
@@ -6519,6 +6522,7 @@ definitions:
               - wechat
               - zotapay
               - qps
+              - uzcard
   PaymentTerminalDetails:
     required:
       - provider
@@ -6532,6 +6536,7 @@ definitions:
           - wechat
           - zotapay
           - qps
+          - uzcard
   PaymentTerminalProvider:
     description: Провайдер терминальной сети
     type: string
@@ -6541,6 +6546,7 @@ definitions:
       - wechat
       - zotapay
       - qps
+      - uzcard
   PaymentTerminalReceipt:
     type: object
     allOf:
