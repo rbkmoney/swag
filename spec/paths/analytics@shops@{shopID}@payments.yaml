@@ -49,6 +49,7 @@ get:
         - wechat
         - zotapay
         - qps
+        - uzcard
     - name: invoiceID
       in: query
       description: Идентификатор инвойса
