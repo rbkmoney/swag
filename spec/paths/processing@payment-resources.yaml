@@ -19,7 +19,7 @@ post:
     '201':
       description: Токен и сессия созданы
       schema:
-        $ref: '#/definitions/PaymentResource'
+        $ref: '#/definitions/PaymentResourceResult'
     '400':
       description: Ошибочные данные для токенизации
       schema:
