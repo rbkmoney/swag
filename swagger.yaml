@@ -6005,6 +6005,9 @@ definitions:
         $ref: '#/definitions/PaymentFlow'
       payer:
         $ref: '#/definitions/Payer'
+      transactionInfo:
+        description: Информация о транзакции
+        $ref: '#/definitions/TransactionInfo'
       makeRecurrent:
         description: |
           Признак создания родительского рекуррентного платежа.

@@ -8376,6 +8376,10 @@
         "payer": {
           "$ref": "#/definitions/Payer"
         },
+        "transactionInfo": {
+          "description": "Информация о транзакции",
+          "$ref": "#/definitions/TransactionInfo"
+        },
         "makeRecurrent": {
           "description": "Признак создания родительского рекуррентного платежа.\nУспешно проведеный платеж с этим признаком можно использовать как родительский в других рекуррентных платежах.\n",
           "type": "boolean",
