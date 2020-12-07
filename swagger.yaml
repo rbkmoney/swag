@@ -645,6 +645,7 @@ paths:
             - applepay
             - googlepay
             - samsungpay
+            - yandexpay
         - name: bankCardPaymentSystem
           in: query
           required: false
@@ -821,6 +822,7 @@ paths:
             - applepay
             - googlepay
             - samsungpay
+            - yandexpay
         - name: bankCardPaymentSystem
           in: query
           required: false
@@ -2852,6 +2854,7 @@ definitions:
                 - applepay
                 - googlepay
                 - samsungpay
+                - yandexpay
   BankCardDetails:
     required:
       - cardNumberMask
@@ -2895,6 +2898,7 @@ definitions:
           - applepay
           - googlepay
           - samsungpay
+          - yandexpay
   BankCardPaymentSystem:
     description: Платежная система
     type: string
@@ -2921,6 +2925,7 @@ definitions:
       - applepay
       - googlepay
       - samsungpay
+      - yandexpay
   BrowserGetRequest:
     type: object
     allOf:
