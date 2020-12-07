@@ -668,7 +668,8 @@
             "enum": [
               "applepay",
               "googlepay",
-              "samsungpay"
+              "samsungpay",
+              "yandexpay"
             ]
           },
           {
@@ -949,7 +950,8 @@
             "enum": [
               "applepay",
               "googlepay",
-              "samsungpay"
+              "samsungpay",
+              "yandexpay"
             ]
           },
           {
@@ -5743,7 +5745,8 @@
                 "enum": [
                   "applepay",
                   "googlepay",
-                  "samsungpay"
+                  "samsungpay",
+                  "yandexpay"
                 ]
               }
             }
@@ -5799,7 +5802,8 @@
           "enum": [
             "applepay",
             "googlepay",
-            "samsungpay"
+            "samsungpay",
+            "yandexpay"
           ]
         },
         "tokenizationMethod": {
@@ -5847,7 +5851,8 @@
       "enum": [
         "applepay",
         "googlepay",
-        "samsungpay"
+        "samsungpay",
+        "yandexpay"
       ]
     },
     "BrowserGetRequest": {
