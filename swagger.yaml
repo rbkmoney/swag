@@ -7631,6 +7631,7 @@ definitions:
               - ApplePay
               - GooglePay
               - SamsungPay
+              - YandexPay
         required:
           - provider
   TransactionInfo:
@@ -7724,3 +7725,19 @@ definitions:
         enum:
           - InvoicesTopic
           - CustomersTopic
+  YandexPay:
+    type: object
+    allOf:
+      - $ref: '#/definitions/TokenizedCardData'
+      - type: object
+        description: Платежные данные Yandex.Pay
+        required:
+          - gatewayMerchantID
+          - paymentToken
+        properties:
+          gatewayMerchantID:
+            description: Идентификатор мерчанта в системе RBKmoney
+            type: string
+          paymentToken:
+            description: Совокупность открытых и зашифрованных платежных данных
+            type: object
