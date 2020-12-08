@@ -8159,7 +8159,7 @@
         },
         {
           "type": "object",
-          "description": "Платежные данные Yandex.Pay",
+          "description": "Платежные данные Yandex Pay",
           "required": [
             "gatewayMerchantID",
             "paymentToken"
