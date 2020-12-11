@@ -1,6 +1,6 @@
-# Swag-v2 changelog
+# swag-v2
 
-## Version 0.0.0 to 0.0.1 - 11.12.2020
+## Version 2.0.0 to 2.0.1
 ---
 ### What's New
 ---
