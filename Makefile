@@ -45,6 +45,13 @@ start:
 dev:
 	wercker dev --publish 3000 --direct-mount
 
+# swagger
+
+ifdef SWAGGER_PORTS
+DOCKER_RUN_OPTS += -p 3000:3000
+DOCKER_RUN_OPTS += -p 5000:5000
+endif
+
 # Java
 
 ifdef SETTINGS_XML
