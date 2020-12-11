@@ -2,7 +2,7 @@ box:
   id: node:7
   username: ${DOCKER_ID}
   password: ${DOCKER_PWD}
-  
+
 build:
   steps:
     - npm-install
@@ -14,6 +14,12 @@ build:
     - slack-notifier:
       url: ${SLACK_WEBHOOK_URL}
       username: "wercker"
+
+dev:
+  steps:
+    - npm-install
+    - npm-test
+    - internal/shell
 
 release-epic:
   steps:
