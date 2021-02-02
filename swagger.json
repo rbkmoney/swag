@@ -693,7 +693,8 @@
               "nspkmir",
               "elo",
               "rupay",
-              "dummy"
+              "dummy",
+              "uzcard"
             ]
           },
           {
@@ -975,7 +976,8 @@
               "nspkmir",
               "elo",
               "rupay",
-              "dummy"
+              "dummy",
+              "uzcard"
             ]
           },
           {
@@ -5732,7 +5734,8 @@
                   "nspkmir",
                   "elo",
                   "rupay",
-                  "dummy"
+                  "dummy",
+                  "uzcard"
                 ]
               }
             },
@@ -5793,7 +5796,8 @@
             "nspkmir",
             "elo",
             "rupay",
-            "dummy"
+            "dummy",
+            "uzcard"
           ]
         },
         "tokenProvider": {
@@ -5834,7 +5838,8 @@
         "nspkmir",
         "elo",
         "rupay",
-        "dummy"
+        "dummy",
+        "uzcard"
       ]
     },
     "BankCardTokenizationMethod": {
@@ -8672,7 +8677,8 @@
                 "nspkmir",
                 "elo",
                 "rupay",
-                "dummy"
+                "dummy",
+                "uzcard"
               ]
             },
             "profit": {

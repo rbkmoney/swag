@@ -923,6 +923,7 @@ paths:
             - elo
             - rupay
             - dummy
+            - uzcard
         - name: first6
           in: query
           description: Первые 6 цифр номера карты
@@ -1135,6 +1136,7 @@ paths:
             - elo
             - rupay
             - dummy
+            - uzcard
         - name: paymentAmount
           in: query
           description: Сумма платежа
@@ -4074,6 +4076,7 @@ definitions:
                 - elo
                 - rupay
                 - dummy
+                - uzcard
           tokenProviders:
             description: Список провайдеров платежных токенов
             type: array
@@ -4124,6 +4127,7 @@ definitions:
           - elo
           - rupay
           - dummy
+          - uzcard
       tokenProvider:
         description: Провайдер платежных токенов
         type: string
@@ -4157,6 +4161,7 @@ definitions:
       - elo
       - rupay
       - dummy
+      - uzcard
   BankCardTokenizationMethod:
     description: Метод токенизации
     type: string
@@ -6229,6 +6234,7 @@ definitions:
               - elo
               - rupay
               - dummy
+              - uzcard
           profit:
             description: Прибыль магазина
             type: integer
