@@ -122,7 +122,7 @@ get:
       description: Последние цифры номера карты
       required: false
       type: string
-      pattern: '^\d{0,2,4}$'
+      pattern: '^\d{0,4}$'
     - name: rrn
       in: query
       description: 'Retrieval Reference Number'
