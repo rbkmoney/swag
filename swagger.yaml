@@ -931,10 +931,10 @@ paths:
           pattern: '^\d{6}$'
         - name: last4
           in: query
-          description: Последние 4 цифры номера карты
+          description: Последние цифры номера карты
           required: false
           type: string
-          pattern: '^\d{4}$'
+          pattern: '^\d{0,4}$'
         - name: rrn
           in: query
           description: Retrieval Reference Number
@@ -1087,10 +1087,10 @@ paths:
           pattern: '^\d{6}$'
         - name: last4
           in: query
-          description: Последние 4 цифры номера карты
+          description: Последние цифры номера карты
           required: false
           type: string
-          pattern: '^\d{4}$'
+          pattern: '^\d{0,4}$'
         - name: rrn
           in: query
           description: Retrieval Reference Number
@@ -4093,7 +4093,7 @@ definitions:
       cardNumberMask:
         description: Маскированый номер карты
         type: string
-        pattern: '^\d{0,6}\*+\d{2,4}$'
+        pattern: '^\d{0,6}\*+\d{0,4}$'
       first6:
         description: |
           Первые цифры номера карты.
@@ -4104,7 +4104,7 @@ definitions:
       last4:
         description: Последние цифры номера карты
         type: string
-        pattern: '^\d{2,4}$'
+        pattern: '^\d{0,4}$'
       paymentSystem:
         description: Платежная система
         type: string
