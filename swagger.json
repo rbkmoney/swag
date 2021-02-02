@@ -667,7 +667,8 @@
               "nspkmir",
               "elo",
               "rupay",
-              "dummy"
+              "dummy",
+              "uzcard"
             ]
           },
           {
@@ -912,7 +913,8 @@
               "nspkmir",
               "elo",
               "rupay",
-              "dummy"
+              "dummy",
+              "uzcard"
             ]
           },
           {
@@ -4017,7 +4019,8 @@
                   "nspkmir",
                   "elo",
                   "rupay",
-                  "dummy"
+                  "dummy",
+                  "uzcard"
                 ]
               }
             },
@@ -4078,7 +4081,8 @@
             "nspkmir",
             "elo",
             "rupay",
-            "dummy"
+            "dummy",
+            "uzcard"
           ]
         },
         "tokenProvider": {
@@ -4111,7 +4115,8 @@
         "nspkmir",
         "elo",
         "rupay",
-        "dummy"
+        "dummy",
+        "uzcard"
       ]
     },
     "BankCardTokenProvider": {
@@ -6448,7 +6453,8 @@
                 "nspkmir",
                 "elo",
                 "rupay",
-                "dummy"
+                "dummy",
+                "uzcard"
               ]
             },
             "profit": {
