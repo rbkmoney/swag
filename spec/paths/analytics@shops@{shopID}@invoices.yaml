@@ -119,10 +119,10 @@ get:
       pattern: '^\d{6}$'
     - name: last4
       in: query
-      description: Последние 4 цифры номера карты
+      description: Последние цифры номера карты
       required: false
       type: string
-      pattern: '^\d{4}$'
+      pattern: '^\d{0,4}$'
     - name: rrn
       in: query
       description: 'Retrieval Reference Number'
