@@ -49,3 +49,10 @@ properties:
   metadata:
     description: 'Метаданные, которые необходимо связать с инвойсом'
     type: object
+  clientInfo:
+    description: 'Дополнительная информация о клиенте'
+    type: object
+    properties:
+      isTrusted:
+        description: 'Надёжен ли плательщик?'
+        type: boolean
