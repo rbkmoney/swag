@@ -60,6 +60,7 @@ get:
         - zotapay
         - qps
         - uzcard
+        - rbs
     - name: invoiceID
       in: query
       description: Идентификатор инвойса
