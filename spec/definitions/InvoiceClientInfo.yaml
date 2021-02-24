@@ -1,9 +1,9 @@
 description: 'Дополнительная информация о клиенте'
 type: object
 properties:
-  isTrusted:
+  trustedLevel:
     description: 'Надёжен ли плательщик?'
     type: string
     enum:
-      - trusted
-      - notTrusted
+      - wellknown
+      - unknown
