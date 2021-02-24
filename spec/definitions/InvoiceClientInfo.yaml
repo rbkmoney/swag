@@ -1,0 +1,9 @@
+description: 'Дополнительная информация о клиенте'
+type: object
+properties:
+  isTrusted:
+    description: 'Надёжен ли плательщик?'
+    type: string
+    enum:
+      - trusted
+      - notTrusted

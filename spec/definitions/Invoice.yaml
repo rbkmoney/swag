@@ -54,4 +54,6 @@ x-merge-properties:
       metadata:
         description: Связанные с инвойсом метаданные
         type: object
+      clientInfo:
+        $ref: '#/definitions/InvoiceClientInfo'
   - $ref: '#/definitions/InvoiceStatus'
