@@ -7401,6 +7401,9 @@
           "description": "Связанные с инвойсом метаданные",
           "type": "object"
         },
+        "clientInfo": {
+          "$ref": "#/definitions/InvoiceClientInfo"
+        },
         "status": {
           "description": "Статус инвойса",
           "type": "string",
@@ -7459,6 +7462,20 @@
             "PaymentInteractionRequested",
             "RefundStarted",
             "RefundStatusChanged"
+          ]
+        }
+      }
+    },
+    "InvoiceClientInfo": {
+      "description": "Дополнительная информация о клиенте",
+      "type": "object",
+      "properties": {
+        "trustLevel": {
+          "description": "Надёжен ли плательщик?",
+          "type": "string",
+          "enum": [
+            "wellKnown",
+            "unknown"
           ]
         }
       }
@@ -7650,6 +7667,9 @@
         "metadata": {
           "description": "Метаданные, которые необходимо связать с инвойсом",
           "type": "object"
+        },
+        "clientInfo": {
+          "$ref": "#/definitions/InvoiceClientInfo"
         }
       }
     },
