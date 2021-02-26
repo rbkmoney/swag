@@ -12,10 +12,11 @@ allOf:
       recurrentParentPayment:
         $ref: '#/definitions/PaymentRecurrentParent'
       paymentToolToken:
-        readOnly: true
-        description: Токен платежного средства, предоставленного плательщиком
+        description: >
+          **Depricated.** _В будущем данный параметр возвращаться не будет._
+
+          Токен платежного средства, предоставленного плательщиком
         type: string
         maxLength: 1000
       paymentToolDetails:
-        readOnly: true
         $ref: '#/definitions/PaymentToolDetails'

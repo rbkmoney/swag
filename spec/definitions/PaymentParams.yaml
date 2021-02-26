@@ -9,7 +9,7 @@ properties:
   flow:
     $ref: '#/definitions/PaymentFlow'
   payer:
-    $ref: '#/definitions/Payer'
+    $ref: '#/definitions/PayerParams'
   processingDeadline:
     x-rebillyMerge:
       - $ref: '#/definitions/ProcessingDeadline'

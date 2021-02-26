@@ -1,0 +1,5 @@
+type: object
+description: Одноразовое платежное средство
+allOf:
+  - $ref: '#/definitions/PayerParams'
+  - $ref: '#/definitions/PaymentPayerParams'

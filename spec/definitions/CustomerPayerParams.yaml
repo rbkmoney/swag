@@ -1,0 +1,13 @@
+type: object
+description: Многоразовое платежное средство
+allOf:
+  - $ref: '#/definitions/PayerParams'
+  - type: object
+    required:
+      - customerID
+    properties:
+      customerID:
+        description: Идентификатор плательщика
+        type: string
+        maxLength: 40
+        minLength: 1
