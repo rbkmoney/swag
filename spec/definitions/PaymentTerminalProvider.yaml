@@ -2,3 +2,4 @@ description: Провайдер терминальной сети
 type: string
 enum:
   - euroset
+  - rbs
