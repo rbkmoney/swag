@@ -577,7 +577,8 @@
             "required": false,
             "type": "string",
             "enum": [
-              "euroset"
+              "euroset",
+              "rbs"
             ]
           },
           {
@@ -823,7 +824,8 @@
             "required": false,
             "type": "string",
             "enum": [
-              "euroset"
+              "euroset",
+              "rbs"
             ]
           },
           {
@@ -6783,7 +6785,8 @@
                 "description": "Провайдер терминальной сети",
                 "type": "string",
                 "enum": [
-                  "euroset"
+                  "euroset",
+                  "rbs"
                 ]
               }
             }
@@ -6808,7 +6811,8 @@
               "description": "Провайдер терминальной сети",
               "type": "string",
               "enum": [
-                "euroset"
+                "euroset",
+                "rbs"
               ]
             }
           }
@@ -6824,7 +6828,8 @@
           "description": "Провайдер терминальной сети",
           "type": "string",
           "enum": [
-            "euroset"
+            "euroset",
+            "rbs"
           ]
         }
       }
@@ -6833,7 +6838,8 @@
       "description": "Провайдер терминальной сети",
       "type": "string",
       "enum": [
-        "euroset"
+        "euroset",
+        "rbs"
       ]
     },
     "PaymentTerminalReceipt": {

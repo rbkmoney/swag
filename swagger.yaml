@@ -595,6 +595,7 @@ paths:
           type: string
           enum:
             - euroset
+            - rbs
         - name: invoiceID
           in: query
           description: Идентификатор инвойса
@@ -773,6 +774,7 @@ paths:
           type: string
           enum:
             - euroset
+            - rbs
         - name: invoiceID
           in: query
           description: Идентификатор инвойса
@@ -4801,6 +4803,7 @@ definitions:
               type: string
               enum:
                 - euroset
+                - rbs
   PaymentTerminalData:
     type: object
     allOf:
@@ -4815,6 +4818,7 @@ definitions:
             type: string
             enum:
               - euroset
+              - rbs
   PaymentTerminalDetails:
     required:
       - provider
@@ -4824,11 +4828,13 @@ definitions:
         type: string
         enum:
           - euroset
+          - rbs
   PaymentTerminalProvider:
     description: Провайдер терминальной сети
     type: string
     enum:
       - euroset
+      - rbs
   PaymentTerminalReceipt:
     type: object
     allOf:
