@@ -4908,7 +4908,7 @@ definitions:
             readOnly: true
             description: 'Токен платежного средства, предоставленного плательщиком'
             type: string
-            maxLength: 1000
+            maxLength: 2000
           paymentToolDetails:
             readOnly: true
             $ref: '#/definitions/PaymentToolDetails'
@@ -6330,7 +6330,7 @@ definitions:
       paymentToolToken:
         description: 'Токен платежного средства, предоставленного плательщиком'
         type: string
-        maxLength: 1000
+        maxLength: 2000
       paymentSession:
         description: Идентификатор платежной сессии
         type: string
@@ -6941,7 +6941,7 @@ definitions:
             readOnly: true
             description: 'Токен платежного средства, предоставленного плательщиком'
             type: string
-            maxLength: 1000
+            maxLength: 2000
           paymentToolDetails:
             readOnly: true
             $ref: '#/definitions/PaymentToolDetails'
