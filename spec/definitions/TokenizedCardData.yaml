@@ -11,5 +11,6 @@ allOf:
           - ApplePay
           - GooglePay
           - SamsungPay
+          - YandexPay
     required:
       - provider

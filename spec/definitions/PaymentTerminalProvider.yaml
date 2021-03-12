@@ -6,3 +6,5 @@ enum:
   - wechat
   - zotapay
   - qps
+  - uzcard
+  - rbs

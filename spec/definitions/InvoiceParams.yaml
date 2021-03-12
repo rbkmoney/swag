@@ -49,3 +49,5 @@ properties:
   metadata:
     description: 'Метаданные, которые необходимо связать с инвойсом'
     type: object
+  clientInfo:
+    $ref: '#/definitions/InvoiceClientInfo'
