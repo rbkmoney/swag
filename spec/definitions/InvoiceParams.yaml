@@ -46,7 +46,7 @@ properties:
     maxLength: 1000
   cart:
     $ref: '#/definitions/InvoiceCart'
-  account:
+  bankAccount:
     $ref: '#/definitions/InvoiceBankAccount'
   metadata:
     description: 'Метаданные, которые необходимо связать с инвойсом'

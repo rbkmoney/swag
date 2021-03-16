@@ -51,7 +51,7 @@ x-merge-properties:
         type: string
       cart:
         $ref: '#/definitions/InvoiceCart'
-      account:
+      bankAccount:
         $ref: '#/definitions/InvoiceBankAccount'
       metadata:
         description: Связанные с инвойсом метаданные
