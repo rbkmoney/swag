@@ -7397,6 +7397,9 @@
         "cart": {
           "$ref": "#/definitions/InvoiceCart"
         },
+        "bankAccount": {
+          "$ref": "#/definitions/InvoiceBankAccount"
+        },
         "metadata": {
           "description": "Связанные с инвойсом метаданные",
           "type": "object"
@@ -7433,6 +7436,20 @@
         },
         "invoiceAccessToken": {
           "$ref": "#/definitions/AccessToken"
+        }
+      }
+    },
+    "InvoiceBankAccount": {
+      "type": "object",
+      "description": "Информация о банковском счете плательщика, к операциям с которым относится данный инвойс\n",
+      "discriminator": "accountType",
+      "properties": {
+        "accountType": {
+          "description": "Вид банковского счета",
+          "type": "string",
+          "enum": [
+            "InvoiceRussianBankAccount"
+          ]
         }
       }
     },
@@ -7664,6 +7681,9 @@
         "cart": {
           "$ref": "#/definitions/InvoiceCart"
         },
+        "bankAccount": {
+          "$ref": "#/definitions/InvoiceBankAccount"
+        },
         "metadata": {
           "description": "Метаданные, которые необходимо связать с инвойсом",
           "type": "object"
@@ -7698,6 +7718,33 @@
           "type": "object"
         }
       }
+    },
+    "InvoiceRussianBankAccount": {
+      "allOf": [
+        {
+          "$ref": "#/definitions/InvoiceBankAccount"
+        },
+        {
+          "type": "object",
+          "description": "Данные счёта плательщика в банковской организации, ведущей деятельность под\nюрисдикцией РФ.\n",
+          "required": [
+            "account",
+            "bankBik"
+          ],
+          "properties": {
+            "account": {
+              "description": "Номер счёта",
+              "type": "string",
+              "pattern": "^\\d{20}$"
+            },
+            "bankBik": {
+              "description": "БИК банковской организации",
+              "type": "string",
+              "pattern": "^\\d{9}$"
+            }
+          }
+        }
+      ]
     },
     "InvoiceSearchResult": {
       "type": "object",
