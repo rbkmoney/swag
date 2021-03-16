@@ -2,7 +2,7 @@ allOf:
   - $ref: '#/definitions/InvoiceBankAccount'
   - type: object
     description: |
-      Данные счёта в банковской организации, ведущей деятельность под
+      Данные счёта плательщика в банковской организации, ведущей деятельность под
       юрисдикцией РФ.
     required:
       - account
