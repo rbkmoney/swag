@@ -1,0 +1,18 @@
+allOf:
+  - $ref: '#/definitions/InvoiceBankAccount'
+  - type: object
+    description: |
+      Данные счёта плательщика в банковской организации, ведущей деятельность под
+      юрисдикцией РФ.
+    required:
+      - account
+      - bankBik
+    properties:
+      account:
+        description: Номер счёта
+        type: string
+        pattern: '^\d{20}$'
+      bankBik:
+        description: БИК банковской организации
+        type: string
+        pattern: '^\d{9}$'
