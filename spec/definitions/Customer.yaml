@@ -8,6 +8,10 @@ properties:
     description: Идентификатор плательщика
     type: string
     readOnly: true
+  externalID:
+    x-rebillyMerge:
+      - $ref: '#/definitions/ExternalID'
+      - description: Внешний идентификатор плательщика
   shopID:
     description: Идентификатор магазина
     type: string
