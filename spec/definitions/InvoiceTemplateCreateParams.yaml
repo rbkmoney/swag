@@ -9,6 +9,10 @@ properties:
     type: string
     maxLength: 40
     minLength: 1
+  externalID:
+    x-rebillyMerge:
+      - $ref: '#/definitions/ExternalID'
+      - description: Внешний идентификатор шаблона инвойса
   partyID:
     x-rebillyMerge:
       - $ref: '#/definitions/PartyID'
