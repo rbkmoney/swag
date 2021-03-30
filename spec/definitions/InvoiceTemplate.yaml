@@ -8,6 +8,10 @@ properties:
   id:
     description: Идентификатор шаблона инвойса
     type: string
+  externalID:
+    x-rebillyMerge:
+      - $ref: '#/definitions/ExternalID'
+      - description: Внешний идентификатор шаблона инвойса
   shopID:
     description: Идентификатор магазина
     type: string

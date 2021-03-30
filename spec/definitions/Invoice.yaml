@@ -20,6 +20,7 @@ x-merge-properties:
       externalID:
         x-rebillyMerge:
           - $ref: '#/definitions/ExternalID'
+          - description: Внешний идентификатор инвойса
       createdAt:
         description: Дата и время создания
         type: string
