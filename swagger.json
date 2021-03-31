@@ -2187,7 +2187,7 @@
             "in": "body",
             "required": true,
             "schema": {
-              "$ref": "#/definitions/Customer"
+              "$ref": "#/definitions/CustomerParams"
             }
           }
         ],
@@ -2231,6 +2231,9 @@
           },
           "401": {
             "$ref": "#/responses/Unauthorized"
+          },
+          "409": {
+            "$ref": "#/responses/ExternalIDConflict"
           }
         }
       }
@@ -2435,6 +2438,9 @@
           },
           "404": {
             "$ref": "#/responses/NotFound"
+          },
+          "409": {
+            "$ref": "#/responses/ExternalIDConflict"
           }
         }
       },
@@ -2638,6 +2644,9 @@
           },
           "401": {
             "$ref": "#/responses/Unauthorized"
+          },
+          "409": {
+            "$ref": "#/responses/ExternalIDConflict"
           }
         }
       }
@@ -6664,6 +6673,12 @@
           "type": "string",
           "readOnly": true
         },
+        "externalID": {
+          "description": "Внешний идентификатор плательщика",
+          "type": "string",
+          "maxLength": 40,
+          "minLength": 1
+        },
         "shopID": {
           "description": "Идентификатор магазина",
           "type": "string"
@@ -6718,6 +6733,12 @@
         "id": {
           "description": "Идентификатор привязки",
           "type": "string"
+        },
+        "externalID": {
+          "description": "Внешний идентификатор привязки",
+          "type": "string",
+          "maxLength": 40,
+          "minLength": 1
         },
         "paymentResource": {
           "$ref": "#/definitions/PaymentResource"
@@ -6783,6 +6804,12 @@
         "paymentResource"
       ],
       "properties": {
+        "externalID": {
+          "description": "Внешний идентификатор привязки",
+          "type": "string",
+          "maxLength": 40,
+          "minLength": 1
+        },
         "paymentResource": {
           "$ref": "#/definitions/PaymentResource"
         }
@@ -6886,6 +6913,39 @@
           "items": {
             "$ref": "#/definitions/CustomerChange"
           }
+        }
+      }
+    },
+    "CustomerParams": {
+      "type": "object",
+      "required": [
+        "shopID",
+        "contactInfo",
+        "metadata"
+      ],
+      "properties": {
+        "externalID": {
+          "description": "Внешний идентификатор плательщика",
+          "type": "string",
+          "maxLength": 40,
+          "minLength": 1
+        },
+        "shopID": {
+          "description": "Идентификатор магазина",
+          "type": "string"
+        },
+        "partyID": {
+          "description": "Уникальный в рамках платформы идентификатор участника.",
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 40
+        },
+        "contactInfo": {
+          "$ref": "#/definitions/ContactInfo"
+        },
+        "metadata": {
+          "description": "Связанные с плательщиком метаданные",
+          "type": "object"
         }
       }
     },
@@ -7354,7 +7414,7 @@
           "type": "string"
         },
         "externalID": {
-          "description": "Уникальный в рамках платформы идентификатор сущности для данного участника.\n\nИспользуется для обеспечения идемпотентности запроса.\n",
+          "description": "Внешний идентификатор инвойса",
           "type": "string",
           "maxLength": 40,
           "minLength": 1
@@ -7657,7 +7717,7 @@
           "maxLength": 40
         },
         "externalID": {
-          "description": "Уникальный в рамках платформы идентификатор сущности для данного участника.\n\nИспользуется для обеспечения идемпотентности запроса.\n",
+          "description": "Внешний идентификатор инвойса",
           "type": "string",
           "maxLength": 40,
           "minLength": 1
@@ -7917,6 +7977,12 @@
           "description": "Идентификатор шаблона инвойса",
           "type": "string"
         },
+        "externalID": {
+          "description": "Внешний идентификатор шаблона инвойса",
+          "type": "string",
+          "maxLength": 40,
+          "minLength": 1
+        },
         "shopID": {
           "description": "Идентификатор магазина",
           "type": "string",
@@ -7965,6 +8031,12 @@
       "properties": {
         "shopID": {
           "description": "Идентификатор магазина",
+          "type": "string",
+          "maxLength": 40,
+          "minLength": 1
+        },
+        "externalID": {
+          "description": "Внешний идентификатор шаблона инвойса",
           "type": "string",
           "maxLength": 40,
           "minLength": 1

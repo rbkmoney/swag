@@ -1869,7 +1869,7 @@ paths:
           in: body
           required: true
           schema:
-            $ref: '#/definitions/Customer'
+            $ref: '#/definitions/CustomerParams'
       responses:
         '201':
           description: Плательщик создан
@@ -1902,6 +1902,8 @@ paths:
                 example: Operation not permitted
         '401':
           $ref: '#/responses/Unauthorized'
+        '409':
+          $ref: '#/responses/ExternalIDConflict'
   '/processing/customers/{customerID}':
     get:
       description: Получить данные плательщика по его идентификатору.
@@ -2032,6 +2034,8 @@ paths:
           $ref: '#/responses/Unauthorized'
         '404':
           $ref: '#/responses/NotFound'
+        '409':
+          $ref: '#/responses/ExternalIDConflict'
     get:
       description: Получить все привязки к плательщику.
       tags:
@@ -2162,6 +2166,8 @@ paths:
                 example: Lifetime cannot be zero
         '401':
           $ref: '#/responses/Unauthorized'
+        '409':
+          $ref: '#/responses/ExternalIDConflict'
   '/processing/invoice-templates/{invoiceTemplateID}':
     get:
       description: Получить шаблон инвойса по его идентификатору.
@@ -4741,6 +4747,11 @@ definitions:
         description: Идентификатор плательщика
         type: string
         readOnly: true
+      externalID:
+        description: Внешний идентификатор плательщика
+        type: string
+        maxLength: 40
+        minLength: 1
       shopID:
         description: Идентификатор магазина
         type: string
@@ -4781,6 +4792,11 @@ definitions:
       id:
         description: Идентификатор привязки
         type: string
+      externalID:
+        description: Внешний идентификатор привязки
+        type: string
+        maxLength: 40
+        minLength: 1
       paymentResource:
         $ref: '#/definitions/PaymentResource'
       status:
@@ -4825,6 +4841,11 @@ definitions:
     required:
       - paymentResource
     properties:
+      externalID:
+        description: Внешний идентификатор привязки
+        type: string
+        maxLength: 40
+        minLength: 1
       paymentResource:
         $ref: '#/definitions/PaymentResource'
   CustomerBindingStarted:
@@ -4890,6 +4911,31 @@ definitions:
         type: array
         items:
           $ref: '#/definitions/CustomerChange'
+  CustomerParams:
+    type: object
+    required:
+      - shopID
+      - contactInfo
+      - metadata
+    properties:
+      externalID:
+        description: Внешний идентификатор плательщика
+        type: string
+        maxLength: 40
+        minLength: 1
+      shopID:
+        description: Идентификатор магазина
+        type: string
+      partyID:
+        description: Уникальный в рамках платформы идентификатор участника.
+        type: string
+        minLength: 1
+        maxLength: 40
+      contactInfo:
+        $ref: '#/definitions/ContactInfo'
+      metadata:
+        description: Связанные с плательщиком метаданные
+        type: object
   CustomerPayer:
     type: object
     description: Многоразовое платежное средство
@@ -5235,10 +5281,7 @@ definitions:
         description: Идентификатор магазина
         type: string
       externalID:
-        description: |
-          Уникальный в рамках платформы идентификатор сущности для данного участника.
-
-          Используется для обеспечения идемпотентности запроса.
+        description: Внешний идентификатор инвойса
         type: string
         maxLength: 40
         minLength: 1
@@ -5472,10 +5515,7 @@ definitions:
         minLength: 1
         maxLength: 40
       externalID:
-        description: |
-          Уникальный в рамках платформы идентификатор сущности для данного участника.
-
-          Используется для обеспечения идемпотентности запроса.
+        description: Внешний идентификатор инвойса
         type: string
         maxLength: 40
         minLength: 1
@@ -5680,6 +5720,11 @@ definitions:
       id:
         description: Идентификатор шаблона инвойса
         type: string
+      externalID:
+        description: Внешний идентификатор шаблона инвойса
+        type: string
+        maxLength: 40
+        minLength: 1
       shopID:
         description: Идентификатор магазина
         type: string
@@ -5716,6 +5761,11 @@ definitions:
     properties:
       shopID:
         description: Идентификатор магазина
+        type: string
+        maxLength: 40
+        minLength: 1
+      externalID:
+        description: Внешний идентификатор шаблона инвойса
         type: string
         maxLength: 40
         minLength: 1
