@@ -17,6 +17,7 @@ properties:
   externalID:
     x-rebillyMerge:
       - $ref: '#/definitions/ExternalID'
+      - description: Внешний идентификатор инвойса
   dueDate:
     description: |
       Дата и время окончания действия инвойса, после наступления которых его

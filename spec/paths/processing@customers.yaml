@@ -11,7 +11,7 @@ post:
       in: body
       required: true
       schema:
-        $ref: '#/definitions/Customer'
+        $ref: '#/definitions/CustomerParams'
   responses:
     '201':
       description: Плательщик создан
@@ -44,3 +44,5 @@ post:
             description: Человекочитаемое описание ошибки
             type: string
             example: Operation not permitted
+    '409':
+      $ref: '#/responses/ExternalIDConflict'

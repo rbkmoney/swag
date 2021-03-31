@@ -47,6 +47,8 @@ post:
             description: Человекочитаемое описание ошибки
             type: string
             example: Invalid payment resource
+    '409':
+      $ref: '#/responses/ExternalIDConflict'
 
 get:
   description: Получить все привязки к плательщику.
