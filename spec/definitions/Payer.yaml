@@ -4,5 +4,18 @@ properties:
   payerType:
     description: Тип платежного средства
     type: string
+  sessionInfo:
+    description: Данные текущей сессии плательщика
+    type: object
+    properties:
+      redirectUrl:
+        description: |
+          URL ресурса, на который нужно перенаправить плательщика по завершении
+          с ним взаимодействия в браузере, например проведения предавторизации платежа
+          по протоколу 3D Secure 2.0 и выше, в том случае, если подобное взаимодействие
+          потребуется.
+        type: string
+        format: uri-template
+        maxLength: 2000
 required:
   - payerType
