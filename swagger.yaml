@@ -5357,14 +5357,6 @@ definitions:
         type: string
         enum:
           - InvoiceRussianBankAccount
-      account:
-        description: Номер счёта
-        type: string
-        example: 12345678912345680000
-      bankBik:
-        description: БИК банковской организации
-        type: string
-        example: 123456789
   InvoiceCart:
     description: |
       Корзина с набором позиций товаров или услуг
@@ -5596,10 +5588,12 @@ definitions:
             description: Номер счёта
             type: string
             pattern: '^\d{20}$'
+            example: 12345678912345680000
           bankBik:
             description: БИК банковской организации
             type: string
             pattern: '^\d{9}$'
+            example: 123456789
   InvoiceSearchResult:
     type: object
     allOf:
