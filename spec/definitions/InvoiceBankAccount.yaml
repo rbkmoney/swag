@@ -8,11 +8,3 @@ properties:
     type: string
     enum:
       - InvoiceRussianBankAccount
-  account:
-    description: Номер счёта
-    type: string
-    example: 12345678912345678912
-  bankBik:
-      description: БИК банковской организации
-      type: string
-      example: 123456789
