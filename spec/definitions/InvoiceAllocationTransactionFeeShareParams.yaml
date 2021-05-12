@@ -14,6 +14,7 @@ properties:
 
       * [RoundHalfAwayFromZero](https://en.wikipedia.org/wiki/Rounding#Round_half_away_from_zero)
 
+
       По умолчанию выбирается RoundHalfAwayFromZero
     enum:
       - RoundHalfTowardsZero
