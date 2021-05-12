@@ -4,10 +4,6 @@ required:
   - contactInfo
   - metadata
 properties:
-  id:
-    description: Идентификатор плательщика
-    type: string
-    readOnly: true
   externalID:
     x-rebillyMerge:
       - $ref: '#/definitions/ExternalID'
@@ -20,13 +16,6 @@ properties:
       - $ref: '#/definitions/PartyID'
   contactInfo:
     $ref: '#/definitions/ContactInfo'
-  status:
-    description: Статус плательщика
-    type: string
-    readOnly: true
-    enum:
-      - ready
-      - unready
   metadata:
     description: Связанные с плательщиком метаданные
     type: object

@@ -44,3 +44,5 @@ post:
             description: Человекочитаемое описание ошибки
             type: string
             example: Lifetime cannot be zero
+    '409':
+      $ref: '#/responses/ExternalIDConflict'
