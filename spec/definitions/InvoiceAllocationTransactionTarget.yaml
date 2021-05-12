@@ -1,0 +1,10 @@
+description: Назначение транзакции
+type: object
+discriminator: invoiceAllocationTransactionTargetType
+required:
+  - invoiceAllocationTransactionTargetType
+properties:
+  invoiceAllocationTransactionTargetType:
+    type: string
+    enum:
+      - InvoiceAllocationTransactionTargetShop

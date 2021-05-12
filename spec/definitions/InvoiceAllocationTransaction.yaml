@@ -1,0 +1,30 @@
+description: Параметры для создания транзакции распределения денежных средств
+type: object
+required:
+  - target
+  - amount
+  - currency
+properties:
+  externalID:
+    x-rebillyMerge:
+      - $ref: '#/definitions/ExternalID'
+      - description: Внешний идентификатор транзакции
+  target:
+    $ref: '#/definitions/InvoiceAllocationTransactionTarget'
+  amount:
+    description: >
+      Сумма перечисляемая выбранному назначению в минорных денежных
+      единицах,
+
+      например в копейках в случае указания российских рублей в качестве
+      валюты.
+    type: integer
+    format: int64
+    minimum: 1
+  currency:
+    x-rebillyMerge:
+      - $ref: '#/definitions/Currency'
+  totalBody:
+    $ref: '#/definitions/InvoiceAllocationTransactionBodyTotal'
+  cart:
+    $ref: '#/definitions/InvoiceCart'

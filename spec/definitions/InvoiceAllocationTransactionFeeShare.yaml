@@ -1,0 +1,20 @@
+description: Комиссия в относительных значениях
+type: object
+required:
+  - share_fee_amount
+properties:
+  share_fee_amount:
+    - $ref: '#/definitions/Decimal'
+  roundingMethod:
+    type: string
+    description: >
+      Метод округления действительного числа. Доступно два метода:
+
+      * [RoundHalfTowardsZero](https://en.wikipedia.org/wiki/Rounding#Round_half_towards_zero)
+
+      * [RoundHalfAwayFromZero](https://en.wikipedia.org/wiki/Rounding#Round_half_away_from_zero)
+
+      По умолчанию выбирается RoundHalfAwayFromZero
+    enum:
+      - RoundHalfTowardsZero
+      - RoundHalfAwayFromZero

@@ -1,0 +1,17 @@
+description: Действительное число
+type: object
+required:
+  - m
+  - exp
+properties:
+  m:
+    description: >
+      Мантисса.
+    type: integer
+    format: int64
+    minimum: 1
+  exp:
+    description: >
+      Порядок.
+    type: integer
+    format: int64

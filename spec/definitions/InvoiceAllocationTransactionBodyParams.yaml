@@ -1,0 +1,11 @@
+description: Параметры для создания тела транзакции
+type: object
+discriminator: invoiceAllocationTransactionBodyType
+required:
+  - invoiceAllocationTransactionBodyType
+properties:
+  invoiceAllocationTransactionBodyType:
+    type: string
+    enum:
+      - InvoiceAllocationTransactionBodyAmountParams
+      - InvoiceAllocationTransactionBodyTotalParams

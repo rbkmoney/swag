@@ -1,0 +1,28 @@
+description: Тело транзакции с указанием комиссии
+allOf:
+  - $ref: '#/definitions/InvoiceAllocationTransactionBodyParams'
+  - type: object
+    discriminator: invoiceAllocationTransactionFeeType
+    required:
+      - total_amount
+      - total_currency
+      - invoiceAllocationTransactionFeeType
+    properties:
+      total_amount:
+        description: >
+          Общая сумма транзакции (включает в себя комиссию) в минорных денежных
+          единицах,
+
+          например в копейках в случае указания российских рублей в качестве
+          валюты.
+        type: integer
+        format: int64
+        minimum: 1
+      total_currency:
+        x-rebillyMerge:
+          - $ref: '#/definitions/Currency'
+      invoiceAllocationTransactionFeeType:
+        type: string
+        enum:
+          - InvoiceAllocationTransactionFeeFixedParams
+          - InvoiceAllocationTransactionFeeShareParams

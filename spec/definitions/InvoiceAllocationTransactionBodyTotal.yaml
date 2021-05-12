@@ -1,0 +1,36 @@
+description: Тело транзакции с указанием комиссии
+type: object
+required:
+  - total_amount
+  - total_currency
+  - fee_amount
+  - fee_currency
+properties:
+  total_amount:
+    description: >
+      Общая сумма транзакции (включает в себя комиссию) в минорных денежных
+      единицах,
+
+      например в копейках в случае указания российских рублей в качестве
+      валюты.
+    type: integer
+    format: int64
+    minimum: 1
+  total_currency:
+    x-rebillyMerge:
+      - $ref: '#/definitions/Currency'
+  fee_amount:
+    description: >
+      Значение комиссии в минорных денежных
+      единицах,
+
+      например в копейках в случае указания российских рублей в качестве
+      валюты.
+    type: integer
+    format: int64
+    minimum: 1
+  fee_currency:
+    x-rebillyMerge:
+      - $ref: '#/definitions/Currency'
+  share_fee:
+    $ref: '#/definitions/InvoiceAllocationTransactionFeeShare'

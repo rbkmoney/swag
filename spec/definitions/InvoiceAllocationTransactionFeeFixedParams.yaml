@@ -1,0 +1,21 @@
+description: Комиссия в абсолютных значениях
+allOf:
+  - $ref: '#/definitions/InvoiceAllocationTransactionBodyTotalParams'
+  - type: object
+    required:
+      - fee_amount
+      - fee_currency
+    properties:
+      fee_amount:
+        description: >
+          Значение комиссии в минорных денежных
+          единицах,
+
+          например в копейках в случае указания российских рублей в качестве
+          валюты.
+        type: integer
+        format: int64
+        minimum: 1
+      fee_currency:
+        x-rebillyMerge:
+          - $ref: '#/definitions/Currency'
