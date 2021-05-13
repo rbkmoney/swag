@@ -4,7 +4,7 @@ required:
   - share_fee_amount
 properties:
   share_fee_amount:
-    - $ref: '#/definitions/Decimal'
+    $ref: '#/definitions/Decimal'
   roundingMethod:
     type: string
     description: >
