@@ -19,7 +19,7 @@ properties:
     type: array
     items:
       x-rebillyMerge:
-        - $ref: '#/definitions/Residence'
+        - $ref: '#/definitions/CountryCode'
   realm:
     type: string
     enum:

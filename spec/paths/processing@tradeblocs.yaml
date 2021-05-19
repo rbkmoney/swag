@@ -1,0 +1,24 @@
+get:
+  description: Получить список торговых блоков
+  tags:
+    - TradeBlocs
+  operationId: getTradeBlocs
+  parameters:
+    - $ref: '#/parameters/requestID'
+    - $ref: '#/parameters/deadline'
+    - name: realm
+      in: query
+      required: false
+      type: string
+      enum:
+        - test
+        - live
+  responses:
+    '200':
+      description: List of Trade Blocs
+      schema:
+        type: array
+        items:
+          $ref: '#/definitions/TradeBloc'
+    '400':
+      $ref: '#/responses/DefaultLogicError'

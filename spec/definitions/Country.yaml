@@ -1,0 +1,16 @@
+description: 'Страна'
+type: object
+required:
+    - name
+properties:
+    id:
+        x-rebillyMerge:
+            - $ref: '#/definitions/CountryCode'
+    name:
+        type: string
+        maxLength: 200
+    trade_blocs:
+        type: array
+        items:
+            description: Идентификаторы Торговых Блоков
+            type: string
