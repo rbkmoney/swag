@@ -53,7 +53,7 @@ x-merge-properties:
       cart:
         $ref: '#/definitions/InvoiceCart'
       allocation:
-        $ref: '#/definitions/InvoiceAllocation'
+        $ref: '#/definitions/Allocation'
       bankAccount:
         $ref: '#/definitions/InvoiceBankAccount'
       metadata:

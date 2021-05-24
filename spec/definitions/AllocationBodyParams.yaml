@@ -1,0 +1,11 @@
+description: Параметры для создания тела транзакции
+type: object
+discriminator: allocationBodyType
+required:
+  - allocationBodyType
+properties:
+  allocationBodyType:
+    type: string
+    enum:
+      - AllocationBodyAmountParams
+      - AllocationBodyTotalParams

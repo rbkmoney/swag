@@ -1,0 +1,7 @@
+description: Комиссия в относительных значениях
+type: object
+required:
+  - shareFeeAmount
+properties:
+  shareFeeAmount:
+    $ref: '#/definitions/Decimal'

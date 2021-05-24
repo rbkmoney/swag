@@ -1,4 +1,4 @@
-description: Действительное число
+description: Дробное десятичное число произвольной точности
 type: object
 required:
   - m

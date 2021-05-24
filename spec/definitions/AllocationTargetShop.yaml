@@ -1,14 +1,10 @@
 description: Магазин как назначение транзакции
 allOf:
-  - $ref: '#/definitions/InvoiceAllocationTransactionTarget'
+  - $ref: '#/definitions/AllocationTarget'
   - type: object
     required:
-      - partyID
       - shopID
     properties:
-      partyID:
-        x-rebillyMerge:
-          - $ref: '#/definitions/PartyID'
       shopID:
         description: Идентификатор магазина
         type: string

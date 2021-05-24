@@ -1,0 +1,12 @@
+description: Параметры для создания транзакции распределения денежных средств
+type: object
+required:
+  - target
+  - body
+properties:
+  target:
+    $ref: '#/definitions/AllocationTarget'
+  body:
+    $ref: '#/definitions/AllocationBodyParams'
+  cart:
+    $ref: '#/definitions/InvoiceCart'

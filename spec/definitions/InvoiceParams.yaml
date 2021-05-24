@@ -48,7 +48,7 @@ properties:
   cart:
     $ref: '#/definitions/InvoiceCart'
   allocation:
-    $ref: '#/definitions/InvoiceAllocationParams'
+    $ref: '#/definitions/AllocationParams'
   bankAccount:
     $ref: '#/definitions/InvoiceBankAccount'
   metadata:
