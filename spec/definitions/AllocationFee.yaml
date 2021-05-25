@@ -1,0 +1,11 @@
+description: Комиссия транзакции
+type: object
+discriminator: allocationFeeType
+required:
+  - allocationFeeType
+properties:
+  allocationFeeType:
+    type: string
+    enum:
+      - AllocationFeeFixed
+      - AllocationFeeShare

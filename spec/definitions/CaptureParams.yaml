@@ -21,6 +21,6 @@ allOf:
           - description: Корзина с набором позиций **предоставляемых** товаров или услуг
       allocation:
         x-rebillyMerge:
-          - $ref: '#/definitions/AllocationParams'
+          - $ref: '#/definitions/Allocation'
           - description: >
               Итоговое распределение денежных средств

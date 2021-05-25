@@ -1,26 +1,17 @@
 description: Транзакция распределения денежных средств
 type: object
+discriminator: allocationBodyType
 required:
   - target
-  - amount
-  - currency
+  - allocationBodyType
 properties:
   target:
     $ref: '#/definitions/AllocationTarget'
-  amount:
-    description: >
-      Сумма перечисляемая выбранному назначению в минорных денежных
-      единицах,
-
-      например в копейках в случае указания российских рублей в качестве
-      валюты.
-    type: integer
-    format: int64
-    minimum: 1
-  currency:
-    x-rebillyMerge:
-      - $ref: '#/definitions/Currency'
-  totalBody:
-    $ref: '#/definitions/AllocationBodyTotal'
+  allocationBodyType:
+    description: Тело транзакции
+    type: string
+    enum:
+      - AllocationBodyAmount
+      - AllocationBodyTotal
   cart:
     $ref: '#/definitions/InvoiceCart'

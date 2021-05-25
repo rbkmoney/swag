@@ -1,12 +1,10 @@
-description: Комиссия транзакции в относительных значениях
+description: Комиссия транзакции в абсолютных значениях
 allOf:
   - $ref: '#/definitions/AllocationFee'
   - type: object
     required:
-      - share
+      - amount
     properties:
-      share:
-        $ref: '#/definitions/Decimal'
       amount:
         description: >
           Значение комиссии в минорных денежных
@@ -15,4 +13,3 @@ allOf:
         type: integer
         format: int64
         minimum: 1
-        readOnly: true

@@ -1,9 +1,0 @@
-description: Параметры комиссии в относительных значениях
-allOf:
-  - $ref: '#/definitions/AllocationBodyTotalParams'
-  - type: object
-    required:
-      - shareFeeAmount
-    properties:
-      shareFeeAmount:
-        $ref: '#/definitions/Decimal'

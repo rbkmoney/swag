@@ -1,6 +1,6 @@
 description: Тело транзакции в абсолютных значениях
 allOf:
-  - $ref: '#/definitions/AllocationBodyParams'
+  - $ref: '#/definitions/AllocationTransaction'
   - type: object
     required:
       - amount

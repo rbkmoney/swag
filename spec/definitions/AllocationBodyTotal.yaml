@@ -1,36 +1,32 @@
 description: Тело транзакции с указанием комиссии
-type: object
-required:
-  - totalAmount
-  - totalCurrency
-  - feeAmount
-  - feeCurrency
-properties:
-  totalAmount:
-    description: >
-      Общая сумма транзакции (включает в себя комиссию) в минорных денежных
-      единицах,
+allOf:
+  - $ref: '#/definitions/AllocationTransaction'
+  - type: object
+    required:
+      - total
+      - currency
+    properties:
+      total:
+        description: >
+          Общая сумма транзакции (включает в себя комиссию) в минорных денежных
+          единицах, например в копейках в случае указания российских рублей в качестве
+          валюты.
+        type: integer
+        format: int64
+        minimum: 1
+      amount:
+        description: >
+          Сумма перечисляемая выбранному назначению в минорных денежных
+          единицах,
 
-      например в копейках в случае указания российских рублей в качестве
-      валюты.
-    type: integer
-    format: int64
-    minimum: 1
-  totalCurrency:
-    x-rebillyMerge:
-      - $ref: '#/definitions/Currency'
-  feeAmount:
-    description: >
-      Значение комиссии в минорных денежных
-      единицах,
-
-      например в копейках в случае указания российских рублей в качестве
-      валюты.
-    type: integer
-    format: int64
-    minimum: 1
-  feeCurrency:
-    x-rebillyMerge:
-      - $ref: '#/definitions/Currency'
-  shareFee:
-    $ref: '#/definitions/AllocationFeeShare'
+          например в копейках в случае указания российских рублей в качестве
+          валюты.
+        type: integer
+        format: int64
+        minimum: 1
+        readOnly: true
+      currency:
+        x-rebillyMerge:
+          - $ref: '#/definitions/Currency'
+      fee:
+        $ref: '#/definitions/AllocationFee'
