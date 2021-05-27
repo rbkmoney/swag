@@ -4526,6 +4526,7 @@
             "name": "realm",
             "in": "query",
             "required": false,
+            "description": "Режим рабочего окружения платежной организации",
             "type": "string",
             "enum": [
               "test",
@@ -5763,6 +5764,13 @@
                   "yandexpay"
                 ]
               }
+            },
+            "tokenProviderData": {
+              "allOf": [
+                {
+                  "$ref": "#/definitions/BankCardTokenProviderData"
+                }
+              ]
             }
           }
         }
@@ -5870,6 +5878,36 @@
         "samsungpay",
         "yandexpay"
       ]
+    },
+    "BankCardTokenProviderData": {
+      "type": "object",
+      "description": "Данные для интеграции с провайдерами платежных токенов.\nЭти параметры заданы в нашей системе и могут быть использованы для построении запросов к провайдеру токенов\nили корректного отображения платежной формы.\nДля более подробной информации ознакомьтесь с нашими руководствами по интеграции:\n  * [GooglePay](https://developer.rbk.money/docs/payments/googlepay),\n  * [ApplePay](https://developer.rbk.money/docs/payments/applepay).\n",
+      "required": [
+        "merchantID",
+        "realm"
+      ],
+      "properties": {
+        "merchantID": {
+          "description": "Идентификатор мерчанта в платёжной организации.\nМожет быть использован для передачи провайдеру платежных токенов. Например, ожидается,\nчто этот параметр передается как gatewayMerchantID для GooglePay и/или YandexPay,\nа затем используется для привязки токена к указанному магазину.\n",
+          "type": "string"
+        },
+        "merchantName": {
+          "description": "Имя мерчанта в платежной организации.\nМожет быть использовано, например,  как `merchantInfo.merchantName` в GooglePay\nили `merchant.name` в YandexPay или `displayName` в ApplePay.\n",
+          "type": "string"
+        },
+        "orderID": {
+          "description": "Идентификатор оплачиваемого счета в платёжной организации.\nМожет быть использован, например,  как `orderNumber`  в SamsungPay или `order.id` в YandexPay.\nИспользование системного идентифкатора может оказаться полезным при отладке или сверке данных\nс данными провайдера.\n",
+          "type": "string"
+        },
+        "realm": {
+          "description": "Режим рабочего окружения платежной организации",
+          "type": "string",
+          "enum": [
+            "test",
+            "live"
+          ]
+        }
+      }
     },
     "BrowserGetRequest": {
       "type": "object",
@@ -8735,6 +8773,7 @@
           }
         },
         "realm": {
+          "description": "Режим рабочего окружения платежной организации",
           "type": "string",
           "enum": [
             "test",
@@ -9786,6 +9825,14 @@
             }
           }
         }
+      ]
+    },
+    "RealmMode": {
+      "description": "Режим рабочего окружения платежной организации",
+      "type": "string",
+      "enum": [
+        "test",
+        "live"
       ]
     },
     "Reason": {
