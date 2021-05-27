@@ -21,7 +21,5 @@ properties:
       x-rebillyMerge:
         - $ref: '#/definitions/Residence'
   realm:
-    type: string
-    enum:
-      - test
-      - live
+    x-rebillyMerge:
+      - $ref: '#/definitions/RealmMode'
