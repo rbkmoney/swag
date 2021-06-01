@@ -1,6 +1,7 @@
 description: 'Страна'
 type: object
 required:
+    - id
     - name
 properties:
     id:

@@ -1,6 +1,7 @@
 description: 'Торговый Блок'
 type: object
 required:
+    - id
     - name
 properties:
     id:
