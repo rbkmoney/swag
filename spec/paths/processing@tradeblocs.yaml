@@ -15,7 +15,7 @@ get:
         - live
   responses:
     '200':
-      description: List of Trade Blocs
+      description: Список Торговых Блоков
       schema:
         type: array
         items:

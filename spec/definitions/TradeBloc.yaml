@@ -1,4 +1,4 @@
-description: 'Торговый Блок'
+description: Торговый Блок
 type: object
 required:
     - id

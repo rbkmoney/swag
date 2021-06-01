@@ -15,7 +15,7 @@ get:
         - live
   responses:
     '200':
-      description: List of countries
+      description: Список стран
       schema:
         type: array
         items:

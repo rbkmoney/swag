@@ -9,7 +9,7 @@ get:
     - $ref: '#/parameters/tradeBlocID'
   responses:
     '200':
-      description: Trade Bloc found
+      description: Торговый Блок найден
       schema:
         $ref: '#/definitions/TradeBloc'
     '404':
