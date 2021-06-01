@@ -9,7 +9,7 @@ properties:
     name:
         type: string
         maxLength: 200
-    trade_blocs:
+    tradeBlocs:
         type: array
         items:
             description: Идентификаторы Торговых Блоков
