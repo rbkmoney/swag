@@ -23,6 +23,6 @@ allOf:
         description: Регистрационный номер
         type: string
         maxLength: 100
-      countryID:
-          type: integer
-          format: int32
+      country:
+        x-rebillyMerge:
+          - $ref: '#/definitions/CountryCode'
