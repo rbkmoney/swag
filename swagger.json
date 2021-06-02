@@ -315,6 +315,21 @@
       "description": "Уникальный в рамках платформы идентификатор участника.",
       "required": true,
       "type": "string"
+    },
+    "countryID": {
+      "name": "countryID",
+      "in": "path",
+      "required": true,
+      "description": "Alpha-3 код страны по стандарту [ISO 3166-1](https://en.wikipedia.org/wiki/ISO_3166-1)",
+      "type": "string",
+      "pattern": "^[A-Z]{3}$"
+    },
+    "tradeBlocID": {
+      "name": "tradeBlocID",
+      "in": "path",
+      "description": "Идентификатор торгового блока",
+      "required": true,
+      "type": "string"
     }
   },
   "tags": [
@@ -2160,6 +2175,71 @@
           },
           "401": {
             "$ref": "#/responses/Unauthorized"
+          },
+          "404": {
+            "$ref": "#/responses/NotFound"
+          }
+        }
+      }
+    },
+    "/processing/countries": {
+      "get": {
+        "description": "Получить список стран",
+        "tags": [
+          "Countries"
+        ],
+        "operationId": "getCountries",
+        "parameters": [
+          {
+            "$ref": "#/parameters/requestID"
+          },
+          {
+            "$ref": "#/parameters/deadline"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Список стран",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Country"
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/responses/DefaultLogicError"
+          }
+        }
+      }
+    },
+    "/processing/countries/{countryID}": {
+      "get": {
+        "description": "Получить данные страны по ее ID",
+        "tags": [
+          "Countries"
+        ],
+        "operationId": "getCountryByID",
+        "parameters": [
+          {
+            "$ref": "#/parameters/requestID"
+          },
+          {
+            "$ref": "#/parameters/deadline"
+          },
+          {
+            "$ref": "#/parameters/countryID"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Страна найдена",
+            "schema": {
+              "$ref": "#/definitions/Country"
+            }
+          },
+          "400": {
+            "$ref": "#/responses/DefaultLogicError"
           },
           "404": {
             "$ref": "#/responses/NotFound"
@@ -5153,6 +5233,71 @@
         }
       }
     },
+    "/processing/tradeblocs": {
+      "get": {
+        "description": "Получить список торговых блоков",
+        "tags": [
+          "TradeBlocs"
+        ],
+        "operationId": "getTradeBlocs",
+        "parameters": [
+          {
+            "$ref": "#/parameters/requestID"
+          },
+          {
+            "$ref": "#/parameters/deadline"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Список Торговых Блоков",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/TradeBloc"
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/responses/DefaultLogicError"
+          }
+        }
+      }
+    },
+    "/processing/tradeblocs/{tradeBlocID}": {
+      "get": {
+        "description": "Получить данные торгового блока по его ID",
+        "tags": [
+          "PaymentInstitutions"
+        ],
+        "operationId": "getTradeBlocByID",
+        "parameters": [
+          {
+            "$ref": "#/parameters/requestID"
+          },
+          {
+            "$ref": "#/parameters/deadline"
+          },
+          {
+            "$ref": "#/parameters/tradeBlocID"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Торговый Блок найден",
+            "schema": {
+              "$ref": "#/definitions/TradeBloc"
+            }
+          },
+          "400": {
+            "$ref": "#/responses/DefaultLogicError"
+          },
+          "404": {
+            "$ref": "#/responses/NotFound"
+          }
+        }
+      }
+    },
     "/processing/webhooks": {
       "post": {
         "description": "Установить новый webhook.",
@@ -6585,6 +6730,39 @@
         }
       }
     },
+    "Country": {
+      "description": "Страна",
+      "type": "object",
+      "required": [
+        "id",
+        "name"
+      ],
+      "properties": {
+        "id": {
+          "description": "Alpha-3 код страны по стандарту [ISO 3166-1](https://en.wikipedia.org/wiki/ISO_3166-1)",
+          "type": "string",
+          "pattern": "^[A-Z]{3}$",
+          "example": "RUS"
+        },
+        "name": {
+          "type": "string",
+          "maxLength": 200
+        },
+        "tradeBlocs": {
+          "type": "array",
+          "items": {
+            "description": "Идентификаторы Торговых Блоков",
+            "type": "string"
+          }
+        }
+      }
+    },
+    "CountryCode": {
+      "description": "Alpha-3 код страны по стандарту [ISO 3166-1](https://en.wikipedia.org/wiki/ISO_3166-1)",
+      "type": "string",
+      "pattern": "^[A-Z]{3}$",
+      "example": "RUS"
+    },
     "CryptoCurrency": {
       "description": "Тип криптовалюты",
       "type": "string",
@@ -7367,10 +7545,10 @@
           "example": "RAIFFEISEN BANK INTERNATIONAL AG\n"
         },
         "countryCode": {
+          "description": "Код страны резиденции банковской организации, обозначается\nalpha-3 код по стандарту [ISO 3166-1](https://en.wikipedia.org/wiki/ISO_3166-1)\n",
           "type": "string",
           "pattern": "^[A-Z]{3}$",
-          "example": "RUS",
-          "description": "Страна резиденции банковской организации,\nalpha-3 код по стандарту [ISO 3166-1](https://en.wikipedia.org/wiki/ISO_3166-1)\n"
+          "example": "RUS"
         },
         "address": {
           "description": "Адрес юридического лица банковской организации",
@@ -7424,6 +7602,12 @@
               "description": "Регистрационный номер",
               "type": "string",
               "maxLength": 100
+            },
+            "country": {
+              "description": "Alpha-3 код страны по стандарту [ISO 3166-1](https://en.wikipedia.org/wiki/ISO_3166-1)",
+              "type": "string",
+              "pattern": "^[A-Z]{3}$",
+              "example": "RUS"
             }
           }
         }
@@ -8766,7 +8950,7 @@
         "residences": {
           "type": "array",
           "items": {
-            "description": "Резиденция, alpha-3 код по стандарту [ISO 3166-1](https://en.wikipedia.org/wiki/ISO_3166-1)",
+            "description": "Alpha-3 код страны по стандарту [ISO 3166-1](https://en.wikipedia.org/wiki/ISO_3166-1)",
             "type": "string",
             "pattern": "^[A-Z]{3}$",
             "example": "RUS"
@@ -10287,12 +10471,6 @@
         }
       }
     },
-    "Residence": {
-      "description": "Резиденция, alpha-3 код по стандарту [ISO 3166-1](https://en.wikipedia.org/wiki/ISO_3166-1)",
-      "type": "string",
-      "pattern": "^[A-Z]{3}$",
-      "example": "RUS"
-    },
     "RussianLegalEntity": {
       "description": "Юридическое лицо, ведущее деятельность под юрисдикцией РФ",
       "type": "object",
@@ -10867,6 +11045,27 @@
           ]
         }
       ]
+    },
+    "TradeBloc": {
+      "description": "Торговый Блок",
+      "type": "object",
+      "required": [
+        "id",
+        "name"
+      ],
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string",
+          "maxLength": 200
+        },
+        "description": {
+          "type": "string",
+          "maxLength": 1000
+        }
+      }
     },
     "TransactionInfo": {
       "type": "object",
