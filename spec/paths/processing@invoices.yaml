@@ -66,6 +66,7 @@ post:
               - invalidPartyStatus
               - invalidShopStatus
               - invalidInvoiceCart
+              - invalidInvoiceAllocation
               - invalidInvoiceCost
               - invoiceTermsViolated
               - ambiguousPartyID
