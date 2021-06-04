@@ -2,3 +2,4 @@ description: Провайдер электронных денежных сред
 type: string
 enum:
   - qiwi
+  - webmoney
