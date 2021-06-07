@@ -1,0 +1,5 @@
+description: Режим рабочего окружения платежной организации
+type: string
+enum:
+  - test
+  - live

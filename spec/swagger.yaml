@@ -355,6 +355,19 @@ parameters:
     description: Уникальный в рамках платформы идентификатор участника. # TODO: rephrase
     required: true
     type: string
+  countryID:
+      name: countryID
+      in: path
+      required: true
+      description: 'Alpha-3 код страны по стандарту [ISO 3166-1](https://en.wikipedia.org/wiki/ISO_3166-1)'
+      type: string
+      pattern: '^[A-Z]{3}$'
+  tradeBlocID:
+      name: tradeBlocID
+      in: path
+      description: Идентификатор торгового блока
+      required: true
+      type: string
 tags:
   - name: Parties
     x-displayName: Участники

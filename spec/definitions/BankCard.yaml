@@ -17,3 +17,6 @@ allOf:
         items:
           x-rebillyMerge:
             - $ref: '#/definitions/BankCardTokenProvider'
+      tokenProviderData:
+        allOf:
+          - $ref: '#/definitions/BankCardTokenProviderData'
