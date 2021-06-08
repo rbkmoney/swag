@@ -19,7 +19,7 @@ properties:
     type: array
     items:
       x-rebillyMerge:
-        - $ref: '#/definitions/CountryCode'
+        - $ref: '#/definitions/Residence'
   realm:
     x-rebillyMerge:
       - $ref: '#/definitions/RealmMode'

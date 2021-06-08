@@ -29,10 +29,14 @@ properties:
       RAIFFEISEN BANK INTERNATIONAL AG
   countryCode:
     x-rebillyMerge:
-      - $ref: '#/definitions/CountryCode'
+      - $ref: '#/definitions/Residence'
       - description: |
-          Код страны резиденции банковской организации, обозначается
+          Страна резиденции банковской организации,
           alpha-3 код по стандарту [ISO 3166-1](https://en.wikipedia.org/wiki/ISO_3166-1)
+    type: string
+    # readOnly: true
+    pattern: '^[A-Z]{2}$'
+    example: "AT"
   address:
     description: Адрес юридического лица банковской организации
     type: string
