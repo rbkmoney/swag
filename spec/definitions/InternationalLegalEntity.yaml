@@ -23,3 +23,6 @@ allOf:
         description: Регистрационный номер
         type: string
         maxLength: 100
+      country:
+        x-rebillyMerge:
+          - $ref: '#/definitions/CountryCode'

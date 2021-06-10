@@ -1,0 +1,14 @@
+description: Торговый Блок
+type: object
+required:
+    - id
+    - name
+properties:
+    id:
+        type: string
+    name:
+        type: string
+        maxLength: 200
+    description:
+        type: string
+        maxLength: 1000
