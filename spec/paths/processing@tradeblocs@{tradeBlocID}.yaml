@@ -1,0 +1,18 @@
+get:
+  description: Получить данные торгового блока по его ID
+  tags:
+    - TradeBlocs
+  operationId: getTradeBlocByID
+  parameters:
+    - $ref: '#/parameters/requestID'
+    - $ref: '#/parameters/deadline'
+    - $ref: '#/parameters/tradeBlocID'
+  responses:
+    '200':
+      description: Торговый Блок найден
+      schema:
+        $ref: '#/definitions/TradeBloc'
+    '404':
+      $ref: '#/responses/NotFound'
+    '400':
+      $ref: '#/responses/DefaultLogicError'
