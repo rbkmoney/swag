@@ -39,11 +39,6 @@ properties:
       - $ref: '#/definitions/Currency'
   payoutToolDetails:
     $ref: '#/definitions/PayoutToolDetails'
-  payoutSummary:
-    description: Описание части суммы вывода, сгруппированное по типу операций над денежными средствами
-    type: array
-    items:
-      $ref: '#/definitions/PayoutSummaryItem'
   status:
     description: Статус выплаты
     type: string
