@@ -1,7 +1,7 @@
 get:
   description: Получить данные торгового блока по его ID
   tags:
-    - PaymentInstitutions
+    - TradeBlocs
   operationId: getTradeBlocByID
   parameters:
     - $ref: '#/parameters/requestID'
