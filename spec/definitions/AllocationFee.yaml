@@ -4,6 +4,10 @@ discriminator: allocationFeeType
 required:
   - allocationFeeType
 properties:
+  target:
+    x-rebillyMerge:
+      - $ref: '#/definitions/AllocationTarget'
+      - readOnly: true
   allocationFeeType:
     type: string
     enum:
