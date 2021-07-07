@@ -5,6 +5,7 @@ allOf:
     required:
       - total
       - currency
+      - fee
     properties:
       total:
         description: >
