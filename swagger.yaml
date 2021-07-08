@@ -6437,6 +6437,9 @@ definitions:
         enum:
           - test
           - live
+  PaymentInstitutionAccount:
+    description: Аккаунт платёжной организации
+    type: object
   PaymentInteractionRequested:
     type: object
     allOf:
@@ -7061,6 +7064,11 @@ definitions:
     allOf:
       - $ref: '#/definitions/PayoutToolDetails'
       - $ref: '#/definitions/InternationalBankAccount'
+  PayoutToolDetailsPaymentInstitutionAccount:
+    type: object
+    allOf:
+      - $ref: '#/definitions/PayoutToolDetails'
+      - $ref: '#/definitions/PaymentInstitutionAccount'
   PayoutToolDetailsWalletInfo:
     type: object
     allOf:
