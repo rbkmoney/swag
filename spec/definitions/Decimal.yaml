@@ -9,6 +9,7 @@ properties:
       Мантисса.
     type: integer
     format: int64
+    minimum: 0
   exp:
     description: >
       Порядок.
