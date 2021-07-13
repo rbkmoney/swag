@@ -7049,11 +7049,6 @@ definitions:
     allOf:
       - $ref: '#/definitions/PayoutToolDetails'
       - $ref: '#/definitions/BankAccount'
-  PayoutToolDetailsBankCard:
-    type: object
-    allOf:
-      - $ref: '#/definitions/PayoutToolDetails'
-      - $ref: '#/definitions/BankCardDetails'
   PayoutToolDetailsInternationalBankAccount:
     type: object
     allOf:

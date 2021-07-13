@@ -9819,17 +9819,6 @@
         }
       ]
     },
-    "PayoutToolDetailsBankCard": {
-      "type": "object",
-      "allOf": [
-        {
-          "$ref": "#/definitions/PayoutToolDetails"
-        },
-        {
-          "$ref": "#/definitions/BankCardDetails"
-        }
-      ]
-    },
     "PayoutToolDetailsInternationalBankAccount": {
       "type": "object",
       "allOf": [
