@@ -9612,17 +9612,6 @@
         }
       }
     },
-    "PaymentToolDetailsBankCard": {
-      "type": "object",
-      "allOf": [
-        {
-          "$ref": "#/definitions/PaymentToolDetails"
-        },
-        {
-          "$ref": "#/definitions/BankCardDetails"
-        }
-      ]
-    },
     "PaymentToolDetailsCryptoWallet": {
       "type": "object",
       "allOf": [
