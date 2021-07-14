@@ -1242,15 +1242,14 @@
           {
             "name": "payoutToolType",
             "in": "query",
-            "description": "Тип выплаты для поиска",
             "required": false,
             "type": "string",
             "enum": [
-              "PayoutToolRussianBankAccount",
-              "PayoutToolInternationalBankAccount",
-              "PayoutToolWalletInfo",
-              "PayoutToolPaymentInstitutionAccount"
-            ]
+              "PayoutAccount",
+              "Wallet",
+              "PaymentInstitutionAccount"
+            ],
+            "description": "Тип выплаты для поиска\n  * PayoutAccount - выплата на банковский счет\n  * Wallet - выплата на кошелёк\n  * PaymentInstitutionAccount - выплата счет платежной организации\n"
           }
         ],
         "responses": {
