@@ -26,6 +26,7 @@ get:
             - BankAccount
             - InternationalBankAccount
             - Wallet
+            - PaymentInstitutionAccount
     '404':
       $ref: '#/responses/NotFound'
     '401':
