@@ -1301,8 +1301,10 @@ paths:
           required: false
           type: string
           enum:
-            - PayoutAccount
-            - Wallet
+            - PayoutToolRussianBankAccount
+            - PayoutToolInternationalBankAccount
+            - PayoutToolWalletInfo
+            - PayoutToolPaymentInstitutionAccount
       responses:
         '200':
           description: Найденные выплаты
