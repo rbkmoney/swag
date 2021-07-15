@@ -3450,6 +3450,7 @@ paths:
                 - BankAccount
                 - InternationalBankAccount
                 - Wallet
+                - PaymentInstitutionAccount
         '400':
           $ref: '#/responses/DefaultLogicError'
         '401':
