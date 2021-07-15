@@ -1,8 +1,6 @@
 type: object
 required:
-  - id
   - shopID
-  - payoutToolID
   - amount
   - currency
 properties:
@@ -16,7 +14,8 @@ properties:
     x-rebillyMerge:
       - $ref: '#/definitions/PartyID'
   payoutToolID:
-    description: Идентификатор инструмента выплаты
+    description: |
+      Идентификатор инструмента выплаты. Если не указан, то будет взят из параметров магазина.
     type: string
   amount:
     description: |
