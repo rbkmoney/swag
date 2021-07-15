@@ -9721,13 +9721,6 @@
         "status": {
           "description": "Статус выплаты",
           "type": "string"
-        },
-        "metadata": {
-          "description": "Произвольный, специфичный для клиента API и непрозрачный для системы набор данных,\nассоциированных с данной выплатой\n",
-          "type": "object",
-          "example": {
-            "payoutDesc": "Custom payout"
-          }
         }
       }
     },
@@ -9775,13 +9768,6 @@
           "description": "Валюта, символьный код согласно [ISO 4217](http://www.iso.org/iso/home/standards/currency_codes.htm).",
           "type": "string",
           "pattern": "^[A-Z]{3}$"
-        },
-        "metadata": {
-          "description": "Произвольный, специфичный для клиента API и непрозрачный для системы набор данных,\nассоциированных с данной выплатой\n",
-          "type": "object",
-          "example": {
-            "payoutDesc": "Custom payout"
-          }
         }
       }
     },
