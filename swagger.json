@@ -9734,6 +9734,7 @@
       "type": "object",
       "required": [
         "shopID",
+        "payoutToolID",
         "amount",
         "currency"
       ],
@@ -9755,7 +9756,7 @@
           "maxLength": 40
         },
         "payoutToolID": {
-          "description": "Идентификатор инструмента выплаты. Если не указан, то будет взят из параметров магазина.\n",
+          "description": "Идентификатор инструмента выплаты",
           "type": "string"
         },
         "amount": {
