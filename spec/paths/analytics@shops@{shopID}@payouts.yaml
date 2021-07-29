@@ -28,7 +28,7 @@ get:
         - PaymentInstitutionAccount
       description: >
         Тип выплаты для поиска
-          * PayoutAccount - выплата на банковский счет
+          * PayoutAccount - выплата на банковский счёт
           * Wallet - выплата на кошелёк
           * PaymentInstitutionAccount - выплата счет платежной организации
   responses:
