@@ -1297,12 +1297,17 @@ paths:
           minLength: 1
         - name: payoutToolType
           in: query
-          description: Тип выплаты для поиска
           required: false
           type: string
           enum:
             - PayoutAccount
             - Wallet
+            - PaymentInstitutionAccount
+          description: |
+            Тип выплаты для поиска
+              * PayoutAccount - выплата на банковский счёт
+              * Wallet - выплата на кошелёк
+              * PaymentInstitutionAccount - выплата на счёт платежной организации
       responses:
         '200':
           description: Найденные выплаты
@@ -3445,6 +3450,7 @@ paths:
                 - BankAccount
                 - InternationalBankAccount
                 - Wallet
+                - PaymentInstitutionAccount
         '400':
           $ref: '#/responses/DefaultLogicError'
         '401':
@@ -6437,6 +6443,9 @@ definitions:
         enum:
           - test
           - live
+  PaymentInstitutionAccount:
+    description: Аккаунт платёжной организации
+    type: object
   PaymentInteractionRequested:
     type: object
     allOf:
@@ -6966,21 +6975,9 @@ definitions:
         pattern: '^[A-Z]{3}$'
       payoutToolDetails:
         $ref: '#/definitions/PayoutToolDetails'
-      payoutSummary:
-        description: 'Описание части суммы вывода, сгруппированное по типу операций над денежными средствами'
-        type: array
-        items:
-          $ref: '#/definitions/PayoutSummaryItem'
       status:
         description: Статус выплаты
         type: string
-      metadata:
-        description: |
-          Произвольный, специфичный для клиента API и непрозрачный для системы набор данных,
-          ассоциированных с данной выплатой
-        type: object
-        example:
-          payoutDesc: Custom payout
   PayoutID:
     description: Идентификатор выплаты
     type: string
@@ -6989,7 +6986,6 @@ definitions:
   PayoutParams:
     type: object
     required:
-      - id
       - shopID
       - payoutToolID
       - amount
@@ -7023,60 +7019,6 @@ definitions:
         description: 'Валюта, символьный код согласно [ISO 4217](http://www.iso.org/iso/home/standards/currency_codes.htm).'
         type: string
         pattern: '^[A-Z]{3}$'
-      metadata:
-        description: |
-          Произвольный, специфичный для клиента API и непрозрачный для системы набор данных,
-          ассоциированных с данной выплатой
-        type: object
-        example:
-          payoutDesc: Custom payout
-  PayoutSummaryItem:
-    type: object
-    description: Описание суммы вывода по типу операций
-    required:
-      - amount
-      - fee
-      - currency
-      - count
-      - fromTime
-      - toTime
-      - type
-    properties:
-      amount:
-        description: |
-          Общая сумма по данному типу операций над денежными средствами в минорных денежных
-          единицах, например в копейках в случае указания российских рублей в
-          качестве валюты.
-        type: integer
-        format: int64
-        minimum: 0
-      fee:
-        description: Общая комиссия по данному типу операций над денежными средствами в минорных денежных единицах
-        type: integer
-        format: int64
-      currency:
-        description: 'Валюта, символьный код согласно [ISO 4217](http://www.iso.org/iso/home/standards/currency_codes.htm).'
-        type: string
-        pattern: '^[A-Z]{3}$'
-      count:
-        description: Общее количество операций над денежными средствами по данному типу
-        type: integer
-        format: int32
-        minimum: 0
-      fromTime:
-        description: Дата и время первого подтверждения операции над денежными средствами
-        type: string
-        format: date-time
-      toTime:
-        description: Дата и время последнего подтверждения операции над денежными средствами
-        type: string
-        format: date-time
-      type:
-        description: Тип операций над денежными средствами
-        type: string
-        enum:
-          - payment
-          - refund
   PayoutTool:
     description: Средство вывода
     allOf:
@@ -7103,16 +7045,16 @@ definitions:
     allOf:
       - $ref: '#/definitions/PayoutToolDetails'
       - $ref: '#/definitions/BankAccount'
-  PayoutToolDetailsBankCard:
-    type: object
-    allOf:
-      - $ref: '#/definitions/PayoutToolDetails'
-      - $ref: '#/definitions/BankCardDetails'
   PayoutToolDetailsInternationalBankAccount:
     type: object
     allOf:
       - $ref: '#/definitions/PayoutToolDetails'
       - $ref: '#/definitions/InternationalBankAccount'
+  PayoutToolDetailsPaymentInstitutionAccount:
+    type: object
+    allOf:
+      - $ref: '#/definitions/PayoutToolDetails'
+      - $ref: '#/definitions/PaymentInstitutionAccount'
   PayoutToolDetailsWalletInfo:
     type: object
     allOf:
