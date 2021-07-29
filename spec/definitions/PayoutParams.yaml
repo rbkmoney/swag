@@ -1,6 +1,5 @@
 type: object
 required:
-  - id
   - shopID
   - payoutToolID
   - amount
@@ -29,10 +28,3 @@ properties:
   currency:
     x-rebillyMerge:
       - $ref: '#/definitions/Currency'
-  metadata:
-    description: |
-      Произвольный, специфичный для клиента API и непрозрачный для системы набор данных,
-      ассоциированных с данной выплатой
-    type: object
-    example:
-      payoutDesc: Custom payout

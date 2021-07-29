@@ -20,12 +20,17 @@ get:
       minLength: 1
     - name: payoutToolType
       in: query
-      description: Тип выплаты для поиска
       required: false
       type: string
       enum:
         - PayoutAccount
         - Wallet
+        - PaymentInstitutionAccount
+      description: >
+        Тип выплаты для поиска
+          * PayoutAccount - выплата на банковский счёт
+          * Wallet - выплата на кошелёк
+          * PaymentInstitutionAccount - выплата на счёт платежной организации
   responses:
     '200':
       description: Найденные выплаты
