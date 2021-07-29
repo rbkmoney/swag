@@ -30,7 +30,7 @@ get:
         Тип выплаты для поиска
           * PayoutAccount - выплата на банковский счёт
           * Wallet - выплата на кошелёк
-          * PaymentInstitutionAccount - выплата счет платежной организации
+          * PaymentInstitutionAccount - выплата на счёт платежной организации
   responses:
     '200':
       description: Найденные выплаты
