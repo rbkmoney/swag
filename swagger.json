@@ -1249,7 +1249,7 @@
               "Wallet",
               "PaymentInstitutionAccount"
             ],
-            "description": "Тип выплаты для поиска\n  * PayoutAccount - выплата на банковский счёт\n  * Wallet - выплата на кошелёк\n  * PaymentInstitutionAccount - выплата счет платежной организации\n"
+            "description": "Тип выплаты для поиска\n  * PayoutAccount - выплата на банковский счёт\n  * Wallet - выплата на кошелёк\n  * PaymentInstitutionAccount - выплата на счёт платежной организации\n"
           }
         ],
         "responses": {
