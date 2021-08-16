@@ -12,3 +12,8 @@ properties:
     type: string
     format: ip-address
     maxLength: 45
+  url:
+    description: URL на котором запускалась платежная форма
+    type: string
+    format: uri
+    maxLength: 1000
