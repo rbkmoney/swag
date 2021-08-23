@@ -6396,7 +6396,7 @@
           "maxLength": 45
         },
         "url": {
-          "description": "URL на котором запускалась платежная форма",
+          "description": "URL с которого была получена платежная форма клиентом",
           "type": "string",
           "format": "uri",
           "maxLength": 1000
