@@ -1,8 +1,8 @@
-description: Оператор сотовой связи
+description: Оператор сотовой связи (mts, beeline и др.)
 type: string
-enum:
-  - mts
-  - beeline
-  - megafone
-  - tele2
-  - yota
+# enum:
+#   - mts
+#   - beeline
+#   - megafone
+#   - tele2
+#   - yota

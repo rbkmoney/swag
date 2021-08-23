@@ -1,10 +1,10 @@
-description: Провайдер терминальной сети
+description: Провайдер терминальной сети (euroset, alipay и др.)
 type: string
-enum:
-  - euroset
-  - alipay
-  - wechat
-  - zotapay
-  - qps
-  - uzcard
-  - rbs
+# enum:
+#   - euroset
+#   - alipay
+#   - wechat
+#   - zotapay
+#   - qps
+#   - uzcard
+#   - rbs

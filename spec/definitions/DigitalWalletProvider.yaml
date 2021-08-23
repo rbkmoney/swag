@@ -1,4 +1,4 @@
-description: Провайдер электронных денежных средств
+description: Провайдер электронных денежных средств (напр. qiwi)
 type: string
-enum:
-  - qiwi
+# enum:
+#   - qiwi

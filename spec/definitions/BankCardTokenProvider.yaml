@@ -1,7 +1,7 @@
-description: Провайдер платежных токенов
+description: Провайдер платежных токенов (applepay, googlepay и др.)
 type: string
-enum:
-  - applepay
-  - googlepay
-  - samsungpay
-  - yandexpay  
+# enum:
+#   - applepay
+#   - googlepay
+#   - samsungpay
+#   - yandexpay
