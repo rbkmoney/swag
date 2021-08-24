@@ -1,5 +1,9 @@
-description: Провайдер терминальной сети (euroset, alipay и др.)
+description: |
+    Провайдер терминальной сети.
+
+    Набор провайдеров, доступных для проведения платежей, можно узнать, вызвав соответствующую [операцию](#operation/getInvoicePaymentMethods) после создания инвойса.
 type: string
+example: euroset
 # enum:
 #   - euroset
 #   - alipay

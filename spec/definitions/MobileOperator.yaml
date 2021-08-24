@@ -1,5 +1,9 @@
-description: Оператор сотовой связи (mts, beeline и др.)
+description: |
+    Оператор сотовой связи.
+
+    Набор операторов, доступных для проведения платежей, можно узнать, вызвав соответствующую [операцию](#operation/getInvoicePaymentMethods) после создания инвойса.
 type: string
+example: mts
 # enum:
 #   - mts
 #   - beeline

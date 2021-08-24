@@ -1,5 +1,9 @@
-description: Тип криптовалюты (напр. bitcoint, liteсoin и др.)
+description: |
+    Криптовалютное платёжное средство.
+
+    Набор криптовалют, доступных для проведения платежей, можно узнать, вызвав соответствующую [операцию](#operation/getInvoicePaymentMethods) после создания инвойса.
 type: string
+example: bitcoin
 # enum:
 #   - bitcoin
 #   - litecoin

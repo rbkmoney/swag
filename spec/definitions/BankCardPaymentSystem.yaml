@@ -1,5 +1,10 @@
-description: Платежная система (visa, mastercard, и др.)
+description: |
+    Платежная система.
+
+    Набор систем, доступных для проведения платежей, можно узнать, вызвав соответствующую [операцию](#operation/getInvoicePaymentMethods) после создания инвойса.
 type: string
+# NOTE: Can't be put because of merging in other places
+# example: visa
 # enum:
 #   - visa
 #   - mastercard
