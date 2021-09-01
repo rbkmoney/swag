@@ -909,35 +909,19 @@ paths:
         - name: bankCardTokenProvider
           in: query
           required: false
-          description: Провайдер платежных токенов
+          description: |
+            Провайдер платежных токенов.
+
+            Набор провайдеров, доступных для проведения платежей, можно узнать, вызвав соответствующую [операцию](#operation/getInvoicePaymentMethods) после создания инвойса.
           type: string
-          enum:
-            - applepay
-            - googlepay
-            - samsungpay
-            - yandexpay
         - name: bankCardPaymentSystem
           in: query
           required: false
-          description: Платежная система
+          description: |
+            Платежная система.
+
+            Набор систем, доступных для проведения платежей, можно узнать, вызвав соответствующую [операцию](#operation/getInvoicePaymentMethods) после создания инвойса.
           type: string
-          enum:
-            - visa
-            - mastercard
-            - visaelectron
-            - maestro
-            - forbrugsforeningen
-            - dankort
-            - amex
-            - dinersclub
-            - discover
-            - unionpay
-            - jcb
-            - nspkmir
-            - elo
-            - rupay
-            - dummy
-            - uzcard
         - name: first6
           in: query
           description: Первые 6 цифр номера карты
@@ -1123,35 +1107,19 @@ paths:
         - name: bankCardTokenProvider
           in: query
           required: false
-          description: Провайдер платежных токенов
+          description: |
+            Провайдер платежных токенов.
+
+            Набор провайдеров, доступных для проведения платежей, можно узнать, вызвав соответствующую [операцию](#operation/getInvoicePaymentMethods) после создания инвойса.
           type: string
-          enum:
-            - applepay
-            - googlepay
-            - samsungpay
-            - yandexpay
         - name: bankCardPaymentSystem
           in: query
           required: false
-          description: Платежная система
+          description: |
+            Платежная система.
+
+            Набор систем, доступных для проведения платежей, можно узнать, вызвав соответствующую [операцию](#operation/getInvoicePaymentMethods) после создания инвойса.
           type: string
-          enum:
-            - visa
-            - mastercard
-            - visaelectron
-            - maestro
-            - forbrugsforeningen
-            - dankort
-            - amex
-            - dinersclub
-            - discover
-            - unionpay
-            - jcb
-            - nspkmir
-            - elo
-            - rupay
-            - dummy
-            - uzcard
         - name: paymentAmount
           in: query
           description: Сумма платежа
@@ -4160,36 +4128,20 @@ definitions:
             description: Список платежных систем
             type: array
             items:
-              description: Платежная система
+              description: |
+                Платежная система.
+
+                Набор систем, доступных для проведения платежей, можно узнать, вызвав соответствующую [операцию](#operation/getInvoicePaymentMethods) после создания инвойса.
               type: string
-              enum:
-                - visa
-                - mastercard
-                - visaelectron
-                - maestro
-                - forbrugsforeningen
-                - dankort
-                - amex
-                - dinersclub
-                - discover
-                - unionpay
-                - jcb
-                - nspkmir
-                - elo
-                - rupay
-                - dummy
-                - uzcard
           tokenProviders:
             description: Список провайдеров платежных токенов
             type: array
             items:
-              description: Провайдер платежных токенов
+              description: |
+                Провайдер платежных токенов.
+
+                Набор провайдеров, доступных для проведения платежей, можно узнать, вызвав соответствующую [операцию](#operation/getInvoicePaymentMethods) после создания инвойса.
               type: string
-              enum:
-                - applepay
-                - googlepay
-                - samsungpay
-                - yandexpay
           tokenProviderData:
             allOf:
               - $ref: '#/definitions/BankCardTokenProviderData'
@@ -4214,33 +4166,17 @@ definitions:
         type: string
         pattern: '^\d{0,4}$'
       paymentSystem:
-        description: Платежная система
+        description: |
+          Платежная система.
+
+          Набор систем, доступных для проведения платежей, можно узнать, вызвав соответствующую [операцию](#operation/getInvoicePaymentMethods) после создания инвойса.
         type: string
-        enum:
-          - visa
-          - mastercard
-          - visaelectron
-          - maestro
-          - forbrugsforeningen
-          - dankort
-          - amex
-          - dinersclub
-          - discover
-          - unionpay
-          - jcb
-          - nspkmir
-          - elo
-          - rupay
-          - dummy
-          - uzcard
       tokenProvider:
-        description: Провайдер платежных токенов
+        description: |
+          Провайдер платежных токенов.
+
+          Набор провайдеров, доступных для проведения платежей, можно узнать, вызвав соответствующую [операцию](#operation/getInvoicePaymentMethods) после создания инвойса.
         type: string
-        enum:
-          - applepay
-          - googlepay
-          - samsungpay
-          - yandexpay
       tokenizationMethod:
         description: Метод токенизации
         type: string
@@ -4248,25 +4184,11 @@ definitions:
           - dpan
           - none
   BankCardPaymentSystem:
-    description: Платежная система
+    description: |
+      Платежная система.
+
+      Набор систем, доступных для проведения платежей, можно узнать, вызвав соответствующую [операцию](#operation/getInvoicePaymentMethods) после создания инвойса.
     type: string
-    enum:
-      - visa
-      - mastercard
-      - visaelectron
-      - maestro
-      - forbrugsforeningen
-      - dankort
-      - amex
-      - dinersclub
-      - discover
-      - unionpay
-      - jcb
-      - nspkmir
-      - elo
-      - rupay
-      - dummy
-      - uzcard
   BankCardTokenizationMethod:
     description: Метод токенизации
     type: string
@@ -4274,13 +4196,11 @@ definitions:
       - dpan
       - none
   BankCardTokenProvider:
-    description: Провайдер платежных токенов
+    description: |
+      Провайдер платежных токенов.
+
+      Набор провайдеров, доступных для проведения платежей, можно узнать, вызвав соответствующую [операцию](#operation/getInvoicePaymentMethods) после создания инвойса.
     type: string
-    enum:
-      - applepay
-      - googlepay
-      - samsungpay
-      - yandexpay
   BankCardTokenProviderData:
     type: object
     description: |
@@ -4826,15 +4746,12 @@ definitions:
     pattern: '^[A-Z]{3}$'
     example: RUS
   CryptoCurrency:
-    description: Тип криптовалюты
+    description: |
+      Криптовалютное платёжное средство.
+
+      Набор криптовалют, доступных для проведения платежей, можно узнать, вызвав соответствующую [операцию](#operation/getInvoicePaymentMethods) после создания инвойса.
     type: string
-    enum:
-      - bitcoin
-      - litecoin
-      - bitcoinCash
-      - ripple
-      - ethereum
-      - zcash
+    example: bitcoin
   CryptoCurrencyTransferRequest:
     type: object
     allOf:
@@ -4870,15 +4787,12 @@ definitions:
             description: Список криптовалют
             type: array
             items:
-              description: Тип криптовалюты
+              description: |
+                Криптовалютное платёжное средство.
+
+                Набор криптовалют, доступных для проведения платежей, можно узнать, вызвав соответствующую [операцию](#operation/getInvoicePaymentMethods) после создания инвойса.
               type: string
-              enum:
-                - bitcoin
-                - litecoin
-                - bitcoinCash
-                - ripple
-                - ethereum
-                - zcash
+              example: bitcoin
   CryptoWalletData:
     type: object
     allOf:
@@ -4889,15 +4803,12 @@ definitions:
       - cryptoCurrency
     properties:
       cryptoCurrency:
-        description: Тип криптовалюты
+        description: |
+          Криптовалютное платёжное средство.
+
+          Набор криптовалют, доступных для проведения платежей, можно узнать, вызвав соответствующую [операцию](#operation/getInvoicePaymentMethods) после создания инвойса.
         type: string
-        enum:
-          - bitcoin
-          - litecoin
-          - bitcoinCash
-          - ripple
-          - ethereum
-          - zcash
+        example: bitcoin
   Currency:
     description: 'Валюта, символьный код согласно [ISO 4217](http://www.iso.org/iso/home/standards/currency_codes.htm).'
     type: string
@@ -5180,10 +5091,12 @@ definitions:
             description: Список провайдеров электронных денежных средств
             type: array
             items:
-              description: Провайдер электронных денежных средств
+              description: |
+                Провайдер электронных денежных средств.
+
+                Набор провайдеров, доступных для проведения платежей, можно узнать, вызвав соответствующую [операцию](#operation/getInvoicePaymentMethods) после создания инвойса.
               type: string
-              enum:
-                - qiwi
+              example: qiwi
   DigitalWalletData:
     type: object
     allOf:
@@ -5220,10 +5133,12 @@ definitions:
             pattern: '^\+\d\*{1,10}\d{2,4}$'
             example: +7******3210
   DigitalWalletProvider:
-    description: Провайдер электронных денежных средств
+    description: |
+      Провайдер электронных денежных средств.
+
+      Набор провайдеров, доступных для проведения платежей, можно узнать, вызвав соответствующую [операцию](#operation/getInvoicePaymentMethods) после создания инвойса.
     type: string
-    enum:
-      - qiwi
+    example: qiwi
   DigitalWalletQIWI:
     allOf:
       - $ref: '#/definitions/DigitalWalletData'
@@ -6143,14 +6058,12 @@ definitions:
             description: Список операторов мобильной связи
             type: array
             items:
-              description: Оператор сотовой связи
+              description: |
+                Оператор сотовой связи.
+
+                Набор операторов, доступных для проведения платежей, можно узнать, вызвав соответствующую [операцию](#operation/getInvoicePaymentMethods) после создания инвойса.
               type: string
-              enum:
-                - mts
-                - beeline
-                - megafone
-                - tele2
-                - yota
+              example: mts
   MobileCommerceData:
     type: object
     allOf:
@@ -6191,14 +6104,12 @@ definitions:
         pattern: '^\d{10,12}$'
         example: '0001234567'
   MobileOperator:
-    description: Оператор сотовой связи
+    description: |
+      Оператор сотовой связи.
+
+      Набор операторов, доступных для проведения платежей, можно узнать, вызвав соответствующую [операцию](#operation/getInvoicePaymentMethods) после создания инвойса.
     type: string
-    enum:
-      - mts
-      - beeline
-      - megafone
-      - tele2
-      - yota
+    example: mts
   Party:
     type: object
     required:
@@ -6506,25 +6417,11 @@ definitions:
             description: Общее количество плательщиков
             type: integer
           paymentSystem:
-            description: Платежная система
+            description: |
+              Платежная система.
+
+              Набор систем, доступных для проведения платежей, можно узнать, вызвав соответствующую [операцию](#operation/getInvoicePaymentMethods) после создания инвойса.
             type: string
-            enum:
-              - visa
-              - mastercard
-              - visaelectron
-              - maestro
-              - forbrugsforeningen
-              - dankort
-              - amex
-              - dinersclub
-              - discover
-              - unionpay
-              - jcb
-              - nspkmir
-              - elo
-              - rupay
-              - dummy
-              - uzcard
           profit:
             description: Прибыль магазина
             type: integer
@@ -6799,16 +6696,12 @@ definitions:
             description: Список провайдеров
             type: array
             items:
-              description: Провайдер терминальной сети
+              description: |
+                Провайдер терминальной сети.
+
+                Набор провайдеров, доступных для проведения платежей, можно узнать, вызвав соответствующую [операцию](#operation/getInvoicePaymentMethods) после создания инвойса.
               type: string
-              enum:
-                - euroset
-                - alipay
-                - wechat
-                - zotapay
-                - qps
-                - uzcard
-                - rbs
+              example: euroset
   PaymentTerminalData:
     type: object
     allOf:
@@ -6819,42 +6712,30 @@ definitions:
           - provider
         properties:
           provider:
-            description: Провайдер терминальной сети
+            description: |
+              Провайдер терминальной сети.
+
+              Набор провайдеров, доступных для проведения платежей, можно узнать, вызвав соответствующую [операцию](#operation/getInvoicePaymentMethods) после создания инвойса.
             type: string
-            enum:
-              - euroset
-              - alipay
-              - wechat
-              - zotapay
-              - qps
-              - uzcard
-              - rbs
+            example: euroset
   PaymentTerminalDetails:
     required:
       - provider
     properties:
       provider:
-        description: Провайдер терминальной сети
+        description: |
+          Провайдер терминальной сети.
+
+          Набор провайдеров, доступных для проведения платежей, можно узнать, вызвав соответствующую [операцию](#operation/getInvoicePaymentMethods) после создания инвойса.
         type: string
-        enum:
-          - euroset
-          - alipay
-          - wechat
-          - zotapay
-          - qps
-          - uzcard
-          - rbs
+        example: euroset
   PaymentTerminalProvider:
-    description: Провайдер терминальной сети
+    description: |
+      Провайдер терминальной сети.
+
+      Набор провайдеров, доступных для проведения платежей, можно узнать, вызвав соответствующую [операцию](#operation/getInvoicePaymentMethods) после создания инвойса.
     type: string
-    enum:
-      - euroset
-      - alipay
-      - wechat
-      - zotapay
-      - qps
-      - uzcard
-      - rbs
+    example: euroset
   PaymentTerminalReceipt:
     type: object
     allOf:
