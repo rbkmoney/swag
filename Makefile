@@ -40,6 +40,9 @@ build:
 start:
 	npm start
 
+test:
+	npm run test
+
 # wercker
 
 dev:

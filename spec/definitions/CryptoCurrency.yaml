@@ -1,9 +1,13 @@
-description: Тип криптовалюты
+description: |
+    Криптовалютное платёжное средство.
+
+    Набор криптовалют, доступных для проведения платежей, можно узнать, вызвав соответствующую [операцию](#operation/getInvoicePaymentMethods) после создания инвойса.
 type: string
-enum:
-  - bitcoin
-  - litecoin
-  - bitcoinCash
-  - ripple
-  - ethereum
-  - zcash
+example: bitcoin
+# enum:
+#   - bitcoin
+#   - litecoin
+#   - bitcoinCash
+#   - ripple
+#   - ethereum
+#   - zcash
