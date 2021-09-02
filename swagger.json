@@ -638,39 +638,15 @@
             "name": "bankCardTokenProvider",
             "in": "query",
             "required": false,
-            "description": "Провайдер платежных токенов",
-            "type": "string",
-            "enum": [
-              "applepay",
-              "googlepay",
-              "samsungpay",
-              "yandexpay"
-            ]
+            "description": "Провайдер платежных токенов.\nНабор провайдеров, доступных для проведения платежей, можно узнать, вызвав соответствующую [операцию](#operation/getInvoicePaymentMethods) после создания инвойса.\n",
+            "type": "string"
           },
           {
             "name": "bankCardPaymentSystem",
             "in": "query",
             "required": false,
-            "description": "Платежная система",
-            "type": "string",
-            "enum": [
-              "visa",
-              "mastercard",
-              "visaelectron",
-              "maestro",
-              "forbrugsforeningen",
-              "dankort",
-              "amex",
-              "dinersclub",
-              "discover",
-              "unionpay",
-              "jcb",
-              "nspkmir",
-              "elo",
-              "rupay",
-              "dummy",
-              "uzcard"
-            ]
+            "description": "Платежная система.\nНабор систем, доступных для проведения платежей, можно узнать, вызвав соответствующую [операцию](#operation/getInvoicePaymentMethods) после создания инвойса.\n",
+            "type": "string"
           },
           {
             "name": "bin",
@@ -885,39 +861,15 @@
             "name": "bankCardTokenProvider",
             "in": "query",
             "required": false,
-            "description": "Провайдер платежных токенов",
-            "type": "string",
-            "enum": [
-              "applepay",
-              "googlepay",
-              "samsungpay",
-              "yandexpay"
-            ]
+            "description": "Провайдер платежных токенов.\nНабор провайдеров, доступных для проведения платежей, можно узнать, вызвав соответствующую [операцию](#operation/getInvoicePaymentMethods) после создания инвойса.\n",
+            "type": "string"
           },
           {
             "name": "bankCardPaymentSystem",
             "in": "query",
             "required": false,
-            "description": "Платежная система",
-            "type": "string",
-            "enum": [
-              "visa",
-              "mastercard",
-              "visaelectron",
-              "maestro",
-              "forbrugsforeningen",
-              "dankort",
-              "amex",
-              "dinersclub",
-              "discover",
-              "unionpay",
-              "jcb",
-              "nspkmir",
-              "elo",
-              "rupay",
-              "dummy",
-              "uzcard"
-            ]
+            "description": "Платежная система.\nНабор систем, доступных для проведения платежей, можно узнать, вызвав соответствующую [операцию](#operation/getInvoicePaymentMethods) после создания инвойса.\n",
+            "type": "string"
           },
           {
             "name": "bin",
@@ -4004,40 +3956,16 @@
               "description": "Список платежных систем",
               "type": "array",
               "items": {
-                "description": "Платежная система",
-                "type": "string",
-                "enum": [
-                  "visa",
-                  "mastercard",
-                  "visaelectron",
-                  "maestro",
-                  "forbrugsforeningen",
-                  "dankort",
-                  "amex",
-                  "dinersclub",
-                  "discover",
-                  "unionpay",
-                  "jcb",
-                  "nspkmir",
-                  "elo",
-                  "rupay",
-                  "dummy",
-                  "uzcard"
-                ]
+                "description": "Платежная система.\nНабор систем, доступных для проведения платежей, можно узнать, вызвав соответствующую [операцию](#operation/getInvoicePaymentMethods) после создания инвойса.\n",
+                "type": "string"
               }
             },
             "tokenProviders": {
               "description": "Список провайдеров платежных токенов",
               "type": "array",
               "items": {
-                "description": "Провайдер платежных токенов",
-                "type": "string",
-                "enum": [
-                  "applepay",
-                  "googlepay",
-                  "samsungpay",
-                  "yandexpay"
-                ]
+                "description": "Провайдер платежных токенов.\nНабор провайдеров, доступных для проведения платежей, можно узнать, вызвав соответствующую [операцию](#operation/getInvoicePaymentMethods) после создания инвойса.\n",
+                "type": "string"
               }
             }
           }
@@ -4066,70 +3994,22 @@
           "pattern": "^\\d{0,4}$"
         },
         "paymentSystem": {
-          "description": "Платежная система",
-          "type": "string",
-          "enum": [
-            "visa",
-            "mastercard",
-            "visaelectron",
-            "maestro",
-            "forbrugsforeningen",
-            "dankort",
-            "amex",
-            "dinersclub",
-            "discover",
-            "unionpay",
-            "jcb",
-            "nspkmir",
-            "elo",
-            "rupay",
-            "dummy",
-            "uzcard"
-          ]
+          "description": "Платежная система.\nНабор систем, доступных для проведения платежей, можно узнать, вызвав соответствующую [операцию](#operation/getInvoicePaymentMethods) после создания инвойса.\n",
+          "type": "string"
         },
         "tokenProvider": {
-          "description": "Провайдер платежных токенов",
-          "type": "string",
-          "enum": [
-            "applepay",
-            "googlepay",
-            "samsungpay",
-            "yandexpay"
-          ]
+          "description": "Провайдер платежных токенов.\nНабор провайдеров, доступных для проведения платежей, можно узнать, вызвав соответствующую [операцию](#operation/getInvoicePaymentMethods) после создания инвойса.\n",
+          "type": "string"
         }
       }
     },
     "BankCardPaymentSystem": {
-      "description": "Платежная система",
-      "type": "string",
-      "enum": [
-        "visa",
-        "mastercard",
-        "visaelectron",
-        "maestro",
-        "forbrugsforeningen",
-        "dankort",
-        "amex",
-        "dinersclub",
-        "discover",
-        "unionpay",
-        "jcb",
-        "nspkmir",
-        "elo",
-        "rupay",
-        "dummy",
-        "uzcard"
-      ]
+      "description": "Платежная система.\nНабор систем, доступных для проведения платежей, можно узнать, вызвав соответствующую [операцию](#operation/getInvoicePaymentMethods) после создания инвойса.\n",
+      "type": "string"
     },
     "BankCardTokenProvider": {
-      "description": "Провайдер платежных токенов",
-      "type": "string",
-      "enum": [
-        "applepay",
-        "googlepay",
-        "samsungpay",
-        "yandexpay"
-      ]
+      "description": "Провайдер платежных токенов.\nНабор провайдеров, доступных для проведения платежей, можно узнать, вызвав соответствующую [операцию](#operation/getInvoicePaymentMethods) после создания инвойса.\n",
+      "type": "string"
     },
     "BrowserGetRequest": {
       "type": "object",
@@ -4678,16 +4558,9 @@
       }
     },
     "CryptoCurrency": {
-      "description": "Тип криптовалюты",
+      "description": "Криптовалютное платёжное средство.\nНабор криптовалют, доступных для проведения платежей, можно узнать, вызвав соответствующую [операцию](#operation/getInvoicePaymentMethods) после создания инвойса.\n",
       "type": "string",
-      "enum": [
-        "bitcoin",
-        "litecoin",
-        "bitcoinCash",
-        "ripple",
-        "ethereum",
-        "zcash"
-      ]
+      "example": "bitcoin"
     },
     "CryptoCurrencyTransferRequest": {
       "type": "object",
@@ -4751,16 +4624,9 @@
       ],
       "properties": {
         "cryptoCurrency": {
-          "description": "Тип криптовалюты",
+          "description": "Криптовалютное платёжное средство.\nНабор криптовалют, доступных для проведения платежей, можно узнать, вызвав соответствующую [операцию](#operation/getInvoicePaymentMethods) после создания инвойса.\n",
           "type": "string",
-          "enum": [
-            "bitcoin",
-            "litecoin",
-            "bitcoinCash",
-            "ripple",
-            "ethereum",
-            "zcash"
-          ]
+          "example": "bitcoin"
         }
       }
     },
@@ -5073,11 +4939,9 @@
               "description": "Список провайдеров электронных денежных средств",
               "type": "array",
               "items": {
-                "description": "Провайдер электронных денежных средств",
+                "description": "Провайдер электронных денежных средств.\nНабор провайдеров, доступных для проведения платежей, можно узнать, вызвав соответствующую [операцию](#operation/getInvoicePaymentMethods) после создания инвойса.\n",
                 "type": "string",
-                "enum": [
-                  "qiwi"
-                ]
+                "example": "qiwi"
               }
             }
           }
@@ -5141,11 +5005,9 @@
       ]
     },
     "DigitalWalletProvider": {
-      "description": "Провайдер электронных денежных средств",
+      "description": "Провайдер электронных денежных средств.\nНабор провайдеров, доступных для проведения платежей, можно узнать, вызвав соответствующую [операцию](#operation/getInvoicePaymentMethods) после создания инвойса.\n",
       "type": "string",
-      "enum": [
-        "qiwi"
-      ]
+      "example": "qiwi"
     },
     "DigitalWalletQIWI": {
       "allOf": [
@@ -6438,26 +6300,8 @@
               "type": "integer"
             },
             "paymentSystem": {
-              "description": "Платежная система",
-              "type": "string",
-              "enum": [
-                "visa",
-                "mastercard",
-                "visaelectron",
-                "maestro",
-                "forbrugsforeningen",
-                "dankort",
-                "amex",
-                "dinersclub",
-                "discover",
-                "unionpay",
-                "jcb",
-                "nspkmir",
-                "elo",
-                "rupay",
-                "dummy",
-                "uzcard"
-              ]
+              "description": "Платежная система.\nНабор систем, доступных для проведения платежей, можно узнать, вызвав соответствующую [операцию](#operation/getInvoicePaymentMethods) после создания инвойса.\n",
+              "type": "string"
             },
             "profit": {
               "description": "Прибыль магазина",
@@ -6782,12 +6626,9 @@
               "description": "Список провайдеров",
               "type": "array",
               "items": {
-                "description": "Провайдер терминальной сети",
+                "description": "Провайдер терминальной сети.\nНабор провайдеров, доступных для проведения платежей, можно узнать, вызвав соответствующую [операцию](#operation/getInvoicePaymentMethods) после создания инвойса.\n",
                 "type": "string",
-                "enum": [
-                  "euroset",
-                  "rbs"
-                ]
+                "example": "euroset"
               }
             }
           }
@@ -6808,12 +6649,9 @@
           ],
           "properties": {
             "provider": {
-              "description": "Провайдер терминальной сети",
+              "description": "Провайдер терминальной сети.\nНабор провайдеров, доступных для проведения платежей, можно узнать, вызвав соответствующую [операцию](#operation/getInvoicePaymentMethods) после создания инвойса.\n",
               "type": "string",
-              "enum": [
-                "euroset",
-                "rbs"
-              ]
+              "example": "euroset"
             }
           }
         }
@@ -6825,22 +6663,16 @@
       ],
       "properties": {
         "provider": {
-          "description": "Провайдер терминальной сети",
+          "description": "Провайдер терминальной сети.\nНабор провайдеров, доступных для проведения платежей, можно узнать, вызвав соответствующую [операцию](#operation/getInvoicePaymentMethods) после создания инвойса.\n",
           "type": "string",
-          "enum": [
-            "euroset",
-            "rbs"
-          ]
+          "example": "euroset"
         }
       }
     },
     "PaymentTerminalProvider": {
-      "description": "Провайдер терминальной сети",
+      "description": "Провайдер терминальной сети.\nНабор провайдеров, доступных для проведения платежей, можно узнать, вызвав соответствующую [операцию](#operation/getInvoicePaymentMethods) после создания инвойса.\n",
       "type": "string",
-      "enum": [
-        "euroset",
-        "rbs"
-      ]
+      "example": "euroset"
     },
     "PaymentTerminalReceipt": {
       "type": "object",
