@@ -1,5 +1,8 @@
-description: Провайдер терминальной сети
+description: |
+    Провайдер терминальной сети.
+    Набор провайдеров, доступных для проведения платежей, можно узнать, вызвав соответствующую [операцию](#operation/getInvoicePaymentMethods) после создания инвойса.
 type: string
-enum:
-  - euroset
-  - rbs
+example: euroset
+# enum:
+#   - euroset
+#   - rbs
