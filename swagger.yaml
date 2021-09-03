@@ -857,14 +857,6 @@ paths:
           description: Провайдер платежного терминала
           required: false
           type: string
-          enum:
-            - euroset
-            - alipay
-            - wechat
-            - zotapay
-            - qps
-            - uzcard
-            - rbs
         - name: invoiceID
           in: query
           description: Идентификатор инвойса
@@ -1030,14 +1022,6 @@ paths:
           description: Провайдер платежного терминала
           required: false
           type: string
-          enum:
-            - euroset
-            - alipay
-            - wechat
-            - zotapay
-            - qps
-            - uzcard
-            - rbs
         - name: invoiceID
           in: query
           description: Идентификатор инвойса
