@@ -53,14 +53,14 @@ get:
       description: Провайдер платежного терминала
       required: false
       type: string
-      enum:
-        - euroset
-        - alipay
-        - wechat
-        - zotapay
-        - qps
-        - uzcard
-        - rbs
+      # enum:
+      #   - euroset
+      #   - alipay
+      #   - wechat
+      #   - zotapay
+      #   - qps
+      #   - uzcard
+      #   - rbs
     - name: invoiceID
       in: query
       description: Идентификатор инвойса
