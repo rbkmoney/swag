@@ -593,9 +593,6 @@ paths:
           description: Провайдер платежного терминала
           required: false
           type: string
-          enum:
-            - euroset
-            - rbs
         - name: invoiceID
           in: query
           description: Идентификатор инвойса
@@ -754,9 +751,6 @@ paths:
           description: Провайдер платежного терминала
           required: false
           type: string
-          enum:
-            - euroset
-            - rbs
         - name: invoiceID
           in: query
           description: Идентификатор инвойса

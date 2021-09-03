@@ -575,11 +575,7 @@
             "in": "query",
             "description": "Провайдер платежного терминала",
             "required": false,
-            "type": "string",
-            "enum": [
-              "euroset",
-              "rbs"
-            ]
+            "type": "string"
           },
           {
             "name": "invoiceID",
@@ -798,11 +794,7 @@
             "in": "query",
             "description": "Провайдер платежного терминала",
             "required": false,
-            "type": "string",
-            "enum": [
-              "euroset",
-              "rbs"
-            ]
+            "type": "string"
           },
           {
             "name": "invoiceID",
