@@ -53,9 +53,9 @@ get:
       description: Провайдер платежного терминала
       required: false
       type: string
-      enum:
-        - euroset
-        - rbs
+      # enum:
+      #   - euroset
+      #   - rbs
     - name: invoiceID
       in: query
       description: Идентификатор инвойса
