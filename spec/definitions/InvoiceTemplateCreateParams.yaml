@@ -3,7 +3,8 @@ required:
   - shopID
   - lifetime
   - details
-  - name
+  # TODO(ED-264): Temporary optional till client migration is done
+  # - name
 properties:
   shopID:
     description: Идентификатор магазина
