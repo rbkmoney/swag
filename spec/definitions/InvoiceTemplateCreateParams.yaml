@@ -3,6 +3,7 @@ required:
   - shopID
   - lifetime
   - details
+  - name
 properties:
   shopID:
     description: Идентификатор магазина
@@ -16,6 +17,10 @@ properties:
   partyID:
     x-rebillyMerge:
       - $ref: '#/definitions/PartyID'
+  name:
+    description: Название шаблона
+    type: string
+    maxLength: 100
   description:
     description: Описание предлагаемых товаров или услуг
     type: string

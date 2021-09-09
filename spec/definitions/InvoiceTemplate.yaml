@@ -4,6 +4,7 @@ required:
   - shopID
   - lifetime
   - details
+  # name and createdAt are optional for now: were added only in BUSINESS-157
 properties:
   id:
     description: Идентификатор шаблона инвойса
@@ -17,10 +18,18 @@ properties:
     type: string
     maxLength: 40
     minLength: 1
+  name:
+    description: Название шаблона
+    type: string
+    maxLength: 100
   description:
     description: Описание предлагаемых товаров или услуг
     type: string
     maxLength: 1000
+  createdAt:
+    description: Дата создания шаблона
+    type: string
+    format: date-time
   lifetime:
     $ref: '#/definitions/LifetimeInterval'
   details:

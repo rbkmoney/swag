@@ -1,5 +1,9 @@
 type: object
 properties:
+  name:
+    description: Название шаблона
+    type: string
+    maxLength: 100
   description:
     description: Описание предлагаемых товаров или услуг
     type: string
