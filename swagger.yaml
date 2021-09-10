@@ -5794,10 +5794,18 @@ definitions:
         type: string
         maxLength: 40
         minLength: 1
+      name:
+        description: Название шаблона
+        type: string
+        maxLength: 100
       description:
         description: Описание предлагаемых товаров или услуг
         type: string
         maxLength: 1000
+      createdAt:
+        description: Дата создания шаблона
+        type: string
+        format: date-time
       lifetime:
         $ref: '#/definitions/LifetimeInterval'
       details:
@@ -5838,6 +5846,10 @@ definitions:
         type: string
         minLength: 1
         maxLength: 40
+      name:
+        description: Название шаблона
+        type: string
+        maxLength: 100
       description:
         description: Описание предлагаемых товаров или услуг
         type: string
@@ -5943,6 +5955,10 @@ definitions:
   InvoiceTemplateUpdateParams:
     type: object
     properties:
+      name:
+        description: Название шаблона
+        type: string
+        maxLength: 100
       description:
         description: Описание предлагаемых товаров или услуг
         type: string
