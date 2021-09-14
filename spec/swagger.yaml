@@ -18,27 +18,6 @@ info:
       - оплата [заказа](https://developer.rbk.money/docs/payments/overview/#invoice) покупателем: см. ["Платеж"](https://developer.rbk.money/docs/payments/overview/#pay);
       - [рекуррентный платёж](https://developer.rbk.money/docs/payments/recurring/recurring/#_1);
       - [покупка с привязанной карты](https://developer.rbk.money/docs/payments/examples/binding/).
-
-    ## Авторизация
-
-    Взаимодействие между [мерчантом](https://developer.rbk.money/docs/payments/overview/#lk)
-    и [платформой](https://developer.rbk.money/docs/payments/overview/) осуществляется по защищенному протоколу (HTTPS).
-    HTTP-запросы по нешифрованному каналу не поддерживаются.</br></br>
-    
-    Схема авторизации - [Bearer](https://tools.ietf.org/html/rfc6750).</br>
-    Bearer-токен следует передать в заголовке запроса в поле `Authorization`:
-    
-      ```shell
-      --header "Authorization: Bearer MjMyNDQxMjM6NDUzRmRnZDQ0M*******"
-      ```
-
-    [Посмотреть](https://help.rbkmoney.com/lk/lk/#apiKey) ваш Bearer-токен (API-ключ) можно
-    в [личном кабинете](https://developer.rbk.money/docs/payments/overview/#lk).</br>
-    Ознакомиться с деталями авторизации запросов к API можно в [данной](https://developer.rbk.money/docs/payments/overview/#api) статье.</br></br>
-    
-    Ключи не разделяются на тестовые и боевые. Для проведения тестовых транзакций используйте идентификатор [тестового магазина](https://help.rbkmoney.com/lk/lk/#testManagement).</br></br>
-      
-    **Важно! Не передавайте Bearer-токен третьим лицам!**
     
     ## Детали взаимодействия
 
@@ -91,7 +70,31 @@ schemes:
 consumes:
   - application/json; charset=utf-8
 produces:
-  - application/json; charset=utf-8   
+  - application/json; charset=utf-8  
+securityDefinitions:
+   bearer:
+     type: apiKey
+     name: Authorization
+     in: header
+     description: >
+      Взаимодействие между [мерчантом](https://developer.rbk.money/docs/payments/overview/#lk)
+      и [платформой](https://developer.rbk.money/docs/payments/overview/) осуществляется по защищенному протоколу (HTTPS).
+      HTTP-запросы по нешифрованному каналу не поддерживаются.</br></br>
+    
+      Схема авторизации - [Bearer](https://tools.ietf.org/html/rfc6750).</br>
+      Bearer-токен следует передать в заголовке запроса в поле `Authorization`:
+    
+        ```shell
+        --header "Authorization: Bearer MjMyNDQxMjM6NDUzRmRnZDQ0M*******"
+        ```
+
+      [Посмотреть](https://help.rbkmoney.com/lk/lk/#apiKey) ваш Bearer-токен (API-ключ) можно
+      в [личном кабинете](https://developer.rbk.money/docs/payments/overview/#lk).</br>
+      Ознакомиться с деталями авторизации запросов к API можно в [данной](https://developer.rbk.money/docs/payments/overview/#api) статье.</br></br>
+      
+      Ключи не разделяются на тестовые и боевые. Для проведения тестовых транзакций используйте идентификатор [тестового магазина](https://help.rbkmoney.com/lk/lk/#testManagement).</br></br>
+      
+      **Важно! Не передавайте Bearer-токен третьим лицам!**
 security:
   - bearer: []
 responses:
