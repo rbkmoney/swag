@@ -37,7 +37,7 @@ info:
 
     ### Формат дат
 
-    [Платформа](https://developer.rbk.money/docs/payments/overview/) принимает и возвращает значения DateTime в формате, описанном в [RFC 3339](https://datatracker.ietf.org/doc/html/rfc3339):
+    [Платформа](https://developer.rbk.money/docs/payments/overview/) принимает и возвращает значения date-time в формате, описанном в [RFC 3339](https://datatracker.ietf.org/doc/html/rfc3339):
 
     ```
       2017-01-01T00:00:00Z
