@@ -84,8 +84,8 @@ securityDefinitions:
       Схема авторизации - [Bearer](https://tools.ietf.org/html/rfc6750).</br>
       Bearer-токен следует передать в заголовке запроса в поле `Authorization`:
     
-        ```shell
-        --header "Authorization: Bearer MjMyNDQxMjM6NDUzRmRnZDQ0M*******"
+        ```
+        Authorization: Bearer MjMyNDQxMjM6NDUzRmRnZDQ0M*******
         ```
 
       [Посмотреть](https://help.rbkmoney.com/lk/lk/#apiKey) ваш Bearer-токен (API-ключ) можно
