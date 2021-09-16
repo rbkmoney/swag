@@ -2,8 +2,8 @@ swagger: '2.0'
 info:
   version: 2.0.1
   title: RBK.money Platform API
-  description: >
-    #### Последнее обновление: 14-09-2021 | 
+  description: |
+    #### Последнее обновление: 16-09-2021 | 
     
     ## Описание
 
@@ -21,7 +21,7 @@ info:
     
     ## Детали взаимодействия
 
-    При любом обращении к API в заголовке соответствующего запроса необходимо передать его уникальный идентификатор:
+    При любом обращении к API в заголовке `X-Request-ID` соответствующего запроса необходимо передать его уникальный идентификатор:
 
     ```
      X-Request-ID: oX5MWM2AQy
@@ -37,7 +37,7 @@ info:
 
     ### Формат дат
 
-    [Платформа](https://developer.rbk.money/docs/payments/overview/) принимает и возвращает значения date-time в формате, описанном в [RFC 3339](https://datatracker.ietf.org/doc/html/rfc3339):
+    [Платформа](https://developer.rbk.money/docs/payments/overview/) принимает и возвращает значения отметок времени в формате `date-time`, описанном в [RFC 3339](https://datatracker.ietf.org/doc/html/rfc3339):
 
     ```
       2017-01-01T00:00:00Z
@@ -46,8 +46,7 @@ info:
 
     ### Максимальное время обработки запроса
 
-    При любом обращении к API в заголовке соответствующего запроса можно передать параметр отсечки по времени,
-    определяющий максимальное время ожидания завершения операции по запросу:
+    При любом обращении к API в заголовке `X-Request-Deadline` соответствующего запроса можно передать параметр отсечки по времени, определяющий максимальное время ожидания завершения операции по запросу:
 
     ```
      X-Request-Deadline: 10s
@@ -55,9 +54,12 @@ info:
 
     По истечении указанного времени [платформа](https://developer.rbk.money/docs/payments/overview/) прекращает обработку запроса.
 
-      | Формат  | Единицы измерения | Рекомендуемые значения  | Пример 
-      | --         | --          | --         | --         
-      | Формат из раздела "Формат дат" или относительные величины    | `ms` — миллисекунды; `s` — секунды; `m` — минуты    | `3s` < `Request-Deadline` < `1m`    | `150000ms`, `540s`, `3.5m`    | 
+    `X-Request-Deadline` может:
+    
+    * задаваться в формате `date-time` (см. [RFC 3339](https://datatracker.ietf.org/doc/html/rfc3339)) или в относительных величинах;
+    * измеряться в миллисекундах (`150000ms`), секундах (`540s`), минутах (`3.5m`).
+    
+    Рекомендуемые значения: не более одной минуты, но не менее трёх секунд.
   termsOfService: 'https://rbk.money/'
   contact:
     name: RBK.money support team
@@ -70,31 +72,26 @@ schemes:
 consumes:
   - application/json; charset=utf-8
 produces:
-  - application/json; charset=utf-8  
+  - application/json; charset=utf-8
 securityDefinitions:
    bearer:
      type: apiKey
      name: Authorization
      in: header
-     description: >
-      Взаимодействие между [мерчантом](https://developer.rbk.money/docs/payments/overview/#lk)
-      и [платформой](https://developer.rbk.money/docs/payments/overview/) осуществляется по защищенному протоколу (HTTPS).
-      HTTP-запросы по нешифрованному каналу не поддерживаются.</br></br>
+     description: |
+      Взаимодействие между [мерчантом](https://developer.rbk.money/docs/payments/overview/#lk) и [платформой](https://developer.rbk.money/docs/payments/overview/) осуществляется по защищенному протоколу (HTTPS). HTTP-запросы по нешифрованному каналу не поддерживаются.
     
-      Схема авторизации - [Bearer](https://tools.ietf.org/html/rfc6750).</br>
-      Bearer-токен следует передать в заголовке запроса в поле `Authorization`:
+      Ознакомиться с деталями авторизации запросов к API можно в [данной](https://developer.rbk.money/docs/payments/overview/#api) статье.
+      
+      [Посмотреть](https://help.rbkmoney.com/lk/lk/#apiKey) ваш API-ключ можно в [личном кабинете](https://developer.rbk.money/docs/payments/overview/#lk). Значение ключа следует передать в заголовке `Authorization`:
     
         ```
         Authorization: Bearer MjMyNDQxMjM6NDUzRmRnZDQ0M*******
         ```
-
-      [Посмотреть](https://help.rbkmoney.com/lk/lk/#apiKey) ваш Bearer-токен (API-ключ) можно
-      в [личном кабинете](https://developer.rbk.money/docs/payments/overview/#lk).</br>
-      Ознакомиться с деталями авторизации запросов к API можно в [данной](https://developer.rbk.money/docs/payments/overview/#api) статье.</br></br>
       
-      Ключи не разделяются на тестовые и боевые. Для проведения тестовых транзакций используйте идентификатор [тестового магазина](https://help.rbkmoney.com/lk/lk/#testManagement).</br></br>
+      Ключи не разделяются на тестовые и боевые. Для проведения тестовых транзакций используйте идентификатор [тестового магазина](https://help.rbkmoney.com/lk/lk/#testManagement).
       
-      **Важно! Не передавайте Bearer-токен третьим лицам!**
+      **Важно! Не передавайте API-ключ третьим лицам!**
 security:
   - bearer: []
 responses:
@@ -355,7 +352,7 @@ parameters:
       description: Идентификатор торгового блока
       required: true
       type: string
-tags:     
+tags:
   - name: Parties
     x-displayName: Участники
     description: >
