@@ -60,3 +60,5 @@ package-lock.json
 # Gradle:
 .idea/gradle.xml
 .idea/libraries
+.DS_Store
+spec/.DS_Store
