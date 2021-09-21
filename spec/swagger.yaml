@@ -1,69 +1,68 @@
 swagger: '2.0'
 info:
   version: 2.0.1
-  title: RBKmoney Platform API
-  description: >
+  title: RBK.money Platform API
+  description: |
+    #### Последнее обновление: 16-09-2021 | 
+    
     ## Описание
 
-    RBKmoney API является базовой и единственной точкой взаимодействия с
-    платежной платформой. Все изменения состояний платформы осуществляются с
-    помощью вызовов соответствующих методов API. Любые сторонние приложения,
-    включая наши веб-сайты и другие UI-интерфейсы являются внешними
-    приложениями-клиентами.
+    RBK.money API предназначен для [мерчантов](https://developer.rbk.money/docs/payments/overview/#lk), принимающих
+    платежи из своего пользовательского интерфейса (веб-сайта или любого другого),
+    и является единственной точкой взаимодействия с [платформой](https://developer.rbk.money/docs/payments/overview/) для проведения операций оплаты товаров/услуг.
 
-    RBKmoney API работает поверх HTTP-протокола. Мы используем REST архитектуру,
-    схема описывается в соответствии со [Swagger](http://swagger.io/). Коды
-    возврата описываются соответствующими HTTP-статусами. Платформа принимает и
-    возвращает JSON-структуры в HTTP body.
+    ## Сценарии
 
-    ## Запросы
+    Примеры информационного взаимодействия для некоторых пользовательских сценариев представлены в данных статьях:
 
-    Любой вызов методов API обязан предваряться предоставлением уникального для
-    участника в пределах платформы ID запроса. Данный ID передается в
-    соответствующем заголовке HTTP-запроса:
+      - оплата [заказа](https://developer.rbk.money/docs/payments/overview/#invoice) покупателем: см. ["Платеж"](https://developer.rbk.money/docs/payments/overview/#pay);
+      - [рекуррентный платёж](https://developer.rbk.money/docs/payments/recurring/recurring/#_1);
+      - [покупка с привязанной карты](https://developer.rbk.money/docs/payments/examples/binding/).
+    
+    ## Детали взаимодействия
+
+    При любом обращении к API в заголовке `X-Request-ID` соответствующего запроса необходимо передать его уникальный идентификатор:
 
     ```
      X-Request-ID: oX5MWM2AQy
     ```
 
-    ## Тип содержимого и кодировка
+    ### Тип содержимого и кодировка
 
-    Любой запрос к API должен выполняться в кодировке UTF-8 и с указанием
-    содержимого в формате JSON
+    [Платформа](https://developer.rbk.money/docs/payments/overview/) принимает и возвращает данные в формате JSON и кодировке UTF-8:
 
     ```
       Content-Type: application/json; charset=utf-8
     ```
 
-    ## Формат дат
+    ### Формат дат
 
-    Платформа принимает значения date-time в формате, описанном в RFC 3339, например:
+    [Платформа](https://developer.rbk.money/docs/payments/overview/) принимает и возвращает значения отметок времени в формате `date-time`, описанном в [RFC 3339](https://datatracker.ietf.org/doc/html/rfc3339):
 
     ```
       2017-01-01T00:00:00Z
       2017-01-01T00:00:01+00:00
     ```
 
-    ## Максимальное время обработки запроса
+    ### Максимальное время обработки запроса
 
-    К любому вызову методов API можно добавить параметр отсечки по времени,
-    определяющий максимальное время ожидания завершения операции по запросу.
-    Данная отсечка передается в соответствующем заголовке HTTP-запроса:
+    При любом обращении к API в заголовке `X-Request-Deadline` соответствующего запроса можно передать параметр отсечки по времени, определяющий максимальное время ожидания завершения операции по запросу:
 
     ```
      X-Request-Deadline: 10s
     ```
 
-    Значение отсечки может быть задано в формате, описанном в RFC 3339
-    (см. [Формат дат](#section/Format-dat)), либо в относительных величинах, например:
+    По истечении указанного времени [платформа](https://developer.rbk.money/docs/payments/overview/) прекращает обработку запроса.
 
-    `150000ms`, `540s`, `3.5m`
-    При этом возможные единицы измерения `ms`, `s`, `m`.
-    В обоих случаях  не рекомендуется, чтобы задаваемое значение было
-    меньше **3 секунд** и превышало **1 минуту**.
+    `X-Request-Deadline` может:
+    
+    * задаваться в формате `date-time` (см. [RFC 3339](https://datatracker.ietf.org/doc/html/rfc3339));
+    * задаваться в относительных величинах, в миллисекундах (`150000ms`), секундах (`540s`) или минутах (`3.5m`).
+    
+    Рекомендуемые значения: не более одной минуты, но не менее трёх секунд.
   termsOfService: 'https://rbk.money/'
   contact:
-    name: RBKmoney support team
+    name: RBK.money support team
     email: support@rbk.money
     url: 'https://api.rbk.money'
 host: api.rbk.money
@@ -75,39 +74,24 @@ consumes:
 produces:
   - application/json; charset=utf-8
 securityDefinitions:
-  bearer:
-    type: apiKey
-    name: Authorization
-    in: header
-    description: >
-      Для авторизации вызовов мы используем [JWT](https://jwt.io).
-      Cоответствующий ключ передается в заголовке.
-
-      ```shell
-       Authorization: Bearer {JWT}
-      ```
-
-      Посмотреть ваш API-ключ вы можете в [личном
-      кабинете](https://dashboard.rbk.money/).
-
-
-      Обратите внимание, что API-ключ должен использоваться исключительно для межсерверного взаимодействия.
-
-      Для авторизации запросов, выполняемых из контекста браузера плательщика (например, токенизация платежных данных методом [createPaymentResource](https://developer.rbk.money/api/#operation/createPaymentResource)) используйте полученный при вызове [createInvoice](https://developer.rbk.money/api/#operation/createInvoice) `invoiceAccessToken`, либо создайте его напрямую, вызвав метод [createInvoiceAccessToken](https://developer.rbk.money/api/#operation/createInvoiceAccessToken).
-
-
-      При попытке вызова [createPaymentResource](https://developer.rbk.money/api/#operation/createPaymentResource) с ключом, отличным от invoiceAccessToken, платформа вернет ошибку авторизации со статусом HTTP/401.
-
-
-      Ключи не разделяются на тестовые и боевые, ваш API ключ открывает доступ
-      ко всем функциям платформы. Для тестовых транзакций используйте ID
-      тестовых магазинов.
-
-
-
-
-
-      Помните, что вы никому не должны передавать ваш API ключ!
+   bearer:
+     type: apiKey
+     name: Authorization
+     in: header
+     description: |
+      Взаимодействие между [мерчантом](https://developer.rbk.money/docs/payments/overview/#lk) и [платформой](https://developer.rbk.money/docs/payments/overview/) осуществляется по защищенному протоколу (HTTPS). HTTP-запросы по нешифрованному каналу не поддерживаются.
+    
+      Ознакомиться с деталями авторизации запросов к API можно в [данной](https://developer.rbk.money/docs/payments/overview/#api) статье.
+      
+      [Посмотреть](https://help.rbkmoney.com/lk/lk/#apiKey) ваш API-ключ можно в [личном кабинете](https://developer.rbk.money/docs/payments/overview/#lk). Значение ключа следует передать в заголовке `Authorization`:
+    
+        ```
+        Authorization: Bearer MjMyNDQxMjM6NDUzRmRnZDQ0M*******
+        ```
+      
+      Ключи не разделяются на тестовые и боевые. Для проведения тестовых транзакций используйте идентификатор [тестового магазина](https://help.rbkmoney.com/lk/lk/#testManagement).
+      
+      **Важно! Не передавайте API-ключ третьим лицам!**
 security:
   - bearer: []
 responses:
