@@ -7857,7 +7857,7 @@ definitions:
         description: |
           URL, на который будут поступать оповещения о произошедших событиях
         type: string
-        format: uri
+        format: http-url
         maxLength: 1000
       publicKey:
         description: |

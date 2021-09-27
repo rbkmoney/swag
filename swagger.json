@@ -10874,7 +10874,7 @@
         "url": {
           "description": "URL, на который будут поступать оповещения о произошедших событиях\n",
           "type": "string",
-          "format": "uri",
+          "format": "http-url",
           "maxLength": 1000
         },
         "publicKey": {
