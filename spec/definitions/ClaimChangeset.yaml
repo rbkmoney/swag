@@ -1,4 +1,0 @@
-description: Набор изменений данных участника
-type: array
-items:
-  $ref: '#/definitions/PartyModification'
