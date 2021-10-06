@@ -74,7 +74,7 @@ consumes:
 produces:
   - application/json; charset=utf-8
 securityDefinitions:
-   bearer:
+   apiKey:
      type: apiKey
      name: Authorization
      in: header
@@ -92,8 +92,14 @@ securityDefinitions:
       Ключи не разделяются на тестовые и боевые. Для проведения тестовых транзакций используйте идентификатор [тестового магазина](https://help.rbkmoney.com/lk/lk/#testManagement).
       
       **Важно! Не передавайте API-ключ третьим лицам!**
+   accessToken:
+     type: apiKey
+     name: Authorization
+     in: header
+     description: |
+      TODO
 security:
-  - bearer: []
+  - apiKey: []
 responses:
   NotFound:
     description: Заданный ресурс не найден
