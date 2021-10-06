@@ -5663,7 +5663,8 @@
       "properties": {
         "merchantID": {
           "description": "Идентификатор мерчанта в платёжной организации.\nМожет быть использован для передачи провайдеру платежных токенов. Например, ожидается,\nчто этот параметр передается как gatewayMerchantID для GooglePay и/или YandexPay,\nа затем используется для привязки токена к указанному магазину.\n",
-          "type": "string"
+          "type": "string",
+          "format": "byte"
         },
         "merchantName": {
           "description": "Имя мерчанта в платежной организации.\nМожет быть использовано, например,  как `merchantInfo.merchantName` в GooglePay\nили `merchant.name` в YandexPay или `displayName` в ApplePay.\n",
