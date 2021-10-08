@@ -125,6 +125,20 @@ parameters:
     type: string
     maxLength: 32
     minLength: 1
+  claimID:
+    name: claimID
+    in: path
+    description: Идентификатор заявки
+    required: true
+    type: integer
+    format: int64
+  claimRevision:
+    name: claimRevision
+    in: query
+    description: Версия заявки
+    required: true
+    type: integer
+    format: int32
   shopID:
     name: shopID
     in: path
@@ -341,6 +355,10 @@ tags:
     x-displayName: Участники
     description: |
       Участник системы - совокупность данных о вашей организации, составе и условиях заключенных договоров, а также информация о связанных с организацией магазинах.
+  - name: Claims
+    x-displayName: Заявки
+    description: |
+      Некоторая область данных может быть изменена только после премодерации на стороне платформы. Например, создание и активация новых магазинов, изменение финансовых данных вашего участника и т.п. требуют ручной проверки сотрудниками RBKmoney. Попытка изменить такие данные приводит к автоматическому созданию заявки на изменение данных. До тех пор, пока заявка не одобрена, вы можете добавлять изменения. После одобрения они будут применены к набору данных. В случае отказа по заявке данные останутся в неизменном состоянии. Ближайшим аналогом заявок можно представить Pull Request в распределенных системах контроля версий.
   - name: Shops
     x-displayName: Магазины
     description: |
@@ -555,6 +573,8 @@ tags:
         | **inconsistentRefundCurrency**   | Попытка возврата средств в валюте, отличной от валюты платежа.                                                                        |
         | **changesetConflict**            | Попытка внести изменения участника, конфликтующие с изменениями в других заявках, ожидающих рассмотрения.                             |
         | **invalidChangeset**             | Неверные изменения участника, например, попытка создать магазин в валюте, недоступной в рамках договора.                              |
+        | **invalidClaimStatus**           | Неверный статус заявки. Например, при попытке [отзыва](#operation/revokeClaimByID) уже принятой заявки.                               |
+        | **invalidClaimRevision**         | Неверная ревизия заявки. Например, в случае если заявку одновременно с вами кто-то уже принял или отклонил.                           |
         | **limitExceeded**                | Превышен разумный лимит выборки. В этом случае лучше запросить менее объёмный набор данных.                                           |
         | **invalidDeadline**              | Неверный формат времени.                                                                                                              |
         | **chargebackInProgress**         | Попытка возврата при открытом возвратном платеже.                                                                                     |
@@ -1556,6 +1576,147 @@ paths:
             $ref: '#/definitions/Category'
         '400':
           $ref: '#/responses/DefaultLogicError'
+        '401':
+          $ref: '#/responses/Unauthorized'
+        '404':
+          $ref: '#/responses/NotFound'
+  /processing/claims:
+    get:
+      description: |
+        Получить список заявок участника, при желании отфильтрованный по значению
+        статуса.
+      operationId: getClaims
+      tags:
+        - Claims
+      parameters:
+        - $ref: '#/parameters/requestID'
+        - $ref: '#/parameters/deadline'
+        - name: claimStatus
+          description: Значение статуса для фильтрации
+          in: query
+          type: string
+          enum:
+            - pending
+            - accepted
+            - denied
+            - revoked
+      responses:
+        '200':
+          description: Список найденных заявок
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Claim'
+        '400':
+          $ref: '#/responses/DefaultLogicError'
+        '401':
+          $ref: '#/responses/Unauthorized'
+    post:
+      description: |
+        Создать новую заявку с заданным набором изменений и отправить её на
+        премодерацию.
+      operationId: createClaim
+      tags:
+        - Claims
+      parameters:
+        - $ref: '#/parameters/requestID'
+        - $ref: '#/parameters/deadline'
+        - name: claimChangeset
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/ClaimChangeset'
+      responses:
+        '201':
+          description: Заявка создана
+          schema:
+            $ref: '#/definitions/Claim'
+        '400':
+          description: Ошибочные данные в заявке
+          schema:
+            type: object
+            required:
+              - code
+              - message
+            properties:
+              code:
+                description: |
+                  [Код ошибки](#tag/Error-Codes)
+                type: string
+                enum:
+                  - changesetConflict
+                  - invalidPartyStatus
+                  - invalidChangeset
+                  - invalidRequest
+                  - invalidDeadline
+              message:
+                description: Человекочитаемое описание ошибки
+                type: string
+                example: Changeset conflict
+        '401':
+          $ref: '#/responses/Unauthorized'
+  '/processing/claims/{claimID}':
+    get:
+      description: |
+        Получить заявку по её идентификатору.
+      operationId: getClaimByID
+      tags:
+        - Claims
+      parameters:
+        - $ref: '#/parameters/requestID'
+        - $ref: '#/parameters/deadline'
+        - $ref: '#/parameters/claimID'
+      responses:
+        '200':
+          description: Данные заявки
+          schema:
+            $ref: '#/definitions/Claim'
+        '400':
+          $ref: '#/responses/DefaultLogicError'
+        '401':
+          $ref: '#/responses/Unauthorized'
+        '404':
+          $ref: '#/responses/NotFound'
+  '/processing/claims/{claimID}/revoke':
+    put:
+      description: Отозвать заявку по её идентификатору.
+      operationId: revokeClaimByID
+      tags:
+        - Claims
+      parameters:
+        - $ref: '#/parameters/requestID'
+        - $ref: '#/parameters/deadline'
+        - $ref: '#/parameters/claimID'
+        - $ref: '#/parameters/claimRevision'
+        - name: reason
+          in: body
+          schema:
+            $ref: '#/definitions/Reason'
+      responses:
+        '204':
+          description: Заявка отозвана
+        '400':
+          description: Ошибка отзыва заявки
+          schema:
+            type: object
+            required:
+              - code
+              - message
+            properties:
+              code:
+                description: |
+                  [Код ошибки](#tag/Error-Codes)
+                type: string
+                enum:
+                  - invalidClaimStatus
+                  - invalidClaimRevision
+                  - invalidPartyStatus
+                  - invalidRequest
+                  - invalidDeadline
+              message:
+                description: Человекочитаемое описание ошибки
+                type: string
+                example: Invalid claim status
         '401':
           $ref: '#/responses/Unauthorized'
         '404':
@@ -4255,6 +4416,74 @@ definitions:
           - rejected
           - accepted
           - cancelled
+  Claim:
+    type: object
+    discriminator: status
+    required:
+      - id
+      - revision
+      - createdAt
+      - status
+      - changeset
+    properties:
+      id:
+        description: Идентификатор заявки
+        type: integer
+        format: int64
+      revision:
+        description: Версия заявки
+        type: integer
+        format: int32
+      createdAt:
+        description: Дата создания
+        type: string
+        format: date-time
+      updatedAt:
+        description: Дата изменения
+        type: string
+        format: date-time
+      status:
+        description: Статус заявки
+        type: string
+      changeset:
+        $ref: '#/definitions/ClaimChangeset'
+  ClaimAccepted:
+    type: object
+    allOf:
+      - $ref: '#/definitions/Claim'
+  ClaimChangeset:
+    description: Набор изменений данных участника
+    type: array
+    items:
+      $ref: '#/definitions/PartyModification'
+  ClaimDenied:
+    type: object
+    allOf:
+      - $ref: '#/definitions/Claim'
+      - type: object
+        required:
+          - reason
+        properties:
+          reason:
+            description: Причина отклонения заявки
+            type: string
+            maxLength: 1000
+  ClaimPending:
+    type: object
+    allOf:
+      - $ref: '#/definitions/Claim'
+  ClaimRevoked:
+    type: object
+    allOf:
+      - $ref: '#/definitions/Claim'
+      - type: object
+        required:
+          - reason
+        properties:
+          reason:
+            description: Причина отзыва заявки
+            type: string
+            maxLength: 1000
   ClientInfo:
     description: Данные клиентского устройства плательщика
     type: object
