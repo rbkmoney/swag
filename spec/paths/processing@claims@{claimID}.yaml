@@ -1,0 +1,21 @@
+get:
+  description: |
+    Получить заявку по её идентификатору.
+  operationId: getClaimByID
+  tags:
+    - Claims
+  parameters:
+    - $ref: '#/parameters/requestID'
+    - $ref: '#/parameters/deadline'
+    - $ref: '#/parameters/claimID'
+  responses:
+    '200':
+      description: Данные заявки
+      schema:
+        $ref: '#/definitions/Claim'
+    '404':
+      $ref: '#/responses/NotFound'
+    '401':
+      $ref: '#/responses/Unauthorized'
+    '400':
+      $ref: '#/responses/DefaultLogicError'
