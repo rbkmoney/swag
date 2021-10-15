@@ -1,0 +1,43 @@
+put:
+  description: Отозвать заявку по её идентификатору.
+  operationId: revokeClaimByID
+  tags:
+    - Claims
+  parameters:
+    - $ref: '#/parameters/requestID'
+    - $ref: '#/parameters/deadline'
+    - $ref: '#/parameters/claimID'
+    - $ref: '#/parameters/claimRevision'
+    - name: reason
+      in: body
+      schema:
+        $ref: '#/definitions/Reason'
+  responses:
+    '204':
+      description: Заявка отозвана
+    '404':
+      $ref: '#/responses/NotFound'
+    '401':
+      $ref: '#/responses/Unauthorized'
+    '400':
+      description: Ошибка отзыва заявки
+      schema:
+        type: object
+        required:
+          - code
+          - message
+        properties:
+          code:
+            description: |
+              [Код ошибки](#tag/Error-Codes)
+            type: string
+            enum:
+              - invalidClaimStatus
+              - invalidClaimRevision
+              - invalidPartyStatus
+              - invalidRequest
+              - invalidDeadline
+          message:
+            description: Человекочитаемое описание ошибки
+            type: string
+            example: Invalid claim status

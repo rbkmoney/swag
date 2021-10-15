@@ -1,0 +1,11 @@
+type: object
+allOf:
+  - $ref: '#/definitions/Claim'
+  - type: object
+    required:
+      - reason
+    properties:
+      reason:
+        description: Причина отклонения заявки
+        type: string
+        maxLength: 1000
