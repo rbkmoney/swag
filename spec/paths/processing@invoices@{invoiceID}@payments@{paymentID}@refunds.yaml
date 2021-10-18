@@ -65,6 +65,7 @@ post:
               - invalidContractStatus
               - invalidInvoiceCart
               - invalidAllocation
+              - allocationNotPermitted
               - operationNotPermitted
               - invalidPaymentStatus
               - insufficentAccountBalance

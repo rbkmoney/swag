@@ -45,6 +45,7 @@ post:
               - invalidDeadline
               - invalidInvoiceCart
               - invalidAllocation
+              - allocationNotPermitted
               - inconsistentCaptureCurrency
               - amountExceededCaptureBalance
           message:
