@@ -3,6 +3,8 @@ required:
   - shopID
   - lifetime
   - details
+  # TODO(ED-264): Temporary optional till client migration is done
+  # - name
 properties:
   shopID:
     description: Идентификатор магазина
@@ -16,6 +18,10 @@ properties:
   partyID:
     x-rebillyMerge:
       - $ref: '#/definitions/PartyID'
+  name:
+    description: Название шаблона
+    type: string
+    maxLength: 100
   description:
     description: Описание предлагаемых товаров или услуг
     type: string

@@ -1,19 +1,24 @@
-description: Платежная система
+description: |
+    Платежная система.
+
+    Набор систем, доступных для проведения платежей, можно узнать, вызвав соответствующую [операцию](#operation/getInvoicePaymentMethods) после создания инвойса.
 type: string
-enum:
-  - visa
-  - mastercard
-  - visaelectron
-  - maestro
-  - forbrugsforeningen
-  - dankort
-  - amex
-  - dinersclub
-  - discover
-  - unionpay
-  - jcb
-  - nspkmir
-  - elo
-  - rupay
-  - dummy
-  - uzcard
+# NOTE: Can't be put because of merging in other places
+# example: visa
+# enum:
+#   - visa
+#   - mastercard
+#   - visaelectron
+#   - maestro
+#   - forbrugsforeningen
+#   - dankort
+#   - amex
+#   - dinersclub
+#   - discover
+#   - unionpay
+#   - jcb
+#   - nspkmir
+#   - elo
+#   - rupay
+#   - dummy
+#   - uzcard
