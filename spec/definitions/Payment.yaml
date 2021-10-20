@@ -50,4 +50,8 @@ x-merge-properties:
       metadata:
         description: Связанные с платежом метаданные
         type: object
+      allocation:
+        x-rebillyMerge:
+          - $ref: '#/definitions/Allocation'
+          - readOnly: true
   - $ref: '#/definitions/PaymentStatus'
