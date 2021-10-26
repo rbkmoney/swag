@@ -1,0 +1,15 @@
+description: Комиссия транзакции в абсолютных значениях
+allOf:
+  - $ref: '#/definitions/AllocationFee'
+  - type: object
+    required:
+      - amount
+    properties:
+      amount:
+        description: >
+          Значение комиссии в минорных денежных
+          единицах, например в копейках в случае указания российских рублей в качестве
+          валюты транзакции.
+        type: integer
+        format: int64
+        minimum: 1

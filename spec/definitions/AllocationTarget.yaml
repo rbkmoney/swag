@@ -1,0 +1,10 @@
+description: Назначение транзакции
+type: object
+discriminator: allocationTargetType
+required:
+  - allocationTargetType
+properties:
+  allocationTargetType:
+    type: string
+    enum:
+      - AllocationTargetShop

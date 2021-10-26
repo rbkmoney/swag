@@ -64,6 +64,8 @@ post:
               - invalidShopStatus
               - invalidContractStatus
               - invalidInvoiceCart
+              - invalidAllocation
+              - allocationNotPermitted
               - operationNotPermitted
               - invalidPaymentStatus
               - insufficentAccountBalance
@@ -72,6 +74,7 @@ post:
               - invalidRequest
               - invalidDeadline
               - chargebackInProgress
+              - refundCartConflict
           message:
             description: Человекочитаемое описание ошибки
             type: string

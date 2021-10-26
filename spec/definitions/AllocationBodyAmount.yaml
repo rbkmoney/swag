@@ -1,0 +1,21 @@
+description: Тело транзакции в абсолютных значениях
+allOf:
+  - $ref: '#/definitions/AllocationTransaction'
+  - type: object
+    required:
+      - amount
+      - currency
+    properties:
+      amount:
+        description: >
+          Сумма перечисляемая выбранному назначению в минорных денежных
+          единицах,
+
+          например в копейках в случае указания российских рублей в качестве
+          валюты.
+        type: integer
+        format: int64
+        minimum: 1
+      currency:
+        x-rebillyMerge:
+          - $ref: '#/definitions/Currency'

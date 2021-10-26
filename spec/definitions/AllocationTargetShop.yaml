@@ -1,0 +1,12 @@
+description: Магазин как назначение транзакции
+allOf:
+  - $ref: '#/definitions/AllocationTarget'
+  - type: object
+    required:
+      - shopID
+    properties:
+      shopID:
+        description: Идентификатор магазина
+        type: string
+        maxLength: 40
+        minLength: 1
