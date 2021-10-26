@@ -2173,6 +2173,29 @@ paths:
           $ref: '#/responses/Unauthorized'
         '404':
           $ref: '#/responses/NotFound'
+  '/processing/customers/{customerID}/payment-methods':
+    get:
+      description: Получить доступные для плательщика методы оплаты.
+      tags:
+        - Customers
+      operationId: getCustomerPaymentMethods
+      parameters:
+        - $ref: '#/parameters/requestID'
+        - $ref: '#/parameters/deadline'
+        - $ref: '#/parameters/customerID'
+      responses:
+        '200':
+          description: Список методов оплаты
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/PaymentMethod'
+        '400':
+          $ref: '#/responses/DefaultLogicError'
+        '401':
+          $ref: '#/responses/Unauthorized'
+        '404':
+          $ref: '#/responses/NotFound'
   /processing/invoice-templates:
     post:
       description: Создать новый шаблон инвойса.
