@@ -448,6 +448,23 @@ tags:
       Срок действия токена составляет 3 суток от момента создания, после
       истечения которого использовать его для авторизации операций будет более
       невозможно.
+
+      ## Распределение денежных средств
+
+      В рамках одного инвойса можно указать распределение денежных средств
+      между несколькими магазинами. При необходимости можно добавить комиссию,
+      которая будет начисляться магазину переданному при создании инвойса (далее магазин инвойса).
+      Общая сумма всех транзакций распределения не должна превышать сумму инвойса.
+      В распределении не должно быть больше одной транзакции для каждого магазина.
+      Транзакции распределения бывают следующих типов:
+
+      * С телом AllocationBodyAmount, в котором передается сумма, перечисляемая магазину.
+      Чтобы добавить комиссию нужно создать транзакцию в пользу магазина инвойса.
+
+      * С телом AllocationBodyTotal, в котором передается общая сумма транзакции и комиссия к ней,
+      при этом комиссия может быть следующих типов:
+        * AllocationFeeFixed или значение комиссии в пользу магазина инвойса.
+        * AllocationFeeShare или процент от общей суммы транзакции в пользу магазина инвойса.
   - name: InvoiceTemplates
     x-displayName: Шаблоны инвойсов
     description: |
@@ -556,7 +573,7 @@ tags:
         | **invalidPartyStatus**           | Ваш участник заблокирован или его операции приостановлены. В последнем случае вы можете их [возобновить](#operation/activateMyParty). |
         | **invalidShopStatus**            | Ваш магазин заблокирован или его операции приостановлены. В последнем случае вы можете их [возобновить](#operation/activateShop).     |
         | **invalidContractStatus**        | Ваш договор более не имеет силы, по причине истечения срока действия или расторжения.                                                 |
-        | **invalidShopID**                | Магазин с указанным идентификатором не существует или недоступен.                                                                    |
+        | **invalidShopID**                | Магазин с указанным идентификатором не существует или недоступен.                                                                     |
         | **invalidInvoiceCost**           | Стоимость инвойса не указана или неверна, в частности, не равна стоимости позиций в корзине.                                          |
         | **invalidInvoiceCart**           | Некорректная корзина в инвойсе, Например, пустая.                                                                                     |
         | **invalidInvoiceStatus**         | Неверный [статус инвойса](#tag/Invoices). Например, при попытке [оплатить](#operation/createPayment) отменённый инвойс.               |
@@ -579,8 +596,11 @@ tags:
         | **invalidDeadline**              | Неверный формат времени.                                                                                                              |
         | **chargebackInProgress**         | Попытка возврата при открытом возвратном платеже.                                                                                     |
         | **invalidRequest**               | Прочие неверные данные запроса.                                                                                                       |
-        | **invalidPartyID**               | Участник с указанным идентификатором не существует или недоступен.                                                                  |
+        | **invalidPartyID**               | Участник с указанным идентификатором не существует или недоступен.                                                                    |
         | **ambiguousPartyID**             | Невозможно однозначно определить идентификатор участника, укажите идентификатор в запросе явно.                                       |
+        | **invalidAllocation**            | Некорректное распределение денежных средств, Например, больше одной транзакции в пользу одного из магазинов.                          |
+        | **allocationNotPermitted**       | Распределение недоступно в рамках договора.                                                                                           |
+        | **refundCartConflict**           | Невозможно однозначно определить содержание возврата, так как одновременно переданы распределение и корзина рефанда.                  |
 
       ## Общие ошибки
       Ошибки возникающие при попытках совершения операций с незарегистрированными в системе объектами. Имеют вид
@@ -2444,6 +2464,8 @@ paths:
                   - invalidPartyStatus
                   - invalidShopStatus
                   - invalidInvoiceCart
+                  - invalidAllocation
+                  - allocationNotPermitted
                   - invalidInvoiceCost
                   - invoiceTermsViolated
                   - ambiguousPartyID
@@ -2792,6 +2814,8 @@ paths:
                   - invalidRequest
                   - invalidDeadline
                   - invalidInvoiceCart
+                  - invalidAllocation
+                  - allocationNotPermitted
                   - inconsistentCaptureCurrency
                   - amountExceededCaptureBalance
               message:
@@ -2911,6 +2935,8 @@ paths:
                   - invalidShopStatus
                   - invalidContractStatus
                   - invalidInvoiceCart
+                  - invalidAllocation
+                  - allocationNotPermitted
                   - operationNotPermitted
                   - invalidPaymentStatus
                   - insufficentAccountBalance
@@ -2919,6 +2945,7 @@ paths:
                   - invalidRequest
                   - invalidDeadline
                   - chargebackInProgress
+                  - refundCartConflict
               message:
                 description: Человекочитаемое описание ошибки
                 type: string
@@ -4080,6 +4107,161 @@ definitions:
         description: 'Валюта, символьный код согласно [ISO 4217](http://www.iso.org/iso/home/standards/currency_codes.htm).'
         type: string
         pattern: '^[A-Z]{3}$'
+  Allocation:
+    description: |
+      Распределение денежных средств
+    type: array
+    minItems: 1
+    maxItems: 100
+    items:
+      $ref: '#/definitions/AllocationTransaction'
+  AllocationBodyAmount:
+    description: Тело транзакции в абсолютных значениях
+    allOf:
+      - $ref: '#/definitions/AllocationTransaction'
+      - type: object
+        required:
+          - amount
+          - currency
+        properties:
+          amount:
+            description: |
+              Сумма перечисляемая выбранному назначению в минорных денежных единицах,
+              например в копейках в случае указания российских рублей в качестве валюты.
+            type: integer
+            format: int64
+            minimum: 1
+          currency:
+            description: 'Валюта, символьный код согласно [ISO 4217](http://www.iso.org/iso/home/standards/currency_codes.htm).'
+            type: string
+            pattern: '^[A-Z]{3}$'
+  AllocationBodyTotal:
+    description: Тело транзакции с указанием комиссии
+    allOf:
+      - $ref: '#/definitions/AllocationTransaction'
+      - type: object
+        required:
+          - total
+          - currency
+          - fee
+        properties:
+          total:
+            description: |
+              Общая сумма транзакции (включает в себя комиссию) в минорных денежных единицах, например в копейках в случае указания российских рублей в качестве валюты.
+            type: integer
+            format: int64
+            minimum: 1
+          amount:
+            description: |
+              Сумма перечисляемая выбранному назначению в минорных денежных единицах,
+              например в копейках в случае указания российских рублей в качестве валюты.
+            type: integer
+            format: int64
+            minimum: 1
+            readOnly: true
+          currency:
+            description: 'Валюта, символьный код согласно [ISO 4217](http://www.iso.org/iso/home/standards/currency_codes.htm).'
+            type: string
+            pattern: '^[A-Z]{3}$'
+          fee:
+            $ref: '#/definitions/AllocationFee'
+  AllocationFee:
+    description: Комиссия транзакции
+    type: object
+    discriminator: allocationFeeType
+    required:
+      - allocationFeeType
+    properties:
+      target:
+        description: Назначение транзакции
+        type: object
+        discriminator: allocationTargetType
+        required:
+          - allocationTargetType
+        properties:
+          allocationTargetType:
+            type: string
+            enum:
+              - AllocationTargetShop
+        readOnly: true
+      allocationFeeType:
+        type: string
+        enum:
+          - AllocationFeeFixed
+          - AllocationFeeShare
+  AllocationFeeFixed:
+    description: Комиссия транзакции в абсолютных значениях
+    allOf:
+      - $ref: '#/definitions/AllocationFee'
+      - type: object
+        required:
+          - amount
+        properties:
+          amount:
+            description: |
+              Значение комиссии в минорных денежных единицах, например в копейках в случае указания российских рублей в качестве валюты транзакции.
+            type: integer
+            format: int64
+            minimum: 1
+  AllocationFeeShare:
+    description: Комиссия транзакции в относительных значениях
+    allOf:
+      - $ref: '#/definitions/AllocationFee'
+      - type: object
+        required:
+          - share
+        properties:
+          share:
+            $ref: '#/definitions/Decimal'
+          amount:
+            description: |
+              Значение комиссии в минорных денежных единицах, например в копейках в случае указания российских рублей в качестве валюты транзакции.
+            type: integer
+            format: int64
+            minimum: 1
+            readOnly: true
+  AllocationTarget:
+    description: Назначение транзакции
+    type: object
+    discriminator: allocationTargetType
+    required:
+      - allocationTargetType
+    properties:
+      allocationTargetType:
+        type: string
+        enum:
+          - AllocationTargetShop
+  AllocationTargetShop:
+    description: Магазин как назначение транзакции
+    allOf:
+      - $ref: '#/definitions/AllocationTarget'
+      - type: object
+        required:
+          - shopID
+        properties:
+          shopID:
+            description: Идентификатор магазина
+            type: string
+            maxLength: 40
+            minLength: 1
+  AllocationTransaction:
+    description: Транзакция распределения денежных средств
+    type: object
+    discriminator: allocationBodyType
+    required:
+      - target
+      - allocationBodyType
+    properties:
+      target:
+        $ref: '#/definitions/AllocationTarget'
+      allocationBodyType:
+        description: Тело транзакции
+        type: string
+        enum:
+          - AllocationBodyAmount
+          - AllocationBodyTotal
+      cart:
+        $ref: '#/definitions/InvoiceCart'
   ApplePay:
     type: object
     allOf:
@@ -4319,6 +4501,14 @@ definitions:
             maxItems: 100
             items:
               $ref: '#/definitions/InvoiceLine'
+          allocation:
+            description: |
+              Итоговое распределение денежных средств
+            type: array
+            minItems: 1
+            maxItems: 100
+            items:
+              $ref: '#/definitions/AllocationTransaction'
   CardData:
     type: object
     allOf:
@@ -5074,6 +5264,24 @@ definitions:
                 - CustomerBindingStarted
                 - CustomerBindingSucceeded
                 - CustomerBindingFailed
+  Decimal:
+    description: Дробное десятичное число произвольной точности
+    type: object
+    required:
+      - m
+      - exp
+    properties:
+      m:
+        description: |
+          Мантисса.
+        type: integer
+        format: int64
+        minimum: 0
+      exp:
+        description: |
+          Порядок.
+        type: integer
+        format: int64
   DefaultLogicError:
     type: object
     required:
@@ -5414,6 +5622,8 @@ definitions:
         type: string
       cart:
         $ref: '#/definitions/InvoiceCart'
+      allocation:
+        $ref: '#/definitions/Allocation'
       bankAccount:
         $ref: '#/definitions/InvoiceBankAccount'
       metadata:
@@ -5638,6 +5848,8 @@ definitions:
         maxLength: 1000
       cart:
         $ref: '#/definitions/InvoiceCart'
+      allocation:
+        $ref: '#/definitions/Allocation'
       bankAccount:
         $ref: '#/definitions/InvoiceBankAccount'
       metadata:
@@ -6247,6 +6459,15 @@ definitions:
       metadata:
         description: Связанные с платежом метаданные
         type: object
+      allocation:
+        description: |
+          Распределение денежных средств
+        type: array
+        minItems: 1
+        maxItems: 100
+        items:
+          $ref: '#/definitions/AllocationTransaction'
+        readOnly: true
       status:
         description: Статус платежа
         type: string
@@ -6673,6 +6894,8 @@ definitions:
             readOnly: true
           cart:
             $ref: '#/definitions/InvoiceCart'
+          allocation:
+            $ref: '#/definitions/Allocation'
   PaymentStarted:
     type: object
     allOf:
@@ -7121,6 +7344,14 @@ definitions:
         maxItems: 100
         items:
           $ref: '#/definitions/InvoiceLine'
+      allocation:
+        description: |
+          Итоговое распределение денежных средств, которое должно формироваться из распределения инвойса исключением позиций, по которым производится возврат.
+        type: array
+        minItems: 1
+        maxItems: 100
+        items:
+          $ref: '#/definitions/AllocationTransaction'
       status:
         description: Статус возврата
         type: string
@@ -7178,6 +7409,14 @@ definitions:
         maxItems: 100
         items:
           $ref: '#/definitions/InvoiceLine'
+      allocation:
+        description: |
+          Распределение денежных средств, которое должно формироваться из позиций, по которым производится возврат. Сумма всех транзакций распределения должна совпадать с суммой возврата.
+        type: array
+        minItems: 1
+        maxItems: 100
+        items:
+          $ref: '#/definitions/AllocationTransaction'
   RefundSearchResult:
     type: object
     allOf:
