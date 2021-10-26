@@ -1,0 +1,7 @@
+description: |
+  Распределение денежных средств
+type: array
+minItems: 1
+maxItems: 100
+items:
+  $ref: '#/definitions/AllocationTransaction'

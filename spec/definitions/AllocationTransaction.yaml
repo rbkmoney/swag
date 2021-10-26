@@ -1,0 +1,17 @@
+description: Транзакция распределения денежных средств
+type: object
+discriminator: allocationBodyType
+required:
+  - target
+  - allocationBodyType
+properties:
+  target:
+    $ref: '#/definitions/AllocationTarget'
+  allocationBodyType:
+    description: Тело транзакции
+    type: string
+    enum:
+      - AllocationBodyAmount
+      - AllocationBodyTotal
+  cart:
+    $ref: '#/definitions/InvoiceCart'

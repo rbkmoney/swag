@@ -1,0 +1,17 @@
+description: Дробное десятичное число произвольной точности
+type: object
+required:
+  - m
+  - exp
+properties:
+  m:
+    description: >
+      Мантисса.
+    type: integer
+    format: int64
+    minimum: 0
+  exp:
+    description: >
+      Порядок.
+    type: integer
+    format: int64
