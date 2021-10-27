@@ -149,6 +149,10 @@ get:
         in: query
         required: false
       - $ref: '#/definitions/ContinuationToken'
+    - name: invoiceIDs
+      in: query
+      description: Список инвойсов
+      type: string
   responses:
     '200':
       description: Найденные инвойсы

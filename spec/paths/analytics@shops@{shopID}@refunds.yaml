@@ -53,6 +53,10 @@ get:
         - pending
         - succeeded
         - failed
+    - name: invoiceIDs
+      in: query
+      description: Список инвойсов
+      type: string
   responses:
     '200':
       description: Найденные возвраты
